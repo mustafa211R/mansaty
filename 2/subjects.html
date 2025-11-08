@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أقسام المواد الدراسية | منصّتي</title>
+<link href="../package/dist/tailwind.css" rel="stylesheet">
+<link href="../fonts.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-br from-indigo-600 via-blue-600 to-cyan-500 min-h-screen flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="text-center mt-6 text-white">
+    <h1 class="text-3xl font-bold drop-shadow-lg">📚 أقسام المواد الدراسية</h1>
+    <p class="text-white/80 mt-2 text-lg">اختر المادة التي ترغب بدخولها</p>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-1 flex justify-center items-center px-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full max-w-2xl mt-4">
+
+      <!-- بطاقة: اسلامية -->
+      <div onclick="location.href='Islamic_Studies/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-green-600 text-4xl mb-2">☪️</div>
+        <p class="font-semibold text-gray-800">إسلامية</p>
+      </div>
+
+      <!-- بطاقة: عربي -->
+      <div  onclick="location.href='Arabic/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-red-500 text-4xl mb-2">📝</div>
+        <p class="font-semibold text-gray-800">عربي</p>
+      </div>
+
+      <!-- بطاقة: إنجليزي -->
+      <div  onclick="location.href='English/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-blue-600 text-4xl mb-2">🇬🇧</div>
+        <p class="font-semibold text-gray-800">إنجليزي</p>
+      </div>
+
+      <!-- بطاقة: اجتماعيات -->
+      <div onclick="location.href='Social_Studies/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-yellow-500 text-4xl mb-2">🌍</div>
+        <p class="font-semibold text-gray-800">اجتماعيات</p>
+      </div>
+
+      <!-- بطاقة: رياضيات -->
+      <div  onclick="location.href='Mathematics/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-purple-600 text-4xl mb-2">➗</div>
+        <p class="font-semibold text-gray-800">رياضيات</p>
+      </div>
+
+      <!-- بطاقة: فيزياء -->
+      <div onclick="location.href='Physics/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-sky-600 text-4xl mb-2">⚡</div>
+        <p class="font-semibold text-gray-800">فيزياء</p>
+      </div>
+
+      <!-- بطاقة: كيمياء -->
+      <div onclick="location.href='Chemistry/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-pink-500 text-4xl mb-2">🧪</div>
+        <p class="font-semibold text-gray-800">كيمياء</p>
+      </div>
+
+      <!-- بطاقة: حاسوب -->
+      <div onclick="location.href='Computer/enter.html'" class="bg-white backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+        <div class="text-gray-700 text-4xl mb-2">💻</div>
+        <p class="font-semibold text-gray-800">حاسوب</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-white/80 text-sm mb-4">
+    <p>جميع الحقوق محفوظة © <span id="year"></span> | منصّتي</p>
+  </footer>
+
+</body>
+</html>
