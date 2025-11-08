@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حول المنصّة | منصّتي</title>
+<link href="package/dist/tailwind.css" rel="stylesheet">
+<link href="fonts.css" rel="stylesheet">
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- رأس الصفحة -->
+  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-6 shadow-lg">
+    <h1 class="text-3xl font-bold text-center">حول المنصّة</h1>
+  </header>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="flex-1 flex flex-col items-center justify-start py-10 px-4">
+
+    <!-- بطاقة المطور -->
+    <section class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-3xl text-center mb-10">
+      <img src="dev.jpg" alt="صورة المطور" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-lg object-cover" />
+      <h2 class="text-2xl font-bold text-gray-800 mb-1"> مصطفى حيم فندي</h2>
+      <p class="text-gray-600 mb-2">استاذ و مطور برمجيات</p>
+      <p class="text-gray-700 leading-relaxed">
+        مطوّر  منصة <strong>منصّتي</strong> التعليمية، مهتم بتطوير حلول تعليمية رقمية تفاعلية 
+        تجمع بين سهولة الاستخدام والتصميم العصري، لتمكين الطلبة من التعلّم الذكي والممتع.
+      </p>
+    </section>
+
+    <!-- قسم حول المنصة -->
+    <section class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-3xl">
+      <h3 class="text-2xl font-semibold text-blue-700 mb-4 text-center">عن المنصّة</h3>
+      <p class="text-gray-700 leading-relaxed text-lg">
+        تهدف منصّة <strong>منصّتي</strong> إلى توفير بيئة تعليمية إلكترونية متكاملة 
+        تساعد الطلاب على مراجعة دروسهم من خلال اختبارات تفاعلية، ومتابعة التقدّم في الأداء بشكل دقيق.
+        تم تصميم المنصة لتكون متجاوبة مع الأجهزة المحمولة، وسهلة الاستخدام حتى لطلاب المراحل الأولى.
+      </p>
+      <p class="text-gray-700 leading-relaxed text-lg mt-4">
+        تعتمد المنصة على أحدث تقنيات الويب (HTML, CSS, JS, TailwindCSS)
+        وتتيح للطلاب خوض تجارب تعليمية شيّقة تشمل اختبارات، تقييمات، وشهادات إنجاز إلكترونية.
+      </p>
+    </section>
+  </main>
+
+  <!-- تذييل -->
+  <footer class="text-center text-gray-600 text-sm py-4 border-t">
+    <p>جميع الحقوق محفوظة © <span id="year"></span> | منصّتي التعليمية</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
