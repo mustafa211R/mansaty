@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الأساتذة وحول القسم | منصّتي</title>
+<link href="../../package/dist/tailwind.css" rel="stylesheet">
+<link href="../../fonts.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-br from-purple-700 via-blue-700 to-cyan-600 min-h-screen flex flex-col justify-between text-gray-800">
+
+  <!-- Header -->
+  <header class="text-center text-white mt-6">
+    <h1 class="text-3xl font-bold drop-shadow-lg">👩‍🏫 الأساتذة والقسم</h1>
+    <p class="text-white/80 mt-1">منصة منصّتي التعليمية</p>
+  </header>
+
+  <!-- الأساتذة -->
+  <section class="mt-6 px-6">
+    <h2 class="text-xl font-semibold text-white mb-3">الأساتذة المشاركون</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      
+      <!-- أستاذ 1 -->
+      <div class="bg-white backdrop-blur-md rounded-2xl p-4 shadow-lg flex flex-col items-center">
+        <img src="uploads/d1.jpg" alt="أستاذ" class="w-20 h-20 rounded-full border-4 border-blue-500 mb-2">
+        <h3 class="font-semibold text-gray-800">أ.مصطفى رحيم فندي</h3>
+        <p class="text-sm text-gray-600">اختصاص: حاسبات</p>
+        <p class="text-sm text-gray-500">مدرسة ذي النفس الزكية</p>
+      </div>
+
+    
+
+    </div>
+  </section>
+
+  <!-- حول الموضوع -->
+  <section class="mt-10 px-6">
+    <h2 class="text-xl font-semibold text-white mb-3">حول الموضوع</h2>
+    <div class="bg-white backdrop-blur-md rounded-2xl p-5 shadow-lg text-gray-800 leading-relaxed">
+      <p id="topicText">يتم تحميل النص من ملف text.js ...</p>
+    </div>
+  </section>
+
+  <!-- زر الدخول -->
+  <div class="flex justify-center mt-8 mb-4">
+    <button onclick="location.href='questions.html'" class="bg-blue-600 text-white px-10 py-3 rounded-2xl font-semibold shadow-lg hover:bg-blue-700 transition transform hover:scale-105 active:scale-95">
+      دخول إلى المنصة
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center text-white/80 text-sm mb-4">
+    <p>قام بتطوير المنصة وبرمجتها <span class="font-semibold">الأستاذ مصطفى حيم فندي</span></p>
+    <p>© 2025 <span id="year"></span> منصّتي</p>
+  </footer>
+
+  <script src="text.js"></script>
+ 
+
+</body>
+</html>
