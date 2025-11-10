@@ -1,6 +1,6 @@
 // login.js
 document.addEventListener("DOMContentLoaded", () => {
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaSPu3x9Ui2H-Y4h_5Dkv-x98a9TiJSwa8MAsmeJtMBQ1wPvcYt1r8zYG-0Cf6vXED/exec"; // ضع هنا رابطك بعد النشر
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeOloGRFCysVwRZWIiXplI9ALdKsL7cVgjf_eveJ6oa1zc3UkzZ0eCZ_jYKBJPEEhj/exec"; // ضع هنا رابطك بعد النشر
   const form = document.querySelector("form");
   const usernameInput = document.getElementById("username");
   const passwordInput = document.getElementById("password");
@@ -52,3 +52,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
