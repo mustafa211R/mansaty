@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شهادة الإنجاز</title>
+<link href="../../../../../package/dist/tailwind.css" rel="stylesheet">
+<link href="../../../../../fonts.css" rel="stylesheet">
+<script src="rules.js"></script>
+<script src="info_temp.js"></script>
+<style>
+  body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* الشريط العلوي بعرض كامل */
+  .top-bar {
+    width: 100%;
+    background-color: #1f2937;
+    padding: 10px 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  #printBtn {
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  .certificate {
+    width: 210mm; /* عرض A4 */
+    height: 297mm; /* طول A4 */
+    padding: 40px;
+    border: 8px solid #1f2937;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 20px auto;
+  }
+
+  .certificate h1 {
+    font-size: 2.5rem;
+  }
+
+  .certificate h2 {
+    font-size: 1.5rem;
+  }
+
+  .barcode {
+    width: 300px;
+    height: 80px;
+    margin: 20px auto 0 auto;
+  }
+
+  .url-text {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #555;
+    margin-top: 5px;
+    word-break: break-all;
+  }
+
+  .signature {
+    text-align: center;
+  }
+
+  .signature img {
+    width: 150px;
+    height: auto;
+    margin: 0 10px;
+  }
+
+  /* للطباعة */
+  @media print {
+    body {
+      background-color: #fff;
+    }
+    .top-bar {
+      display: none;
+    }
+    .certificate {
+      width: auto;
+      height: auto;
+      box-shadow: none;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+
+  /* Responsive للهواتف */
+  @media (max-width: 768px) {
+    .certificate {
+      width: 95%;
+      height: auto;
+      padding: 20px;
+    }
+    .certificate h1 {
+      font-size: 2rem;
+    }
+    .barcode {
+      width: 200px;
+      height: 50px;
+    }
+    .signature img {
+      width: 120px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- شريط علوي كامل -->
+<div class="top-bar">
+  <button id="printBtn" onclick="window.print()">🖨️ طباعة الشهادة</button>
+</div>
+
+<div class="certificate shadow-lg rounded-xl">
+
+  <!-- شعار الصفحة -->
+  <div class="text-center mb-8">
+    <img src="../../../../../logo.png" alt="شعار المنصة" class="mx-auto w-32">
+    <h1 class="font-bold mt-4 text-3xl">شهادة انجاز</h1>
+  </div>
+  
+ <div class="text-center mb-8">
+    <h2 class="font-bold mt-4 text-3xl">تم انجاز اختبار المشارك في مادة </h2>
+         <h2 id="subjectName" class="font-bold mt-4 text-3xl">  </h2> 
+
+  </div>
+
+
+  <!-- نص الشهادة -->
+  <div class="text-center text-lg space-y-4 px-8">
+    <p>قد تم منح هذه الشهادة إلى المشارك المذكور اسمه أعلاه بياناً بنجاحه في الاختبار المقرر وبالتفاصيل التالية:</p>
+    
+    <p>اسم المشارك: <strong id="studentNameDisplay">---</strong></p>
+    <!-- إضافة اسم المادة أسفل عنوان الشهادة -->
+
+    <p>درجة الاختبار: <strong id="finalScore">0</strong> / <strong id="fullScore">0</strong></p>
+    <p>التقدير: <strong id="rating">---</strong></p>
+    <p>الوقت المنجز: <strong id="timeTaken">0</strong> دقيقة</p>
+    <p>تاريخ الاختبار: <strong id="completionDate">---</strong></p>
+  </div>
+
+  <!-- التواقيع -->
+  <div class="flex justify-center mt-12">
+    <div class="signature">
+        <img src="signature_dev.png" alt="توقيع المطور">
+        <p id="Namedev"> مصطفى رحيم فندي</p>
+    </div>
+    <div class="signature">
+        <!-- صورة توقيع الأستاذ -->
+        <img id="teacherSignature" src="" alt="توقيع الأستاذ">
+        <!-- اسم الأستاذ -->
+        <p id="teacher"></p>
+    </div>
+</div>
+
+<script>
+// جلب بيانات الأستاذ من rules.js
+document.getElementById("teacher").textContent = rules.name_teacher || "أ. [اسم الأستاذ]";
+document.getElementById("teacherSignature").src = rules.signature_image || "/uploads/default_signature.png";
+</script>
+
+  <!-- باركود كبير أسفل الشهادة -->
+<!-- باركود كبير أسفل الشهادة -->
+<canvas id="qrcode" class="barcode"></canvas>
+
+  <!-- رابط الصفحة أسفل الباركود -->
+  <div class="url-text" id="pageUrl"></div>
+
+</div>
+
+
+<script src="../../../../../js/qrcode.min.js"></script>
+<script>
+window.onload = function() {
+    const fullScore = parseInt(localStorage.getItem('totalScore')) || 100;
+    let storedInfo = localStorage.getItem('studentInfo');
+    const studentInfoData = storedInfo ? JSON.parse(storedInfo) : {name:"اسم المشارك", currentScore:0, date:new Date(), rating:"مقبول", timeTaken:0};
+    
+    document.getElementById("studentNameDisplay").textContent = studentInfoData.name;
+    document.getElementById("finalScore").textContent = studentInfoData.currentScore;
+    document.getElementById("fullScore").textContent = fullScore;
+    document.getElementById("rating").textContent = studentInfoData.rating;
+    document.getElementById("timeTaken").textContent = studentInfoData.timeTaken;
+    document.getElementById("completionDate").textContent = studentInfoData.date ? new Date(studentInfoData.date).toLocaleString() : new Date().toLocaleString();
+    // تحميل اسم المادة من rules.js
+document.getElementById("subjectName").textContent = rules.subject || "المادة الدراسية";
+
+    // بيانات QR
+    const asciiName = studentInfoData.name.replace(/[^\w]/g, "");
+    const dateObj = new Date(studentInfoData.date || new Date());
+    const dateCode = dateObj.toISOString().split('T')[0].replace(/-/g,''); // YYYYMMDD
+    const timeCode = dateObj.getHours().toString().padStart(2,'0') + dateObj.getMinutes().toString().padStart(2,'0');
+    const score = studentInfoData.currentScore;
+
+    const qrData = `${asciiName},${dateCode}${timeCode},${score}`;
+
+    // توليد QR Code
+    const canvas = document.getElementById('qrcode');
+    if(canvas){
+        QRCode.toCanvas(canvas, qrData, {
+            width: 250,
+            color: {dark: '#1f2937', light:'#ffffff'}
+        }, function (error) {
+            if(error) console.error("خطأ في توليد QR Code:", error);
+        });
+    } else {
+        console.error("عنصر QR Code غير موجود!");
+    }
+
+    // عرض رابط الصفحة أسفل الباركود
+    document.getElementById("pageUrl").textContent = window.location.href;
+};
+</script>
+
+
+
+</body>
+</html>
