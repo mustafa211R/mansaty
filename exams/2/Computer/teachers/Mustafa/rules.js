@@ -1,10 +1,10 @@
 // إعدادات الاختبار
 const rules = {
-    passingScore: 6,        // الحد الأدنى للحصول على الشهادة
-    totalTime: 15,          // الوقت بالدقائق
+    passingScore: 60,        // الحد الأدنى للحصول على الشهادة
+    totalTime: 30,          // الوقت بالدقائق
     helpThreshold: 4,       // الدرجة التي يظهر بعدها زر المساعدة
-    name_teacher: 'احمد حسن ياسين',   // اسم الأستاذ
-    subject: 'رياضيات',                // اسم المادة
+    name_teacher: 'مصطفى رحيم فندي',   // اسم الأستاذ
+    subject: 'حاسوب',                // اسم المادة
     signature_image: "/uploads/signature_teacher.png" // رابط صورة التوقيع
 };
 
@@ -22,3 +22,4 @@ function saveRules() {
         console.log("ℹ️ Rules already exist in localStorage.");
     }
 })();
+
