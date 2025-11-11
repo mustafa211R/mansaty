@@ -2,25 +2,34 @@
 const lessons = [
   {
     id: 1,
-    name: "مقدمة في الحاسوب",
-    teacher: "الأستاذ أحمد علي",
-    link: "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+    name: "الدرس الاول  معالج النصوص",
+    teacher: "الأستاذ مصطفى رحيم",
+    link: "https://youtu.be/vMH1NHHGb9o?si=ImofatTkqDfsyBkD",
     date: "2025-11-10"
   },
   {
     id: 2,
-    name: "أساسيات البرمجة",
+    name: "الدرس الثاني - الثاني متوسط - الوحدة الثانية ( Word)",
     teacher: "الأستاذ مصطفى حيم فندي",
-    link: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+    link: "https://youtu.be/gybrV-nmfAI?si=D9V4PwyoEEoczQV5",
     date: "2025-11-09"
   },
   {
     id: 3,
-    name: "مدخل إلى الذكاء الاصطناعي",
-    teacher: "الأستاذة سارة علي",
-    link: "https://www.youtube.com/watch?v=abc123xyz",
+    name: "الدرس الثالث - الثاني متوسط - الوحدة الثانية ( Word)",
+    teacher: "الأستاذ مصطفى حيم فندي",
+    link: "https://youtu.be/E1jcAg2Ovxw?si=y5eRL_tMfMZRXXJp",
+    date: "2025-11-08"
+  },
+
+  {
+    id: 4,
+    name: "الدرس الرابع - الثاني متوسط - الوحدة الثانية ( Word)",
+    teacher: "الأستاذ مصطفى حيم فندي",
+    link: "https://youtu.be/RkPY2JgEtss?si=bTnc1hohqGsxg_bB",
     date: "2025-11-08"
   }
+  
 ];
 
 // مرجع للعناصر
@@ -71,3 +80,4 @@ searchBox.addEventListener("input", e => {
 
 // تشغيل أولي
 displayLessons(lessons);
+
