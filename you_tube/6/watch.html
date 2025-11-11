@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشاهدة الدرس | منصتي</title>
+  <link href="../../package/dist/tailwind.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-[Cairo] flex flex-col items-center justify-center min-h-screen p-4 text-center">
+
+  <div id="videoContainer" class="w-full max-w-2xl bg-white shadow-xl rounded-2xl overflow-hidden">
+    <iframe id="videoFrame" class="w-full h-64 md:h-96" src="" allowfullscreen></iframe>
+  </div>
+
+  <a href="list.html" class="mt-6 inline-block text-blue-600 hover:underline font-semibold">
+    ⬅ العودة إلى قائمة الدروس
+  </a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const link = params.get("link");
+    if (link) {
+      const videoId = link.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+      if (videoId) {
+        document.getElementById("videoFrame").src = `https://www.youtube.com/embed/${videoId[1]}`;
+      }
+    }
+  </script>
+</body>
+</html>
