@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الاختبار | منصّتي</title>
+<link href="../../../../../package/dist/tailwind.css" rel="stylesheet">
+<link href="../../../../../fonts.css" rel="stylesheet">
+
+<script>
+    // 🧹 عند دخول صفحة الأسئلة، نحذف كل البيانات المؤقتة السابقة
+function resetStudentData() {
+    // حذف بيانات الطالب فقط
+    localStorage.removeItem("studentInfo");
+
+    // ملاحظة: لا نحذف rules لأنها ثابتة ومطلوبة لكل اختبار
+    console.log("🧹 تم حذف بيانات الطالب السابقة من localStorage.");
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+window.addEventListener("load", resetStudentData);
+
+</script>
+
+
+<script src="db.js"></script>
+
+
+<style>
+/* تدرجات وتأثيرات */
+.selected { background-color: #4ade80 !important; color: #fff; }
+.bg-gray-card { background-color: #f9fafb; }
+.fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+@keyframes fadeIn { from {opacity:0; transform:scale(0.8);} to {opacity:1; transform:scale(1);} }
+</style>
+</head>
+<body class="bg-gradient-to-br from-indigo-800 via-blue-700 to-cyan-600 font-[Cairo] min-h-screen flex flex-col">
+
+<!-- نافذة إدخال الاسم -->
+<div id="nameModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl p-8 w-80 text-center shadow-lg animate-fadeIn">
+    <h2 class="text-xl font-bold mb-4">مرحباً! 🎓</h2>
+    <p class="mb-4">من فضلك أدخل اسمك للبدء بالاختبار:</p>
+    <input type="text" id="studentName" class="border border-gray-300 rounded px-4 py-2 w-full mb-4" placeholder="اسمك هنا">
+    <button id="startBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">ابدأ الاختبار</button>
+  </div>
+</div>
+
+<!-- معلومات الاختبار -->
+<div class="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-40">
+  <div>
+    <p>الطالب: <span id="displayName">---</span></p>
+    <p>الوقت المتبقي: <span id="timer">00:00</span></p>
+  </div>
+  <div>
+    <p>الدرجة الحالية: <span id="currentScore">0</span></p>
+    <p>الحد الأدنى للشهادة: <span id="passingScore">0</span></p>
+  </div>
+</div>
+
+<!-- الأسئلة -->
+<main id="questionsContainer" class="flex-1 p-4 space-y-4 overflow-auto"></main>
+
+<!-- أزرار أسفل الصفحة -->
+<div class="flex justify-center mb-6 space-x-4">
+  <button id="checkBtn" class="bg-green-600 text-white px-6 py-2 rounded-full shadow-lg hover:bg-green-700 transition hidden">تحقق من الإجابات</button>
+  <button id="finishBtn" class="bg-blue-600 text-white px-6 py-2 rounded-full shadow-lg hover:bg-blue-700 transition hidden">إنهاء الاختبار</button>
+</div>
+<!-- نافذة النتيجة -->
+<div id="resultModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+  <div id="resultContent" class="bg-white rounded-2xl p-6 w-96 text-center shadow-lg animate-fadeIn space-y-3 border-4">
+
+    <h2 class="text-2xl font-bold">نتيجة الاختبار</h2>
+
+    <p>اسم الطالب: <span id="studentNameDisplay"></span></p>
+    <p>درجتك: <span id="finalScore"></span></p>
+    <p>أدنى درجة للنجاح: <span id="requiredScore"></span></p>
+    <p>الدرجة الكاملة: <span id="fullScore"></span></p>
+    <p>الوقت المنجز: <span id="timeTaken"></span> دقيقة</p>
+    <p>تاريخ الإكمال: <span id="completionDate"></span></p>
+    <p>التقدير: <span id="rating"></span></p>
+
+    <p id="passFail" class="font-bold text-xl"></p>
+
+    <div class="flex justify-center space-x-4 mt-4">
+      <!-- زر الشهادة -->
+      <button  id="certificateBtn" 
+        class="bg-green-600 text-white px-6 py-2 rounded-full shadow-lg hover:bg-green-700 transition hidden">
+        احصل على الشهادة
+      </button>
+
+      <!-- زر إعادة المحاولة -->
+      <button id="retryBtn" 
+        class="bg-red-600 text-white px-6 py-2 rounded-full shadow-lg hover:bg-red-700 transition hidden">
+        إعادة المحاولة
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+</div>
+
+
+
+<script src="info_temp.js"></script>
+<script src="rules.js"></script>
+
+<script>
+const displayName = document.getElementById("displayName");
+const currentScoreEl = document.getElementById("currentScore");
+const passingScoreEl = document.getElementById("passingScore");
+const questionsContainer = document.getElementById("questionsContainer");
+const checkBtn = document.getElementById("checkBtn");
+const finishBtn = document.getElementById("finishBtn");
+const timerEl = document.getElementById("timer");
+const resultModal = document.getElementById("resultModal");
+const finalScoreEl = document.getElementById("finalScore");
+const requiredScoreEl = document.getElementById("requiredScore");
+const passFailEl = document.getElementById("passFail");
+const completionDateEl = document.getElementById("completionDate");
+const certificateBtn = document.getElementById("certificateBtn");
+
+// 1️⃣ نافذة الاسم
+document.getElementById("startBtn").addEventListener("click", () => {
+    const name = document.getElementById("studentName").value.trim();
+    if(!name) return alert("الرجاء إدخال اسمك");
+    setStudentName(name);
+    displayName.textContent = name;
+    document.getElementById("nameModal").style.display = "none";
+    startTest();
+});
+
+// 2️⃣ إعدادات الاختبار
+passingScoreEl.textContent = rules.passingScore;
+
+// 3️⃣ مؤقت تنازلي
+let remainingTime = rules.totalTime * 60;
+let timerInterval;
+function startTimer() {
+    timerInterval = setInterval(() => {
+        const min = String(Math.floor(remainingTime/60)).padStart(2,'0');
+        const sec = String(remainingTime%60).padStart(2,'0');
+        timerEl.textContent = `${min}:${sec}`;
+        if(remainingTime<=0){
+            clearInterval(timerInterval);
+            finishTest();
+        }
+        remainingTime--;
+    },1000);
+}
+
+// 4️⃣ توليد الأسئلة
+function startTest(){
+    startTimer();
+    questionsContainer.innerHTML = "";
+    studentInfo.currentScore=0;
+    currentScoreEl.textContent=0;
+
+    questions.forEach((q,index)=>{
+        const card = document.createElement("div");
+        card.className="bg-white p-4 rounded-2xl shadow space-y-2";
+        let html=`<p class="font-semibold mb-2">${q.number}. ${q.question}</p>`;
+        
+        if(q.type==="MCQ" || q.type==="TrueFalse"){
+            const options = q.type==="MCQ"? q.options : ["صح","خطأ"];
+            options.forEach(opt=>{
+                html+=`<button class="optionBtn bg-blue-100 hover:bg-blue-200 m-1 px-3 py-1 rounded" 
+                    onclick="selectOption(this,'${q.correctAnswer}',${q.score})">${opt}</button>`;
+            });
+        } else if(q.type==="FillBlank"){
+            html+=`<div class="flex gap-2">
+                <input type="text" class="border border-gray-300 rounded px-3 py-1 flex-1" placeholder="اكتب الإجابة هنا">
+                <button class="bg-green-600 text-white px-4 rounded" onclick="submitFill(this, '${q.correctAnswer}', ${q.score})">تأكيد</button>
+            </div>`;
+        }
+
+        card.innerHTML=html;
+        questionsContainer.appendChild(card);
+    });
+}
+
+// 5️⃣ اختيار خيار MCQ أو صح/خطأ
+function selectOption(el, correct, scoreValue){
+    const siblings = el.parentElement.querySelectorAll("button.optionBtn");
+    siblings.forEach(b=>b.classList.remove("selected"));
+    el.classList.add("selected");
+
+    const value = el.textContent.trim();
+    if(value===correct){
+        el.dataset.correct="true";
+        el.dataset.score=scoreValue;
+    } else {
+        el.dataset.correct="false";
+        el.dataset.score=0;
+    }
+
+    updateScoreDisplay();
+    checkAllAnswered();
+}
+
+// 6️⃣ تأكيد اجابة الفراغ
+function submitFill(btn, correct, scoreValue){
+    const input = btn.previousElementSibling;
+    const value = input.value.trim();
+    const cleaned = value.replace(/\s+/g,''); 
+    if(cleaned === correct.replace(/\s+/g,'')){
+        studentInfo.currentScore += scoreValue;
+        updateScore(studentInfo.currentScore); // 🟢 حفظ الدرجة بعد كل إجابة صحيحة
+        currentScoreEl.textContent = studentInfo.currentScore;
+        input.classList.add("border-green-500");
+    } else {
+        input.classList.add("border-red-500");
+    }
+    btn.disabled = true;
+    checkAllAnswered();
+}
+
+
+// 7️⃣ تحديث الدرجة الحالية للزر المساعدة
+function updateScoreDisplay(){
+    let total=0;
+    document.querySelectorAll(".optionBtn.selected").forEach(btn=>{
+        total += parseInt(btn.dataset.score);
+    });
+    studentInfo.currentScore = total;
+    currentScoreEl.textContent = total;
+    updateScore(total); // 🟢 حفظ الدرجة في localStorage
+}
+
+
+// 8️⃣ التحقق من الاجابات (زر المساعدة)
+function checkAllAnswered(){
+    const allAnswered = Array.from(questionsContainer.children).every(card=>{
+        return card.querySelector("button.selected") || card.querySelector("button[disabled]");
+    });
+    if(allAnswered) finishBtn.style.display="inline-block";
+}
+
+// 9️⃣ إنهاء الاختبار
+
+// عند الضغط على زر إنهاء الاختبار
+finishBtn.addEventListener("click", finishTest);
+function finishTest() {
+    clearInterval(timerInterval);
+    const timeTaken = rules.totalTime - Math.floor(remainingTime / 60);
+
+    // تحديث بيانات الطالب
+    studentInfo.date = new Date().toLocaleString();
+    studentInfo.timeTaken = timeTaken;
+
+    if(!studentInfo.name) {
+        studentInfo.name = document.getElementById("studentName").value.trim() || "طالب مجهول";
+    }
+
+    // جلب الدرجة الكاملة من localStorage
+const totalScoreValue = parseInt(localStorage.getItem('totalScore')) || 0;
+
+// تحديد التقدير بناءً على الدرجة الفعلية
+let rating = "";
+if(studentInfo.currentScore === totalScoreValue){
+    rating = "ممتاز";
+} else if(studentInfo.currentScore >= rules.passingScore){
+    rating = "جيد";
+} else {
+    rating = "مقبول";
+}
+studentInfo.rating = rating;
+
+
+    // تحديث عناصر النتيجة في الصفحة
+    document.getElementById("studentNameDisplay").textContent = studentInfo.name;
+    finalScoreEl.textContent = studentInfo.currentScore;
+    requiredScoreEl.textContent = rules.passingScore;
+    document.getElementById("fullScore").textContent = rules.totalScore;
+    document.getElementById("timeTaken").textContent = timeTaken;
+    completionDateEl.textContent = studentInfo.date;
+    document.getElementById("rating").textContent = rating;
+
+    const retryBtn = document.getElementById("retryBtn");
+    const resultContent = document.getElementById("resultContent");
+
+    if(studentInfo.currentScore >= rules.passingScore){
+        passFailEl.textContent = "نجحت 🎉";
+        passFailEl.className = "font-bold text-xl text-green-600";
+        resultContent.classList.remove("border-red-600");
+        resultContent.classList.add("border-green-600");
+
+        certificateBtn.style.display = "inline-block";
+        certificateBtn.onclick = () => { window.location.href = "certificate.html"; };
+        retryBtn.style.display = "none";
+    } else {
+        passFailEl.textContent = "رسبت 😞";
+        passFailEl.className = "font-bold text-xl text-red-600";
+        resultContent.classList.remove("border-green-600");
+        resultContent.classList.add("border-red-600");
+
+        retryBtn.style.display = "inline-block";
+        retryBtn.onclick = () => { location.reload(); };
+        certificateBtn.style.display = "none";
+    }
+
+    resultModal.style.display = "flex";
+
+    // حفظ البيانات في localStorage
+    saveStudentInfo();
+
+    // 🟢 إرسال البيانات إلى Google Sheet بدون مشاكل CORS
+  // 🟢 إرسال البيانات إلى Google Sheet
+const payload = {
+    name: studentInfo.name,
+    currentScore: studentInfo.currentScore,
+    totalScore: localStorage.getItem('totalScore') || 0, // ✅ استخدم القيمة من db.js
+    timeTaken: studentInfo.timeTaken,
+    date: studentInfo.date,
+    rating: studentInfo.rating,
+    teacher: rules.name_teacher,
+    subject: rules.subject
+};
+
+    fetch("https://script.google.com/macros/s/AKfycby3TnqImviW0iecm8YxSvoLyrOsFusLIaEcNOC5LWOaecXdTmLtobAJVr-L6dorDcup/exec", {
+        method: "POST",
+        mode: "no-cors",                     // ✅ لتجاوز CORS
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .catch(err => {
+        console.warn("❗ لا يمكن التحقق من استجابة Google Sheet بسبب no-cors:", err);
+    });
+}
+
+
+</script>
+    
+
+</body>
+</html>
