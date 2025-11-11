@@ -5,7 +5,7 @@ const rules = {
     helpThreshold: 4,       // الدرجة التي يظهر بعدها زر المساعدة
     name_teacher: 'مصطفى رحيم فندي',   // اسم الأستاذ
     subject: 'حاسوب',                // اسم المادة
-    signature_image: "/uploads/signature_teacher.png" // رابط صورة التوقيع
+    signature_image: "uploads/tec.jpg" // رابط صورة التوقيع
 };
 
 // ✅ دالة لحفظ القواعد في localStorage
@@ -22,4 +22,5 @@ function saveRules() {
         console.log("ℹ️ Rules already exist in localStorage.");
     }
 })();
+
 
