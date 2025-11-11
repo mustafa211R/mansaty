@@ -240,7 +240,7 @@ const questions = [
     }
 ];
 
-];
+
 
 // 🧮 حساب الدرجة الكاملة لجميع الأسئلة
 const totalScore = questions.reduce((sum, q) => sum + q.score, 0);
@@ -259,4 +259,5 @@ localStorage.setItem('score_num', JSON.stringify(score_num));
 
 console.log("✅ تم حفظ totalScore و score_num في localStorage");
 console.log("score_num:", score_num);
+
 
