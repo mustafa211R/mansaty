@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إنشاء حساب - منصتي</title>
+  <link href="package/dist/tailwind.css" rel="stylesheet">
+  <link href="fonts.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body class="bg-gradient-to-br from-purple-100 via-white to-blue-100 font-cairo flex items-center justify-center min-h-screen px-4">
+
+  <div class="bg-white/90 backdrop-blur-md shadow-2xl rounded-3xl p-10 w-full max-w-md text-center border border-gray-200 animate-fadeIn">
+    
+    <h1 class="text-3xl font-extrabold text-purple-700 mb-6">إنشاء حساب جديد</h1>
+
+    <form id="registerForm" class="space-y-5">
+
+      <!-- الاسم الكامل -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">الاسم الكامل</label>
+        <input type="text" id="fullname" class="w-full border border-gray-300 rounded-2xl p-3 text-right focus:ring-2 focus:ring-purple-500 outline-none shadow-sm" required>
+      </div>
+
+      <!-- السكن -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">السكن</label>
+        <input type="text" id="address" class="w-full border border-gray-300 rounded-2xl p-3 text-right focus:ring-2 focus:ring-purple-500 outline-none shadow-sm" required>
+      </div>
+
+      <!-- تاريخ الميلاد -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">تاريخ الميلاد</label>
+        <input type="date" id="birthdate" class="w-full border border-gray-300 rounded-2xl p-3 text-right focus:ring-2 focus:ring-purple-500 outline-none shadow-sm" required>
+      </div>
+
+      <!-- اسم المدرسة -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">اسم المدرسة</label>
+        <input type="text" id="schoolName" class="w-full border border-gray-300 rounded-2xl p-3 text-right focus:ring-2 focus:ring-purple-500 outline-none shadow-sm" required>
+      </div>
+
+      <!-- النوع -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">النوع</label>
+        <select id="schoolType" class="w-full border border-gray-300 rounded-2xl p-3 text-right focus:ring-2 focus:ring-purple-500 outline-none shadow-sm" required>
+          <option value="">اختر النوع</option>
+          <option value="متوسطة">متوسطة</option>
+          <option value="إعدادية">إعدادية</option>
+        </select>
+      </div>
+
+      <!-- عنوان المدرسة -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">عنوان المدرسة</label>
+        <input type="text" id="schoolAddress" class="w-full border border-gray-300 rounded-2xl p-3 text-right focus:ring-2 focus:ring-purple-500 outline-none shadow-sm" required>
+      </div>
+
+      <!-- اسم المستخدم -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">اسم المستخدم</label>
+        <input type="text" id="username" readonly class="w-full bg-gray-100 border border-gray-300 rounded-2xl p-3 text-right text-gray-600 cursor-not-allowed shadow-sm">
+      </div>
+
+      <!-- كلمة المرور -->
+      <div>
+        <label class="block text-right text-gray-700 mb-2 font-semibold">كلمة المرور</label>
+        <input type="password" id="password" class="w-full border border-gray-300 rounded-2xl p-3 text-right focus:ring-2 focus:ring-purple-500 outline-none shadow-sm" required placeholder="على الأقل 6 رموز (حروف وأرقام)">
+        <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">يجب أن تكون كلمة المرور 6 رموز على الأقل وتحتوي على حروف وأرقام.</p>
+      </div>
+
+      <!-- زر إنشاء الحساب -->
+      <button type="submit" class="w-11/12 mx-auto rounded-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-4 text-lg shadow-2xl transition-transform duration-300 transform hover:-translate-y-1 hover:scale-105">
+        سجل في المنصة
+      </button>
+
+      <!-- زر تسجيل الدخول للمستخدمين المسجلين مسبقاً -->
+      <a href="dashbord.html" class="w-11/12 mx-auto rounded-full bg-green-400 hover:bg-green-500 text-white font-semibold py-4 text-lg shadow-md transition-transform duration-300 block mt-4 hover:-translate-y-1 hover:scale-105">
+        قمت بتسجيل مسبقاً
+      </a>
+
+    </form>
+  </div>
+
+  <script src="config.js"></script>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease-out forwards;
+    }
+  </style>
+
+</body>
+</html>

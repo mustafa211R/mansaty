@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصتي</title>
+  <link href="package/dist/tailwind.css" rel="stylesheet">
+  <link href="fonts.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+
+<body class="bg-gradient-to-br from-purple-200 via-white to-blue-200 font-cairo flex items-center justify-center min-h-screen px-4">
+
+  <div class="bg-white/90 backdrop-blur-md shadow-2xl rounded-3xl p-10 w-full max-w-md text-center border border-gray-200 animate-fadeIn">
+
+    <!-- الشعار -->
+    <div class="mb-6">
+      <img src="logo.png" alt="شعار منصتي" class="w-36 h-36 mx-auto rounded-full shadow-xl transition-transform duration-500 hover:scale-110">
+    </div>
+
+    <!-- اسم المنصة -->
+    <h1 class="text-5xl font-extrabold text-purple-700 mb-3 animate-bounce">منصتي</h1>
+
+    <!-- وصف قصير -->
+    <p class="text-gray-600 mb-8 text-lg px-2">منصة حديثية متكاملة لتعلم الحديث بسهولة ومتعة.</p>
+
+    <!-- زر الدخول -->
+<a href="re.html" class="w-11/12 max-w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-5 text-lg rounded-full shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 mb-4 mx-auto block">
+  ابدا
+</a>
+
+
+    <!-- المطور والحقوق -->
+    <footer class="text-gray-500 text-sm mt-8">
+      تم تطوير هذه المنصة وبرمجتها بواسطة <span class="font-semibold">الأستاذ مصطفى حيم فندي</span><br>
+      جميع الحقوق محفوظة &copy; 2025
+    </footer>
+
+  </div>
+
+  <style>
+    /* تأثير دخول الصفحة */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease-out forwards;
+    }
+  </style>
+
+</body>
+</html>

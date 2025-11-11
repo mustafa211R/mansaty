@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصتي - الصفحة الرئيسية</title>
+  <link href="package/dist/tailwind.css" rel="stylesheet">
+  <link href="fonts.css" rel="stylesheet">
+  <link rel="icon" href="icon.png" type="image/png">
+  <script src="lucide.min.js"></script>
+  <style>
+    /* ====== أنيميشن الدخول ====== */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .animate-card {
+      animation: slideUp 0.7s ease forwards;
+    }
+
+    /* تأخير بسيط بين كل بطاقة */
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.5s; }
+
+    /* تأثير موجة عند الضغط */
+    .ripple {
+      position: relative;
+      overflow: hidden;
+    }
+    .ripple::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease, opacity 0.8s;
+      opacity: 0;
+    }
+    .ripple:active::after {
+      width: 200px; height: 200px;
+      opacity: 1;
+      transition: 0s;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-b from-indigo-100 via-white to-purple-100 min-h-screen font-[Cairo] flex flex-col items-center">
+
+  <!-- رأس الصفحة -->
+  <header class="w-full text-center py-8 animate-card">
+    <h1 class="text-4xl font-extrabold text-indigo-700 tracking-wide drop-shadow-md">منصتي</h1>
+    <p class="text-gray-500 mt-2 text-sm">تعلم بطريقة حديثة وسهلة</p>
+  </header>
+
+  <!-- المحتوى -->
+  <main class="flex flex-col gap-6 w-full max-w-sm px-4">
+
+    <!-- بطاقة يوتيوب -->
+    <a href="you_tube/home.html" class="ripple animate-card delay-1 bg-white rounded-3xl p-6 shadow-[0_4px_15px_rgba(0,0,0,0.08)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-300 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="bg-red-100 p-4 rounded-2xl">
+          <i data-lucide="youtube" class="w-8 h-8 text-red-500"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-semibold text-gray-800">دروس اليوتيوب</h2>
+          <p class="text-gray-500 text-sm">مشاهدة دروس مصورة تفاعلية</p>
+        </div>
+      </div>
+      <i data-lucide="chevron-left" class="w-6 h-6 text-gray-400"></i>
+    </a>
+
+    <!-- بطاقة الكتب -->
+    <a href="books/home.html" class="ripple animate-card delay-2 bg-white rounded-3xl p-6 shadow-[0_4px_15px_rgba(0,0,0,0.08)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-300 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="bg-blue-100 p-4 rounded-2xl">
+          <i data-lucide="book-open" class="w-8 h-8 text-blue-600"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-semibold text-gray-800">الكتب التعليمية</h2>
+          <p class="text-gray-500 text-sm">تصفح المناهج والكتب بسهولة</p>
+        </div>
+      </div>
+      <i data-lucide="chevron-left" class="w-6 h-6 text-gray-400"></i>
+    </a>
+
+    <!-- بطاقة الاختبارات -->
+    <a href="exams/home.html" class="ripple animate-card delay-3 bg-white rounded-3xl p-6 shadow-[0_4px_15px_rgba(0,0,0,0.08)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.12)] hover:scale-[1.02] transition-all duration-300 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="bg-green-100 p-4 rounded-2xl">
+          <i data-lucide="check-circle" class="w-8 h-8 text-green-600"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-semibold text-gray-800">الاختبارات</h2>
+          <p class="text-gray-500 text-sm">قم بتجربة اختبارات تفاعلية</p>
+        </div>
+      </div>
+      <i data-lucide="chevron-left" class="w-6 h-6 text-gray-400"></i>
+    </a>
+
+  </main>
+
+  <!-- تذييل -->
+  <footer class="mt-auto py-8 text-center text-gray-400 text-sm animate-card delay-3">
+    © 2025 جميع الحقوق محفوظة<br>
+    <span class="text-gray-600">تطوير: الأستاذ مصطفى حيم فندي</span>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
