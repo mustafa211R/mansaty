@@ -197,18 +197,23 @@ window.onload = function() {
     document.getElementById("fullScore").textContent = fullScore;
     document.getElementById("rating").textContent = studentInfoData.rating;
     document.getElementById("timeTaken").textContent = studentInfoData.timeTaken;
-    document.getElementById("completionDate").textContent = studentInfoData.date ? new Date(studentInfoData.date).toLocaleString() : new Date().toLocaleString();
+    document.getElementById("completionDate").textContent = new Date().toLocaleString();
     // تحميل اسم المادة من rules.js
 document.getElementById("subjectName").textContent = rules.subject || "المادة الدراسية";
 
     // بيانات QR
-    const asciiName = studentInfoData.name.replace(/[^\w]/g, "");
-    const dateObj = new Date(studentInfoData.date || new Date());
-    const dateCode = dateObj.toISOString().split('T')[0].replace(/-/g,''); // YYYYMMDD
-    const timeCode = dateObj.getHours().toString().padStart(2,'0') + dateObj.getMinutes().toString().padStart(2,'0');
-    const score = studentInfoData.currentScore;
+const asciiName = studentInfoData.name.replace(/[^\w]/g, "");
 
-    const qrData = `${asciiName},${dateCode}${timeCode},${score}`;
+// استخدم التاريخ والوقت الحالي مباشرة
+const now = new Date();
+const dateCode = now.toISOString().split('T')[0].replace(/-/g,''); // YYYYMMDD
+const timeCode = now.getHours().toString().padStart(2,'0') + now.getMinutes().toString().padStart(2,'0');
+
+const score = studentInfoData.currentScore;
+
+// توليد بيانات QR
+const qrData = `${asciiName},${dateCode}${timeCode},${score}`;
+
 
     // توليد QR Code
     const canvas = document.getElementById('qrcode');
