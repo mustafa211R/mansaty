@@ -259,19 +259,33 @@ function submitFill(btn, correct, scoreValue) {
 
 
 
+function updateScoreDisplay() {
+  let total = 0;
 
-// ===== تعديل دالة حساب الدرجة الحالية =====
-function updateScoreDisplay(){
-    let total = 0;
-    // نحسب مجموع جميع الأزرار التي تحمل قيمة score (فقط الأزرار التي تم تعيين dataset.score لها)
-    document.querySelectorAll(".optionBtn").forEach(btn => {
-        const s = parseInt(btn.dataset.score);
-        if (!isNaN(s) && s > 0) total += s;
-    });
-    studentInfo.currentScore = total;
-    currentScoreEl.textContent = total;
-    updateScore(total); // حفظ الدرجة في localStorage
+  // ✅ حساب نقاط الأسئلة الاختيارية (MCQ و TrueFalse)
+  document.querySelectorAll(".optionBtn").forEach(btn => {
+    const s = parseInt(btn.dataset.score);
+    if (!isNaN(s) && s > 0) total += s;
+  });
+
+  // ✅ إضافة نقاط أسئلة الفراغ (FillBlank)
+  document.querySelectorAll("input.border-green-500").forEach(input => {
+    const card = input.closest(".bg-white");
+    const btn = card.querySelector("button");
+    const s = parseInt(btn.getAttribute("onclick").match(/\d+\)$/)[0]) || 0;
+    total += s;
+  });
+
+  // ✅ تحديث وعرض الدرجة النهائية
+  studentInfo.currentScore = total;
+  currentScoreEl.textContent = total;
+  updateScore(total);
 }
+
+
+
+
+
 function checkAllAnswered(){
     // نتحقق إذا كانت كل البطاقات قد تم الإجابة عليها (MCQ أو FillBlank)
     const allAnswered = Array.from(questionsContainer.children).every(card => {
