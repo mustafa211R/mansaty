@@ -1,7 +1,7 @@
 // إعدادات الاختبار
 const rules = {
     passingScore: 45,        // الحد الأدنى للحصول على الشهادة
-    totalTime: 0.5,          // الوقت بالدقائق
+    totalTime: 10,          // الوقت بالدقائق
     helpThreshold: 4,       // الدرجة التي يظهر بعدها زر المساعدة
     name_teacher: 'مصطفى رحيم فندي',   // اسم الأستاذ
     subject: 'حاسوب',                // اسم المادة
@@ -22,6 +22,7 @@ function saveRules() {
         console.log("ℹ️ Rules already exist in localStorage.");
     }
 })();
+
 
 
 
