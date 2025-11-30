@@ -12,7 +12,7 @@ const questions = [
         number: 2,
         question: "Where were the boys?",
         type: "MCQ",
-        correctAnswer: "Australia",
+        correctAnswer: "London",
         score: 2,
         options: ["Australia", "London", "Iraq", "Syria"]
     },
@@ -35,7 +35,7 @@ const questions = [
         number: 5,
         question: "Mr. James has been working in the cafe for ___ years.",
         type: "FillBlank",
-        correctAnswer: "10 years",
+        correctAnswer: "10",
         score: 2
     },
     {
@@ -56,7 +56,7 @@ const questions = [
     },
     {
         number: 8,
-        question: "Watch a film? (Suggestion)",
+        question: "Watch a film ? (Suggestion)",
         type: "MCQ",
         correctAnswer: "Why don't we",
         score: 2,
@@ -101,4 +101,5 @@ localStorage.setItem('score_num', JSON.stringify(score_num));
 
 console.log("✅ تم حفظ totalScore و score_num في localStorage");
 console.log("score_num:", score_num);
+
 
