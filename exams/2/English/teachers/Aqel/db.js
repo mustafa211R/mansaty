@@ -27,9 +27,9 @@ const questions = [
         number: 4,
         question: "My (father) book is in the room. (Possessive 's)",
         type: "MCQ",
-        correctAnswer: "Father's book",
+        correctAnswer: "1",
         score: 2,
-        options: ["Father's book", "Fathers' book", "Fathers book", "Books father"]
+        options: ["1","2","3","4"]
     },
     {
         number: 5,
@@ -101,6 +101,7 @@ localStorage.setItem('score_num', JSON.stringify(score_num));
 
 console.log("✅ تم حفظ totalScore و score_num في localStorage");
 console.log("score_num:", score_num);
+
 
 
 
