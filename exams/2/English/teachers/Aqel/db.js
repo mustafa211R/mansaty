@@ -60,7 +60,7 @@ const questions = [
         type: "MCQ",
         correctAnswer: "Why don't we",
         score: 2,
-        options: ["Let's", "Why don't we", "Shall you"]
+        options: ["Let is", "Why do not we", "Shall you"]
     },
     {
         number: 9,
@@ -101,6 +101,7 @@ localStorage.setItem('score_num', JSON.stringify(score_num));
 
 console.log("✅ تم حفظ totalScore و score_num في localStorage");
 console.log("score_num:", score_num);
+
 
 
 
