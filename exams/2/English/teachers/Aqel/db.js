@@ -29,7 +29,7 @@ const questions = [
         type: "MCQ",
         correctAnswer: "Father is book",
         score: 2,
-        options: ["Father is book","2","3","4"]
+        options: ["Father is book","Fathers book", "Fathers book", "Books father"]
     },
     {
         number: 5,
@@ -101,6 +101,7 @@ localStorage.setItem('score_num', JSON.stringify(score_num));
 
 console.log("✅ تم حفظ totalScore و score_num في localStorage");
 console.log("score_num:", score_num);
+
 
 
 
