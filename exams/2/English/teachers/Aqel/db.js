@@ -58,7 +58,7 @@ const questions = [
         number: 8,
         question: "Watch a film ? (Suggestion)",
         type: "MCQ",
-        correctAnswer: "Why don't we",
+        correctAnswer: "Why do not we",
         score: 2,
         options: ["Let is", "Why do not we", "Shall you"]
     },
@@ -101,6 +101,7 @@ localStorage.setItem('score_num', JSON.stringify(score_num));
 
 console.log("✅ تم حفظ totalScore و score_num في localStorage");
 console.log("score_num:", score_num);
+
 
 
 
