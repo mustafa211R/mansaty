@@ -158,7 +158,7 @@
   <!-- التواقيع -->
   <div class="flex justify-center mt-12">
     <div class="signature">
-        <img src="dev.jpg" alt="توقيع المطور">
+        <img src="uploads/dev.jpg" alt="توقيع المطور">
         <p id="Namedev"> مصطفى رحيم فندي</p>
     </div>
     <div class="signature">
@@ -172,7 +172,7 @@
 <script>
 // جلب بيانات الأستاذ من rules.js
 document.getElementById("teacher").textContent = rules.name_teacher || "أ. [اسم الأستاذ]";
-document.getElementById("teacherSignature").src = rules.signature_image || "/uploads/tec.jpg";
+document.getElementById("teacherSignature").src = rules.signature_image || "uploads/tec.jpg";
 </script>
 
   <!-- باركود كبير أسفل الشهادة -->
@@ -237,4 +237,5 @@ const qrData = `${asciiName},${dateCode}${timeCode},${score}`;
 
 </body>
 </html>
+
 
