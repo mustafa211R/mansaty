@@ -1,0 +1,287 @@
+/* أنماط إضافية للتصميم */
+
+/* أنماط للبطاقات */
+.challenge-card {
+    perspective: 1000px;
+    height: 500px;
+}
+
+
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    border-radius: 1.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.challenge-card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* الأزرار */
+.btn-primary {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* الأنيميشن */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+@keyframes fadeInUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(40px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 1s ease-out;
+}
+
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.delay-500 {
+    animation-delay: 0.5s;
+}
+
+/* بطاقات الإحصائيات */
+.stat-card {
+    transition: transform 0.3s ease;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* تحسينات للجوال */
+@media (max-width: 768px) {
+    .challenge-card {
+        height: 450px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .card-inner {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* تأثيرات النقر على الجوال */
+@media (max-width: 768px) {
+    .challenge-card .card-inner {
+        transition: transform 0.6s;
+    }
+    
+    .challenge-card.active .card-inner {
+        transform: rotateY(180deg);
+    }
+}
+
+
+
+/* تحديث styles.css */
+
+/* أنماط للخيارات المختارة والمقفلة */
+.selected-answer {
+    border-color: #3b82f6 !important;
+    background-color: #eff6ff !important;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.selected-answer .option-icon {
+    background-color: #3b82f6 !important;
+    color: white !important;
+}
+
+.disabled-option {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+}
+
+.disabled-option:hover {
+    border-color: #e5e7eb !important;
+    background-color: #f9fafb !important;
+}
+
+/* إدخال الإجابة */
+.answer-input-container input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* زر التالي */
+#next-question-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#next-question-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* رسالة طلب الإجابة */
+#answer-required {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* أزرار */
+.btn-primary {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* تأثيرات للنتيجة */
+.result-icon {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* تفاصيل النتيجة */
+.detailed-results .result-item {
+    transition: all 0.3s ease;
+}
+
+.detailed-results .result-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* عرض الدرجات */
+#score-display {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 12px;
+    padding: 8px 16px;
+    border: 2px solid #fbbf24;
+}
+
+/* تخصيص شريط التقدم */
+#progress-bar {
+    transition: width 0.5s ease;
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+/* تحسينات للجوال */
+@media (max-width: 768px) {
+    .challenge-card {
+        height: 400px;
+    }
+    
+    .question-card {
+        padding: 1rem;
+    }
+    
+    .option-item label {
+        padding: 0.75rem;
+    }
+    
+    .detailed-results .result-item {
+        padding: 1rem;
+    }
+    
+    #score-display {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* تحسينات للوضع المظلم */
+@media (prefers-color-scheme: dark) {
+    .selected-answer {
+        background-color: #1e3a8a !important;
+        border-color: #3b82f6 !important;
+    }
+    
+    .disabled-option {
+        background-color: #374151 !important;
+    }
+}
