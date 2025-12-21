@@ -16,21 +16,18 @@ class UserManager {
         
         // تعريف المراحل الدراسية
         this.gradeLevels = [
-     
-  'الأول ابتدائي',
-  'الثاني ابتدائي',
-  'الثالث ابتدائي',
-  'الرابع ابتدائي',
-  'الخامس ابتدائي',
-  'السادس ابتدائي',
-  'الأول متوسط',
-  'الثاني متوسط',
-  'الثالث متوسط',
-  'الرابع إعدادي',
-  'الخامس إعدادي',
-  'السادس إعدادي'
-
-
+            'الأول ابتدائي',
+            'الثاني ابتدائي',
+            'الثالث ابتدائي',
+            'الرابع ابتدائي',
+            'الخامس ابتدائي',
+            'السادس ابتدائي',
+            'الأول متوسط',
+            'الثاني متوسط',
+            'الثالث متوسط',
+            'الرابع إعدادي',
+            'الخامس إعدادي',
+            'السادس إعدادي'
         ];
         
         // إحصائيات المستخدم
@@ -42,6 +39,27 @@ class UserManager {
             averageScore: 0,
             bestScore: 0
         };
+    }
+
+    /**
+     * دالة لاستخراج المرحلة التعليمية من الصف
+     */
+    getEducationalStage(grade) {
+        if (!grade) return 'غير محدد';
+        
+        const gradeString = grade.toString();
+        
+        if (gradeString.includes('ابتدائي')) {
+            return 'المرحلة الابتدائية';
+        } else if (gradeString.includes('متوسط')) {
+            return 'المرحلة المتوسطة';
+        } else if (gradeString.includes('إعدادي')) {
+            return 'المرحلة الإعدادية';
+        } else if (gradeString.includes('ثانوي') || gradeString.includes('ثانوية')) {
+            return 'المرحلة الثانوية';
+        }
+        
+        return 'غير محدد';
     }
 
     /**
@@ -143,6 +161,11 @@ class UserManager {
                                     </select>
                                     <i class="fas fa-chevron-down select-icon"></i>
                                 </div>
+                                <!-- عرض المرحلة التعليمية تلقائياً -->
+                                <div id="educational-stage-display" class="stage-display" style="display: none;">
+                                    <span class="stage-badge" id="stage-badge"></span>
+                                    <span id="stage-text" class="stage-text"></span>
+                                </div>
                             </div>
                             
                             <!-- اختيار المادة -->
@@ -159,6 +182,11 @@ class UserManager {
                                         ).join('')}
                                     </select>
                                     <i class="fas fa-chevron-down select-icon"></i>
+                                </div>
+                                <!-- أيقونة المادة -->
+                                <div id="subject-icon-display" class="subject-icon-display" style="display: none;">
+                                    <i id="subject-icon" class="fas"></i>
+                                    <span id="subject-name" class="subject-name"></span>
                                 </div>
                             </div>
                             
@@ -220,6 +248,51 @@ class UserManager {
                 const startBtn = document.getElementById('start-challenge-btn');
                 const skipBtn = document.getElementById('skip-btn');
                 const closeBtn = document.getElementById('close-modal');
+                const stageDisplay = document.getElementById('educational-stage-display');
+                const stageBadge = document.getElementById('stage-badge');
+                const stageText = document.getElementById('stage-text');
+                const subjectDisplay = document.getElementById('subject-icon-display');
+                const subjectIcon = document.getElementById('subject-icon');
+                const subjectName = document.getElementById('subject-name');
+
+                // تحديث عرض المرحلة التعليمية
+                const updateEducationalStage = () => {
+                    if (gradeSelect.value) {
+                        const stage = this.getEducationalStage(gradeSelect.value);
+                        stageDisplay.style.display = 'flex';
+                        stageText.textContent = stage;
+                        
+                        // تحديد لون البادج حسب المرحلة
+                        let badgeClass = 'stage-badge';
+                        if (stage.includes('ابتدائية')) {
+                            stageBadge.className = badgeClass + ' stage-primary';
+                        } else if (stage.includes('متوسطة')) {
+                            stageBadge.className = badgeClass + ' stage-secondary';
+                        } else if (stage.includes('إعدادية')) {
+                            stageBadge.className = badgeClass + ' stage-success';
+                        } else if (stage.includes('ثانوية')) {
+                            stageBadge.className = badgeClass + ' stage-warning';
+                        } else {
+                            stageBadge.className = badgeClass + ' stage-default';
+                        }
+                        
+                        console.log('🎓 المرحلة التعليمية المحددة:', stage);
+                    } else {
+                        stageDisplay.style.display = 'none';
+                    }
+                };
+
+                // تحديث أيقونة المادة
+                const updateSubjectIcon = () => {
+                    if (subjectSelect.value) {
+                        const iconClass = this.getSubjectIcon(subjectSelect.value);
+                        subjectDisplay.style.display = 'flex';
+                        subjectIcon.className = 'fas ' + iconClass;
+                        subjectName.textContent = subjectSelect.value;
+                    } else {
+                        subjectDisplay.style.display = 'none';
+                    }
+                };
 
                 // التحقق من اكتمال المعلومات
                 const validateForm = () => {
@@ -243,6 +316,7 @@ class UserManager {
                     const userInfo = {
                         fullName: nameInput.value.trim() || 'زائر',
                         grade: gradeSelect.value,
+                        educationalStage: this.getEducationalStage(gradeSelect.value),
                         subject: subjectSelect.value,
                         timestamp: new Date().toISOString()
                     };
@@ -260,6 +334,7 @@ class UserManager {
                     const userInfo = {
                         fullName: 'زائر',
                         grade: gradeSelect.value || 'الصف 10',
+                        educationalStage: gradeSelect.value ? this.getEducationalStage(gradeSelect.value) : 'غير محدد',
                         subject: subjectSelect.value || 'عام',
                         timestamp: new Date().toISOString()
                     };
@@ -302,13 +377,24 @@ class UserManager {
                 modal._escHandler = handleEscKey;
 
                 // مستمعات لتغيير القيم
-                gradeSelect.addEventListener('change', validateForm);
-                subjectSelect.addEventListener('change', validateForm);
+                gradeSelect.addEventListener('change', () => {
+                    updateEducationalStage();
+                    validateForm();
+                });
+                
+                subjectSelect.addEventListener('change', () => {
+                    updateSubjectIcon();
+                    validateForm();
+                });
                 
                 nameInput.addEventListener('input', () => {
                     // تطهير الإدخال
                     nameInput.value = nameInput.value.replace(/[<>]/g, '');
                 });
+
+                // التهيئة الأولية
+                updateEducationalStage();
+                updateSubjectIcon();
 
                 // التركيز على أول حقل
                 setTimeout(() => {
@@ -518,6 +604,57 @@ class UserManager {
                 transform: translateY(-50%);
                 color: #9ca3af;
                 pointer-events: none;
+            }
+            
+            /* عرض المرحلة التعليمية */
+            .stage-display {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: 8px;
+                padding: 8px 12px;
+                background: #f3f4f6;
+                border-radius: 8px;
+            }
+            
+            .stage-badge {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+            }
+            
+            .stage-primary { background-color: #10b981; }
+            .stage-secondary { background-color: #3b82f6; }
+            .stage-success { background-color: #8b5cf6; }
+            .stage-warning { background-color: #f59e0b; }
+            .stage-default { background-color: #6b7280; }
+            
+            .stage-text {
+                font-size: 13px;
+                font-weight: 600;
+                color: #374151;
+            }
+            
+            /* عرض أيقونة المادة */
+            .subject-icon-display {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: 8px;
+                padding: 8px 12px;
+                background: #f3f4f6;
+                border-radius: 8px;
+            }
+            
+            .subject-icon-display i {
+                color: #4f46e5;
+                font-size: 14px;
+            }
+            
+            .subject-name {
+                font-size: 13px;
+                font-weight: 600;
+                color: #374151;
             }
             
             /* الأزرار */
@@ -731,6 +868,11 @@ class UserManager {
      */
     saveUserInfo(userInfo) {
         try {
+            // استخراج المرحلة التعليمية إذا لم تكن موجودة
+            if (!userInfo.educationalStage && userInfo.grade) {
+                userInfo.educationalStage = this.getEducationalStage(userInfo.grade);
+            }
+            
             this.currentUser = {
                 ...userInfo,
                 sessionId: this.sessionId || this.generateSessionId(),
@@ -740,9 +882,10 @@ class UserManager {
             // حفظ في localStorage
             localStorage.setItem('challenge_user_info', JSON.stringify(this.currentUser));
             
-            // حفظ إعدادات المادة والمرحلة
+            // حفظ إعدادات المادة والمرحلة والمرحلة التعليمية
             localStorage.setItem('user_grade', userInfo.grade);
             localStorage.setItem('user_subject', userInfo.subject);
+            localStorage.setItem('user_educational_stage', userInfo.educationalStage || 'غير محدد');
             
             console.log('✅ User info saved:', this.currentUser);
             return this.currentUser;
@@ -771,6 +914,11 @@ class UserManager {
                     this.currentUser.subject = 'عام';
                 }
                 
+                // استخراج المرحلة التعليمية إذا لم تكن موجودة
+                if (!this.currentUser.educationalStage) {
+                    this.currentUser.educationalStage = this.getEducationalStage(this.currentUser.grade);
+                }
+                
                 console.log('📥 User data loaded:', this.currentUser);
             }
         } catch (error) {
@@ -791,6 +939,11 @@ class UserManager {
                 throw new Error('بيانات النتائج غير صالحة');
             }
 
+            // استخراج المرحلة التعليمية من الصف
+            const educationalStage = this.currentUser?.educationalStage || 
+                                   this.getEducationalStage(this.currentUser?.grade) || 
+                                   'غير محدد';
+
             // إضافة بيانات المستخدم والجلسة
             const challengeData = {
                 // بيانات النتائج
@@ -799,6 +952,7 @@ class UserManager {
                 // بيانات المستخدم
                 fullName: this.currentUser?.fullName || 'زائر',
                 grade: this.currentUser?.grade || 'غير محدد',
+                educationalStage: educationalStage, // المرحلة التعليمية المضافة
                 subject: this.currentUser?.subject || 'عام',
                 sessionId: this.sessionId || this.generateSessionId(),
                 
@@ -888,7 +1042,7 @@ class UserManager {
             // الحفظ
             localStorage.setItem('challenge_history', JSON.stringify(challengeHistory));
             
-            // تحديث أفضل النتائج
+            // تحديث أفضل النتائج (مع المرحلة التعليمية)
             this.updateBestScores(challengeData);
             
             console.log('💾 Challenge saved to localStorage:', historyEntry);
@@ -914,6 +1068,7 @@ class UserManager {
                 // معلومات المستخدم
                 fullName: data.fullName,
                 grade: data.grade,
+                educationalStage: data.educationalStage, // المرحلة التعليمية المضافة
                 subject: data.subject,
                 
                 // معلومات التحدي
@@ -1069,13 +1224,13 @@ class UserManager {
     }
 
     /**
-     * تحديث أفضل النتائج
+     * تحديث أفضل النتائج (مع المرحلة التعليمية)
      */
     updateBestScores(challengeData) {
         try {
             let bestScores = JSON.parse(localStorage.getItem('best_scores') || '{}');
             
-            const key = `${challengeData.grade}_${challengeData.subject}_${challengeData.challengeType}`;
+            const key = `${challengeData.grade}_${challengeData.educationalStage}_${challengeData.subject}_${challengeData.challengeType}`;
             
             if (!bestScores[key] || challengeData.percentage > bestScores[key].percentage) {
                 bestScores[key] = {
@@ -1084,6 +1239,7 @@ class UserManager {
                     totalPoints: challengeData.totalPoints,
                     date: new Date().toISOString(),
                     grade: challengeData.grade,
+                    educationalStage: challengeData.educationalStage,
                     subject: challengeData.subject,
                     challengeType: challengeData.challengeType
                 };
@@ -1111,6 +1267,10 @@ class UserManager {
             
             if (filter.grade) {
                 filteredHistory = filteredHistory.filter(h => h.grade === filter.grade);
+            }
+            
+            if (filter.educationalStage) {
+                filteredHistory = filteredHistory.filter(h => h.educationalStage === filter.educationalStage);
             }
             
             if (filter.subject) {
@@ -1184,6 +1344,50 @@ class UserManager {
             'Hacker': 'متقدم'
         };
         return levels[challengeType] || 'غير محدد';
+    }
+
+    /**
+     * الحصول على إحصائيات حسب المرحلة التعليمية
+     */
+    getStatsByEducationalStage() {
+        try {
+            const history = this.getChallengeHistory(1000);
+            
+            const stats = {
+                'المرحلة الابتدائية': { total: 0, passed: 0, subjects: {} },
+                'المرحلة المتوسطة': { total: 0, passed: 0, subjects: {} },
+                'المرحلة الإعدادية': { total: 0, passed: 0, subjects: {} },
+                'المرحلة الثانوية': { total: 0, passed: 0, subjects: {} },
+                'غير محدد': { total: 0, passed: 0, subjects: {} }
+            };
+            
+            history.forEach(attempt => {
+                const stage = attempt.educationalStage || 'غير محدد';
+                const subject = attempt.subject || 'عام';
+                const passed = attempt.passed === true || attempt.passed === 'true';
+                
+                let stageKey = 'غير محدد';
+                if (stage.includes('ابتدائية')) stageKey = 'المرحلة الابتدائية';
+                else if (stage.includes('متوسطة')) stageKey = 'المرحلة المتوسطة';
+                else if (stage.includes('إعدادية')) stageKey = 'المرحلة الإعدادية';
+                else if (stage.includes('ثانوية')) stageKey = 'المرحلة الثانوية';
+                
+                stats[stageKey].total++;
+                if (passed) stats[stageKey].passed++;
+                
+                if (!stats[stageKey].subjects[subject]) {
+                    stats[stageKey].subjects[subject] = { total: 0, passed: 0 };
+                }
+                
+                stats[stageKey].subjects[subject].total++;
+                if (passed) stats[stageKey].subjects[subject].passed++;
+            });
+            
+            return stats;
+        } catch (error) {
+            console.error('❌ Error getting stats by educational stage:', error);
+            return {};
+        }
     }
 
     /**
