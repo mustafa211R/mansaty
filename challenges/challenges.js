@@ -380,6 +380,54 @@ window.defaultChallenges =
         "pdf": null,
         "points": 3,
         "image": null
+    },
+    {
+        "id": 31,
+        "type": "Challenger",
+        "grade": "الثالث متوسط",
+        "subject": "الفيزياء",
+        "question": "أيّ مما يأتي يُعبّر عن السرعة المتوسطة؟",
+        "format": "خيار من متعدد",
+        "options": [
+            "المسافة الكلية ÷ الزمن الكلي",
+            "التغير في الإزاحة ÷ الزمن",
+            "القوة × الزمن",
+            "الكتلة ÷ الزمن"
+        ],
+        "correctAnswer": "المسافة الكلية ÷ الزمن الكلي",
+        "pdf": null,
+        "points": 3,
+        "image": null
+    },
+    {
+        "id": 32,
+        "type": "Challenger",
+        "grade": "الثالث متوسط",
+        "subject": "الفيزياء",
+        "question": "وحدة قياس القوة في النظام الدولي هي:",
+        "format": "خيار من متعدد",
+        "options": [
+            "الكيلوغرام",
+            "المتر",
+            "النيوتن",
+            "الجول"
+        ],
+        "correctAnswer": "النيوتن",
+        "pdf": null,
+        "points": 3,
+        "image": null
+    },
+    {
+        "id": 33,
+        "type": "Challenger",
+        "grade": "الثالث متوسط",
+        "subject": "الفيزياء",
+        "question": "يُعرّف الشغل بأنه حاصل ضرب القوة في ____.",
+        "format": "فراغ",
+        "correctAnswer": "الإزاحة",
+        "pdf": null,
+        "points": 5,
+        "image": null
     }
 
 ];
@@ -421,5 +469,6 @@ if (window.defaultChallenges.length < 50) {
     const extraQuestions = generateAdditionalQuestions(needed);
     window.defaultChallenges.push(...extraQuestions);
 }
+
 
 console.log(`تم تحمير ${window.defaultChallenges.length} سؤال في النظام`);
