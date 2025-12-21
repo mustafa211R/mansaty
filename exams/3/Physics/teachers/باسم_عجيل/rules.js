@@ -1,6 +1,6 @@
 // Test Settings
 const rules = {
-  passingScore: 10, // Minimum score to pass
+  passingScore: 5, // Minimum score to pass
   totalTime: 10, // Time in minutes
   helpThreshold: 4, // Score after which the help button appears
   name_teacher: 'باسم عجيل', // Teacher's name
@@ -22,3 +22,4 @@ function saveRules() {
     console.log("ℹ️ Rules already exist in localStorage.");
   }
 })();
+
