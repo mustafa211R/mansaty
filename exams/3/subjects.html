@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📚 أقسام المواد الدراسية | منصّتي</title>
+
+  <!-- Tailwind -->
+  <link href="../../package/dist/tailwind.css" rel="stylesheet">
+  <link href="../../fonts.css" rel="stylesheet">
+
+  <!-- أيقونات Lucide -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(25px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .fade-stagger > div {
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    .fade-stagger > div:nth-child(1) { animation-delay: 0.1s; }
+    .fade-stagger > div:nth-child(2) { animation-delay: 0.2s; }
+    .fade-stagger > div:nth-child(3) { animation-delay: 0.3s; }
+    .fade-stagger > div:nth-child(4) { animation-delay: 0.4s; }
+    .fade-stagger > div:nth-child(5) { animation-delay: 0.5s; }
+    .fade-stagger > div:nth-child(6) { animation-delay: 0.6s; }
+    .fade-stagger > div:nth-child(7) { animation-delay: 0.7s; }
+    .fade-stagger > div:nth-child(8) { animation-delay: 0.8s; }
+
+    .glass-card {
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.35s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .icon {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .icon-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s;
+    }
+
+    .glass-card:hover .icon-wrapper {
+      transform: rotate(8deg) scale(1.1);
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-700 via-blue-600 to-cyan-500 min-h-screen flex flex-col justify-between font-cairo">
+
+  <!-- Header -->
+  <header class="text-center mt-10 text-white fade-up">
+    <h1 class="text-4xl font-extrabold drop-shadow-lg mb-2">📘 أقسام المواد الدراسية</h1>
+    <p class="text-white/85 text-lg font-light">اختر المادة التي ترغب بدخولها</p>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-1 flex justify-center items-center px-6">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-5 w-full max-w-3xl mt-6 fade-stagger">
+
+      <!-- إسلامية -->
+      <div onclick="location.href='Islamic_Studies/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-green-500/20 text-green-400"><i data-lucide="moon-star" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">إسلامية</p>
+      </div>
+
+      <!-- عربي -->
+      <div onclick="location.href='Arabic/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-red-500/20 text-red-400"><i data-lucide="book-open-text" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">عربي</p>
+      </div>
+
+      <!-- إنجليزي -->
+      <div onclick="location.href='English/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-blue-500/20 text-blue-400"><i data-lucide="languages" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">إنجليزي</p>
+      </div>
+
+      <!-- اجتماعيات -->
+      <div onclick="location.href='Social_Studies/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-yellow-400/20 text-yellow-300"><i data-lucide="globe-2" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">اجتماعيات</p>
+      </div>
+
+      <!-- رياضيات -->
+      <div onclick="location.href='Mathematics/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-purple-500/20 text-purple-400"><i data-lucide="sigma" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">رياضيات</p>
+      </div>
+
+      <!-- فيزياء -->
+      <div onclick="location.href='Physics/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-sky-500/20 text-sky-400"><i data-lucide="zap" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">فيزياء</p>
+      </div>
+
+      <!-- كيمياء -->
+      <div onclick="location.href='Chemistry/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-pink-500/20 text-pink-400"><i data-lucide="flask-conical" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">كيمياء</p>
+      </div>
+
+      <!-- حاسوب -->
+      <div onclick="location.href='Computer/enter.html'" class="glass-card rounded-2xl p-6 text-center cursor-pointer">
+        <div class="icon-wrapper bg-gray-400/20 text-gray-300"><i data-lucide="monitor" class="icon"></i></div>
+        <p class="font-bold text-white text-lg">حاسوب</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-white/80 text-sm mb-6 fade-up">
+    <p>جميع الحقوق محفوظة © <span id="year"></span> | <span class="font-semibold">منصّتي</span></p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    lucide.createIcons(); // تفعيل الأيقونات
+  </script>
+
+</body>
+</html>
