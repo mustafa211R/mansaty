@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b1f3a">
+    <title>تحديات التعلم | منصة طالب</title>
+    <meta name="description" content="تحديات تعليمية تفاعلية في منصة طالب — 12 مرحلة، 11 مادة، 3 مستويات.">
+    <meta name="author" content="الأستاذ مصطفى رحيم فندي">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="تحديات التعلم | منصة طالب">
+    <meta property="og:description" content="اختر مستوى التحدي المناسب لمهاراتك.">
+    <meta property="og:image" content="../logo.jfif">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+
+    <link rel="icon" type="image/png" href="../logo.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="../package/dist/tailwind.css" rel="stylesheet">
+    <link href="../fonts.css" rel="stylesheet">
+    <link href="../webfonts/fontawesome-free-6.5.2-web/css/all.min.css" rel="stylesheet">
+
+    <script>
+        localStorage.clear();
+    </script>
+
+    <style>
+        :root {
+            --oxford-blue: #0b1f3a;
+            --oxford-gold: #c9a227;
+            --oxford-cream: #f6f3ec;
+            --sf-text-primary: #1d1d1f;
+            --sf-text-secondary: #6e6e73;
+            --sf-text-tertiary: #86868b;
+        }
+
+        * { -webkit-tap-highlight-color: transparent; }
+
+        html, body {
+            margin: 0; padding: 0;
+            background: var(--oxford-cream);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--sf-text-primary);
+            font-weight: 400; font-size: 17px; line-height: 1.5;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            min-height: 100vh;
+        }
+
+        h1,h2,h3,h4,h5,h6 {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+            font-weight: 700; letter-spacing: -0.022em; color: var(--sf-text-primary); margin: 0;
+        }
+        p, span, a, li, div, button {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        /* ====== الإشعار ====== */
+        .notice {
+            position: fixed; top: 14px; left: 14px; z-index: 100;
+            background: rgba(11,31,58,0.95); color: var(--oxford-gold);
+            border: 1px solid var(--oxford-gold); border-radius: 9999px;
+            padding: 8px 16px; font-size: 13px; font-weight: 600;
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        /* ====== الهيدر ====== */
+        .hero-bg {
+            background:
+                linear-gradient(rgba(11,31,58,0.88), rgba(11,31,58,0.94)),
+                url('../logo.jfif') center/cover no-repeat;
+        }
+        .gold-line {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+        }
+        .crest {
+            width: 64px; height: 64px; object-fit: contain;
+            border-radius: 50%; background: #fff; padding: 5px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            border: 2px solid var(--oxford-gold);
+        }
+
+        /* ====== بطاقة التحدي ====== */
+        .challenge-card {
+            perspective: 1200px;
+            height: 500px;
+            transition: transform 0.3s ease;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transform-style: preserve-3d;
+            border-radius: 22px;
+            box-shadow: 0 8px 28px rgba(11,31,58,0.12);
+        }
+
+        .challenge-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(11,31,58,0.06);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* خلفيات البطاقات بالذهبي/الأزرق */
+        .card-front-green,
+        .card-front-yellow,
+        .card-front-red {
+            background: linear-gradient(180deg, #ffffff 0%, #faf8f3 100%);
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 2;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            box-shadow: 0 4px 14px rgba(11,31,58,0.25);
+            padding: 7px 18px;
+            border-radius: 9999px;
+            font-size: 13px;
+        }
+        .level-badge.green {
+            background: linear-gradient(135deg, #06762f, #0a8f3b);
+            color: #fff;
+        }
+        .level-badge.yellow {
+            background: linear-gradient(135deg, var(--oxford-gold), #b8911f);
+            color: #fff;
+        }
+        .level-badge.red {
+            background: linear-gradient(135deg, #d33333, #b32a2a);
+            color: #fff;
+        }
+
+        .image-container {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgba(11,31,58,0.05), rgba(201,162,39,0.1));
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .challenge-card:hover .image-container img {
+            transform: scale(1.05);
+        }
+
+        /* نص البطاقة */
+        .card-title-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--oxford-blue);
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+        }
+        .card-desc {
+            font-size: 13.5px;
+            color: var(--sf-text-secondary);
+            line-height: 1.6;
+            letter-spacing: -0.01em;
+            margin-bottom: 16px;
+        }
+        .card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .card-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            color: var(--sf-text-secondary);
+            letter-spacing: -0.01em;
+        }
+        .card-list li i {
+            color: var(--oxford-gold);
+            font-size: 14px;
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .card-list li i.green { color: #06762f; }
+        .card-list li i.yellow { color: var(--oxford-gold); }
+        .card-list li i.red { color: #d33333; }
+
+        .card-cta {
+            text-align: center;
+            padding-top: 14px;
+            border-top: 1px dashed rgba(11,31,58,0.12);
+            color: var(--oxford-gold);
+            font-weight: 600;
+            font-size: 13.5px;
+        }
+        .card-cta i {
+            margin-left: 6px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* زر البدء */
+        .btn-start {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 28px;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 9999px;
+            transition: all .3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            text-decoration: none;
+            color: #fff;
+            letter-spacing: -0.01em;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-start.green {
+            background: linear-gradient(135deg, #06762f, #0a8f3b);
+            box-shadow: 0 6px 18px rgba(6,118,47,0.35);
+        }
+        .btn-start.yellow {
+            background: linear-gradient(135deg, var(--oxford-gold), #b8911f);
+            box-shadow: 0 6px 18px rgba(201,162,39,0.4);
+        }
+        .btn-start.red {
+            background: linear-gradient(135deg, #d33333, #b32a2a);
+            box-shadow: 0 6px 18px rgba(211,51,51,0.35);
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+        }
+        .btn-start:active { transform: scale(0.97); }
+        .btn-start i { margin-right: 10px; }
+
+        /* ====== بطاقات الإحصائيات ====== */
+        .stat-card {
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid rgba(11,31,58,0.06);
+            box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+            transition: all .3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            text-align: center;
+            padding: 28px 20px;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(11,31,58,0.12);
+            border-color: rgba(201,162,39,0.4);
+        }
+        .stat-num {
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .stat-num.green { color: #06762f; }
+        .stat-num.yellow { color: var(--oxford-gold); }
+        .stat-num.red { color: #d33333; }
+        .stat-label {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--oxford-blue);
+            letter-spacing: -0.022em;
+        }
+        .stat-sub {
+            font-size: 12.5px;
+            color: var(--sf-text-tertiary);
+            margin-top: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        /* ====== زر كشف المنافسين ====== */
+        .competition-btn {
+            background: var(--oxford-gold);
+            color: #fff;
+            font-weight: 600;
+            padding: 11px 24px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+            border: none;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: -0.01em;
+        }
+        .competition-btn:hover {
+            background: #b8911f;
+            box-shadow: 0 6px 20px rgba(201,162,39,0.5);
+            transform: translateY(-2px);
+        }
+        .competition-btn:active { transform: scale(0.97); }
+        .competition-btn .trophy-icon {
+            transition: transform .5s ease;
+        }
+        .competition-btn:hover .trophy-icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        /* ====== Animations ====== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out backwards; }
+        .animate-slide-up { animation: slideUp 0.8s ease-out backwards; }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 768px) {
+            html, body { font-size: 16px; }
+            .notice { font-size: 11px; padding: 6px 12px; }
+            .crest { width: 56px; height: 56px; }
+            .challenge-card { height: 480px; }
+            .image-container { height: 150px; }
+            .card-title-text { font-size: 21px; }
+            .stat-num { font-size: 44px; }
+            .stat-card { padding: 22px 16px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- إشعار في الركن -->
+   
+
+    <!-- الهيدر -->
+    <header class="hero-bg text-white">
+        <div class="max-w-4xl mx-auto px-5 py-8 flex flex-col items-center text-center">
+
+            <a href="../index.html" class="mb-3">
+                <img src="../logo.jfif" alt="شعار منصة طالب" class="crest">
+            </a>
+
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight" style="color:#fff;">
+                تحديات التعلم
+            </h1>
+            <div class="gold-line w-28 my-3"></div>
+            <p class="text-sm sm:text-base max-w-md leading-relaxed" style="color: rgba(255,255,255,0.82);">
+                اختر مستوى التحدي المناسب لمهاراتك
+            </p>
+
+            <!-- زر كشف المنافسين -->
+            <a href="https://docs.google.com/spreadsheets/d/1Ru1eRBI7OS7Oqu8LhIl2ve1liulERHZjHL3R2RivgN4/edit?usp=sharing"
+                target="_blank"
+                class="competition-btn mt-6">
+                <i class="fas fa-trophy trophy-icon"></i>
+                <span>كشف المنافسين</span>
+            </a>
+
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-8 max-w-6xl">
+
+        <!-- العنوان والوصف -->
+        <div class="text-center mb-10 animate-fade-in">
+            <div class="inline-block px-5 py-2 rounded-full mb-4"
+                 style="background: rgba(201,162,39,0.12); border: 1px solid rgba(201,162,39,0.3);">
+                <span style="color: var(--oxford-blue); font-weight: 600; font-size: 13.5px;">
+                    12 مرحلة تعليمية متكاملة
+                </span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-4" style="color: var(--oxford-blue);">
+                اختر مستوى التحدي
+            </h2>
+            <p class="text-base max-w-3xl mx-auto leading-relaxed" style="color: var(--sf-text-secondary);">
+                اختر مستوى التحدي المناسب لمهاراتك. كل مستوى يحتوي على أسئلة مصممة خصيصًا لتطوير قدراتك ضمن 12 مرحلة تعليمية تغطي 11 مادة مختلفة.
+            </p>
+        </div>
+
+        <!-- بطاقات التحديات -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
+
+            <!-- تحديات المبتدئين -->
+            <div class="challenge-card animate-slide-up delay-100">
+                <div class="card-inner">
+                    <div class="card-front card-front-green">
+                        <div class="level-badge green">
+                            <i class="fas fa-seedling" style="margin-left:6px;"></i>مبتدئ
+                        </div>
+                        <div class="p-5 h-full flex flex-col">
+                            <div class="image-container">
+                                <img src="assets/images/1.png" alt="مبتدئ">
+                            </div>
+                            <h3 class="card-title-text">متحدي</h3>
+                            <p class="card-desc">المستوى المثالي للبدء برحلة التعلم واكتساب المفاهيم الأساسية</p>
+                            <ul class="card-list flex-grow">
+                                <li><i class="fas fa-user-graduate green"></i> <span>المستوى: مبتدئ - مثابر</span></li>
+                                <li><i class="fas fa-clock green"></i> <span>الوقت: 10-15 دقيقة</span></li>
+                                <li><i class="fas fa-question-circle green"></i> <span>عدد الأسئلة: 5-7</span></li>
+                                <li><i class="fas fa-book green"></i> <span>يشمل 11 مواد تعليمية</span></li>
+                            </ul>
+                            <div class="card-cta">
+                                <i class="fas fa-hand-point-up"></i> انقر لبدء التحدي
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" style="background: linear-gradient(180deg, #f0f9f1, #e6f5eb);">
+                        <div class="p-6 h-full flex flex-col justify-center">
+                            <h4 class="text-xl font-bold mb-5 text-center" style="color: var(--oxford-blue);">ماذا ستتعلم؟</h4>
+                            <ul class="space-y-4 mb-6" style="color: var(--sf-text-secondary); font-size: 14px;">
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#06762f;font-size:17px;margin-top:2px;"></i> <span>مفاهيم أساسية في المواد التعليمية</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#06762f;font-size:17px;margin-top:2px;"></i> <span>أسئلة تعريفية وتطبيقات بسيطة</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#06762f;font-size:17px;margin-top:2px;"></i> <span>تمارين عملية لترسيخ المعلومات</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#06762f;font-size:17px;margin-top:2px;"></i> <span>أساسيات التفكير التحليلي</span></li>
+                            </ul>
+                            <a href="challenger.html" class="btn-start green mt-auto">
+                                <i class="fas fa-arrow-left"></i> ابدأ التحدي
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تحديات المتوسطين -->
+            <div class="challenge-card animate-slide-up delay-300">
+                <div class="card-inner">
+                    <div class="card-front card-front-yellow">
+                        <div class="level-badge yellow">
+                            <i class="fas fa-hiking" style="margin-left:6px;"></i>متوسط
+                        </div>
+                        <div class="p-5 h-full flex flex-col">
+                            <div class="image-container">
+                                <img src="assets/images/2.png" alt="متوسط">
+                            </div>
+                            <h3 class="card-title-text">مغامر</h3>
+                            <p class="card-desc">للطلاب الذين يمتلكون أساسيات ويريدون تطوير مهاراتهم</p>
+                            <ul class="card-list flex-grow">
+                                <li><i class="fas fa-user-graduate yellow"></i> <span>المستوى: متحدي - منافس شرس</span></li>
+                                <li><i class="fas fa-clock yellow"></i> <span>الوقت: 15-25 دقيقة</span></li>
+                                <li><i class="fas fa-question-circle yellow"></i> <span>عدد الأسئلة: 7-10</span></li>
+                                <li><i class="fas fa-book yellow"></i> <span>يشمل 11 مواد تعليمية</span></li>
+                            </ul>
+                            <div class="card-cta">
+                                <i class="fas fa-hand-point-up"></i> انقر لبدء التحدي
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" style="background: linear-gradient(180deg, #fdf9ec, #faf3dc);">
+                        <div class="p-6 h-full flex flex-col justify-center">
+                            <h4 class="text-xl font-bold mb-5 text-center" style="color: var(--oxford-blue);">ماذا ستتعلم؟</h4>
+                            <ul class="space-y-4 mb-6" style="color: var(--sf-text-secondary); font-size: 14px;">
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color: var(--oxford-gold);font-size:17px;margin-top:2px;"></i> <span>تطبيقات عملية متقدمة</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color: var(--oxford-gold);font-size:17px;margin-top:2px;"></i> <span>مسائل متوسطة الصعوبة وحلولها</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color: var(--oxford-gold);font-size:17px;margin-top:2px;"></i> <span>تحليل المشكلات وتطوير الحلول</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color: var(--oxford-gold);font-size:17px;margin-top:2px;"></i> <span>مهارات التفكير النقدي</span></li>
+                            </ul>
+                            <a href="adventurer.html" class="btn-start yellow mt-auto">
+                                <i class="fas fa-arrow-left"></i> ابدأ التحدي
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تحديات المتقدمين -->
+            <div class="challenge-card animate-slide-up delay-500">
+                <div class="card-inner">
+                    <div class="card-front card-front-red">
+                        <div class="level-badge red">
+                            <i class="fas fa-user-ninja" style="margin-left:6px;"></i>متقدم
+                        </div>
+                        <div class="p-5 h-full flex flex-col">
+                            <div class="image-container">
+                                <img src="assets/images/3.png" alt="متقدم">
+                            </div>
+                            <h3 class="card-title-text">مخترق</h3>
+                            <p class="card-desc">للمتقدمين الذين يبحثون عن تحديات معقدة وحلول إبداعية</p>
+                            <ul class="card-list flex-grow">
+                                <li><i class="fas fa-user-graduate red"></i> <span>المستوى: مخترق - صعب جداً</span></li>
+                                <li><i class="fas fa-clock red"></i> <span>الوقت: 25-40 دقيقة</span></li>
+                                <li><i class="fas fa-question-circle red"></i> <span>عدد الأسئلة: 10-15</span></li>
+                                <li><i class="fas fa-book red"></i> <span>يشمل جميع المواد الـ 11</span></li>
+                            </ul>
+                            <div class="card-cta">
+                                <i class="fas fa-hand-point-up"></i> انقر لبدء التحدي
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-back" style="background: linear-gradient(180deg, #fdf0f0, #fbe4e4);">
+                        <div class="p-6 h-full flex flex-col justify-center">
+                            <h4 class="text-xl font-bold mb-5 text-center" style="color: var(--oxford-blue);">ماذا ستتعلم؟</h4>
+                            <ul class="space-y-4 mb-6" style="color: var(--sf-text-secondary); font-size: 14px;">
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#d33333;font-size:17px;margin-top:2px;"></i> <span>حلول إبداعية لمشاكل معقدة</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#d33333;font-size:17px;margin-top:2px;"></i> <span>تحديات متقدمة في جميع المواد</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#d33333;font-size:17px;margin-top:2px;"></i> <span>تفكير نقدي متقدم واستراتيجي</span></li>
+                                <li class="flex items-start gap-3"><i class="fas fa-check-circle" style="color:#d33333;font-size:17px;margin-top:2px;"></i> <span>مهارات حل المشكلات المعقدة</span></li>
+                            </ul>
+                            <a href="hacker.html" class="btn-start red mt-auto">
+                                <i class="fas fa-arrow-left"></i> ابدأ التحدي
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- إحصائيات -->
+        <div class="rounded-3xl p-8 mb-14 animate-fade-in"
+             style="background: #fff; border: 1px solid rgba(11,31,58,0.06); box-shadow: 0 8px 32px rgba(11,31,58,0.08);">
+
+            <h3 class="text-2xl font-bold text-center mb-2" style="color: var(--oxford-blue);">
+                حول تحديات منصة طالب
+            </h3>
+            <div class="gold-line w-24 mx-auto mb-8"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="stat-card">
+                    <div class="stat-num green">12</div>
+                    <div class="stat-label">مرحلة</div>
+                    <div class="stat-sub">ابتدائية - متوسطة - إعدادية</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num yellow">11</div>
+                    <div class="stat-label">مادة دراسية</div>
+                    <div class="stat-sub">بكافة الأسئلة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num red">3</div>
+                    <div class="stat-label">مستويات</div>
+                    <div class="stat-sub">مبتدئ - مثابر - مخترق</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- التذييل -->
+    <footer style="background: #081729; color: #d1d5db;" class="py-10">
+        <div class="container mx-auto px-4 max-w-4xl">
+
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+
+                <div class="text-center md:text-right">
+                    <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+                        <img src="../logo.jfif" alt="شعار منصة طالب" class="crest" style="width:52px;height:52px;">
+                        <div>
+                            <h3 class="text-xl font-bold" style="color: #fff;">منصة طالب</h3>
+                            <p style="color: rgba(255,255,255,0.6); font-size: 13px;">12 مرحلة — 11 مادة — 3 مستويات</p>
+                        </div>
+                    </div>
+                    <p style="color: rgba(255,255,255,0.55); font-size: 13.5px; max-width: 380px; line-height: 1.7;">
+                        منصة تعليمية تفاعلية تهدف إلى تطوير مهارات الطلاب من خلال تحديات مصممة بعناية لجميع المستويات.
+                    </p>
+                </div>
+
+                <div class="text-center md:text-right">
+                    <h4 class="text-base font-bold mb-4" style="color: var(--oxford-gold);">تواصل معنا</h4>
+                    <div class="flex justify-center md:justify-start gap-3 mb-4">
+                        <a href="https://t.me/+yh3G3kKJRF5kODcy" target="_blank"
+                           style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0088cc,#34b7f1);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:18px;text-decoration:none;transition:transform .25s ease;"
+                           onmouseover="this.style.transform='translateY(-3px) scale(1.05)'"
+                           onmouseout="this.style.transform='translateY(0) scale(1)'">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/mustafa.rahim211" target="_blank"
+                           style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1877f2,#3b5998);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:18px;text-decoration:none;transition:transform .25s ease;"
+                           onmouseover="this.style.transform='translateY(-3px) scale(1.05)'"
+                           onmouseout="this.style.transform='translateY(0) scale(1)'">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="gold-line w-32 mx-auto my-6"></div>
+
+            <div class="text-center text-xs" style="color: rgba(255,255,255,0.5);">
+                <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+                <p class="mt-1">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // تأثيرات تفاعلية للبطاقات
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.challenge-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الكتب | منصتي</title>
+  <link href="../../package/dist/tailwind.css" rel="stylesheet">
+  <link href="../../fonts.css" rel="stylesheet">
+  <link rel="icon" href="../../logo.png" type="image/png">
+  <script src="../../lucide.min.js"></script>
+  <script defer src="list.js"></script>
+</head>
+
+<body class="bg-gradient-to-b from-gray-50 to-gray-200 min-h-screen flex flex-col font-[Cairo]">
+
+  <!-- شريط العنوان -->
+  <header class="bg-gradient-to-r from-purple-600 to-blue-500 text-white text-center py-4 shadow-lg">
+    <h1 class="text-2xl font-bold flex items-center justify-center gap-2">
+      <i data-lucide="book-open" class="w-6 h-6"></i> كتب منصتي
+    </h1>
+  </header>
+
+  <!-- صندوق البحث -->
+  <div class="p-4">
+    <input id="searchBox" type="text" placeholder="ابحث عن كتاب أو اسم الأستاذ..."
+           class="w-full rounded-3xl px-5 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition-all">
+  </div>
+
+  <!-- قائمة الكتب -->
+  <main id="booksContainer" class="p-4 space-y-4 overflow-y-auto flex-1">
+    <!-- يتم تعبئتها من JavaScript -->
+  </main>
+
+  <!-- تذييل -->
+  <footer class="bg-white text-gray-500 text-center py-3 text-sm shadow-inner">
+    جميع الحقوق محفوظة © 2025 - منصتي
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

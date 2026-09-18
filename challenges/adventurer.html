@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحديات المبتدئين - متحدي</title>
+    <link href="../package/dist/tailwind.css" rel="stylesheet">
+    <link href="../fonts.css" rel="stylesheet">
+    <link href="../webfonts/fontawesome-free-6.5.2-web/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* متغيرات الألوان - Flutter Style */
+        :root {
+            --primary-yellow: #FFC107;
+            --primary-dark: #FF8F00;
+            --primary-light: #FFECB3;
+            --secondary: #FFA000;
+            --surface: #FFFFFF;
+            --background: #FFF8E1;
+            --on-primary: #212121;
+            --on-surface: #424242;
+            --elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --elevation-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            --elevation-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            --elevation-4: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            --elevation-5: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+            --border-radius: 20px;
+            --border-radius-small: 12px;
+            --border-radius-large: 28px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* تصميم Flutter Material */
+        body {
+            background: linear-gradient(135deg, var(--background) 0%, #FFECB3 100%);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* تأثير الخلفية المتقدمة */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 143, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 224, 130, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* App Bar - Material Design */
+        .app-bar {
+            background: linear-gradient(135deg, var(--primary-yellow), var(--primary-dark));
+            box-shadow: var(--elevation-3);
+            backdrop-filter: blur(10px);
+            border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+        }
+
+        .app-bar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .back-button:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .back-button i {
+            color: var(--on-primary);
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 800px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        /* Progress Card - Flutter Style */
+        .progress-card {
+            background: var(--surface);
+            border-radius: var(--border-radius-large);
+            padding: 28px;
+            margin-bottom: 32px;
+            box-shadow: var(--elevation-3);
+            border: 1px solid rgba(255, 193, 7, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .progress-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-yellow), var(--secondary));
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-header h3 {
+            color: var(--on-surface);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .progress-header h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-yellow);
+            border-radius: 2px;
+        }
+
+        .progress-count {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-yellow));
+            color: var(--on-primary);
+            padding: 8px 16px;
+            border-radius: var(--border-radius-small);
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: var(--elevation-1);
+        }
+
+        .progress-track {
+            height: 16px;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-yellow), var(--secondary));
+            border-radius: 10px;
+            position: relative;
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-width: 16px;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        /* Question Card - Material Card */
+        .question-card {
+            background: var(--surface);
+            border-radius: var(--border-radius-large);
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--elevation-4);
+            border: 1px solid rgba(255, 193, 7, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            transform: translateY(0);
+        }
+
+        .question-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--elevation-5);
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-yellow) 0%, transparent 70%);
+            border-radius: 0 0 0 80px;
+            opacity: 0.1;
+        }
+
+        .question-header {
+            color: var(--on-surface);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            line-height: 1.4;
+            position: relative;
+            padding-bottom: 16px;
+        }
+
+        .question-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-yellow);
+            border-radius: 2px;
+        }
+
+        /* Options Grid - Flutter Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .option-button {
+            background: rgba(255, 193, 7, 0.05);
+            border: 2px solid rgba(255, 193, 7, 0.2);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-align: right;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--on-surface);
+        }
+
+        .option-button:hover {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: var(--primary-yellow);
+            transform: translateX(-8px);
+            box-shadow: var(--elevation-2);
+        }
+
+        .option-button.selected {
+            background: linear-gradient(135deg, var(--primary-yellow), var(--secondary));
+            color: var(--on-primary);
+            border-color: transparent;
+            box-shadow: var(--elevation-3);
+            transform: translateX(-8px);
+        }
+
+        .option-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .option-button.selected::before {
+            background: var(--on-primary);
+            border-color: var(--on-primary);
+        }
+
+        .option-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .option-button:hover::after {
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Submit Button - FAB Style */
+        .submit-button {
+            background: linear-gradient(135deg, var(--primary-yellow), var(--secondary));
+            color: var(--on-primary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--elevation-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--elevation-4);
+        }
+
+        .submit-button:hover::before {
+            animation: shimmer 1.5s infinite;
+        }
+
+        .submit-button:active {
+            transform: translateY(-2px);
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+
+        .floating-loader {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 193, 7, 0.2);
+            border-top-color: var(--primary-yellow);
+            border-radius: 50%;
+            animation: spin 1.2s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .floating-loader::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 4px solid rgba(255, 193, 7, 0.1);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-text {
+            color: var(--on-surface);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .loading-text::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        /* Timer Widget - Flutter Style */
+        .timer-widget {
+            position: fixed;
+            top: 90px;
+            left: 24px;
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 16px 24px;
+            box-shadow: var(--elevation-3);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 2px solid var(--primary-yellow);
+            animation: slideInLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .timer-icon {
+            color: var(--primary-yellow);
+            font-size: 1.4rem;
+            animation: pulse 2s infinite;
+        }
+
+        .timer-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--on-surface);
+            direction: ltr;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0, 0); opacity: 1; }
+            20% { transform: scale(25, 25); opacity: 1; }
+            100% { opacity: 0; transform: scale(40, 40); }
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 16px;
+                margin: 24px auto;
+            }
+
+            .app-bar {
+                height: 60px;
+                padding: 0 16px;
+            }
+
+            .back-button {
+                width: 44px;
+                height: 44px;
+            }
+
+            .progress-card,
+            .question-card {
+                padding: 24px;
+                border-radius: var(--border-radius);
+            }
+
+            .question-header {
+                font-size: 1.5rem;
+            }
+
+            .option-button {
+                padding: 20px;
+                font-size: 1rem;
+            }
+
+            .timer-widget {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin: 0 auto 24px;
+                width: fit-content;
+                animation: none;
+            }
+
+            .submit-button {
+                padding: 18px 32px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .progress-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .progress-count {
+                align-self: flex-end;
+            }
+
+            .options-grid {
+                gap: 12px;
+            }
+
+            .option-button {
+                padding: 18px;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --surface: #1E1E1E;
+                --background: #121212;
+                --on-primary: #FFFFFF;
+                --on-surface: #E0E0E0;
+            }
+
+            .question-card,
+            .progress-card {
+                border-color: rgba(255, 193, 7, 0.2);
+            }
+
+            .option-button {
+                background: rgba(255, 193, 7, 0.1);
+                border-color: rgba(255, 193, 7, 0.3);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary-yellow), var(--secondary));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--secondary), var(--primary-dark));
+        }
+
+        /* Error State */
+        .error-state {
+            background: var(--surface);
+            border-radius: var(--border-radius-large);
+            padding: 48px 32px;
+            text-align: center;
+            box-shadow: var(--elevation-3);
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            color: var(--primary-yellow);
+            margin-bottom: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .error-title {
+            color: var(--on-surface);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .error-message {
+            color: var(--on-surface);
+            opacity: 0.8;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .retry-button {
+            background: linear-gradient(135deg, var(--primary-yellow), var(--secondary));
+            color: var(--on-primary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--elevation-2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .retry-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--elevation-3);
+        }
+    </style>
+</head>
+<body>
+    <!-- App Bar -->
+    <nav class="app-bar">
+        <div class="app-bar-content">
+            <button class="back-button" onclick="location.href='index.html'">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </nav>
+
+ 
+
+    <main class="main-container">
+        <!-- Progress Card -->
+        <div id="progress-section" class="progress-card">
+            <div class="progress-header">
+                <h3>تقدم الاختبار</h3>
+                <div id="progress-text" class="progress-count">0/7</div>
+            </div>
+            <div class="progress-track">
+                <div id="progress-bar" class="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Question Area -->
+        <div id="question-container">
+            <!-- Loading State -->
+            <div class="loading-container">
+                <div class="floating-loader"></div>
+                <div class="loading-text">جاري تحميل الأسئلة</div>
+            </div>
+        </div>
+    </main>
+
+    <script src="challenges.js"></script>
+    <script src="check.js"></script>
+    <script src="user-manager.js"></script>
+    <script src="loading.js"></script>
+    <script src="info_temp.js"></script>
+    
+    <script>
+        // تهيئة النظام مع تأثيرات Flutter
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 بدء تهيئة النظام...');
+            
+            // إضافة تأثيرات تحميل متقدمة
+            const loadingContainer = document.querySelector('.loading-container');
+            if (loadingContainer) {
+                loadingContainer.style.animation = 'fadeIn 0.6s ease-out';
+            }
+            
+            // تعطيل أزرار HTML السابقة
+            document.querySelectorAll('[onclick*="challengeLoader"]').forEach(btn => {
+                btn.removeAttribute('onclick');
+            });
+            
+            try {
+                // تهيئة userManager
+                if (window.userManager) {
+                    await userManager.init();
+                    console.log('✅ userManager تم تهيئته بنجاح');
+                    
+                    // إضافة تأثير ظهور
+                    document.querySelector('.app-bar').style.animation = 'slideInDown 0.8s ease-out';
+                    document.querySelector('.progress-card').style.animation = 'fadeInUp 0.8s ease-out 0.2s both';
+                } else {
+                    console.error('❌ userManager غير متوفر');
+                }
+                
+                // بدء التحميل بعد تأثيرات الظهور
+                setTimeout(async () => {
+                    if (window.challengeLoader) {
+                        console.log('🎯 بدء تحميل التحديات...');
+                        await challengeLoader.loadChallenges('Adventurer');
+                        
+                        // إضافة تأثيرات للأسئلة بعد التحميل
+                        const questionCards = document.querySelectorAll('.question-card');
+                        questionCards.forEach((card, index) => {
+                            card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s both`;
+                        });
+                    } else {
+                        console.error('❌ challengeLoader غير متوفر');
+                    }
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ خطأ في التهيئة:', error);
+                
+                // عرض حالة الخطأ بتصميم Flutter
+                document.getElementById('question-container').innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle error-icon"></i>
+                        <h3 class="error-title">حدث خطأ</h3>
+                        <p class="error-message">تعذر تحميل التحدي. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.</p>
+                        <button class="retry-button" onclick="location.reload()">
+                            <i class="fas fa-redo"></i>
+                            إعادة المحاولة
+                        </button>
+                    </div>
+                `;
+            }
+        });
+        
+        // تحسين تأثيرات النقر
+        document.addEventListener('click', function(e) {
+            // تأثير Ripple للأزرار
+            if (e.target.classList.contains('option-button') || 
+                e.target.closest('.option-button')) {
+                const button = e.target.classList.contains('option-button') ? 
+                    e.target : e.target.closest('.option-button');
+                
+                createRipple(button, e);
+            }
+            
+            // تأثير Ripple لأزرار أخرى
+            if (e.target.closest('.submit-button') || 
+                e.target.id === 'start-challenge-btn' || 
+                e.target.id === 'skip-btn') {
+                createRipple(e.target, e);
+            }
+        });
+        
+        // دالة تأثير Ripple
+        function createRipple(element, event) {
+            const circle = document.createElement("span");
+            const diameter = Math.max(element.clientWidth, element.clientHeight);
+            const radius = diameter / 2;
+            
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - element.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${event.clientY - element.getBoundingClientRect().top - radius}px`;
+            circle.classList.add("ripple");
+            
+            const ripple = element.getElementsByClassName("ripple")[0];
+            
+            if (ripple) {
+                ripple.remove();
+            }
+            
+            element.appendChild(circle);
+        }
+        
+        // إضافة أنماط لـ Ripple
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.7);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes slideInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-100%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحديات المبتدئين - متحدي</title>
+    <link href="../package/dist/tailwind.css" rel="stylesheet">
+    <link href="../fonts.css" rel="stylesheet">
+    <link href="../webfonts/fontawesome-free-6.5.2-web/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* إضافة أنماط مخصصة للجوال */
+        @media (max-width: 640px) {
+            .question-card {
+                padding: 1rem !important;
+            }
+            
+            .btn-primary {
+                padding: 1rem !important;
+                min-height: 50px;
+            }
+            
+            /* تحسين الحجم على الجوال */
+            body {
+                font-size: 16px;
+            }
+        }
+        
+        /* تنسيق عام */
+        .btn-primary {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        /* تصميم النافذة المنبثقة */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            overflow-y: auto;
+
+        }
+
+     
+    /* إصلاح شريط التقدم */
+    #progress-bar {
+        transition: width 0.5s ease !important;
+        min-width: 3%;
+    }
+    
+    /* تحسين شريط التقدم للجوال */
+    @media (max-width: 640px) {
+        #progress-section {
+            margin-bottom: 1.5rem;
+            padding: 0 0.5rem;
+        }
+        
+        #progress-text {
+            font-size: 0.875rem;
+        }
+        
+        .question-card {
+            margin: 0.5rem;
+            padding: 1rem !important;
+        }
+    }
+    
+    /* إصلاح شريط التنقل */
+    nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    /* تحسين التايمر */
+    #timer {
+        font-family: monospace;
+        direction: ltr;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+    }
+</style>
+
+
+
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen font-custom">
+    <!-- شريط التنقل -->
+    <nav class="bg-white shadow-lg p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a   href="index.html" class="text-blue-600 hover:text-blue-800 mr-4">
+                    <i class="fas fa-arrow-right"></i> العودة
+                </a>
+
+            </div>
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <!-- عرض الدرجات -->
+              
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- شريط التقدم -->
+<!-- شريط التقدم -->
+<div id="progress-section" class="progress-section">
+    <div class="progress-header">
+        <h3 class="text-lg font-semibold text-gray-700">تقدم الاختبار</h3>
+        <span id="progress-text" class="text-green-600 font-bold">0/7</span>
+    </div>
+    <div class="progress-bar-bg">
+        <div id="progress-bar" class="progress-bar-fill" style="width: 0%"></div>
+    </div>
+</div>
+
+
+        <div style="margin-top: 10px;">
+
+        </div>
+        <!-- منطقة السؤال -->
+        <div id="question-container">
+            <!-- سيتم تحميل الأسئلة هنا بواسطة loading.js -->
+            <div class="text-center py-12">
+                <div class="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-gray-700 text-lg">جاري تحميل الأسئلة...</p>
+            </div>
+        </div>
+
+        <!-- معلومات التحدي -->
+    
+    </main>
+
+  
+
+<script src="challenges.js"></script>
+<script src="check.js"></script>
+<script src="user-manager.js"></script>
+<script src="loading.js"></script>
+<script src="info_temp.js"></script>
+    
+    <script>
+        // تهيئة النظام
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 بدء تهيئة النظام...');
+            
+            // تعطيل أزرار HTML السابقة لتجنب التعارض
+            document.querySelectorAll('[onclick*="challengeLoader"]').forEach(btn => {
+                btn.removeAttribute('onclick');
+            });
+            
+            try {
+                // تهيئة userManager
+                if (window.userManager) {
+                    await userManager.init();
+                    console.log('✅ userManager تم تهيئته بنجاح');
+                } else {
+                    console.error('❌ userManager غير متوفر');
+                }
+                
+                // الانتظار قليلاً ثم بدء التحدي
+                setTimeout(async () => {
+                    if (window.challengeLoader) {
+                        console.log('🎯 بدء تحميل التحديات...');
+                        await challengeLoader.loadChallenges('Challenger');
+                    } else {
+                        console.error('❌ challengeLoader غير متوفر');
+                    }
+                }, 300);
+                
+            } catch (error) {
+                console.error('❌ خطأ في التهيئة:', error);
+                document.getElementById('question-container').innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>حدث خطأ</h3>
+                        <p>تعذر تحميل التحدي. يرجى إعادة تحميل الصفحة.</p>
+                        <button onclick="location.reload()">إعادة التحميل</button>
+                    </div>
+                `;
+            }
+        });
+        
+        // إضافة مستمعات الأحداث على مستوى الوثيقة
+        document.addEventListener('click', function(e) {
+            // معالجة النقر على الأزرار في النافذة المنبثقة
+            if (e.target.id === 'start-challenge-btn' || 
+                e.target.id === 'skip-btn' || 
+                e.target.id === 'close-modal') {
+                console.log('تم النقر على زر في النافذة المنبثقة:', e.target.id);
+            }
+        });
+    </script>
+</body>
+</html>

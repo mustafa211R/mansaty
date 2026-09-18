@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b1f3a">
+    <title>شهاداتي | منصة طالب</title>
+    <meta name="description" content="جميع الشهادات التي حصلت عليها من منصة طالب التعليمية.">
+    <meta name="author" content="الأستاذ مصطفى رحيم فندي">
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" type="image/png" href="../logo.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/dist/tailwind.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --oxford-blue: #0b1f3a;
+            --oxford-blue-deep: #081729;
+            --oxford-gold: #c9a227;
+            --oxford-gold-dark: #b8911f;
+            --oxford-cream: #f6f3ec;
+            --sf-text-primary: #1d1d1f;
+            --sf-text-secondary: #6e6e73;
+            --sf-text-tertiary: #86868b;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            margin: 0; padding: 0;
+            background: var(--oxford-cream);
+            color: var(--sf-text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 400; font-size: 17px; line-height: 1.5;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1,h2,h3,h4,h5,h6 {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+            font-weight: 700; letter-spacing: -0.022em; color: var(--sf-text-primary); margin: 0;
+        }
+        p, span, a, li, div, button {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        /* ====== الإشعار ====== */
+        .notice {
+            position: fixed; top: 14px; left: 14px; z-index: 100;
+            background: rgba(11,31,58,0.95); color: var(--oxford-gold);
+            border: 1px solid var(--oxford-gold); border-radius: 9999px;
+            padding: 8px 16px; font-size: 13px; font-weight: 600;
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .gold-line {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+        }
+
+        /* ====== الشريط العلوي ====== */
+        .nav-gradient {
+            background: linear-gradient(180deg, var(--oxford-blue), var(--oxford-blue-deep));
+            border-bottom: 2px solid var(--oxford-gold);
+            box-shadow: 0 4px 20px rgba(11,31,58,0.25);
+        }
+
+        .logo-text {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(90deg, var(--oxford-gold), #e6c34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-sub {
+            display: block;
+            font-size: 11px;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: -0.01em;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        /* ====== البطاقات ====== */
+        .ios-card {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.06);
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+            transition: all .3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .certificate-card {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.06);
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+            transition: all .35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            padding: 24px;
+            animation: fadeIn 0.5s ease forwards;
+            
+        }
+
+        .certificate-card::before {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(201,162,39,0.4);
+            box-shadow: 0 14px 32px rgba(11,31,58,0.12);
+        }
+
+        .certificate-card.pressed {
+            transform: scale(0.98) !important;
+            background: #faf8f3 !important;
+        }
+
+        /* شارة رقم الشهادة */
+        .certificate-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: linear-gradient(135deg, var(--oxford-gold), var(--oxford-gold-dark));
+            color: #fff;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 6px 18px rgba(201,162,39,0.4);
+            letter-spacing: -0.022em;
+        }
+
+        /* ====== الحالة الفارغة ====== */
+        .empty-state {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.06);
+            border-radius: 20px;
+            padding: 50px 30px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        .empty-state::before {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+        }
+        .empty-state i {
+            color: var(--oxford-gold);
+        }
+
+        /* ====== الأزرار ====== */
+        .btn-primary {
+            background: var(--oxford-gold);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .btn-primary:hover {
+            background: var(--oxford-gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201,162,39,0.5);
+        }
+        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--oxford-blue);
+            border: 2px solid rgba(11,31,58,0.15);
+            padding: 10px 20px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .btn-secondary:hover {
+            background: rgba(201,162,39,0.08);
+            border-color: var(--oxford-gold);
+            color: var(--oxford-gold-dark);
+            transform: translateY(-2px);
+        }
+        .btn-secondary:active { transform: scale(0.97); }
+
+        .download-btn {
+            background: #06762f;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 4px 14px rgba(6,118,47,0.3);
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .download-btn:hover {
+            background: #056227;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6,118,47,0.45);
+        }
+        .download-btn:active { transform: scale(0.97); }
+
+        /* ====== عدّاد الإنجازات ====== */
+        .achievement-count {
+            background: linear-gradient(135deg, var(--oxford-gold), var(--oxford-gold-dark));
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(201,162,39,0.35);
+            flex-shrink: 0;
+        }
+        .achievement-count i {
+            font-size: 22px;
+        }
+
+        /* ====== شارة النتيجة ====== */
+        .score-badge {
+            background: linear-gradient(135deg, rgba(6,118,47,0.1), rgba(6,118,47,0.04));
+            border: 1px solid rgba(6,118,47,0.3);
+            color: #06762f;
+            border-radius: 14px;
+            padding: 12px 20px;
+            text-align: center;
+        }
+        .score-badge .score-value {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+        .score-badge .score-label {
+            font-size: 11.5px;
+            opacity: 0.85;
+            letter-spacing: -0.01em;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        /* ====== بطاقات المعلومات ====== */
+        .info-card {
+            background: #faf8f3;
+            border: 1px solid rgba(11,31,58,0.06);
+            border-radius: 14px;
+            padding: 14px;
+            text-align: center;
+            transition: all .25s ease;
+        }
+        .info-card:hover {
+            background: rgba(201,162,39,0.06);
+            border-color: rgba(201,162,39,0.3);
+        }
+        .info-card .info-label {
+            color: var(--sf-text-tertiary);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+        .info-card .info-value {
+            color: var(--oxford-blue);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: -0.022em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .info-card .info-value i {
+            color: var(--oxford-gold);
+            font-size: 13px;
+        }
+
+        /* ====== شارة الحالة ====== */
+        .status-badge {
+            background: rgba(6,118,47,0.12);
+            color: #06762f;
+            border: 1px solid rgba(6,118,47,0.3);
+            padding: 5px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: -0.01em;
+        }
+
+        /* ====== الرسوم المتحركة ====== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ====== نص العناصر ====== */
+        .page-title i {
+            color: var(--oxford-gold);
+        }
+        .page-subtitle {
+            color: var(--sf-text-secondary);
+        }
+        .page-header h1 {
+            color: var(--oxford-blue);
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 640px) {
+            html, body { font-size: 16px; }
+            .notice { font-size: 11px; padding: 6px 12px; }
+            .certificate-card { padding: 20px; border-radius: 18px; }
+            .certificate-badge {
+                width: 38px;
+                height: 38px;
+                font-size: 14px;
+                top: 12px;
+                left: 12px;
+            }
+            .empty-state { padding: 30px 20px; border-radius: 16px; }
+            .btn-primary, .btn-secondary, .download-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+            .score-badge { padding: 10px 16px; }
+            .score-badge .score-value { font-size: 20px; }
+            .achievement-count {
+                width: 44px;
+                height: 44px;
+                padding: 10px;
+            }
+            .achievement-count i { font-size: 18px; }
+        }
+        .certificate-id-top {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sf-text-secondary);
+    margin-bottom: 8px;
+}
+    </style>
+</head>
+<body class="relative">
+
+
+
+    <!-- شريط التنقل -->
+    <nav class="nav-gradient py-4 px-6 fixed w-full top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="../home.html">
+                    <img src="../logo.jfif" alt="شعار منصة طالب"
+                         style="width:44px;height:44px;border-radius:50%;background:#fff;padding:3px;border:2px solid var(--oxford-gold);object-fit:contain;"
+                         onerror="this.style.display='none'">
+                </a>
+                <a href="../home.html">
+                    <span class="logo-text text-2xl">منصة طالب</span>
+                    <span class="logo-sub">منصة تعليمية مدرسية</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="list.html" class="btn-primary">
+                    <i class="fas fa-graduation-cap"></i>
+                    الكورسات
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-24 max-w-5xl">
+
+        <!-- العنوان -->
+        <div class="text-center mb-12 page-header">
+            <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">
+                <i class="fas fa-certificate page-title" style="margin-left:8px;"></i>
+                شهاداتي
+            </h1>
+            <div class="gold-line w-24 mx-auto my-3"></div>
+            <p class="page-subtitle text-base">
+                جميع الشهادات التي حصلت عليها من منصة طالب
+            </p>
+        </div>
+
+        <!-- إحصائيات الإنجازات -->
+        <div class="mb-8">
+            <div class="ios-card p-6">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="achievement-count">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold" style="color: var(--oxford-blue);">إنجازاتك</h3>
+                            <p class="text-sm mt-1" id="certificatesCount" style="color: var(--sf-text-secondary);">
+                                جاري التحميل...
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-extrabold" id="totalCertificates"
+                             style="color: var(--oxford-gold-dark); letter-spacing:-0.03em;">0</div>
+                        <div class="text-sm mt-1" style="color: var(--sf-text-tertiary); font-weight:600;">شهادة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قائمة الشهادات -->
+        <div id="certificatesList" class="space-y-6">
+            <!-- سيتم ملء الشهادات هنا بالجافاسكريبت -->
+        </div>
+
+        <!-- حالة عدم وجود شهادات -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="mb-6">
+                <i class="fas fa-certificate text-6xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-3" style="color: var(--oxford-blue);">لا توجد شهادات بعد</h3>
+            <p class="mb-8 max-w-md mx-auto" style="color: var(--sf-text-secondary);">
+                لم تحصل على أي شهادة بعد. ابدأ في إكمال الكورسات واحصل على شهاداتك الرقمية المعتمدة!
+            </p>
+            <a href="course.html" class="btn-primary" style="padding: 14px 28px; font-size: 15px;">
+                <i class="fas fa-play"></i>
+                ابدأ التعلم الآن
+            </a>
+        </div>
+    </main>
+
+    <!-- الحقوق -->
+    <footer class="bg-[#081729] text-gray-300 py-6 text-center text-sm px-4 mt-4">
+        <div class="gold-line w-32 mx-auto mb-4"></div>
+        <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+        <p class="mt-1 text-xs text-gray-400">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+    </footer>
+
+    <script>
+        // ============================================================
+        // JavaScript - لم يتم تغيير أي منطق (فقط إضافة سنة الحقوق)
+        // ============================================================
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function getAllCertificates() {
+            try {
+                return JSON.parse(localStorage.getItem('userCertificates') || '[]');
+            } catch (error) {
+                console.error('خطأ في جلب الشهادات:', error);
+                return [];
+            }
+        }
+
+        function displayCertificates() {
+            const certificates = getAllCertificates();
+            const container = document.getElementById('certificatesList');
+            const emptyState = document.getElementById('emptyState');
+            const countElement = document.getElementById('certificatesCount');
+            const totalElement = document.getElementById('totalCertificates');
+
+            totalElement.textContent = certificates.length;
+
+            if (certificates.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                countElement.textContent = 'لم تحصل على أي شهادات بعد';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            countElement.textContent = `لديك ${certificates.length} شهادة معتمدة`;
+
+            certificates.sort((a, b) => new Date(b.issueDate) - new Date(a.issueDate));
+
+            container.innerHTML = certificates.map((cert, index) => `
+               <div class="certificate-card">
+    <!-- رقم الشهادة أعلى الحاوية -->
+    <div class="certificate-id-top">
+        ${cert.certificateId}
+    </div>
+
+    <div class="certificate-badge">
+        ${index + 1}
+    </div>
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4" style="padding-right: 60px;">
+        <div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--oxford-blue);">
+                ${cert.courseTitle}
+            </h3>
+            <div class="flex flex-wrap items-center gap-4 text-sm" style="color: var(--sf-text-secondary);">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-user" style="color: var(--oxford-gold);"></i>
+                    <span>${cert.studentName}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-calendar" style="color: var(--oxford-gold);"></i>
+                    <span>${cert.issueDate}</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="score-badge">
+                <div class="score-value">${cert.score}%</div>
+                <div class="score-label">نسبة النجاح</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+        <div class="info-card">
+            <div class="info-label">البلد</div>
+            <div class="info-value">
+                <i class="fas fa-map-marker-alt"></i>
+                ${cert.country}
+            </div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">معرف الشهادة</div>
+            <div class="info-value" style="font-size: 12px;">
+                ${cert.certificateId}
+            </div>
+        </div>
+        <div class="info-card">
+            <div class="info-label">الحالة</div>
+            <div class="info-value">
+                <span class="status-badge">
+                    <i class="fas fa-check-circle"></i>
+                    مكتملة
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+        <button onclick="viewCertificate('${cert.certificateId}')" class="btn-primary">
+            <i class="fas fa-eye"></i>
+            عرض الشهادة
+        </button>
+        <button onclick="shareCertificate('${cert.certificateId}')" class="btn-secondary">
+            <i class="fas fa-share-alt"></i>
+            مشاركة
+        </button>
+        <button onclick="downloadCertificate('${cert.certificateId}')" class="download-btn">
+            <i class="fas fa-download"></i>
+            تحميل
+        </button>
+    </div>
+</div>
+            `).join('');
+        }
+
+        function viewCertificate(certificateId) {
+            const certificates = getAllCertificates();
+            const certificate = certificates.find(cert => cert.certificateId === certificateId);
+
+            if (certificate) {
+                localStorage.setItem('currentCertificate', JSON.stringify(certificate));
+                window.location.href = `certificate_view.html?id=${certificateId}`;
+            } else {
+                alert('الشهادة غير موجودة');
+            }
+        }
+
+        function shareCertificate(certificateId) {
+            const certificates = getAllCertificates();
+            const certificate = certificates.find(cert => cert.certificateId === certificateId);
+
+            if (!certificate) {
+                alert('الشهادة غير موجودة');
+                return;
+            }
+
+            const shareText = `شهادة ${certificate.score}% في ${certificate.courseTitle} من منصة طالب`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'شهادتي من منصة طالب',
+                    text: shareText,
+                    url: window.location.href
+                });
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareText)
+                    .then(() => alert('تم نسخ نص الشهادة إلى الحافظة'))
+                    .catch(err => console.error('خطأ في النسخ:', err));
+            } else {
+                alert(shareText);
+            }
+        }
+
+        function downloadCertificate(certificateId) {
+            const certificates = getAllCertificates();
+            const certificate = certificates.find(cert => cert.certificateId === certificateId);
+
+            if (!certificate) {
+                alert('الشهادة غير موجودة');
+                return;
+            }
+
+            const certificateText = `
+                شهادة منصة طالب
+                =================
+
+                اسم الطالب: ${certificate.studentName}
+                اسم الكورس: ${certificate.courseTitle}
+                نسبة النجاح: ${certificate.score}%
+                تاريخ الإصدار: ${certificate.issueDate}
+                البلد: ${certificate.country}
+                معرف الشهادة: ${certificate.certificateId}
+
+                هذه الشهادة معتمدة من منصة طالب التعليمية
+                للتحقق: ${window.location.origin}
+            `;
+
+            const blob = new Blob([certificateText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `شهادة_${certificate.certificateId}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert('تم تحميل الشهادة بنجاح');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            displayCertificates();
+
+            const cards = document.querySelectorAll('.certificate-card');
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+
+            cards.forEach((card, index) => {
+                card.style.transitionDelay = `${(index % 3) * 0.1}s`;
+            });
+
+            if ('ontouchstart' in window) {
+                document.querySelectorAll('.certificate-card, .btn-primary, .btn-secondary, .download-btn').forEach(element => {
+                    element.addEventListener('touchstart', function() {
+                        this.classList.add('pressed');
+                    }, { passive: true });
+
+                    element.addEventListener('touchend', function() {
+                        this.classList.remove('pressed');
+                    }, { passive: true });
+
+                    element.addEventListener('touchcancel', function() {
+                        this.classList.remove('pressed');
+                    }, { passive: true });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

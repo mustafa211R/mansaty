@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KALI HACKING CHALLENGES</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Source+Code+Pro:wght@300;400;600;700&family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="../webfonts/fontawesome-free-6.5.2-web/css/all.min.css" rel="stylesheet">
+    <style>
+        /* كل أنماط CSS السابقة تبقى كما هي */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --hacker-green: #00ff41;
+            --matrix-green: #00ff88;
+            --kali-purple: #8a2be2;
+            --terminal-bg: #0a0a0a;
+            --terminal-gray: #1a1a1a;
+            --terminal-text: #c0ff00;
+            --terminal-red: #ff3333;
+            --terminal-yellow: #ffff00;
+            --terminal-blue: #00aaff;
+            --glow: 0 0 10px currentColor;
+            --fast-transition: all 0.2s ease;
+            --slow-transition: all 0.4s ease;
+        }
+
+        body {
+            background: var(--terminal-bg);
+            color: var(--terminal-text);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .matrix-line {
+            position: absolute;
+            color: var(--hacker-green);
+            font-size: 14px;
+            animation: matrixFall linear infinite;
+            text-shadow: var(--glow);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        @keyframes matrixFall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-header {
+            background: linear-gradient(90deg, #111, #222);
+            border-bottom: 3px solid var(--hacker-green);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .terminal-title {
+            font-size: 1.1em;
+            color: var(--hacker-green);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .terminal-title::before {
+            content: "┌──(";
+            color: var(--terminal-yellow);
+        }
+
+        .terminal-title::after {
+            content: ")-[~/challenges]";
+            color: var(--terminal-blue);
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-btn {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid;
+            cursor: pointer;
+            transition: var(--fast-transition);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .btn-close {
+            background: #ff5f56;
+            border-color: #ff5f56;
+        }
+
+        .btn-minimize {
+            background: #ffbd2e;
+            border-color: #ffbd2e;
+        }
+
+        .btn-maximize {
+            background: #27ca3f;
+            border-color: #27ca3f;
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .command-prompt {
+            background: rgba(26, 26, 26, 0.9);
+            border-left: 4px solid var(--hacker-green);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            animation: promptGlow 3s infinite;
+        }
+
+        @keyframes promptGlow {
+            0%, 100% { border-left-color: var(--hacker-green); }
+            50% { border-left-color: var(--matrix-green); }
+        }
+
+        .prompt-line {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 1.1em;
+        }
+
+        .prompt-user {
+            color: var(--terminal-yellow);
+            font-weight: 700;
+        }
+
+        .prompt-at {
+            color: var(--hacker-green);
+        }
+
+        .prompt-host {
+            color: var(--kali-purple);
+            font-weight: 700;
+        }
+
+        .prompt-dir {
+            color: var(--terminal-blue);
+        }
+
+        .prompt-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: var(--hacker-green);
+            animation: blink 1s infinite;
+            margin-right: 5px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .progress-section {
+            background: rgba(20, 20, 20, 0.95);
+            border: 2px solid rgba(0, 255, 65, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .progress-title {
+            color: var(--terminal-yellow);
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .progress-count {
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--hacker-green);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.2em;
+            border: 1px solid var(--hacker-green);
+        }
+
+        .progress-bar {
+            background: rgba(0, 30, 0, 0.8);
+            height: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, 
+                var(--hacker-green), 
+                var(--matrix-green),
+                var(--hacker-green));
+            height: 100%;
+            width: 0%;
+            position: relative;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .question-container {
+            flex: 1;
+            min-height: 300px;
+            position: relative;
+        }
+
+        .question-card {
+            background: rgba(26, 26, 26, 0.95);
+            border: 2px solid rgba(0, 255, 65, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.1);
+            transition: var(--fast-transition);
+        }
+
+        .question-card:hover {
+            border-color: var(--hacker-green);
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.2);
+        }
+
+        .question-text {
+            color: var(--terminal-text);
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* هذه هي الفئة التي يحتاجها loading.js */
+        .option-button {
+            background: rgba(40, 40, 40, 0.9);
+            border: 2px solid rgba(0, 255, 65, 0.2);
+            border-left: 5px solid var(--hacker-green);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: right;
+            cursor: pointer;
+            transition: var(--fast-transition);
+            color: #eee;
+            font-size: 1.1em;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .option-button:hover {
+            background: rgba(0, 40, 0, 0.9);
+            border-color: var(--hacker-green);
+            transform: translateX(-10px);
+            box-shadow: 0 5px 20px rgba(0, 255, 65, 0.2);
+        }
+
+        .option-button.selected {
+            background: rgba(0, 60, 0, 0.9);
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+        }
+
+        .option-button::before {
+            content: "▸ ";
+            color: var(--terminal-yellow);
+            position: absolute;
+            left: 15px;
+        }
+
+        /* هذه الفئة يحتاجها loading.js */
+        .btn-primary {
+            background: linear-gradient(90deg, 
+                rgba(0, 60, 0, 0.9), 
+                rgba(0, 40, 0, 0.9));
+            color: var(--hacker-green);
+            border: 2px solid var(--hacker-green);
+            border-radius: 10px;
+            padding: 20px 40px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--slow-transition);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, 
+                rgba(0, 80, 0, 0.9), 
+                rgba(0, 60, 0, 0.9));
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.4);
+            letter-spacing: 3px;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover::after {
+            left: 120%;
+            transition: all 0.6s;
+        }
+
+        /* أنماط الـ Ripple */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 255, 65, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* تأثيرات الظهور */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* أنماط حالة الخطأ */
+        .error-state {
+            background: rgba(40, 0, 0, 0.9);
+            border: 2px solid var(--terminal-red);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            animation: errorPulse 2s infinite;
+        }
+
+        @keyframes errorPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(255, 0, 0, 0.5); }
+        }
+
+        .error-icon {
+            color: var(--terminal-red);
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            color: #ff6666;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            color: #ff9999;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .retry-button {
+            background: linear-gradient(90deg, #ff3333, #ff6666);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--fast-transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .retry-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        /* Loading State - هذا يحتاجه loading.js */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+        }
+
+        .floating-loader {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(0, 255, 65, 0.3);
+            border-top-color: var(--hacker-green);
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .floating-loader::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 4px solid rgba(0, 255, 65, 0.1);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .loading-text {
+            color: var(--hacker-green);
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--terminal-blue);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            color: var(--hacker-green);
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        /* Modal للنافذة المنبثقة - يحتاجه loading.js */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #111, #222);
+            border: 3px solid var(--hacker-green);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 80px rgba(0, 255, 65, 0.4);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .terminal-header {
+                padding: 12px 15px;
+            }
+            
+            .terminal-title {
+                font-size: 0.9em;
+            }
+            
+            .progress-section,
+            .question-card {
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .option-button {
+                padding: 15px;
+                font-size: 1em;
+            }
+            
+            .btn-primary {
+                padding: 15px 20px;
+                font-size: 1.1em;
+            }
+            
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .prompt-line {
+                font-size: 0.9em;
+            }
+            
+            .progress-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .progress-count {
+                align-self: stretch;
+                text-align: center;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .option-button {
+                padding: 12px 15px;
+            }
+            
+            .option-button::before {
+                position: static;
+                margin-left: 10px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--hacker-green), var(--matrix-green));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--matrix-green), var(--hacker-green));
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Background -->
+    <div class="matrix-bg" id="matrixBg"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Terminal Header -->
+        <header class="terminal-header">
+            <div class="terminal-title">kali㉿root</div>
+            <div class="terminal-controls">
+                <button class="control-btn btn-close" onclick="closeTerminal()"></button>
+                <button class="control-btn btn-minimize" onclick="minimizeTerminal()"></button>
+                <button class="control-btn btn-maximize" onclick="maximizeTerminal()"></button>
+            </div>
+        </header>
+
+        <!-- Terminal Body -->
+        <main class="terminal-body">
+            <!-- Command Prompt -->
+            <div class="command-prompt">
+                <div class="prompt-line">
+                    <span class="prompt-user">root</span>
+                    <span class="prompt-at">@</span>
+                    <span class="prompt-host">kali</span>
+                    <span class="prompt-dir">:~/challenges</span>
+                    <span>$</span>
+                    <span id="currentCommand" class="command-text">./start_challenge.sh</span>
+                    <span class="prompt-cursor"></span>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <section class="progress-section">
+                <div class="progress-header">
+                    <h2 class="progress-title">SYSTEM PENETRATION PROGRESS</h2>
+                    <div id="progress-text" class="progress-count">0/7</div>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress-bar" class="progress-fill" style="width: 0%"></div>
+                </div>
+                
+                <!-- Stats Bar -->
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="stat-label">CURRENT LEVEL</div>
+                        <div id="currentLevel" class="stat-value">Hacker</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">TIME ELAPSED</div>
+                        <div id="timerDisplay" class="stat-value">00:00:00</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">SUCCESS RATE</div>
+                        <div id="successRate" class="stat-value">0%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question Container -->
+            <div id="question-container">
+                <!-- Loading will be placed here by loading.js -->
+                <div class="loading-container">
+                    <div class="floating-loader"></div>
+                    <div class="loading-text">INITIALIZING CHALLENGE SEQUENCE...</div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button id="submitBtn" class="btn-primary" onclick="submitAnswer()">
+                EXECUTE CHALLENGE
+            </button>
+        </main>
+    </div>
+
+    <!-- Modal للنافذة المنبثقة -->
+    <div id="challengeModal" class="modal-overlay">
+        <div class="modal-content" id="modalContent">
+            <!-- محتوى النافذة المنبثقة سيتم إضافته بواسطة loading.js -->
+        </div>
+    </div>
+
+    <!-- ملفات JavaScript -->
+    <script src="challenges.js"></script>
+    <script src="check.js"></script>
+    <script src="user-manager.js"></script>
+    <script src="loading.js"></script>
+    <script src="info_temp.js"></script>
+    
+    <script>
+        // =============================================
+        // Bridge Code - جسر التوافق بين التصميم والمكتبات
+        // =============================================
+
+        // إنشاء أو تعديل كائن challengeLoader إذا لم يكن موجوداً
+        if (!window.challengeLoader) {
+            window.challengeLoader = {
+                currentChallenge: null,
+                challenges: [],
+                
+                loadChallenges: async function(level) {
+                    try {
+                        console.log('🔧 Using bridge loader for level:', level);
+                        
+                        // تحديث مستوى التحدي
+                        const currentLevelEl = document.getElementById('currentLevel');
+                        if (currentLevelEl) {
+                            currentLevelEl.textContent = level.toUpperCase();
+                        }
+                        
+                        // محاكاة تحميل التحديات
+                        await this.simulateChallenges();
+                        
+                    } catch (error) {
+                        console.error('❌ Bridge loader error:', error);
+                        throw error;
+                    }
+                },
+                
+                simulateChallenges: async function() {
+                    // محاكاة تأخير التحميل
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // تحديث واجهة المستخدم
+                    this.displayQuestion(1);
+                },
+                
+                displayQuestion: function(questionNumber) {
+                    const questionContainer = document.getElementById('question-container');
+                    if (!questionContainer) return;
+                    
+                    // بيانات السؤال الافتراضية
+                    const question = {
+                        text: `Challenge ${questionNumber}: Exploit SQL injection vulnerability in login form`,
+                        options: [
+                            "admin' OR '1'='1",
+                            "admin'--",
+                            "' UNION SELECT NULL, version()--",
+                            "'; DROP TABLE users;--"
+                        ],
+                        correctAnswer: 1
+                    };
+                    
+                    // بناء HTML للسؤال
+                    let html = `
+                        <div class="question-card">
+                            <div class="question-text">${question.text}</div>
+                            <div class="options-grid">
+                    `;
+                    
+                    question.options.forEach((option, index) => {
+                        html += `
+                            <div class="option-button" onclick="selectOption(${index})" id="option${index}">
+                                ${option}
+                            </div>
+                        `;
+                    });
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                    
+                    questionContainer.innerHTML = html;
+                    
+                    // تحديث شريط التقدم
+                    this.updateProgress(questionNumber, 7);
+                },
+                
+                updateProgress: function(current, total) {
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressText = document.getElementById('progress-text');
+                    
+                    if (progressBar) {
+                        const percentage = (current / total) * 100;
+                        progressBar.style.width = `${percentage}%`;
+                    }
+                    
+                    if (progressText) {
+                        progressText.textContent = `${current}/${total}`;
+                    }
+                },
+                
+                showModal: function(content) {
+                    const modal = document.getElementById('challengeModal');
+                    const modalContent = document.getElementById('modalContent');
+                    
+                    if (modal && modalContent) {
+                        modalContent.innerHTML = content;
+                        modal.classList.add('active');
+                    }
+                },
+                
+                hideModal: function() {
+                    const modal = document.getElementById('challengeModal');
+                    if (modal) {
+                        modal.classList.remove('active');
+                    }
+                }
+            };
+        }
+
+        // =============================================
+        // دالة تأثير Ripple
+        // =============================================
+        function createRipple(element, event) {
+            if (!element) return;
+            
+            const circle = document.createElement("span");
+            const diameter = Math.max(element.clientWidth, element.clientHeight);
+            const radius = diameter / 2;
+            
+            // حساب الموقع بالنسبة لعنصر الأب
+            const rect = element.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${x - radius}px`;
+            circle.style.top = `${y - radius}px`;
+            circle.classList.add("ripple");
+            
+            // إزالة أي تأثيرات سابقة
+            const ripple = element.getElementsByClassName("ripple")[0];
+            if (ripple) {
+                ripple.remove();
+            }
+            
+            // إضافة التأثير الجديد
+            element.style.position = 'relative';
+            element.style.overflow = 'hidden';
+            element.appendChild(circle);
+            
+            // إزالة التأثير بعد الأنيميشن
+            setTimeout(() => {
+                if (circle.parentNode === element) {
+                    element.removeChild(circle);
+                }
+            }, 600);
+        }
+
+        // =============================================
+        // تهيئة النظام
+        // =============================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 INITIALIZING HACKING PROTOCOL...');
+            
+            // إضافة تأثيرات تحميل متقدمة
+            const loadingContainer = document.querySelector('.loading-container');
+            if (loadingContainer) {
+                loadingContainer.style.animation = 'fadeIn 0.6s ease-out';
+            }
+            
+            // تعطيل أزرار HTML السابقة لتجنب التعارض
+            document.querySelectorAll('[onclick*="challengeLoader"]').forEach(btn => {
+                btn.removeAttribute('onclick');
+            });
+            
+            // إنشاء تأثير Matrix
+            createMatrixEffect();
+            
+            // بدء التايمر
+            startTimer();
+            
+            // بدء أنيميشن سطر الأوامر
+            startCommandAnimation();
+            
+            try {
+                // تهيئة userManager
+                if (window.userManager) {
+                    await userManager.init();
+                    console.log('✅ USER SYSTEM INITIALIZED');
+                    
+                    // إضافة تأثيرات ظهور
+                    const terminalHeader = document.querySelector('.terminal-header');
+                    const progressSection = document.querySelector('.progress-section');
+                    
+                    if (terminalHeader) {
+                        terminalHeader.style.animation = 'slideInDown 0.8s ease-out';
+                    }
+                    
+                    if (progressSection) {
+                        progressSection.style.animation = 'fadeInUp 0.8s ease-out 0.2s both';
+                    }
+                    
+                } else {
+                    console.warn('⚠️ userManager غير متوفر - استخدام وضع التصفح المجهول');
+                }
+                
+                // بدء التحميل بعد تأثيرات الظهور
+                setTimeout(async () => {
+                    try {
+                        if (window.challengeLoader && typeof window.challengeLoader.loadChallenges === 'function') {
+                            console.log('🎯 LAUNCHING CHALLENGE SEQUENCE...');
+                            await window.challengeLoader.loadChallenges('Hacker');
+                            
+                            // إضافة تأثيرات ظهور للأسئلة بعد التحميل
+                            const questionCards = document.querySelectorAll('.question-card');
+                            questionCards.forEach((card, index) => {
+                                card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s both`;
+                            });
+                            
+                        } else {
+                            console.error('❌ challengeLoader غير متوفر أو غير صحيح');
+                            
+                            // استخدام جسر التحميل
+                            if (window.challengeLoader && window.challengeLoader.loadChallenges) {
+                                await window.challengeLoader.loadChallenges('Hacker');
+                            }
+                        }
+                    } catch (error) {
+                        console.error('❌ خطأ في تحميل التحديات:', error);
+                        throw error;
+                    }
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ SYSTEM COMPROMISED:', error);
+                
+                // عرض حالة الخطأ بنمط الهاكر
+                document.getElementById('question-container').innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle error-icon"></i>
+                        <h3 class="error-title">SYSTEM ERROR 0x7F9A</h3>
+                        <p class="error-message">${error.message || 'Failed to initialize challenge system'}</p>
+                        <button class="retry-button" onclick="location.reload()">
+                            <i class="fas fa-redo"></i>
+                            REINITIALIZE SYSTEM
+                        </button>
+                    </div>
+                `;
+            }
+        });
+        
+        // =============================================
+        // تأثيرات النقر
+        // =============================================
+        document.addEventListener('click', function(e) {
+            // تأثير Ripple للأزرار والخيارات
+            if (e.target.classList.contains('option-button') || 
+                e.target.closest('.option-button') ||
+                e.target.classList.contains('btn-primary') ||
+                e.target.closest('.btn-primary')) {
+                
+                const button = e.target.classList.contains('option-button') || 
+                               e.target.classList.contains('btn-primary') ? 
+                    e.target : e.target.closest('.option-button') || e.target.closest('.btn-primary');
+                
+                if (button) {
+                    createRipple(button, e);
+                    
+                    // إضافة تأثير صوتي
+                    playSound('select');
+                }
+            }
+            
+            // تأثير Ripple لأزرار أخرى
+            if (e.target.id === 'start-challenge-btn' || 
+                e.target.id === 'skip-btn') {
+                createRipple(e.target, e);
+            }
+        });
+        
+        // =============================================
+        // وظائف المساعدة
+        // =============================================
+        
+        // Matrix Effect
+        function createMatrixEffect() {
+            const matrixBg = document.getElementById('matrixBg');
+            if (!matrixBg) return;
+            
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 30; i++) {
+                createMatrixLine();
+            }
+            
+            setInterval(createMatrixLine, 500);
+            
+            function createMatrixLine() {
+                const line = document.createElement('div');
+                line.className = 'matrix-line';
+                
+                // توليد نص عشوائي
+                let text = '';
+                const length = Math.floor(Math.random() * 20) + 10;
+                for (let i = 0; i < length; i++) {
+                    text += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                line.textContent = text;
+                
+                // تحديد الموضع والأنيميشن بشكل عشوائي
+                line.style.left = `${Math.random() * 100}%`;
+                line.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                line.style.animationDelay = `${Math.random() * 3}s`;
+                line.style.fontSize = `${Math.random() * 6 + 12}px`;
+                
+                matrixBg.appendChild(line);
+                
+                // إزالة السطر بعد انتهاء الأنيميشن
+                setTimeout(() => {
+                    if (line.parentNode === matrixBg) {
+                        matrixBg.removeChild(line);
+                    }
+                }, parseFloat(line.style.animationDuration) * 1000);
+            }
+        }
+
+        // Command Animation
+        function startCommandAnimation() {
+            const commandText = document.getElementById('currentCommand');
+            if (!commandText) return;
+            
+            const commands = [
+                'sudo ./challenge_loader --start',
+                'nmap -sS challenge.local',
+                'hydra -l admin -p pass.txt http-post://target/login',
+                'sqlmap -u "http://target.com?id=1" --dbs',
+                'msfconsole -q -x "use exploit/multi/handler"',
+                'aircrack-ng -w rockyou.txt capture.cap',
+                'john --format=raw-md5 hash.txt'
+            ];
+            
+            let index = 0;
+            setInterval(() => {
+                commandText.textContent = commands[index];
+                index = (index + 1) % commands.length;
+            }, 3000);
+        }
+
+        // Timer
+        function startTimer() {
+            let seconds = 0;
+            setInterval(() => {
+                seconds++;
+                const timer = document.getElementById('timerDisplay');
+                if (timer) {
+                    const hrs = Math.floor(seconds / 3600);
+                    const mins = Math.floor((seconds % 3600) / 60);
+                    const secs = seconds % 60;
+                    timer.textContent = 
+                        `${hrs.toString().padStart(2, '0')}:` +
+                        `${mins.toString().padStart(2, '0')}:` +
+                        `${secs.toString().padStart(2, '0')}`;
+                }
+            }, 1000);
+        }
+
+        // وظائف تحكم التيرمنال
+        function closeTerminal() {
+            if (confirm('[!] Terminate hacking session?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function minimizeTerminal() {
+            const terminalBody = document.querySelector('.terminal-body');
+            if (terminalBody) {
+                terminalBody.style.opacity = '0.5';
+                terminalBody.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    terminalBody.style.opacity = '1';
+                    terminalBody.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        function maximizeTerminal() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(console.log);
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // وظيفة اختيار الخيار
+        function selectOption(index) {
+            // إزالة class selected من جميع الخيارات
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // إضافة class selected للخيار المحدد
+            const selectedBtn = document.getElementById(`option${index}`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('selected');
+                
+                // تشغيل صوت الاختيار
+                playSound('select');
+            }
+        }
+
+        // وظيفة إرسال الإجابة
+        function submitAnswer() {
+            const submitBtn = document.getElementById('submitBtn');
+            if (!submitBtn) return;
+            
+            const originalText = submitBtn.textContent;
+            
+            // عرض حالة التنفيذ
+            submitBtn.textContent = 'EXECUTING...';
+            submitBtn.disabled = true;
+            
+            // محاكاة تنفيذ التحدي
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // تشغيل صوت النجاح
+                playSound('success');
+                
+                // إظهار نافذة نجاح
+                if (window.challengeLoader && window.challengeLoader.showModal) {
+                    window.challengeLoader.showModal(`
+                        <div style="padding: 30px; text-align: center;">
+                            <h3 style="color: var(--hacker-green); margin-bottom: 20px;">EXPLOIT SUCCESSFUL!</h3>
+                            <p>Challenge completed successfully.</p>
+                            <p>Moving to next challenge...</p>
+                        </div>
+                    `);
+                    
+                    // إخفاء النافذة بعد 2 ثانية
+                    setTimeout(() => {
+                        if (window.challengeLoader && window.challengeLoader.hideModal) {
+                            window.challengeLoader.hideModal();
+                        }
+                    }, 2000);
+                }
+            }, 1500);
+        }
+
+        // Sound Effects
+        function playSound(type) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                switch(type) {
+                    case 'select':
+                        oscillator.frequency.value = 800;
+                        oscillator.type = 'sine';
+                        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                        oscillator.start();
+                        oscillator.stop(audioContext.currentTime + 0.1);
+                        break;
+                    case 'success':
+                        oscillator.frequency.value = 1200;
+                        oscillator.type = 'sine';
+                        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                        oscillator.start();
+                        oscillator.stop(audioContext.currentTime + 0.3);
+                        break;
+                }
+            } catch (e) {
+                // الصوت غير مدعوم
+            }
+        }
+
+        // التعامل مع تغيير وضع fullscreen
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.querySelector('.btn-maximize');
+            if (btn) {
+                if (document.fullscreenElement) {
+                    btn.style.background = '#ffbd2e';
+                    btn.style.borderColor = '#ffbd2e';
+                } else {
+                    btn.style.background = '#27ca3f';
+                    btn.style.borderColor = '#27ca3f';
+                }
+            }
+        });
+
+        // إضافة أنماط CSS الديناميكية
+        const style = document.createElement('style');
+        style.textContent = `
+            .ripple {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(0, 255, 65, 0.6);
+                transform: scale(0);
+                animation: ripple-animation 0.6s linear;
+            }
+            
+            @keyframes ripple-animation {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes slideInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-100%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>شهادة إتمام الدورة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+    /* إعدادات الطباعة */
+    @media print {
+        @page {
+            size: landscape;
+            margin: 0;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: white !important;
+        }
+        
+        .no-print {
+            display: none !important;
+        }
+        
+        .certificate {
+            width: 100% !important;
+            height: 100vh !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+            page-break-inside: avoid;
+        }
+        
+        /* ضمان ظهور الألوان عند الطباعة */
+        .certificate * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+    }
+
+    /* إعدادات الشاشة */
+    @media screen {
+        body {
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+    }
+
+    .certificate {
+        width: 1200px;
+        height: 850px;
+        margin: 0 auto;
+        background: #fff;
+        display: flex;
+        box-shadow: 0 0 25px rgba(0,0,0,0.2);
+        position: relative;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    /* Left dark panel */
+    .left-panel {
+        width: 280px;
+        background: linear-gradient(180deg, #bebcbc, #bebcbc);
+        position: relative;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .left-panel img {
+        width: 200px;
+        opacity: 0.9;
+        margin-bottom: 30px;
+    }
+
+    .website {
+        position: absolute;
+        bottom: 40px;
+        color: #aaa;
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+        padding: 0 20px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    /* Main content */
+    .content {
+        flex: 1;
+        padding: 80px 100px;
+        text-align: center;
+        position: relative;
+        direction: rtl;
+    }
+
+    .title-small {
+        color: #777;
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .name {
+        font-size: 46px;
+        font-weight: bold;
+        color: #111;
+        margin: 10px 0 20px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .cert-title {
+        font-size: 34px;
+        color: #1b1e27;
+        font-weight: bold;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .description {
+        font-size: 18px;
+        color: #444;
+        line-height: 1.8;
+        width: 80%;
+        margin: 0 auto 40px;
+        text-align: center;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .details {
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        margin: 30px auto;
+        font-size: 18px;
+        color: #444;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .detail-item {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .score {
+        font-size: 28px;
+        color: #e44b2a;
+        font-weight: bold;
+    }
+
+    /* Signature */
+    .signature {
+        position: absolute;
+        bottom: 60px;
+        right: 100px;
+        text-align: center;
+        color: #444;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .signature-img {
+        height: 60px;
+        margin-bottom: 10px;
+    }
+
+    /* Vertical accent line */
+    .content:before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 6px;
+        height: 100%;
+        background: #e44b2a;
+    }
+
+    /* شريط التحكم العلوي */
+    .controls-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(180deg, #1c1f26, #2b2f38);
+        color: white;
+        padding: 15px;
+        text-align: center;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .controls-bar h1 {
+        margin: 0;
+        font-size: 20px;
+        color: white;
+    }
+
+    .print-btn {
+        background: #e44b2a;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        font-family: 'Tajawal', sans-serif;
+    }
+
+    .print-btn:hover {
+        background: #d1401e;
+        transform: translateY(-2px);
+    }
+
+    .print-btn i {
+        font-size: 18px;
+    }
+
+    /* تعديل الهيئة للطباعة */
+    @media print {
+        .controls-bar {
+            display: none !important;
+        }
+        
+        body * {
+            visibility: hidden;
+        }
+        
+        .certificate, .certificate * {
+            visibility: visible;
+        }
+        
+        .certificate {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+
+    /* تأمين الصفحة */
+    .protected-content {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- شريط التحكم العلوي -->
+<div class="controls-bar no-print">
+    <h1>شهادة إتمام الدورة </h1>
+    <button class="print-btn" onclick="printCertificate()">
+        <i class="fas fa-print"></i>
+       تحميل
+    </button>
+</div>
+
+<!-- الشهادة -->
+<div class="certificate protected-content">
+    <div class="left-panel">
+<img src="../logo.jfif" alt="شعار" style="width: 300px; height: 300px; border-radius: 50%; object-fit: cover;">        <div style="color: #111;" class="website">https://m-mns.vercel.app/</div>
+    </div>
+
+    <div class="content">
+        <div class="title-small">هذه الشهادة تثبت أن</div>
+
+        <div class="name" id="studentName">جاري التحميل...</div>
+
+        <div class="cert-title" id="courseTitle">جاري التحميل...</div>
+
+        <div class="description" id="certificateDescription">
+            قد أكمل بنجاح جميع متطلبات الدورة التدريبية وأظهر قدرة متميزة على تنفيذ المهام التقنية المتقدمة وتطبيق المعرفة العملية في مجال الأمن السيبراني
+        </div>
+
+        <div class="details">
+            <div class="detail-item">
+                <strong>تاريخ الإصدار:</strong><br>
+                <span id="issueDate">جاري التحميل...</span>
+            </div>
+            <div class="detail-item">
+                <strong>الدرجة النهائية:</strong><br>
+                <span class="score" id="score">0%</span>
+            </div>
+        </div>
+
+        <div class="signature">
+            <img src="setg.jpg" alt="توقيع" class="signature-img"><br>
+            <strong>  مصطفى رحيم فندي</strong><br>
+          مؤسس منصة طالب 
+        </div>
+    </div>
+</div>
+
+<script>
+    // دالة للحصول على معاملات URL
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    // دالة لتحميل الشهادة
+    function loadCertificate() {
+        const certificateId = getQueryParam('id');
+        
+        if (!certificateId) {
+            console.log('❌ معرف الشهادة غير موجود');
+            return;
+        }
+
+        // جلب الشهادة من localStorage
+        try {
+            const certificates = JSON.parse(localStorage.getItem('userCertificates') || '[]');
+            const certificate = certificates.find(cert => cert.certificateId === certificateId);
+            
+            if (!certificate) {
+                // أو جرب جلبها من البيانات المؤقتة
+                const currentCert = localStorage.getItem('currentCertificate');
+                if (currentCert) {
+                    displayCertificate(JSON.parse(currentCert));
+                    return;
+                }
+                
+                console.log('❌ الشهادة غير موجودة');
+                return;
+            }
+            
+            displayCertificate(certificate);
+            
+            // ✅ منع أي إرسال تلقائي من هذه الصفحة
+            // هذه الصفحة فقط للعرض، لا للإرسال
+            
+        } catch (error) {
+            console.error('❌ خطأ في تحميل الشهادة:', error);
+        }
+    }
+
+    // دالة لعرض بيانات الشهادة
+    function displayCertificate(certificate) {
+        // تحديث البيانات الأساسية
+        document.getElementById('studentName').textContent = certificate.studentName;
+        document.getElementById('courseTitle').textContent = certificate.courseTitle;
+        document.getElementById('issueDate').textContent = certificate.issueDate;
+        document.getElementById('score').textContent = `${certificate.score}%`;
+        
+        // تحديث وصف الشهادة
+        const description = `قد أكمل بنجاح جميع متطلبات الدورة التدريبية وأظهر قدرة متميزة على تنفيذ المهام التقنية المتقدمة وتطبيق المعرفة العملية في مجال الأمن السيبراني و بتاريخ ${certificate.issueDate} و بدرجة (${certificate.score}%)`;
+        document.getElementById('certificateDescription').textContent = description;
+        
+        // تحديث عنوان الصفحة
+        document.title = `شهادة ${certificate.courseTitle}`;
+        
+        // تحديث عنوان شريط التحكم
+        document.querySelector('.controls-bar h1').textContent = `شهادة ${certificate.courseTitle}`;
+        
+        // ✅ تسجيل أن الشهادة تم عرضها (للتتبع فقط)
+        console.log(`✅ شهادة ${certificate.certificateId} معروضة للطالب ${certificate.studentName}`);
+    }
+
+    // دالة للطباعة
+    function printCertificate() {
+        console.log('🖨️ طلب طباعة الشهادة');
+        window.print();
+    }
+
+    // إضافة حدث الطباعة عند الضغط على Ctrl+P
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+            e.preventDefault();
+            printCertificate();
+        }
+    });
+
+    // منع القائمة اليمنى
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    }, { capture: true });
+
+    // منع اختصارات لوحة المفاتيح للحفظ والنسخ
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+            e.preventDefault();
+            return false;
+        }
+        
+        if ((e.ctrlKey || e.metaKey) && 
+            (e.key === 'c' || e.key === 'C' || 
+             e.key === 'v' || e.key === 'V' || 
+             e.key === 'x' || e.key === 'X')) {
+            e.preventDefault();
+            return false;
+        }
+        
+        if (e.key === 'PrintScreen') {
+            e.preventDefault();
+            return false;
+        }
+        
+        if (e.key === 'F12') {
+            e.preventDefault();
+            return false;
+        }
+    }, { capture: true });
+
+    // منع سحب الصور
+    document.addEventListener('dragstart', function(e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+            return false;
+        }
+    }, { capture: true });
+
+    // تشغيل عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('📄 صفحة عرض الشهادة جاهزة');
+        loadCertificate();
+        
+        // تهيئة ارتفاع الصفحة مع شريط التحكم
+        const controlsBar = document.querySelector('.controls-bar');
+        const certificate = document.querySelector('.certificate');
+        
+        if (controlsBar && certificate) {
+            const barHeight = controlsBar.offsetHeight;
+            certificate.style.marginTop = (barHeight + 20) + 'px';
+        }
+        
+        // ✅ تأكيد أن هذه الصفحة لا ترسل أي بيانات
+        console.log('✅ هذه الصفحة فقط للعرض، لا ترسل بيانات إلى Google Sheets');
+        
+        // ✅ التحقق مما إذا كانت هناك محاولات إرسال من ملفات أخرى
+        if (typeof CERTIFICATE_HANDLER !== 'undefined') {
+            console.log('⚠️ تحذير: تم اكتشاف CERTIFICATE_HANDLER في هذه الصفحة');
+            console.log('✅ سيتم تعطيل أي إرسال تلقائي من هذه الصفحة');
+        }
+    });
+
+    // تحديث عند تغيير حجم النافذة
+    window.addEventListener('resize', function() {
+        const controlsBar = document.querySelector('.controls-bar');
+        const certificate = document.querySelector('.certificate');
+        
+        if (controlsBar && certificate) {
+            const barHeight = controlsBar.offsetHeight;
+            certificate.style.marginTop = (barHeight + 20) + 'px';
+        }
+    });
+
+    // حماية إضافية من فتح أدوات المطورين
+    setInterval(function() {
+        const threshold = 160;
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+        
+        if (widthThreshold || heightThreshold) {
+            console.log('⚠️ تم اكتشاف أدوات المطورين');
+        }
+    }, 1000);
+</script>
+
+<!-- ⚠️ تحذير: لا تضمين send.js في هذه الصفحة -->
+<!-- هذه الصفحة فقط للعرض، الإرسال يكون من صفحة name_entry.html فقط -->
+
+</body>
+</html>
