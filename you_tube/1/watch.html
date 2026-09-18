@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1f3a">
+  <title>مشاهدة الدرس | منصة طالب</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/png" href="../logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link href="../../package/dist/tailwind.css" rel="stylesheet">
+  <link href="../fonts.css" rel="stylesheet">
+  <script src="../lucide.min.js"></script>
+
+  <style>
+    :root {
+      --oxford-blue: #0b1f3a;
+      --oxford-gold: #c9a227;
+      --oxford-cream: #f6f3ec;
+      --sf-text-primary: #1d1d1f;
+      --sf-text-secondary: #6e6e73;
+      --sf-text-tertiary: #86868b;
+    }
+    * { -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--oxford-cream);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+      color: var(--sf-text-primary);
+      font-weight: 400; font-size: 17px; line-height: 1.5;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1,h2,h3,h4,h5,h6 {
+      font-weight: 700; letter-spacing: -0.022em; color: var(--sf-text-primary); margin: 0;
+    }
+    p, span, a, li, div {
+      letter-spacing: -0.01em;
+    }
+    .hero-bg {
+      background:
+        linear-gradient(rgba(11,31,58,0.88), rgba(11,31,58,0.94)),
+        url('../../logo.jfif') center/cover no-repeat;
+    }
+    .gold-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+    }
+    .notice {
+      position: fixed; top: 14px; left: 14px; z-index: 50;
+      background: rgba(11,31,58,0.95); color: var(--oxford-gold);
+      border: 1px solid var(--oxford-gold); border-radius: 9999px;
+      padding: 8px 16px; font-size: 13px; font-weight: 600;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .crest {
+      width: 72px; height: 72px; object-fit: contain;
+      border-radius: 50%; background: #fff; padding: 6px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      border: 2px solid var(--oxford-gold);
+    }
+    .hero-title {
+      font-weight: 800; letter-spacing: -0.03em; color: #fff;
+    }
+    .hero-subtitle {
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* إطار الفيديو */
+    .video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(11,31,58,0.25);
+      border: 1px solid rgba(201,162,39,0.25);
+    }
+    .video-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* بطاقة معلومات الدرس */
+    .info-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px 20px;
+      border: 1px solid rgba(11,31,58,0.06);
+      box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .info-card::before {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(201,162,39,0.12);
+      color: var(--oxford-blue);
+      border: 1px solid rgba(201,162,39,0.3);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .info-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      color: var(--oxford-blue);
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 22px;
+      color: var(--sf-text-secondary);
+      font-size: 14px;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .meta-item svg {
+      color: var(--oxford-gold);
+      flex-shrink: 0;
+    }
+
+    /* الأزرار */
+    .btn-primary {
+      background: var(--oxford-gold);
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      background: #b8911f;
+      box-shadow: 0 6px 20px rgba(201,162,39,0.45);
+    }
+    .btn-primary:active { transform: scale(0.97); }
+
+    .btn-outline {
+      border: 2px solid var(--oxford-gold);
+      color: var(--oxford-gold);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      padding: 10px 22px;
+      border-radius: 9999px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-outline:hover {
+      background: rgba(201,162,39,0.1);
+    }
+    .btn-outline:active { transform: scale(0.97); }
+
+    /* حالة عدم وجود فيديو */
+    .not-found {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .not-found svg {
+      color: var(--oxford-gold);
+      margin-bottom: 18px;
+    }
+
+    /* أنيميشن */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-card {
+      opacity: 0;
+      animation: slideUp 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.15s; }
+
+    @media (max-width: 640px) {
+      html, body { font-size: 16px; }
+      .notice { font-size: 11px; padding: 6px 12px; }
+      .crest { width: 64px; height: 64px; }
+      .info-title { font-size: 19px; }
+      .info-card { padding: 18px 16px; }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+
+
+  <!-- الهيدر -->
+  <header class="hero-bg text-white">
+    <div class="max-w-3xl mx-auto px-5 py-7 flex flex-col items-center text-center">
+
+      <a href="list.html" class="mb-3">
+        <img src="../../logo.jfif" alt="شعار منصة طالب" class="crest">
+      </a>
+
+      <h1 class="hero-title text-2xl sm:text-3xl">مشاهدة الدرس</h1>
+      <div class="gold-line w-24 my-3"></div>
+      <p class="hero-subtitle text-sm">منصة طالب التعليمية</p>
+
+    </div>
+  </header>
+
+  <!-- المحتوى -->
+  <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-6">
+
+    <!-- حالة عدم العثور على الفيديو -->
+    <div id="notFound" class="not-found">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <h2 class="text-xl font-bold mb-2" style="color: var(--oxford-blue);">لم يتم العثور على الدرس</h2>
+      <p class="text-sm mb-6" style="color: var(--sf-text-secondary);">
+        الرابط الذي تحاول الوصول إليه غير صالح أو تم حذفه.
+      </p>
+      <a href="list.html" class="btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"/>
+          <path d="M12 19l-7-7 7-7"/>
+        </svg>
+        العودة لقائمة الدروس
+      </a>
+    </div>
+
+    <!-- محتوى الدرس -->
+    <div id="lessonContent" style="display:none;">
+
+      <!-- إطار الفيديو -->
+      <div class="video-frame animate-card delay-1">
+        <iframe id="videoFrame"
+                src=""
+                title="مشاهدة الدرس"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+      </div>
+
+      <!-- بطاقة معلومات الدرس -->
+      <div class="info-card mt-5 animate-card delay-2">
+        <span class="badge" id="lessonSubject">—</span>
+        <h2 class="info-title" id="lessonName">—</h2>
+
+        <div class="meta-row">
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span id="lessonTeacher">—</span>
+          </div>
+          <div class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span id="lessonDate">—</span>
+          </div>
+          <div class="meta-item" id="gradeItem" style="display:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+            <span id="lessonGrade">—</span>
+          </div>
+        </div>
+
+        <!-- أزرار الإجراءات -->
+        <div class="flex flex-wrap gap-3 mt-6">
+          <a id="youtubeLink" href="#" target="_blank" rel="noopener" class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            فتح على يوتيوب
+          </a>
+          <a href="list.html" class="btn-outline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5"/>
+              <path d="M12 19l-7-7 7-7"/>
+            </svg>
+            كل الدروس
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- الحقوق -->
+  <footer class="bg-[#081729] text-gray-300 py-6 text-center text-sm px-4 mt-4">
+    <div class="gold-line w-32 mx-auto mb-4"></div>
+    <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+    <p class="mt-1 text-xs text-gray-400">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- قاعدة البيانات -->
+  <script src="db_links_videos.js"></script>
+
+  <!-- منطق صفحة المشاهدة -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = parseInt(params.get("id"), 10);
+
+      const lessonContent = document.getElementById("lessonContent");
+      const notFound = document.getElementById("notFound");
+
+      const lesson = lessons.find(l => l.id === id);
+
+      if (!lesson) {
+        notFound.style.display = "flex";
+        return;
+      }
+
+      // استخراج معرف يوتيوب لتحويل الرابط إلى embed
+      function getYoutubeId(url) {
+        const match = url.match(/(?:v=|\/embed\/|\/)([0-9A-Za-z_-]{11})/);
+        return match ? match[1] : null;
+      }
+
+      const ytId = getYoutubeId(lesson.link);
+
+      // تعبئة البيانات
+      document.getElementById("lessonSubject").textContent = lesson.subject || "—";
+      document.getElementById("lessonName").textContent = lesson.name;
+      document.getElementById("lessonTeacher").textContent = lesson.teacher;
+      document.getElementById("lessonDate").textContent = lesson.date;
+      document.getElementById("youtubeLink").href = lesson.link;
+
+      if (lesson.grade) {
+        document.getElementById("lessonGrade").textContent = lesson.grade;
+        document.getElementById("gradeItem").style.display = "flex";
+      }
+
+      // تعيين رابط iframe
+      if (ytId) {
+        document.getElementById("videoFrame").src =
+          `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1`;
+      } else {
+        document.getElementById("videoFrame").src = lesson.link;
+      }
+
+      // تغيير العنوان
+      document.title = `${lesson.name} | منصة طالب`;
+
+      lessonContent.style.display = "block";
+    });
+  </script>
+
+  <script>lucide.createIcons();</script>
+
+</body>
+</html>

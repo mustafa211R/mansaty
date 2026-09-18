@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1f3a">
+  <title>طالب | منصة تعليمية مدرسية</title>
+  <meta name="description" content="طالب - منصة تعليمية مدرسية غير حكومية، بإشراف الأستاذ مصطفى رحيم فندي. موقع رسمي للتعليم المدرسي.">
+  <meta name="keywords" content="طالب, منصة تعليمية, مدرسة, تعليم, الأستاذ مصطفى رحيم فندي, منصة دراسية">
+  <meta name="author" content="الأستاذ مصطفى رحيم فندي">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://talib.edu/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="طالب | منصة تعليمية مدرسية">
+  <meta property="og:description" content="منصة تعليمية مدرسية غير حكومية.">
+  <meta property="og:image" content="logo.jfif">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="طالب | منصة تعليمية مدرسية">
+  <meta name="twitter:description" content="منصة تعليمية مدرسية غير حكومية.">
+  <meta name="twitter:image" content="logo.jfif">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind & Fonts -->
+  <link href="package/dist/tailwind.css" rel="stylesheet">
+  <link href="fonts.css" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "طالب",
+    "alternateName": "منصة طالب التعليمية",
+    "url": "https://talib.edu/",
+    "logo": "logo.jfif",
+    "description": "منصة تعليمية مدرسية غير حكومية.",
+    "founder": {
+      "@type": "Person",
+      "name": "الأستاذ مصطفى رحيم فندي"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --oxford-blue: #0b1f3a;
+      --oxford-gold: #c9a227;
+      --oxford-cream: #f6f3ec;
+      --sf-text-primary: #1d1d1f;
+      --sf-text-secondary: #6e6e73;
+      --sf-text-tertiary: #86868b;
+    }
+
+    * { -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--oxford-cream);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+      color: var(--sf-text-primary);
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      color: var(--sf-text-primary);
+      margin: 0;
+    }
+
+    p, span, a, li, div {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-bg {
+      background:
+        linear-gradient(rgba(11,31,58,0.85), rgba(11,31,58,0.92)),
+        url('logo.jfif') center/cover no-repeat;
+    }
+
+    .gold-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+    }
+
+    .btn-primary {
+      background: var(--oxford-gold);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+      transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    }
+    .btn-primary:hover {
+      background: #b8911f;
+      box-shadow: 0 6px 20px rgba(201,162,39,0.45);
+    }
+    .btn-primary:active { transform: scale(0.97); }
+
+    .btn-outline {
+      border: 2px solid var(--oxford-gold);
+      color: var(--oxford-gold);
+      font-weight: 600;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+      transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    }
+    .btn-outline:hover {
+      background: rgba(201,162,39,0.1);
+    }
+    .btn-outline:active { transform: scale(0.97); }
+
+    .notice {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 50;
+      background: rgba(11,31,58,0.95);
+      color: var(--oxford-gold);
+      border: 1px solid var(--oxford-gold);
+      border-radius: 9999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    }
+
+    .crest {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #fff;
+      padding: 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      border: 2px solid var(--oxford-gold);
+    }
+
+    .hero-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .section-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      color: var(--sf-text-primary);
+    }
+
+    .section-title-gold {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      color: var(--oxford-gold);
+    }
+
+    .section-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--sf-text-secondary);
+    }
+
+    .section-text-light {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.8);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--sf-text-primary);
+    }
+
+    .section-text-light strong {
+      color: #ffffff;
+    }
+
+    /* ===== Social Icons ===== */
+    .social-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      border: 2px solid transparent;
+    }
+
+    .social-btn i {
+      font-size: 18px;
+      transition: transform .25s ease;
+    }
+
+    .social-btn:hover i {
+      transform: scale(1.15);
+    }
+
+    .social-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* فيسبوك */
+    .social-btn.facebook {
+      background: #1877f2;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(24,119,242,0.35);
+    }
+    .social-btn.facebook:hover {
+      background: #0f5dc4;
+      box-shadow: 0 6px 20px rgba(24,119,242,0.45);
+    }
+
+    /* تلجرام */
+    .social-btn.telegram {
+      background: #229ed9;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(34,158,217,0.35);
+    }
+    .social-btn.telegram:hover {
+      background: #1a7fb0;
+      box-shadow: 0 6px 20px rgba(34,158,217,0.45);
+    }
+
+    /* أيقونات التواصل في الفوتر */
+    .footer-social {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      color: #c9a227;
+      font-size: 18px;
+      text-decoration: none;
+      transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      border: 1px solid rgba(201,162,39,0.3);
+    }
+
+    .footer-social a:hover {
+      background: var(--oxford-gold);
+      color: #0b1f3a;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(201,162,39,0.4);
+    }
+
+    .footer-social a:active {
+      transform: translateY(-1px) scale(0.95);
+    }
+
+    @media (max-width: 640px) {
+      .crest { width: 96px; height: 96px; }
+      .notice { font-size: 11px; padding: 6px 12px; }
+      html, body { font-size: 16px; }
+      .social-btn { padding: 9px 16px; font-size: 14px; }
+      .social-btn i { font-size: 16px; }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+  <!-- الهيدر -->
+  <header class="hero-bg text-white">
+    <div class="max-w-6xl mx-auto px-5 py-10 sm:py-16 flex flex-col items-center text-center">
+
+      <!-- الشعار -->
+      <img src="logo.jfif" alt="شعار منصة طالب" class="crest mb-6">
+
+      <!-- اسم الموقع -->
+      <h1 class="hero-title text-4xl sm:text-6xl">
+        منصة طالب  
+      </h1>
+
+      <div class="gold-line w-40 my-5"></div>
+
+      <!-- الوصف -->
+      <p class="hero-subtitle text-base sm:text-xl max-w-2xl leading-relaxed">
+       تعلم - نجاح - مثابرة
+      </p>
+
+      <!-- الأزرار -->
+      <div class="mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-2">
+        <a href="dashbord.html"
+           class="btn-primary rounded-full px-10 py-4 text-lg text-center w-full sm:w-auto">
+          <i class="fa-solid fa-graduation-cap" style="margin-inline-end: 8px;"></i>
+          ابدأ
+        </a>
+        <a href="about.html"
+           class="btn-outline rounded-full px-10 py-4 text-lg text-center w-full sm:w-auto">
+          <i class="fa-solid fa-circle-info" style="margin-inline-end: 8px;"></i>
+          حول
+        </a>
+      </div>
+
+
+    </div>
+  </header>
+
+  <!-- المحتوى الرسمي المختصر -->
+  <main class="flex-1">
+
+    <!-- قسم ابدأ -->
+    <section id="start" class="max-w-4xl mx-auto px-5 py-14 text-center">
+      <h2 class="section-title text-2xl sm:text-3xl mb-4">ابدأ رحلتك التعليمية</h2>
+      <div class="gold-line w-24 mx-auto mb-6"></div>
+      <p class="section-text leading-relaxed max-w-xl mx-auto">
+        انضم إلى منصة <strong>طالب</strong> وابدأ مسارك الدراسي وفق منهجية رسمية رصينة.
+      </p>
+      <a href="dashbord.html"
+         class="btn-primary inline-block mt-8 rounded-full px-10 py-3 text-lg">
+        <i class="fa-solid fa-arrow-left" style="margin-inline-end: 8px;"></i>
+        ابدأ الآن
+      </a>
+    </section>
+
+    <!-- قسم حول -->
+    <section id="about" class="bg-[#0b1f3a] text-white py-14">
+      <div class="max-w-4xl mx-auto px-5 text-center">
+        <h2 class="section-title-gold text-2xl sm:text-3xl mb-4">حول المنصة</h2>
+        <div class="gold-line w-24 mx-auto mb-6"></div>
+        <p style="color: #4c4c4d;" class="leading-relaxed max-w-xl mx-auto">
+          منصة <strong>طالب</strong> منصة تعليمية مجانية غير حكومية، تأسست بإشراف
+          <strong>   الأستاذ مصطفى رحيم فندي </strong>تهدف الى مساعدة الطلاب في الدراسة عبر احدث الطرق التعليمية </p>
+
+
+
+  <!-- الحقوق -->
+  <footer class="bg-[#081729] text-gray-900 py-6 text-center text-sm px-4">
+    <div class="gold-line w-32 mx-auto mb-4"></div>
+
+    <!-- أيقونات التواصل في الفوتر -->
+    <div class="footer-social">
+      <a href="https://www.facebook.com/share/14qDAuJiNEY/" target="_blank" rel="noopener noreferrer" aria-label="فيسبوك منصة طالب">
+        <i class="fa-brands fa-facebook-f"></i>
+      </a>
+      <a href="https://t.me/m_mns_edu" target="_blank" rel="noopener noreferrer" aria-label="تلجرام منصة طالب">
+        <i class="fa-brands fa-telegram"></i>
+      </a>
+    </div>
+
+    <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+    <p class="mt-1 text-xs text-gray-900">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
