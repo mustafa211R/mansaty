@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1f3a">
+  <title>الأساتذة وحول القسم | منصة طالب</title>
+  <meta name="description" content="تعرّف على الأساتذة المشاركين في منصة طالب وحول القسم الدراسي.">
+  <meta name="keywords" content="الأساتذة, منصة طالب, حول القسم, مناهج عراقية">
+  <meta name="author" content="الأستاذ مصطفى رحيم فندي">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="الأساتذة وحول القسم | منصة طالب">
+  <meta property="og:description" content="تعرّف على الأساتذة المشاركين وحول القسم.">
+  <meta property="og:image" content="../../../logo.jfif">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+
+  <link rel="icon" type="image/png" href="../../../logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link href="../../../package/dist/tailwind.css" rel="stylesheet">
+  <link href="../../../fonts.css" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- ScrollReveal -->
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal"></script>
+
+  <style>
+    :root {
+      --oxford-blue: #0b1f3a;
+      --oxford-gold: #c9a227;
+      --oxford-cream: #f6f3ec;
+      --sf-text-primary: #1d1d1f;
+      --sf-text-secondary: #6e6e73;
+      --sf-text-tertiary: #86868b;
+    }
+    * { -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--oxford-cream);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+      color: var(--sf-text-primary);
+      font-weight: 400; font-size: 17px; line-height: 1.5;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    h1,h2,h3,h4,h5,h6 {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700; letter-spacing: -0.022em; color: var(--sf-text-primary); margin: 0;
+    }
+    p, span, a, li, div {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 400; letter-spacing: -0.01em;
+    }
+
+    .hero-bg {
+      background:
+        linear-gradient(rgba(11,31,58,0.88), rgba(11,31,58,0.94)),
+        url('../../../logo.jfif') center/cover no-repeat;
+    }
+    .gold-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+    }
+    .notice {
+      position: fixed; top: 14px; left: 14px; z-index: 50;
+      background: rgba(11,31,58,0.95); color: var(--oxford-gold);
+      border: 1px solid var(--oxford-gold); border-radius: 9999px;
+      padding: 8px 16px; font-size: 13px; font-weight: 600;
+      letter-spacing: -0.01em;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .crest {
+      width: 72px; height: 72px; object-fit: contain;
+      border-radius: 50%; background: #fff; padding: 6px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      border: 2px solid var(--oxford-gold);
+    }
+    .hero-title {
+      font-weight: 800; letter-spacing: -0.03em; color: #fff;
+    }
+    .hero-subtitle {
+      font-weight: 400; letter-spacing: -0.01em; color: rgba(255,255,255,0.82);
+    }
+
+    /* عنوان قسم */
+    .section-heading {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.022em;
+      color: var(--oxford-blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .section-heading .heading-icon {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: rgba(201,162,39,0.12);
+      border: 1px solid rgba(201,162,39,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-heading .heading-icon svg {
+      width: 20px; height: 20px;
+      color: var(--oxford-gold);
+      stroke-width: 2;
+    }
+
+    /* بطاقة الأستاذ */
+    .teacher-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px 18px;
+      border: 1px solid rgba(11,31,58,0.06);
+      box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+      transition: all .3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .teacher-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 32px rgba(11,31,58,0.12);
+      border-color: rgba(201,162,39,0.4);
+    }
+    .teacher-card:active { transform: scale(0.98); }
+
+    .teacher-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 14px;
+      display: block;
+      border: 3px solid var(--oxford-gold);
+      box-shadow: 0 6px 20px rgba(11,31,58,0.15);
+      background: #f0ede4;
+    }
+    .teacher-name {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      font-size: 16.5px;
+      letter-spacing: -0.022em;
+      color: var(--oxford-blue);
+      margin: 0 0 6px;
+    }
+    .teacher-specialty {
+      display: inline-block;
+      background: rgba(201,162,39,0.12);
+      color: var(--oxford-blue);
+      border: 1px solid rgba(201,162,39,0.3);
+      padding: 3px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .teacher-school {
+      font-size: 13px;
+      color: var(--sf-text-secondary);
+      letter-spacing: -0.01em;
+    }
+
+    /* بطاقة حول الموضوع */
+    .topic-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px 22px;
+      border: 1px solid rgba(11,31,58,0.06);
+      box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .topic-card::before {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+    }
+    .topic-text {
+      font-size: 15.5px;
+      line-height: 1.8;
+      color: var(--sf-text-secondary);
+      letter-spacing: -0.01em;
+      white-space: pre-line;
+    }
+
+    /* زر العودة */
+    .btn-outline {
+      border: 2px solid var(--oxford-gold);
+      color: var(--oxford-gold);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      padding: 12px 28px;
+      border-radius: 9999px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background: rgba(201,162,39,0.1);
+    }
+    .btn-outline:active { transform: scale(0.97); }
+
+    /* Ripple */
+    .ripple::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(201,162,39,0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease, opacity 0.8s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ripple:active::after {
+      width: 400px; height: 400px;
+      opacity: 1;
+      transition: 0s;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .animate-fadeInDown { animation: fadeInDown 0.9s ease-out; }
+    .animate-fadeInUp   { animation: fadeInUp 0.9s ease-out; }
+    .animate-card {
+      opacity: 0;
+      animation: slideUp 0.55s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.12s; }
+    .delay-3 { animation-delay: 0.19s; }
+    .delay-4 { animation-delay: 0.26s; }
+    .delay-5 { animation-delay: 0.33s; }
+    .delay-6 { animation-delay: 0.40s; }
+
+    @media (max-width: 640px) {
+      html, body { font-size: 16px; }
+      .notice { font-size: 11px; padding: 6px 12px; }
+      .crest { width: 64px; height: 64px; }
+      .section-heading { font-size: 19px; }
+      .teacher-avatar { width: 84px; height: 84px; }
+      .teacher-name { font-size: 15.5px; }
+      .topic-card { padding: 20px 18px; }
+      .topic-text { font-size: 14.5px; }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+  <!-- إشعار في الركن -->
+ 
+
+  <!-- الهيدر -->
+  <header class="hero-bg text-white animate-fadeInDown">
+    <div class="max-w-3xl mx-auto px-5 py-8 flex flex-col items-center text-center">
+
+      <a href="../../../index.html" class="mb-3">
+        <img src="../../../logo.jfif" alt="شعار منصة طالب" class="crest">
+      </a>
+
+      <h1 class="hero-title text-3xl sm:text-4xl">الأساتذة والقسم</h1>
+      <div class="gold-line w-28 my-3"></div>
+      <p class="hero-subtitle text-sm sm:text-base max-w-md leading-relaxed">
+        منصة طالب التعليمية
+      </p>
+
+    </div>
+  </header>
+
+  <!-- المحتوى -->
+  <main class="flex-1 w-full max-w-4xl mx-auto px-4 py-8">
+
+    <!-- قسم الأساتذة -->
+    <section class="mb-10">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <i data-lucide="users"></i>
+        </span>
+        الأساتذة المشاركون
+      </h2>
+
+      <div id="teachersContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <!-- سيتم توليد البطاقات هنا عبر JS -->
+      </div>
+    </section>
+
+    <!-- حول الموضوع -->
+    <section class="mb-8">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <i data-lucide="info"></i>
+        </span>
+        حول الموضوع
+      </h2>
+
+      <div class="topic-card ripple" id="topicBox">
+        <p class="topic-text" id="topicText">يتم تحميل النص...</p>
+      </div>
+    </section>
+
+    <!-- زر العودة -->
+    <div class="flex justify-center mt-8 mb-4">
+      <a href="../subjects.html" class="btn-outline">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"/>
+          <path d="M12 19l7-7-7-7"/>
+        </svg>
+        العودة إلى قائمة المواد
+      </a>
+    </div>
+
+  </main>
+
+  <!-- الحقوق -->
+  <footer class="bg-[#081729] text-gray-300 py-6 text-center text-sm px-4 mt-4 animate-fadeInUp">
+    <div class="gold-line w-32 mx-auto mb-4"></div>
+    <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+    <p class="mt-1 text-xs text-gray-400">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+  </footer>
+
+  <!-- ملف نص الموضوع -->
+  <script src="text.js"></script>
+
+  <!-- ملف الأساتذة -->
+  <script src="teachers.js"></script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // بناء بطاقات الأساتذة
+    const container = document.getElementById('teachersContainer');
+    if (typeof teachers !== 'undefined') {
+      teachers.forEach((teacher, i) => {
+        const card = document.createElement('div');
+        card.className = `teacher-card ripple animate-card delay-${Math.min(i + 1, 6)}`;
+        card.onclick = () => { window.location.href = teacher.link; };
+        card.innerHTML = `
+          <img src="${teacher.image}" alt="${teacher.name}" class="teacher-avatar"
+               onerror="this.src='../../../logo.jfif'">
+          <h3 class="teacher-name">${teacher.name}</h3>
+          <span class="teacher-specialty">${teacher.specialty}</span>
+          <p class="teacher-school">${teacher.school}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ScrollReveal
+    ScrollReveal().reveal('header', { duration: 1000, distance: '20px', origin: 'top', easing: 'ease-out' });
+    ScrollReveal().reveal('.teacher-card', { interval: 150, duration: 800, distance: '30px', origin: 'bottom' });
+    ScrollReveal().reveal('#topicBox', { duration: 1000, distance: '20px', origin: 'bottom' });
+
+    // تفعيل الأيقونات
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

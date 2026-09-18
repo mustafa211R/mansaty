@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1f3a">
+<title>الاختبار | منصة طالب</title>
+<meta name="description" content="اختبار تفاعلي في منصة طالب التعليمية.">
+<meta name="author" content="الأستاذ مصطفى رحيم فندي">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/png" href="../../../../../logo.png">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="../../../../../package/dist/tailwind.css" rel="stylesheet">
+<link href="../../../../../fonts.css" rel="stylesheet">
+
+<style>
+  :root {
+    --oxford-blue: #0b1f3a;
+    --oxford-gold: #c9a227;
+    --oxford-cream: #f6f3ec;
+    --sf-text-primary: #1d1d1f;
+    --sf-text-secondary: #6e6e73;
+    --sf-text-tertiary: #86868b;
+  }
+
+  * { -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--oxford-cream);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--sf-text-primary);
+    font-weight: 400; font-size: 17px; line-height: 1.5;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    font-weight: 700; letter-spacing: -0.022em; color: var(--sf-text-primary); margin: 0;
+  }
+  p, span, a, li, div, button, input {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  /* خلفية الهيدر */
+  .hero-bg {
+    background:
+      linear-gradient(rgba(11,31,58,0.88), rgba(11,31,58,0.94)),
+      url('../../../../../logo.jfif') center/cover no-repeat;
+  }
+  .gold-line {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+  }
+
+  /* إشعار الركن */
+  .notice {
+    position: fixed; top: 14px; left: 14px; z-index: 50;
+    background: rgba(11,31,58,0.95); color: var(--oxford-gold);
+    border: 1px solid var(--oxford-gold); border-radius: 9999px;
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* الأيقونات الدائرية */
+  .crest {
+    width: 64px; height: 64px; object-fit: contain;
+    border-radius: 50%; background: #fff; padding: 5px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    border: 2px solid var(--oxford-gold);
+  }
+
+  /* النوافذ المنبثقة */
+  .modal-backdrop {
+    background: rgba(11,31,58,0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .modal-card {
+    background: #fff;
+    border-radius: 22px;
+    border: 1px solid rgba(11,31,58,0.06);
+    box-shadow: 0 20px 60px rgba(11,31,58,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .modal-card::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+  }
+
+  /* الأزرار الأساسية */
+  .btn-primary {
+    background: var(--oxford-gold);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+    padding: 12px 28px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: #b8911f;
+    box-shadow: 0 6px 20px rgba(201,162,39,0.45);
+  }
+  .btn-primary:active { transform: scale(0.97); }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--oxford-gold);
+    color: var(--oxford-gold);
+    font-weight: 600;
+    font-size: 15px;
+    transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+    padding: 10px 26px;
+    border-radius: 9999px;
+    cursor: pointer;
+  }
+  .btn-outline:hover {
+    background: rgba(201,162,39,0.1);
+  }
+  .btn-outline:active { transform: scale(0.97); }
+
+  .btn-success {
+    background: #06762f;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all .25s ease;
+    padding: 12px 28px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-success:hover { background: #056227; }
+  .btn-success:active { transform: scale(0.97); }
+
+  .btn-danger {
+    background: #d33333;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all .25s ease;
+    padding: 12px 28px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-danger:hover { background: #b32a2a; }
+  .btn-danger:active { transform: scale(0.97); }
+
+  /* شريط معلومات الاختبار */
+  .info-bar {
+    background: #fff;
+    border-bottom: 1px solid rgba(11,31,58,0.08);
+    box-shadow: 0 2px 12px rgba(11,31,58,0.06);
+  }
+  .info-label {
+    font-size: 12px;
+    color: var(--sf-text-tertiary);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .info-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--oxford-blue);
+    letter-spacing: -0.022em;
+    margin: 0;
+  }
+  .info-value.gold {
+    color: var(--oxford-gold);
+  }
+
+  /* بطاقة السؤال */
+  .question-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 20px;
+    border: 1px solid rgba(11,31,58,0.06);
+    box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  .question-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--oxford-blue);
+    letter-spacing: -0.022em;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  /* أزرار الخيارات */
+  .optionBtn {
+    background: rgba(11,31,58,0.05);
+    color: var(--oxford-blue);
+    border: 1px solid rgba(11,31,58,0.08);
+    padding: 10px 18px;
+    border-radius: 12px;
+    margin: 4px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .optionBtn:hover:not(:disabled) {
+    background: rgba(201,162,39,0.12);
+    border-color: rgba(201,162,39,0.4);
+    transform: translateY(-1px);
+  }
+  .optionBtn:active:not(:disabled) { transform: scale(0.97); }
+  .optionBtn:disabled { cursor: default; }
+
+  /* حقل الفراغ */
+  .fill-input {
+    border: 1px solid rgba(11,31,58,0.15);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 15px;
+    background: #fff;
+    transition: all .2s ease;
+    outline: none;
+    flex: 1;
+  }
+  .fill-input:focus {
+    border-color: var(--oxford-gold);
+    box-shadow: 0 0 0 3px rgba(201,162,39,0.15);
+  }
+
+  /* حالات الإجابة */
+  .correct {
+    background-color: #06762f !important;
+    color: #fff !important;
+    border-color: #06762f !important;
+  }
+  .wrong {
+    background-color: #d33333 !important;
+    color: #fff !important;
+    border-color: #d33333 !important;
+  }
+  .selected {
+    background-color: #4ade80 !important;
+    color: #fff;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+
+  /* الشريط السفلي للأزرار */
+  .action-bar {
+    background: rgba(246,243,236,0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(11,31,58,0.06);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    html, body { font-size: 16px; }
+    .notice { font-size: 11px; padding: 6px 12px; }
+    .crest { width: 56px; height: 56px; }
+    .question-card { padding: 16px; }
+    .question-text { font-size: 15px; }
+    .optionBtn { font-size: 14px; padding: 9px 14px; }
+    .modal-card { padding: 22px 18px !important; }
+  }
+</style>
+
+<script>
+// 🧹 عند دخول صفحة الأسئلة، نحذف كل البيانات المؤقتة السابقة
+function resetStudentData() {
+    localStorage.removeItem("studentInfo");
+    console.log("🧹 تم حذف بيانات الطالب السابقة من localStorage.");
+}
+window.addEventListener("load", resetStudentData);
+</script>
+
+<script src="db.js"></script>
+
+</head>
+<body class="min-h-screen flex flex-col">
+
+
+
+<!-- الهيدر -->
+<header class="hero-bg text-white">
+  <div class="max-w-2xl mx-auto px-5 py-6 flex flex-col items-center text-center">
+    <a href="../../../../../index.html" class="mb-3">
+      <img src="../../../../../logo.jfif" alt="شعار منصة طالب" class="crest">
+    </a>
+    <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight" style="color:#fff;">
+      الاختبار
+    </h1>
+    <div class="gold-line w-24 my-3"></div>
+    <p class="text-sm max-w-md leading-relaxed" style="color: rgba(255,255,255,0.82);">
+      منصة طالب التعليمية — اختبار تفاعلي
+    </p>
+  </div>
+</header>
+
+<!-- نافذة إدخال الاسم -->
+<div id="nameModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 p-4">
+  <div class="modal-card p-8 w-full max-w-sm text-center animate-fadeIn">
+    <div class="mb-4 flex justify-center">
+      <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,rgba(201,162,39,0.18),rgba(201,162,39,0.06));border:1px solid rgba(201,162,39,0.3);display:flex;align-items:center;justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--oxford-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </div>
+    </div>
+    <h2 class="text-xl font-bold mb-2" style="color: var(--oxford-blue);">مرحباً بك 🎓</h2>
+    <p class="mb-5 text-sm" style="color: var(--sf-text-secondary);">من فضلك أدخل اسمك للبدء بالاختبار:</p>
+    <input type="text" id="studentName"
+           class="fill-input w-full mb-5 text-center"
+           placeholder="اسمك هنا">
+    <button id="startBtn" class="btn-primary w-full">ابدأ الاختبار</button>
+  </div>
+</div>
+
+<!-- معلومات الاختبار -->
+<div class="info-bar p-4 sticky top-0 z-40">
+  <div class="max-w-4xl mx-auto flex justify-between items-center gap-3 flex-wrap">
+
+    <div class="flex flex-col gap-1">
+      <p class="info-label">الطالب</p>
+      <p class="info-value" id="displayName">---</p>
+    </div>
+
+    <div class="flex flex-col gap-1 text-center">
+      <p class="info-label">الوقت المتبقي</p>
+      <p class="info-value gold" id="timer">00:00</p>
+    </div>
+
+    <div class="flex flex-col gap-1 text-center">
+      <p class="info-label">الدرجة الحالية</p>
+      <p class="info-value" id="currentScore">0</p>
+    </div>
+
+    <div class="flex flex-col gap-1 text-left">
+      <p class="info-label">الحد الأدنى للشهادة</p>
+      <p class="info-value gold" id="passingScore">0</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- الأسئلة -->
+<main id="questionsContainer" class="flex-1 p-4 space-y-4 overflow-auto w-full max-w-4xl mx-auto"></main>
+
+<!-- أزرار أسفل الصفحة -->
+<div class="action-bar sticky bottom-0 py-4 flex justify-center gap-3">
+  <button id="checkBtn" class="btn-success hidden">تحقق من الإجابات</button>
+  <button id="finishBtn" class="btn-primary hidden">إنهاء الاختبار</button>
+</div>
+
+<!-- نافذة النتيجة -->
+<div id="resultModal" class="fixed inset-0 modal-backdrop flex items-center justify-center z-50 hidden p-4">
+  <div id="resultContent" class="modal-card p-6 w-full max-w-md text-center animate-fadeIn space-y-3 border-4" style="border-color: transparent;">
+
+    <div class="mb-2 flex justify-center">
+      <div style="width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,rgba(201,162,39,0.18),rgba(201,162,39,0.06));border:1px solid rgba(201,162,39,0.3);display:flex;align-items:center;justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--oxford-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="6"/>
+          <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+        </svg>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-bold" style="color: var(--oxford-blue);">نتيجة الاختبار</h2>
+    <div class="gold-line w-20 mx-auto my-2"></div>
+
+    <div class="text-sm space-y-2 text-right" style="color: var(--sf-text-secondary);">
+      <p>اسم الطالب: <span id="studentNameDisplay" style="color: var(--oxford-blue); font-weight: 600;"></span></p>
+      <p>درجتك: <span id="finalScore" style="color: var(--oxford-blue); font-weight: 600;"></span></p>
+      <p>أدنى درجة للنجاح: <span id="requiredScore" style="color: var(--oxford-blue); font-weight: 600;"></span></p>
+      <p>الدرجة الكاملة: <span id="fullScore" style="color: var(--oxford-blue); font-weight: 600;"></span></p>
+      <p>الوقت المنجز: <span id="timeTaken" style="color: var(--oxford-blue); font-weight: 600;"></span> دقيقة</p>
+      <p>تاريخ الإكمال: <span id="completionDate" style="color: var(--oxford-blue); font-weight: 600;"></span></p>
+      <p>التقدير: <span id="rating" style="color: var(--oxford-blue); font-weight: 600;"></span></p>
+    </div>
+
+    <p id="passFail" class="font-bold text-xl mt-3"></p>
+
+    <div class="flex justify-center gap-3 mt-4 flex-wrap">
+      <button id="certificateBtn" class="btn-success hidden">احصل على الشهادة</button>
+      <button id="retryBtn" class="btn-danger hidden">إعادة المحاولة</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="info_temp.js"></script>
+<script src="rules.js"></script>
+
+<script>
+const displayName = document.getElementById("displayName");
+const currentScoreEl = document.getElementById("currentScore");
+const passingScoreEl = document.getElementById("passingScore");
+const questionsContainer = document.getElementById("questionsContainer");
+const checkBtn = document.getElementById("checkBtn");
+const finishBtn = document.getElementById("finishBtn");
+const timerEl = document.getElementById("timer");
+const resultModal = document.getElementById("resultModal");
+const finalScoreEl = document.getElementById("finalScore");
+const requiredScoreEl = document.getElementById("requiredScore");
+const passFailEl = document.getElementById("passFail");
+const completionDateEl = document.getElementById("completionDate");
+const certificateBtn = document.getElementById("certificateBtn");
+
+// 1️⃣ نافذة الاسم
+document.getElementById("startBtn").addEventListener("click", () => {
+    const name = document.getElementById("studentName").value.trim();
+    if(!name) return alert("الرجاء إدخال اسمك");
+    setStudentName(name);
+    displayName.textContent = name;
+    document.getElementById("nameModal").style.display = "none";
+    startTest();
+});
+
+// 2️⃣ إعدادات الاختبار
+passingScoreEl.textContent = rules.passingScore;
+
+// 3️⃣ مؤقت تنازلي
+let remainingTime = rules.totalTime * 60;
+let timerInterval;
+function startTimer() {
+    timerInterval = setInterval(() => {
+        const min = String(Math.floor(remainingTime/60)).padStart(2,'0');
+        const sec = String(remainingTime%60).padStart(2,'0');
+        timerEl.textContent = `${min}:${sec}`;
+        if(remainingTime<=0){
+            clearInterval(timerInterval);
+            finishTest();
+        }
+        remainingTime--;
+    },1000);
+}
+
+// 4️⃣ توليد الأسئلة
+function startTest(){
+    startTimer();
+    questionsContainer.innerHTML = "";
+    studentInfo.currentScore=0;
+    currentScoreEl.textContent=0;
+
+    questions.forEach((q,index)=>{
+        const card = document.createElement("div");
+        card.className="question-card";
+        let html=`<p class="question-text">${q.number}. ${q.question}</p>`;
+
+        if(q.type==="MCQ" || q.type==="TrueFalse"){
+            const options = q.type==="MCQ"? q.options : ["صح","خطأ"];
+            options.forEach(opt=>{
+                html+=`<button class="optionBtn"
+                    onclick="selectOption(this,'${q.correctAnswer}',${q.score})">${opt}</button>`;
+            });
+        } else if(q.type==="FillBlank"){
+            html+=`<div class="flex gap-2 flex-wrap sm:flex-nowrap">
+                <input type="text" class="fill-input" placeholder="اكتب الإجابة هنا">
+                <button class="btn-success" onclick="submitFill(this, '${q.correctAnswer}', ${q.score})">تأكيد</button>
+            </div>`;
+        }
+
+        card.innerHTML=html;
+        questionsContainer.appendChild(card);
+    });
+}
+
+function selectOption(el, correct, scoreValue) {
+    const siblings = el.parentElement.querySelectorAll("button.optionBtn");
+    const value = el.textContent.trim();
+
+    if(value === correct) {
+        siblings.forEach(b => {
+            if(b.textContent.trim() === correct){
+                b.classList.add("correct");
+                b.dataset.score = scoreValue;
+            } else {
+                b.classList.add("wrong");
+                b.dataset.score = 0;
+            }
+            b.disabled = true;
+        });
+    } else {
+        el.classList.add("wrong");
+        el.dataset.score = 0;
+    }
+
+    updateScoreDisplay();
+    checkAllAnswered();
+}
+
+// 6️⃣ تأكيد إجابة الفراغ
+function submitFill(btn, correct, scoreValue) {
+  const input = btn.previousElementSibling;
+  const value = input.value.trim();
+  const cleaned = value.replace(/\s+/g, '');
+  const correctCleaned = correct.replace(/\s+/g, '');
+
+  if (cleaned === correctCleaned) {
+    studentInfo.currentScore += scoreValue;
+    updateScore(studentInfo.currentScore);
+    currentScoreEl.textContent = studentInfo.currentScore;
+    input.classList.remove("border-red-500");
+    input.classList.add("border-green-500");
+    input.style.borderColor = "#06762f";
+    input.disabled = true;
+    btn.disabled = true;
+  } else {
+    input.classList.remove("border-green-500");
+    input.classList.add("border-red-500");
+    input.style.borderColor = "#d33333";
+  }
+
+  checkAllAnswered();
+}
+
+function updateScoreDisplay() {
+  let total = 0;
+
+  document.querySelectorAll(".optionBtn").forEach(btn => {
+    const s = parseInt(btn.dataset.score);
+    if (!isNaN(s) && s > 0) total += s;
+  });
+
+  document.querySelectorAll("input.border-green-500").forEach(input => {
+    const card = input.closest(".question-card") || input.closest(".bg-white");
+    const btn = card.querySelector("button");
+    const s = parseInt(btn.getAttribute("onclick").match(/\d+\)$/)[0]) || 0;
+    total += s;
+  });
+
+  studentInfo.currentScore = total;
+  currentScoreEl.textContent = total;
+  updateScore(total);
+}
+
+function checkAllAnswered(){
+    const allAnswered = Array.from(questionsContainer.children).every(card => {
+        const optionAnswered = card.querySelector("button.optionBtn.correct") ||
+                               card.querySelector("button.optionBtn.wrong");
+        const fillAnswered = card.querySelector("input") && card.querySelector("input").value.trim() !== "";
+        return optionAnswered || fillAnswered;
+    });
+
+    finishBtn.style.display = allAnswered ? "inline-block" : "none";
+}
+
+finishBtn.addEventListener("click", finishTest);
+function finishTest() {
+    clearInterval(timerInterval);
+    const timeTaken = rules.totalTime - Math.floor(remainingTime / 60);
+
+    studentInfo.date = new Date().toLocaleString();
+    studentInfo.timeTaken = timeTaken;
+
+    if(!studentInfo.name) {
+        studentInfo.name = document.getElementById("studentName").value.trim() || "طالب مجهول";
+    }
+
+    const totalScoreValue = parseInt(localStorage.getItem('totalScore')) || 0;
+
+    let rating = "";
+    if(studentInfo.currentScore === totalScoreValue){
+        rating = "ممتاز";
+    } else if(studentInfo.currentScore >= rules.passingScore){
+        rating = "جيد";
+    } else {
+        rating = "مقبول";
+    }
+    studentInfo.rating = rating;
+
+    document.getElementById("studentNameDisplay").textContent = studentInfo.name;
+    finalScoreEl.textContent = studentInfo.currentScore;
+    requiredScoreEl.textContent = rules.passingScore;
+    document.getElementById("fullScore").textContent = totalScoreValue;
+    document.getElementById("timeTaken").textContent = timeTaken;
+    completionDateEl.textContent = studentInfo.date;
+    document.getElementById("rating").textContent = rating;
+
+    const retryBtn = document.getElementById("retryBtn");
+    const resultContent = document.getElementById("resultContent");
+
+    if(studentInfo.currentScore >= rules.passingScore){
+        passFailEl.textContent = "نجحت 🎉";
+        passFailEl.style.color = "#06762f";
+        resultContent.style.borderColor = "#06762f";
+
+        certificateBtn.style.display = "inline-block";
+        certificateBtn.onclick = () => { window.location.href = "certificate.html"; };
+        retryBtn.style.display = "none";
+    } else {
+        passFailEl.textContent = "رسبت 😞";
+        passFailEl.style.color = "#d33333";
+        resultContent.style.borderColor = "#d33333";
+
+        retryBtn.style.display = "inline-block";
+        retryBtn.onclick = () => { location.reload(); };
+        certificateBtn.style.display = "none";
+    }
+
+    resultModal.style.display = "flex";
+
+    saveStudentInfo();
+
+    const payload = {
+        name: studentInfo.name,
+        currentScore: studentInfo.currentScore,
+        totalScore: localStorage.getItem('totalScore') || 0,
+        timeTaken: studentInfo.timeTaken,
+        date: studentInfo.date,
+        rating: studentInfo.rating,
+        teacher: rules.name_teacher,
+        subject: rules.subject
+    };
+
+    fetch("https://script.google.com/macros/s/AKfycby3TnqImviW0iecm8YxSvoLyrOsFusLIaEcNOC5LWOaecXdTmLtobAJVr-L6dorDcup/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .catch(err => {
+        console.warn("❗ لا يمكن التحقق من استجابة Google Sheet بسبب no-cors:", err);
+    });
+}
+</script>
+
+<!-- الحقوق -->
+<footer class="bg-[#081729] text-gray-300 py-6 text-center text-sm px-4">
+  <div class="gold-line w-32 mx-auto mb-4"></div>
+  <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+  <p class="mt-1 text-xs text-gray-400">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1f3a">
+<title>شهادة الإنجاز | منصة طالب</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/png" href="../../../../../logo.png">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="../../../../../package/dist/tailwind.css" rel="stylesheet">
+<link href="../../../../../fonts.css" rel="stylesheet">
+<script src="rules.js"></script>
+<script src="info_temp.js"></script>
+
+<style>
+  :root {
+    --oxford-blue: #0b1f3a;
+    --oxford-gold: #c9a227;
+    --oxford-cream: #f6f3ec;
+    --sf-text-primary: #1d1d1f;
+    --sf-text-secondary: #6e6e73;
+    --sf-text-tertiary: #86868b;
+  }
+
+  * { -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--oxford-cream);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--sf-text-primary);
+    font-weight: 400; font-size: 17px; line-height: 1.5;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    margin: 0;
+  }
+
+  p, span, a, li, div, strong {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  /* ====== الشريط العلوي ====== */
+  .top-bar {
+    width: 100%;
+    background: linear-gradient(180deg, #0b1f3a, #081729);
+    padding: 12px 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 4px 20px rgba(11,31,58,0.25);
+    border-bottom: 2px solid var(--oxford-gold);
+  }
+
+  #printBtn {
+    background: var(--oxford-gold);
+    color: #fff;
+    padding: 10px 26px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+    transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  #printBtn:hover {
+    background: #b8911f;
+    box-shadow: 0 6px 20px rgba(201,162,39,0.5);
+    transform: translateY(-1px);
+  }
+  #printBtn:active { transform: scale(0.97); }
+
+  /* ====== الشهادة ====== */
+  .certificate {
+    width: 210mm;
+    height: 297mm;
+    padding: 0;
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 20px 60px rgba(11,31,58,0.2);
+    margin: 24px auto;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* إطار الشهادة المزدوج */
+  .cert-frame {
+    position: absolute;
+    inset: 14px;
+    border: 2px solid var(--oxford-gold);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .cert-frame::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201,162,39,0.5);
+    border-radius: 2px;
+  }
+
+  /* زخارف الزوايا */
+  .corner {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    border: 2px solid var(--oxford-gold);
+  }
+  .corner.tl { top: 20px; right: 20px; border-left: 0; border-bottom: 0; }
+  .corner.tr { top: 20px; left: 20px;  border-right: 0; border-bottom: 0; }
+  .corner.bl { bottom: 20px; right: 20px; border-left: 0; border-top: 0; }
+  .corner.br { bottom: 20px; left: 20px;  border-right: 0; border-top: 0; }
+
+  .cert-inner {
+    position: relative;
+    z-index: 2;
+    padding: 48px 56px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+  }
+
+  /* رأس الشهادة */
+  .cert-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(201,162,39,0.3);
+  }
+  .cert-logo {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #fff;
+    padding: 6px;
+    border: 2px solid var(--oxford-gold);
+    box-shadow: 0 6px 20px rgba(11,31,58,0.15);
+    margin: 0 auto 14px;
+    display: block;
+  }
+  .cert-platform {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--oxford-blue);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .cert-platform-sub {
+    font-size: 11.5px;
+    color: var(--sf-text-tertiary);
+    letter-spacing: -0.01em;
+  }
+
+  /* العنوان الرئيسي */
+  .cert-title-wrap {
+    text-align: center;
+    margin: 28px 0 18px;
+  }
+  .cert-title {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--oxford-blue);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+  .cert-title-gold-line {
+    width: 140px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+    margin: 12px auto 0;
+  }
+  .cert-title-sub {
+    font-size: 15px;
+    color: var(--sf-text-secondary);
+    margin-top: 12px;
+    letter-spacing: -0.01em;
+  }
+  .cert-title-subject {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--oxford-gold);
+    letter-spacing: -0.022em;
+    margin-top: 6px;
+  }
+
+  /* نص الشهادة */
+  .cert-intro {
+    text-align: center;
+    font-size: 14.5px;
+    color: var(--sf-text-secondary);
+    line-height: 1.8;
+    margin: 10px auto 22px;
+    max-width: 90%;
+    letter-spacing: -0.01em;
+  }
+
+  /* بيانات الطالب */
+  .cert-details {
+    background: linear-gradient(180deg, #faf8f3, #f6f3ec);
+    border: 1px solid rgba(201,162,39,0.25);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 0 auto 24px;
+    width: 100%;
+    max-width: 620px;
+  }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(11,31,58,0.1);
+    font-size: 14.5px;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-label {
+    color: var(--sf-text-secondary);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .detail-value {
+    color: var(--oxford-blue);
+    font-weight: 700;
+    letter-spacing: -0.022em;
+  }
+  .detail-value.gold { color: var(--oxford-gold); }
+
+  /* التوقيعات */
+  .signatures {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    margin-top: auto;
+    padding-top: 30px;
+    gap: 20px;
+  }
+  .signature {
+    text-align: center;
+    flex: 1;
+    max-width: 220px;
+  }
+  .signature img {
+    width: 130px;
+    height: auto;
+    display: block;
+    margin: 0 auto 6px;
+    object-fit: contain;
+  }
+  .signature .sig-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(11,31,58,0.2);
+    margin: 0 auto 8px;
+  }
+  .signature strong {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--oxford-blue);
+    letter-spacing: -0.022em;
+    margin-bottom: 3px;
+  }
+  .signature p {
+    font-size: 12px;
+    color: var(--sf-text-tertiary);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* QR والرابط */
+  .cert-footer {
+    text-align: center;
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(201,162,39,0.25);
+  }
+  .barcode {
+    display: block;
+    margin: 0 auto 8px;
+    width: 130px;
+    height: 130px;
+  }
+  .url-text {
+    font-size: 10.5px;
+    color: var(--sf-text-tertiary);
+    word-break: break-all;
+    letter-spacing: -0.01em;
+    padding: 0 12px;
+  }
+
+  /* ====== للطباعة ====== */
+  @media print {
+    @page { size: A4; margin: 0; }
+    body { background: #fff; }
+    .top-bar { display: none; }
+    .certificate {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+
+  /* ====== Responsive للهواتف ====== */
+  @media (max-width: 820px) {
+    html, body { font-size: 15px; }
+    .certificate {
+      width: 95%;
+      height: auto;
+      min-height: auto;
+      margin: 14px auto;
+    }
+    .cert-inner { padding: 28px 22px; }
+    .cert-logo { width: 68px; height: 68px; }
+    .cert-platform { font-size: 13px; }
+    .cert-platform-sub { font-size: 10.5px; }
+    .cert-title { font-size: 30px; }
+    .cert-title-subject { font-size: 18px; }
+    .cert-intro { font-size: 13px; }
+    .detail-row { font-size: 13px; padding: 8px 0; }
+    .cert-details { padding: 16px 18px; }
+    .signatures { padding-top: 20px; gap: 12px; }
+    .signature img { width: 90px; }
+    .signature strong { font-size: 12.5px; }
+    .signature p { font-size: 10.5px; }
+    .barcode { width: 110px; height: 110px; }
+    .corner { width: 30px; height: 30px; }
+    .cert-frame { inset: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- شريط علوي -->
+<div class="top-bar">
+  <button id="printBtn" onclick="window.print()">🖨️ طباعة الشهادة</button>
+</div>
+
+<!-- الشهادة -->
+<div class="certificate">
+
+  <!-- إطار مزدوج + زخارف الزوايا -->
+  <div class="cert-frame"></div>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <div class="cert-inner">
+
+    <!-- رأس الشهادة -->
+    <div class="cert-header">
+      <img src="../../../../../logo.jfif" alt="شعار منصة طالب" class="cert-logo">
+    </div>
+
+    <!-- العنوان الرئيسي -->
+    <div class="cert-title-wrap">
+      <div class="cert-title">شهادة إنجاز</div>
+      <div class="cert-title-gold-line"></div>
+      <div class="cert-title-sub">تم إنجاز اختبار المشارك في مادة</div>
+      <div class="cert-title-subject" id="subjectName">—</div>
+    </div>
+
+    <!-- المقدمة -->
+    <p class="cert-intro">
+      قد تم منح هذه الشهادة إلى المشارك المذكور اسمه أدناه، بياناً بنجاحه في الاختبار المقرر وبالتفاصيل التالية:
+    </p>
+
+    <!-- بيانات الطالب -->
+    <div class="cert-details">
+      <div class="detail-row">
+        <span class="detail-label">اسم المشارك</span>
+        <span class="detail-value" id="studentNameDisplay">---</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">درجة الاختبار</span>
+        <span class="detail-value"><span id="finalScore">0</span> / <span id="fullScore">0</span></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">التقدير</span>
+        <span class="detail-value gold" id="rating">---</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">الوقت المنجز</span>
+        <span class="detail-value"><span id="timeTaken">0</span> دقيقة</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">تاريخ الاختبار</span>
+        <span class="detail-value" id="completionDate">---</span>
+      </div>
+    </div>
+
+    <!-- التوقيعات -->
+    <div class="signatures">
+      <div class="signature">
+        <img src="uploads/dev.jpg" alt="توقيع المطور" onerror="this.style.display='none'">
+        <div class="sig-line"></div>
+        <strong id="Namedev">مصطفى رحيم فندي</strong>
+        <p>المطور</p>
+      </div>
+      <div class="signature">
+        <img id="teacherSignature" src="" alt="توقيع الأستاذ" onerror="this.style.display='none'">
+        <div class="sig-line"></div>
+        <strong id="teacher"></strong>
+        <p>مصمم الاختبار</p>
+      </div>
+    </div>
+
+    <!-- QR + الرابط -->
+    <div class="cert-footer">
+      <canvas id="qrcode" class="barcode"></canvas>
+      <div class="url-text" id="pageUrl"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// جلب بيانات الأستاذ من rules.js
+document.getElementById("teacher").textContent = rules.name_teacher || "أ. [اسم الأستاذ]";
+document.getElementById("teacherSignature").src = rules.signature_image || "/uploads/default_signature.png";
+</script>
+
+<script src="../../../../../js/qrcode.min.js"></script>
+<script>
+window.onload = function() {
+    const fullScore = parseInt(localStorage.getItem('totalScore')) || 100;
+    let storedInfo = localStorage.getItem('studentInfo');
+    const studentInfoData = storedInfo ? JSON.parse(storedInfo) : {name:"اسم المشارك", currentScore:0, date:new Date(), rating:"مقبول", timeTaken:0};
+
+    document.getElementById("studentNameDisplay").textContent = studentInfoData.name;
+    document.getElementById("finalScore").textContent = studentInfoData.currentScore;
+    document.getElementById("fullScore").textContent = fullScore;
+    document.getElementById("rating").textContent = studentInfoData.rating;
+    document.getElementById("timeTaken").textContent = studentInfoData.timeTaken;
+    document.getElementById("completionDate").textContent = new Date().toLocaleString();
+    document.getElementById("subjectName").textContent = rules.subject || "المادة الدراسية";
+
+    // بيانات QR
+    const asciiName = studentInfoData.name.replace(/[^\w]/g, "");
+    const now = new Date();
+    const dateCode = now.toISOString().split('T')[0].replace(/-/g,'');
+    const timeCode = now.getHours().toString().padStart(2,'0') + now.getMinutes().toString().padStart(2,'0');
+    const score = studentInfoData.currentScore;
+    const qrData = `${asciiName},${dateCode}${timeCode},${score}`;
+
+    const canvas = document.getElementById('qrcode');
+    if(canvas){
+        QRCode.toCanvas(canvas, qrData, {
+            width: 100,
+            color: {dark: '#0b1f3a', light:'#ffffff'},
+            margin: 1
+        }, function (error) {
+            if(error) console.error("خطأ في توليد QR Code:", error);
+        });
+    } else {
+        console.error("عنصر QR Code غير موجود!");
+    }
+
+    document.getElementById("pageUrl").textContent = window.location.href;
+};
+</script>
+
+</body>
+</html>

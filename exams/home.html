@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1f3a">
+  <title>الصفوف الدراسية | منصة طالب</title>
+  <meta name="description" content="اختر صفّك الدراسي في منصة طالب — المتوسطة والإعدادية وفق المناهج الدراسية العراقية.">
+  <meta name="keywords" content="الصفوف الدراسية, متوسط, إعدادي, منصة طالب, مناهج عراقية">
+  <meta name="author" content="الأستاذ مصطفى رحيم فندي">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://talib.edu/classes">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="الصفوف الدراسية | منصة طالب">
+  <meta property="og:description" content="اختر صفّك الدراسي وابدأ التعلم.">
+  <meta property="og:image" content="../logo.jfif">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind & Fonts -->
+  <link href="../package/dist/tailwind.css" rel="stylesheet">
+  <link href="../fonts.css" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="../lucide.min.js"></script>
+
+  <style>
+    :root {
+      --oxford-blue: #0b1f3a;
+      --oxford-gold: #c9a227;
+      --oxford-cream: #f6f3ec;
+      --sf-text-primary: #1d1d1f;
+      --sf-text-secondary: #6e6e73;
+      --sf-text-tertiary: #86868b;
+    }
+
+    * { -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--oxford-cream);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+      color: var(--sf-text-primary);
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.022em;
+      color: var(--sf-text-primary);
+      margin: 0;
+    }
+
+    p, span, a, li, div {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-bg {
+      background:
+        linear-gradient(rgba(11,31,58,0.88), rgba(11,31,58,0.94)),
+        url('../logo.jfif') center/cover no-repeat;
+    }
+
+    .gold-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+    }
+
+    .notice {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 50;
+      background: rgba(11,31,58,0.95);
+      color: var(--oxford-gold);
+      border: 1px solid var(--oxford-gold);
+      border-radius: 9999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+    }
+
+    .crest {
+      width: 84px;
+      height: 84px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #fff;
+      padding: 6px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      border: 2px solid var(--oxford-gold);
+    }
+
+    .hero-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* العناوين الفرعية للأقسام */
+    .section-heading {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.022em;
+      color: var(--oxford-blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .section-heading .heading-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(201,162,39,0.12);
+      border: 1px solid rgba(201,162,39,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-heading .heading-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--oxford-gold);
+      stroke-width: 2;
+    }
+
+    /* أنيميشن الدخول */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .animate-card {
+      opacity: 0;
+      animation: slideUp 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    }
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.15s; }
+    .delay-3 { animation-delay: 0.25s; }
+    .delay-4 { animation-delay: 0.35s; }
+
+    /* بطاقات الصفوف */
+    .class-card {
+      min-width: 200px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px 18px;
+      border: 1px solid rgba(11,31,58,0.06);
+      box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+      transition: all .3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .class-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(11,31,58,0.12);
+      border-color: rgba(201,162,39,0.4);
+    }
+    .class-card:active { transform: scale(0.985); }
+
+    .class-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(201,162,39,0.18), rgba(201,162,39,0.06));
+      border: 1px solid rgba(201,162,39,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .class-icon svg {
+      width: 30px;
+      height: 30px;
+      color: var(--oxford-gold);
+      stroke-width: 2;
+    }
+
+    .class-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.022em;
+      color: var(--oxford-blue);
+      margin: 0;
+    }
+
+    /* التمرير الأفقي */
+    .scroll-container {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    .scroll-container::-webkit-scrollbar { height: 6px; }
+    .scroll-container::-webkit-scrollbar-track {
+      background: rgba(11,31,58,0.05);
+      border-radius: 10px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: var(--oxford-gold);
+      border-radius: 10px;
+    }
+
+    /* تأثير Ripple */
+    .ripple::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(201,162,39,0.18);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease, opacity 0.8s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ripple:active::after {
+      width: 300px; height: 300px;
+      opacity: 1;
+      transition: 0s;
+    }
+
+    @media (max-width: 640px) {
+      html, body { font-size: 16px; }
+      .notice { font-size: 11px; padding: 6px 12px; }
+      .crest { width: 72px; height: 72px; }
+      .section-heading { font-size: 19px; }
+      .class-card { min-width: 170px; padding: 20px 14px; }
+      .class-icon { width: 54px; height: 54px; }
+      .class-icon svg { width: 26px; height: 26px; }
+      .class-title { font-size: 15px; }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+
+
+  <!-- الهيدر -->
+  <header class="hero-bg text-white">
+    <div class="max-w-2xl mx-auto px-5 py-8 flex flex-col items-center text-center">
+
+      <img src="../logo.jfif" alt="شعار منصة طالب" class="crest mb-4">
+
+      <h1 class="hero-title text-3xl sm:text-4xl">
+        الصفوف الدراسية
+      </h1>
+
+      <div class="gold-line w-28 my-3"></div>
+
+      <p class="hero-subtitle text-sm sm:text-base max-w-md leading-relaxed">
+        اختر الصف المناسب لتبدأ التعلم
+      </p>
+
+    </div>
+  </header>
+
+  <!-- المحتوى -->
+  <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-8">
+
+    <!-- قسم المتوسطة -->
+    <section class="animate-card delay-1 mb-10">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <i data-lucide="graduation-cap"></i>
+        </span>
+        قسم المتوسطة
+      </h2>
+
+      <div class="scroll-container">
+
+        <!-- الأول متوسط -->
+        <a href="1/subjects.html" class="class-card ripple">
+          <div class="class-icon">
+            <i data-lucide="book-open"></i>
+          </div>
+          <h3 class="class-title">الأول متوسط</h3>
+        </a>
+
+        <!-- الثاني متوسط -->
+        <a href="2/subjects.html" class="class-card ripple">
+          <div class="class-icon">
+            <i data-lucide="book"></i>
+          </div>
+          <h3 class="class-title">الثاني متوسط</h3>
+        </a>
+
+        <!-- الثالث متوسط -->
+        <a href="3/subjects.html" class="class-card ripple">
+          <div class="class-icon">
+            <i data-lucide="layers"></i>
+          </div>
+          <h3 class="class-title">الثالث متوسط</h3>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- قسم الإعدادية -->
+    <section class="animate-card delay-3">
+      <h2 class="section-heading">
+        <span class="heading-icon">
+          <i data-lucide="library"></i>
+        </span>
+        قسم الإعدادية
+      </h2>
+
+      <div class="scroll-container">
+
+        <!-- الرابع الإعدادي -->
+        <a href="4/subjects.html" class="class-card ripple">
+          <div class="class-icon">
+            <i data-lucide="notebook"></i>
+          </div>
+          <h3 class="class-title">الرابع الإعدادي</h3>
+        </a>
+
+        <!-- الخامس الإعدادي -->
+        <a href="5/subjects.html" class="class-card ripple">
+          <div class="class-icon">
+            <i data-lucide="book-marked"></i>
+          </div>
+          <h3 class="class-title">الخامس الإعدادي</h3>
+        </a>
+
+        <!-- السادس الإعدادي -->
+        <a href="6/subjects.html" class="class-card ripple">
+          <div class="class-icon">
+            <i data-lucide="award"></i>
+          </div>
+          <h3 class="class-title">السادس الإعدادي</h3>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- الحقوق -->
+  <footer class="bg-[#081729] text-gray-300 py-6 text-center text-sm px-4 mt-4">
+    <div class="gold-line w-32 mx-auto mb-4"></div>
+    <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+    <p class="mt-1 text-xs text-gray-400">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
