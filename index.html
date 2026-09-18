@@ -36,11 +36,8 @@
   <link href="package/dist/tailwind.css" rel="stylesheet">
   <link href="fonts.css" rel="stylesheet">
 
-  <!-- Font Awesome Icons (CDN رسمي - يعمل على GitHub Pages) -->
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -209,12 +206,11 @@
       color: var(--sf-text-secondary);
     }
 
-    /* ⚠️ تم تصحيح اللون ليظهر على الخلفية الكحلية */
     .section-text-light {
       font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
       font-weight: 400;
       letter-spacing: -0.01em;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.8);
     }
 
     strong {
@@ -321,13 +317,6 @@
       transform: translateY(-1px) scale(0.95);
     }
 
-    /* ⚠️ تأكيد ظهور أيقونات Font Awesome */
-    .fa-solid, .fa-brands, .fa-regular, .fas, .fab, .far {
-      font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
-      font-style: normal;
-      display: inline-block;
-    }
-
     @media (max-width: 640px) {
       .crest { width: 96px; height: 96px; }
       .notice { font-size: 11px; padding: 6px 12px; }
@@ -349,14 +338,14 @@
 
       <!-- اسم الموقع -->
       <h1 class="hero-title text-4xl sm:text-6xl">
-        منصة طالب
+        منصة طالب  
       </h1>
 
       <div class="gold-line w-40 my-5"></div>
 
       <!-- الوصف -->
       <p class="hero-subtitle text-base sm:text-xl max-w-2xl leading-relaxed">
-        تعلم - نجاح - مثابرة
+       تعلم - نجاح - مثابرة
       </p>
 
       <!-- الأزرار -->
@@ -372,6 +361,7 @@
           حول
         </a>
       </div>
+
 
     </div>
   </header>
@@ -398,19 +388,14 @@
       <div class="max-w-4xl mx-auto px-5 text-center">
         <h2 class="section-title-gold text-2xl sm:text-3xl mb-4">حول المنصة</h2>
         <div class="gold-line w-24 mx-auto mb-6"></div>
-
-        <!-- ⚠️ تم تصحيح اللون: كان #4c4c4d (غير مرئي على الكحلي) -->
-        <p class="section-text-light leading-relaxed max-w-xl mx-auto">
+        <p style="color: #4c4c4d;" class="leading-relaxed max-w-xl mx-auto">
           منصة <strong>طالب</strong> منصة تعليمية مجانية غير حكومية، تأسست بإشراف
-          <strong>الأستاذ مصطفى رحيم فندي</strong>، تهدف إلى مساعدة الطلاب في الدراسة عبر أحدث الطرق التعليمية.
-        </p>
-      </div>
-    </section>
+          <strong>   الأستاذ مصطفى رحيم فندي </strong>تهدف الى مساعدة الطلاب في الدراسة عبر احدث الطرق التعليمية </p>
 
-  </main>
+
 
   <!-- الحقوق -->
-  <footer class="bg-[#081729] text-gray-200 py-6 text-center text-sm px-4">
+  <footer class="bg-[#081729] text-gray-900 py-6 text-center text-sm px-4">
     <div class="gold-line w-32 mx-auto mb-4"></div>
 
     <!-- أيقونات التواصل في الفوتر -->
@@ -423,8 +408,8 @@
       </a>
     </div>
 
-    <p class="mt-1 text-xs text-gray-300">© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
-    <p class="mt-1 text-xs text-gray-400">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+    <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+    <p class="mt-1 text-xs text-gray-900">تأسيس: الأستاذ مصطفى رحيم فندي</p>
   </footer>
 
   <script>
