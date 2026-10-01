@@ -2,27 +2,11 @@
 const books = [
   {
     id: 1,
-    name: "مبادئ الحاسوب",
-    teacher: "الأستاذ أحمد علي",
-    file: "uploads/pdf-test.pdf",
-    date: "2025-11-10",
-    cover: "https://img.freepik.com/free-vector/open-book-concept-illustration_114360-4527.jpg"
-  },
-  {
-    id: 2,
-    name: "أساسيات البرمجة",
-    teacher: "الأستاذ مصطفى حيم فندي",
-    file: "uploads/programming_fundamentals.pdf",
-    date: "2025-11-09",
-    cover: "https://img.freepik.com/free-vector/programming-concept-illustration_114360-1673.jpg"
-  },
-  {
-    id: 3,
-    name: "مدخل إلى الذكاء الاصطناعي",
-    teacher: "الأستاذة سارة علي",
-    file: "uploads/ai_intro.pdf",
-    date: "2025-11-08",
-    cover: "https://img.freepik.com/free-vector/artificial-intelligence-illustration_114360-3916.jpg"
+    name: "الفصل الأول - الأجهزة الذكية وأنظمتها",
+    teacher: "الأستاذ مصطفى رحيم ",
+    file: "uploads/الفصل الأول - الأجهزة الذكية وأنظمتها.pdf",
+    date: "2026-10-1",
+    cover: "https://editmicro.co.za/wp-content/uploads/2014/04/Desktop-Computer-by-edit-micro-768x510.jpg"
   }
 ];
 
