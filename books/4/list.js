@@ -2,27 +2,11 @@
 const books = [
   {
     id: 1,
-    name: "مبادئ الحاسوب",
-    teacher: "الأستاذ أحمد علي",
-    file: "uploads/pdf-test.pdf",
+    name: "الوحدة الأولى - صيانة الحاسوب للصف الرابع إعدادي",
+    teacher: "الأستاذ مصطفى رحيم ",
+    file: "uploads/الوحدة الأولى - صيانة الحاسوب للصف الرابع إعدادي.pdf",
     date: "2025-11-10",
-    cover: "https://img.freepik.com/free-vector/open-book-concept-illustration_114360-4527.jpg"
-  },
-  {
-    id: 2,
-    name: "أساسيات البرمجة",
-    teacher: "الأستاذ مصطفى حيم فندي",
-    file: "uploads/programming_fundamentals.pdf",
-    date: "2025-11-09",
-    cover: "https://img.freepik.com/free-vector/programming-concept-illustration_114360-1673.jpg"
-  },
-  {
-    id: 3,
-    name: "مدخل إلى الذكاء الاصطناعي",
-    teacher: "الأستاذة سارة علي",
-    file: "uploads/ai_intro.pdf",
-    date: "2025-11-08",
-    cover: "https://img.freepik.com/free-vector/artificial-intelligence-illustration_114360-3916.jpg"
+    cover: "https://media.istockphoto.com/id/453186515/vector/computer-case-with-monitor-keyboard-and-mouse.jpg?s=612x612&w=0&k=20&c=YjfM_PKYCKt5Ay4L4FqrC2fqh02w3zPUk3O3vpxog20="
   }
 ];
 
