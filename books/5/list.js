@@ -7,6 +7,15 @@ const books = [
     file: "uploads/الفصل الأول - الأجهزة الذكية وأنظمتها.pdf",
     date: "2026-10-1",
     cover: "https://editmicro.co.za/wp-content/uploads/2014/04/Desktop-Computer-by-edit-micro-768x510.jpg"
+  },
+
+    {
+    id: 1,
+    name: "الفصل الثاني -  اﻷﺟﮭزة اﻟذﻛﯾﺔ وﻣﺑﺎدئ إﻧﺗرﻧت اﻷﺷﯾﺎء ",
+    teacher: "الأستاذ مصطفى رحيم ",
+    file: "uploads/ملخص الحاسوب - الخامس الاعدادي - الفصل الثاني.pdf",
+    date: "2026-10-24",
+    cover: "https://www.cloudblue.com/app/uploads/2024/06/what-is-the-internet-of-things-iot.png"
   }
 ];
 
