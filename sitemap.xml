@@ -1,11 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
-      <loc>https://m-mns.vercel.app</loc>
-      <lastmod>2026-04-29</lastmod>
+      <loc>https://m-mns.vercel.app/</loc>
+      <lastmod>2026-10-27</lastmod>
       <changefreq>monthly</changefreq>
       <priority>1.0</priority>
    </url>
+   <url>
+      <loc>https://m-mns.vercel.app/dashbord.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.9</priority>
+   </url>
+   <url>
+      <loc>https://m-mns.vercel.app/about.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://m-mns.vercel.app/course/list.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://m-mns.vercel.app/you_tube/home.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://m-mns.vercel.app/books/home.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://m-mns.vercel.app/exams/home.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://m-mns.vercel.app/physics.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   <url>
+      <loc>https://m-mns.vercel.app/challenges/index.html</loc>
+      <lastmod>2026-10-27</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
 </urlset>
-
-
