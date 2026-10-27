@@ -7,7 +7,32 @@ const books = [
     file: "uploads/الوحدة الأولى - صيانة الحاسوب للصف الرابع إعدادي.pdf",
     date: "2025-11-10",
     cover: "https://media.istockphoto.com/id/453186515/vector/computer-case-with-monitor-keyboard-and-mouse.jpg?s=612x612&w=0&k=20&c=YjfM_PKYCKt5Ay4L4FqrC2fqh02w3zPUk3O3vpxog20="
-  }
+  },
+
+
+
+{
+    id: 2,
+    name: "الوحدة الأولى - الفصل الثاني PowerPoint  الرابع اعدادي",
+    teacher: "الأستاذ مصطفى رحيم ",
+    file: "uploads/PowerPoint.pdf",
+    date: "2026-10-27",
+    cover: "https://img.icons8.com/?size=100&id=81726&format=png&color=000000"
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ];
 
 // المراجع
