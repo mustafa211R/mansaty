@@ -60,7 +60,7 @@
 | فيسبوك (المؤسس) | https://www.facebook.com/mustafa.rahim211 |
 | تلغرام (قناة المنصة) | https://t.me/m_mns_edu |
 | تلغرام (مجموعة التحديات) | https://t.me/+yh3G3kKJRF5kODcy |
-| النطاق الأساسي المعلن (canonical) | https://talib.edu/ |
+| النطاق الأساسي المعلن (canonical) | https://m-mns.vercel.app/ |
 
 ## كلمات مفتاحية
 
