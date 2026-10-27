@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /course/certificates.html
+
+Sitemap: https://m-mns.vercel.app/sitemap.xml
