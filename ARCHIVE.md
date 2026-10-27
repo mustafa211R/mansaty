@@ -18,7 +18,7 @@
 - روابط التواصل:
   - فيسبوك: https://www.facebook.com/share/14qDAuJiNEY/
   - تلغرام: https://t.me/m_mns_edu
-- بيانات وصفية: canonical = https://talib.edu/ ، robots = index, follow ، theme-color = #0b1f3a ، locale = ar_AR
+- بيانات وصفية: canonical = https://m-mns.vercel.app/ ، robots = index, follow ، theme-color = #0b1f3a ، locale = ar_AR
 
 ## 2. لوحة الأقسام — `/dashbord.html`
 
@@ -38,7 +38,7 @@
 
 ## 3. حول المنصة — `/about.html`
 
-- العنوان: حول | منصة طالب التعليمية (canonical: https://talib.edu/about)
+- العنوان: حول | منصة طالب التعليمية (canonical: https://m-mns.vercel.app/about)
 - "من نحن": منصة تعليمية غير ربحية تساعد الطلاب في المراحل المدرسية وفق المناهج العراقية؛ غير حكومية وغير تابعة لأي جهة رسمية؛ القائمون عليها أساتذة وطلاب.
 - أقسام المنصة كما وردت:
   1. **قسم الكورسات**: كورسات للمراحل المدرسية، امتحانات دورية بعد كل كورس، شهادات إنجاز للمتفوقين، متابعة مستمرة لمستوى الطالب.
@@ -62,7 +62,7 @@
 
 ## 6. قسم المشاهدة — `/you_tube/home.html`
 
-- العنوان: الصفوف الدراسية (canonical: https://talib.edu/classes)
+- العنوان: الصفوف الدراسية (canonical: https://m-mns.vercel.app/classes)
 - المتوسطة: الأول `/you_tube/1/list.html`، الثاني `/you_tube/2/list.html`، الثالث `/you_tube/3/list.html`
 - الإعدادية: الرابع `/you_tube/4/list.html`، الخامس `/you_tube/5/list.html`، السادس `/you_tube/6/list.html`
 - صفحة الصف (جُلب الأول متوسط): عنوانها "دروس اليوتيوب"، وفيها فلتر مادة وبحث، وعند الجلب ظهرت "لا توجد نتائج" (المحتوى ديناميكي).
@@ -75,7 +75,7 @@
 
 ## 8. مختبر الفيزياء — `/physics.html`
 
-- العنوان: مختبر الفيزياء الكهربائية (canonical: https://talib.edu/physics.html)
+- العنوان: مختبر الفيزياء الكهربائية (canonical: https://m-mns.vercel.app/physics.html)
 - الوصف: تجارب ودارات كهربائية تفاعلية عبر الويب أو تطبيق الأندرويد.
 - خياران: فتح المختبر عبر الويب ← https://ecl-iraq.vercel.app/ ؛ تحميل تطبيق APK (ecl.apk) ← `/ecl.apk` ويعمل دون إنترنت.
 - تنبيه الموقع: لتنزيل APK يجب تفعيل «تثبيت التطبيقات من مصادر غير معروفة».
