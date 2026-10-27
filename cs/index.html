@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F4C5C">
+<title>مختبر الحاسوب | مختبر</title>
+<style>
+  :root{
+    --teal:#0F4C5C;--teal-deep:#0A3642;--mint:#D8F0E8;--amber:#F2A541;
+    --paper:#F5F8F7;--ink:#10262D;--muted:#5C7279;--surface:#fff;--line:#DCE6E4;
+    --word:#2B6CB0;--word-bg:#DCEBFA;
+    --excel:#2F855A;--excel-bg:#D9F2E3;
+    --ppt:#C8512B;--ppt-bg:#FBE0D6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{background:var(--teal)}
+  body{
+    font-family:"Segoe UI",Tahoma,"Noto Sans Arabic","Noto Naskh Arabic",Arial,sans-serif;
+    background:var(--teal);color:var(--ink);
+    min-height:100vh;min-height:100dvh;
+  }
+  .app{
+    min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;
+    position:relative;overflow:hidden;
+    padding-top:env(safe-area-inset-top,0px);
+  }
+  .wrap{width:100%;max-width:1080px;margin:0 auto;padding-inline:20px;position:relative;z-index:2}
+
+  /* شريط التطبيق */
+  .appbar{display:flex;align-items:center;gap:12px;padding-block:16px;color:#fff}
+  .back{
+    width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);
+    display:grid;place-items:center;text-decoration:none;color:#fff;font-size:24px;line-height:1;
+    transition:background .15s;
+  }
+  .back:hover{background:rgba(255,255,255,.24)}
+  .back:focus-visible,.tile:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+  .appbar .brand{font-size:15px;font-weight:600;opacity:.92}
+  .appbar .plat{margin-inline-start:auto;font-size:13px;opacity:.75}
+
+  /* الترويسة */
+  .hero{color:#fff;padding-block:10px 32px}
+  .hero h1{font-size:clamp(30px,5vw,48px);font-weight:800;line-height:1.2}
+  .hero p{margin-top:10px;font-size:clamp(15px,2vw,18px);line-height:1.8;color:rgba(255,255,255,.82);max-width:460px}
+  .ring{
+    position:absolute;left:-110px;top:-40px;width:300px;height:300px;border-radius:50%;
+    border:1.5px solid rgba(255,255,255,.12);z-index:0;pointer-events:none;
+  }
+  .ring::after{content:"";position:absolute;inset:50px;border-radius:50%;border:1.5px solid rgba(255,255,255,.1)}
+
+  /* اللوحة البيضاء */
+  .sheet{
+    flex:1;background:var(--surface);border-radius:28px 28px 0 0;
+    padding-block:26px calc(22px + env(safe-area-inset-bottom,0px));
+    position:relative;z-index:2;
+  }
+  .sheet .wrap{display:flex;flex-direction:column;min-height:100%}
+  .sheet h2{font-size:18px;font-weight:800;margin-bottom:16px}
+
+  .tiles{display:grid;gap:14px;grid-template-columns:1fr}
+  .tile{
+    display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--ink);
+    padding:18px;border-radius:22px;border:2px solid var(--line);background:#fff;
+    transition:transform .15s,border-color .15s,box-shadow .15s;
+  }
+  .tile:active{transform:scale(.98)}
+  .badge{
+    flex:none;width:68px;height:68px;border-radius:20px;display:grid;place-items:center;
+    font-size:34px;font-weight:800;font-family:Georgia,"Times New Roman",serif;
+  }
+  .word .badge{background:var(--word-bg);color:var(--word)}
+  .excel .badge{background:var(--excel-bg);color:var(--excel)}
+  .ppt .badge{background:var(--ppt-bg);color:var(--ppt)}
+  .tile strong{display:block;font-size:20px;margin-bottom:3px}
+  .tile .d{font-size:13.5px;color:var(--muted);line-height:1.7}
+  .chev{margin-inline-start:auto;color:var(--muted);font-size:24px}
+
+  @media(hover:hover){
+    .tile:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(16,38,45,.12)}
+    .tile.word:hover{border-color:var(--word)}
+    .tile.excel:hover{border-color:var(--excel)}
+    .tile.ppt:hover{border-color:var(--ppt)}
+  }
+
+  .foot{margin-top:auto;padding-top:24px;text-align:center;font-size:13px;line-height:1.9;color:var(--muted)}
+  .foot b{color:var(--ink)}
+
+  /* تابلت وحاسوب: ثلاث بطاقات في صف واحد */
+  @media(min-width:760px){
+    .wrap{padding-inline:40px}
+    .appbar{padding-block:22px}
+    .hero{padding-block:24px 56px}
+    .sheet{padding-block:44px 30px}
+    .sheet h2{font-size:22px;margin-bottom:24px}
+    .tiles{grid-template-columns:repeat(3,1fr);gap:24px}
+    .tile{flex-direction:column;align-items:flex-start;gap:20px;padding:30px 28px 32px;border-radius:26px;min-height:260px}
+    .badge{width:88px;height:88px;border-radius:26px;font-size:44px}
+    .tile strong{font-size:26px;margin-bottom:6px}
+    .tile .d{font-size:15px}
+    .chev{margin-inline-start:0;margin-top:auto;font-size:30px}
+    .foot{padding-top:48px}
+  }
+  /* هواتف صغيرة */
+  @media(max-width:360px){
+    .badge{width:56px;height:56px;font-size:28px}
+    .tile strong{font-size:18px}
+  }
+  /* هواتف بوضع أفقي */
+  @media(max-height:480px) and (orientation:landscape){
+    .hero{padding-block:0 18px}
+    .hero p{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){.tile{transition:none}}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="ring" aria-hidden="true"></div>
+
+  <header class="wrap appbar">
+    <a class="back" href="../index.html" aria-label="رجوع">›</a>
+    <span class="brand">مختبر</span>
+    <span class="plat">منصة طالب التعليمية</span>
+  </header>
+
+  <section class="wrap hero">
+    <h1>مختبر الحاسوب</h1>
+    <p>تعلّم برامج الأوفيس عملياً، اختر البرنامج الذي تريد التدرّب عليه.</p>
+  </section>
+
+  <section class="sheet">
+    <div class="wrap">
+      <h2>اختر البرنامج</h2>
+      <nav class="tiles" aria-label="برامج الأوفيس">
+        <a class="tile word" href="word.html">
+          <div class="badge" aria-hidden="true">W</div>
+          <div><strong>Word</strong><span class="d">معالجة النصوص وتنسيق المستندات</span></div>
+          <span class="chev" aria-hidden="true">‹</span>
+        </a>
+        <a class="tile excel" href="excel.html">
+          <div class="badge" aria-hidden="true">X</div>
+          <div><strong>Excel</strong><span class="d">الجداول والمعادلات والرسوم البيانية</span></div>
+          <span class="chev" aria-hidden="true">‹</span>
+        </a>
+        <a class="tile ppt" href="pp.html">
+          <div class="badge" aria-hidden="true">P</div>
+          <div><strong>PowerPoint</strong><span class="d">تصميم العروض التقديمية والشرائح</span></div>
+          <span class="chev" aria-hidden="true">‹</span>
+        </a>
+      </nav>
+      <div class="foot">المبرمج: <b>أ. مصطفى رحيم فندي</b></div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,2742 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2b579a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2722%27 fill=%27%232b579a%27/%3E%3Ctext x=%2750%27 y=%2772%27 font-size=%2765%27 font-family=%27Georgia%27 font-weight=%27bold%27 text-anchor=%27middle%27 fill=%27white%27%3EW%3C/text%3E%3C/svg%3E">
+  <title>Word – مختبر الحاسوب الافتراضي | منصة طالب</title>
+  <style id="pagecss">
+    @page {
+      size: 794px 1123px;
+      margin: 0
+    }
+  </style>
+  <style>
+    :root {
+      --blue: #2b579a;
+      --blue-d: #1e3f73;
+      --ribbon: #f3f3f3;
+      --line: #d4d4d4;
+      --hover: #e1e1e1;
+      --on: #c7d7ee;
+      --ph: 1123px;
+      --pw: 794px;
+      --pm: 96px
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      font-size: 13px;
+      color: #222;
+      background: #e6e6e6;
+      overflow: hidden
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh
+    }
+
+    button {
+      font-family: inherit
+    }
+
+    /* title bar */
+    .titlebar {
+      background: var(--blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 32px;
+      padding: 0 8px;
+      gap: 6px;
+      flex: none
+    }
+
+    .titlebar button {
+      background: none;
+      border: 0;
+      color: #fff;
+      width: 30px;
+      height: 26px;
+      cursor: pointer;
+      font-size: 15px;
+      border-radius: 3px
+    }
+
+    .titlebar button:hover {
+      background: rgba(255, 255, 255, .2)
+    }
+
+    .title {
+      flex: 1;
+      text-align: center;
+      font-size: 12.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    /* tabs */
+    .tabs {
+      background: var(--blue);
+      display: flex;
+      padding: 0 6px;
+      gap: 2px;
+      height: 30px;
+      align-items: flex-end;
+      flex: none;
+      overflow-x: auto;
+      overflow-y: hidden
+    }
+
+    .tab {
+      padding: 5px 16px;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 3px 3px 0 0;
+      font-size: 13px;
+      white-space: nowrap;
+      user-select: none
+    }
+
+    .tab:hover {
+      background: rgba(255, 255, 255, .18)
+    }
+
+    .tab.active {
+      background: var(--ribbon);
+      color: var(--blue);
+      font-weight: 600
+    }
+
+    .tab.file {
+      background: var(--blue-d);
+      margin-left: 6px
+    }
+
+    .tab.ctx {
+      background: #c55a11
+    }
+
+    .tab.ctx.active {
+      background: var(--ribbon);
+      color: #c55a11
+    }
+
+    .tab.exam {
+      background: #107c41
+    }
+
+    .tab.exam.active {
+      background: var(--ribbon);
+      color: #107c41
+    }
+
+    .hide {
+      display: none !important
+    }
+
+    /* ribbon */
+    .ribbon {
+      background: var(--ribbon);
+      border-bottom: 1px solid var(--line);
+      height: 100px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      flex: none
+    }
+
+    .panel {
+      display: none;
+      height: 100%;
+      width: max-content;
+      min-width: 100%
+    }
+
+    .panel.active {
+      display: flex
+    }
+
+    .group {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--line);
+      padding: 4px 8px 0
+    }
+
+    .gbody {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 3px
+    }
+
+    .gbody.col {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 4px
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 2px
+    }
+
+    .glabel {
+      text-align: center;
+      font-size: 11px;
+      color: #555;
+      padding: 2px 0 3px
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      background: none;
+      border-radius: 3px;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #222;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-width: 26px;
+      height: 26px;
+      white-space: nowrap
+    }
+
+    .btn:hover {
+      background: var(--hover);
+      border-color: #c8c8c8
+    }
+
+    .btn.on {
+      background: var(--on);
+      border-color: #8aa7d4
+    }
+
+    .btn.big {
+      flex-direction: column;
+      height: 64px;
+      min-width: 52px;
+      font-size: 11.5px;
+      gap: 2px;
+      padding: 3px 7px
+    }
+
+    .btn.big .ic {
+      font-size: 26px;
+      line-height: 1
+    }
+
+    .btn.small-l {
+      height: 22px;
+      font-size: 12px
+    }
+
+    .btn.pri {
+      background: #107c41;
+      color: #fff;
+      border-color: #0b5a2f
+    }
+
+    .btn.pri:hover {
+      background: #0d6a37
+    }
+
+    .btn.danger {
+      color: #b00020
+    }
+
+    .sep {
+      width: 1px;
+      height: 20px;
+      background: #c9c9c9;
+      margin: 0 3px
+    }
+
+    .sel,
+    .inp {
+      height: 24px;
+      border: 1px solid #b5b5b5;
+      background: #fff;
+      font: inherit;
+      font-size: 12.5px;
+      border-radius: 2px;
+      padding: 0 4px
+    }
+
+    .clr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1
+    }
+
+    .clr i {
+      display: block;
+      width: 16px;
+      height: 3px;
+      margin-top: 1px
+    }
+
+    .sty {
+      width: 74px;
+      height: 56px;
+      border: 1px solid #c8c8c8;
+      background: #fff;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 2px
+    }
+
+    .sty:hover {
+      border-color: var(--blue);
+      background: #eef3fb
+    }
+
+    .sty small {
+      font-size: 10px;
+      color: #666
+    }
+
+    .hint-small {
+      font-size: 11px;
+      color: #555;
+      max-width: 240px;
+      white-space: normal;
+      line-height: 1.35
+    }
+
+    .timer {
+      font-family: Consolas, monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: #107c41;
+      min-width: 64px;
+      text-align: center
+    }
+
+    .timer.warn {
+      color: #c00
+    }
+
+    /* main */
+    .main {
+      flex: 1;
+      display: flex;
+      min-height: 0
+    }
+
+    .workspace {
+      flex: 1;
+      overflow: auto;
+      background: #e6e6e6;
+      padding: 14px 0 50px;
+      position: relative
+    }
+
+    #zoomwrap {
+      transform-origin: top center
+    }
+
+    .ruler {
+      height: 18px;
+      width: var(--pw);
+      margin: 0 auto 6px;
+      background: #fff;
+      border: 1px solid #cfcfcf;
+      background-image: repeating-linear-gradient(to left, #888 0, #888 1px, transparent 1px, transparent 37.795px);
+      background-size: 100% 6px;
+      background-repeat: repeat-x;
+      background-position: right bottom
+    }
+
+    body.noruler .ruler {
+      display: none
+    }
+
+    #page {
+      width: var(--pw);
+      min-height: var(--ph);
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, .35);
+      padding: var(--pm);
+      background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--ph) - 3px), #c9c9c9 calc(var(--ph) - 3px), #c9c9c9 var(--ph))
+    }
+
+    #editor {
+      outline: none;
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      font-size: 12pt;
+      line-height: 1.5;
+      min-height: 200px;
+      word-wrap: break-word;
+      overflow-wrap: anywhere
+    }
+
+    #editor p {
+      margin: 0 0 8px
+    }
+
+    #editor h1 {
+      font-size: 22pt;
+      color: #2f5496;
+      margin: 12px 0 6px;
+      font-weight: 600
+    }
+
+    #editor h2 {
+      font-size: 16pt;
+      color: #2f5496;
+      margin: 10px 0 5px;
+      font-weight: 600
+    }
+
+    #editor h3 {
+      font-size: 13pt;
+      color: #1f3763;
+      margin: 8px 0 4px;
+      font-weight: 600
+    }
+
+    #editor blockquote {
+      margin: 8px 24px;
+      padding: 4px 12px;
+      border-right: 4px solid #8aa7d4;
+      color: #555;
+      font-style: italic
+    }
+
+    #editor table {
+      border-collapse: collapse
+    }
+
+    #editor td,
+    #editor th {
+      min-width: 30px
+    }
+
+    #editor a {
+      color: #0563c1;
+      text-decoration: underline
+    }
+
+    #editor img {
+      max-width: 100%;
+      cursor: pointer
+    }
+
+    #editor img.sel {
+      outline: 2px solid #2b579a;
+      outline-offset: 1px
+    }
+
+    #editor hr {
+      border: 0;
+      border-top: 1px solid #444;
+      margin: 10px 0
+    }
+
+    .page-break {
+      border-top: 2px dashed #888;
+      margin: 14px 0;
+      text-align: center;
+      height: 0;
+      position: relative;
+      page-break-after: always;
+      break-after: page;
+      user-select: none
+    }
+
+    .page-break::after {
+      content: "— فاصل صفحة —";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 0 8px;
+      font-size: 11px;
+      color: #777
+    }
+
+    /* exam panel */
+    #examPanel {
+      width: 340px;
+      background: #fff;
+      border-right: 1px solid var(--line);
+      display: none;
+      flex-direction: column;
+      flex: none
+    }
+
+    body.exam-on #examPanel {
+      display: flex
+    }
+
+    .eh {
+      background: #107c41;
+      color: #fff;
+      padding: 10px 12px
+    }
+
+    .et {
+      font-weight: 700;
+      font-size: 14px
+    }
+
+    .es {
+      font-size: 12px;
+      opacity: .92;
+      margin-top: 3px
+    }
+
+    .eh .es {
+      color: #fff
+    }
+
+    .etimer {
+      font-family: Consolas, monospace;
+      font-size: 26px;
+      font-weight: 700;
+      margin-top: 4px
+    }
+
+    .eb {
+      flex: 1;
+      overflow: auto;
+      padding: 10px 12px
+    }
+
+    .eprog {
+      height: 8px;
+      background: #e3e3e3;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 4px
+    }
+
+    #eprogbar {
+      height: 100%;
+      width: 0;
+      background: #107c41;
+      transition: width .3s
+    }
+
+    #examPanel .es {
+      color: #555
+    }
+
+    .tasks {
+      list-style: none;
+      margin: 10px 0 0;
+      padding: 0;
+      counter-reset: t
+    }
+
+    .tasks li {
+      counter-increment: t;
+      display: flex;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      background: #fafafa;
+      line-height: 1.5
+    }
+
+    .tasks li::before {
+      content: counter(t);
+      flex: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #c9c9c9;
+      color: #fff;
+      text-align: center;
+      line-height: 24px;
+      font-weight: 700;
+      font-size: 12px
+    }
+
+    .tasks li.done {
+      background: #e8f5ec;
+      border-color: #9bd1ad
+    }
+
+    .tasks li.done::before {
+      content: "✓";
+      background: #107c41
+    }
+
+    .tt {
+      flex: 1;
+      font-size: 13px
+    }
+
+    .pts {
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 11px;
+      background: #e1ecf8;
+      color: #1e3f73;
+      border-radius: 10px;
+      padding: 0 7px
+    }
+
+    .hintb {
+      display: block;
+      margin-top: 5px;
+      background: none;
+      border: 0;
+      color: #2b579a;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0
+    }
+
+    .hint {
+      display: none;
+      margin-top: 4px;
+      font-size: 12px;
+      color: #7a4b00;
+      background: #fff4d6;
+      border-radius: 4px;
+      padding: 5px 7px
+    }
+
+    .hint.show {
+      display: block
+    }
+
+    .ef {
+      padding: 10px 12px;
+      border-top: 1px solid var(--line)
+    }
+
+    .ef .mbtn {
+      width: 100%
+    }
+
+    /* status bar */
+    .status {
+      background: var(--blue);
+      color: #fff;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 12px;
+      font-size: 12px;
+      flex: none
+    }
+
+    .status .sp {
+      flex: 1;
+      text-align: center;
+      opacity: .95;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .zoomc {
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .zoomc button {
+      background: none;
+      border: 0;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      width: 22px;
+      height: 22px;
+      border-radius: 3px
+    }
+
+    .zoomc button:hover {
+      background: rgba(255, 255, 255, .2)
+    }
+
+    .zoomc input {
+      width: 110px;
+      direction: ltr
+    }
+
+    /* popup */
+    #pop {
+      position: fixed;
+      display: none;
+      background: #fff;
+      border: 1px solid #b8b8b8;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .28);
+      z-index: 80;
+      border-radius: 3px;
+      min-width: 140px;
+      max-height: 70vh;
+      overflow: auto
+    }
+
+    .mitem {
+      padding: 7px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .mitem:hover {
+      background: #e5eefa
+    }
+
+    .mitem.act {
+      background: #d3e1f5;
+      font-weight: 600
+    }
+
+    .pal {
+      padding: 8px;
+      width: 236px
+    }
+
+    .pgrid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 3px
+    }
+
+    .sw {
+      height: 18px;
+      border: 1px solid #bbb;
+      cursor: pointer;
+      border-radius: 2px
+    }
+
+    .sw:hover {
+      outline: 2px solid #2b579a;
+      z-index: 1
+    }
+
+    .pitem {
+      padding: 6px 4px;
+      cursor: pointer;
+      display: block;
+      margin-top: 6px;
+      border-radius: 3px
+    }
+
+    .pitem:hover {
+      background: #e5eefa
+    }
+
+    .tg {
+      display: grid;
+      grid-template-columns: repeat(10, 20px);
+      gap: 2px;
+      padding: 8px
+    }
+
+    .tg div {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #aaa;
+      background: #fff;
+      cursor: pointer
+    }
+
+    .tg div.hl {
+      background: #b4cdf0;
+      border-color: #2b579a
+    }
+
+    .tinfo {
+      padding: 6px 10px;
+      border-bottom: 1px solid #ddd;
+      font-weight: 600
+    }
+
+    .symg {
+      display: grid;
+      grid-template-columns: repeat(10, 30px);
+      gap: 2px;
+      padding: 8px
+    }
+
+    .symg div {
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      border: 1px solid #e1e1e1;
+      cursor: pointer;
+      font-size: 16px
+    }
+
+    .symg div:hover {
+      background: #d3e1f5
+    }
+
+    /* modal */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100
+    }
+
+    .backdrop.show {
+      display: flex
+    }
+
+    .backdrop.light {
+      background: transparent;
+      align-items: flex-start;
+      justify-content: flex-start;
+      pointer-events: none
+    }
+
+    .backdrop.light .modal {
+      pointer-events: auto;
+      margin: 130px 40px
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 6px;
+      min-width: 340px;
+      max-width: 94vw;
+      max-height: 92vh;
+      overflow: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .4)
+    }
+
+    .mh {
+      background: var(--blue);
+      color: #fff;
+      padding: 10px 14px;
+      font-weight: 600
+    }
+
+    .mb {
+      padding: 14px;
+      line-height: 1.7
+    }
+
+    .mb label {
+      display: block;
+      margin: 8px 0 3px;
+      font-weight: 600
+    }
+
+    .mb .inp {
+      width: 100%;
+      height: 30px;
+      font-size: 14px
+    }
+
+    .mf {
+      padding: 10px 14px;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid #e3e3e3;
+      flex-wrap: wrap
+    }
+
+    .mbtn {
+      border: 1px solid #b5b5b5;
+      background: #f2f2f2;
+      border-radius: 3px;
+      padding: 7px 16px;
+      cursor: pointer;
+      font-size: 13px
+    }
+
+    .mbtn:hover {
+      background: #e4e4e4
+    }
+
+    .mbtn.pri {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue-d)
+    }
+
+    .mbtn.pri:hover {
+      background: var(--blue-d)
+    }
+
+    .mbtn.green {
+      background: #107c41;
+      color: #fff;
+      border-color: #0b5a2f
+    }
+
+    .score {
+      text-align: center;
+      margin: 8px 0
+    }
+
+    .score .n {
+      font-size: 54px;
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1
+    }
+
+    .score .g {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 4px
+    }
+
+    .rtab {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 13px
+    }
+
+    .rtab td,
+    .rtab th {
+      border: 1px solid #d5d5d5;
+      padding: 5px 8px;
+      text-align: right
+    }
+
+    .rtab th {
+      background: #eef3fb
+    }
+
+    .okc {
+      color: #107c41;
+      font-weight: 700
+    }
+
+    .nok {
+      color: #c00;
+      font-weight: 700
+    }
+
+    .brand {
+      text-align: center;
+      color: #555;
+      font-size: 12px;
+      margin-bottom: 6px
+    }
+
+    /* backstage */
+    #backstage {
+      position: fixed;
+      inset: 32px 0 0 0;
+      background: #fff;
+      z-index: 90;
+      display: none
+    }
+
+    #backstage.show {
+      display: flex
+    }
+
+    .bsmenu {
+      width: 250px;
+      background: var(--blue);
+      color: #fff;
+      padding-top: 8px
+    }
+
+    .bsmenu div {
+      padding: 13px 22px;
+      cursor: pointer;
+      font-size: 14px
+    }
+
+    .bsmenu div:hover {
+      background: var(--blue-d)
+    }
+
+    .bscontent {
+      flex: 1;
+      padding: 34px 46px;
+      overflow: auto;
+      line-height: 1.9
+    }
+
+    .bscontent h2 {
+      color: var(--blue);
+      margin-top: 0
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #323232;
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: 6px;
+      z-index: 200;
+      display: none;
+      font-size: 13px;
+      max-width: 90vw;
+      text-align: center
+    }
+
+    @media print {
+
+      html,
+      body {
+        height: auto;
+        overflow: visible;
+        background: #fff
+      }
+
+      #app {
+        display: block;
+        height: auto
+      }
+
+      .titlebar,
+      .tabs,
+      .ribbon,
+      .status,
+      #examPanel,
+      .ruler,
+      #backstage,
+      #pop,
+      .toast {
+        display: none !important
+      }
+
+      .main {
+        display: block
+      }
+
+      .workspace {
+        overflow: visible;
+        padding: 0;
+        background: #fff
+      }
+
+      #zoomwrap {
+        zoom: 1 !important;
+        transform: none !important
+      }
+
+      #page {
+        box-shadow: none;
+        margin: 0;
+        background-image: none
+      }
+
+      .page-break::after {
+        display: none
+      }
+
+      .page-break {
+        border: 0
+      }
+
+      body.print-result #app {
+        display: none !important
+      }
+
+      body.print-result .backdrop {
+        position: static;
+        display: block;
+        background: #fff
+      }
+
+      body.print-result .modal {
+        box-shadow: none;
+        max-height: none;
+        max-width: none
+      }
+
+      body.print-result .mh,
+      body.print-result .mf {
+        display: none
+      }
+    }
+
+    /* ================= تحسينات الشكل ================= */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #b9c2d0 transparent;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    ::selection {
+      background: #b6d4fb
+    }
+
+    button,
+    .tab,
+    .btn,
+    .sty {
+      touch-action: manipulation
+    }
+
+    body {
+      background: #d5dae3
+    }
+
+    .titlebar {
+      background: linear-gradient(180deg, #2f5ea8, #2b579a);
+      height: 38px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+      position: relative;
+      z-index: 6;
+      gap: 8px
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: #fff;
+      color: #2b579a;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-family: Georgia, serif;
+      flex: none
+    }
+
+    .title {
+      cursor: pointer
+    }
+
+    .tabs {
+      background: linear-gradient(180deg, #2b579a, #244a85);
+      height: 34px;
+      padding: 0 10px
+    }
+
+    .tab {
+      padding: 7px 16px;
+      border-radius: 7px 7px 0 0;
+      transition: background .15s
+    }
+
+    .tab.file {
+      background: #1c4688;
+      border-radius: 7px
+    }
+
+    .ribbon {
+      background: #f8f9fb;
+      height: 104px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, .09);
+      position: relative;
+      z-index: 5
+    }
+
+    .group {
+      padding: 5px 9px 0
+    }
+
+    .glabel {
+      color: #667;
+      font-size: 11px
+    }
+
+    .btn {
+      border-radius: 5px;
+      transition: background .12s, border-color .12s
+    }
+
+    .btn.big {
+      height: 68px;
+      min-width: 56px
+    }
+
+    .btn.big .ic {
+      font-size: 26px
+    }
+
+    .btn.pri {
+      box-shadow: 0 1px 3px rgba(16, 124, 65, .4)
+    }
+
+    .sel,
+    .inp {
+      border-radius: 4px
+    }
+
+    .sel:focus,
+    .inp:focus {
+      outline: 2px solid #8aa7d4;
+      outline-offset: 0
+    }
+
+    .workspace {
+      background: radial-gradient(ellipse at top, #e4e8ef, #d0d6e0);
+      padding: 18px 0 60px
+    }
+
+    #page {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .28), 0 0 0 1px rgba(0, 0, 0, .07)
+    }
+
+    #editor {
+      caret-color: #2b579a
+    }
+
+    .ruler {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+      border-radius: 2px
+    }
+
+    .status {
+      background: linear-gradient(180deg, #2b579a, #244a85);
+      height: 27px
+    }
+
+    .status span {
+      white-space: nowrap
+    }
+
+    .modal {
+      border-radius: 12px
+    }
+
+    .mh {
+      background: linear-gradient(90deg, #2b579a, #3a6bb8);
+      font-size: 15px;
+      padding: 12px 16px
+    }
+
+    .mf {
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      z-index: 2
+    }
+
+    .mbtn {
+      border-radius: 7px;
+      min-height: 36px
+    }
+
+    #pop {
+      border-radius: 8px
+    }
+
+    .mitem {
+      padding: 8px 16px
+    }
+
+    /* ================= الاختبار — نافذة ومهام ================= */
+    .modal.wide {
+      width: min(780px, 96vw)
+    }
+
+    .cathead {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 12.5px;
+      color: #556;
+      background: #f1f5fb;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 10px
+    }
+
+    .ecard {
+      border: 1px solid #d9e0ec;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .07)
+    }
+
+    .ehead2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: linear-gradient(90deg, #eef3fb, #f8fafe);
+      border-bottom: 1px solid #e2e8f2
+    }
+
+    .eic {
+      font-size: 26px;
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .14);
+      flex: none
+    }
+
+    .etl {
+      flex: 1;
+      min-width: 0
+    }
+
+    .etl b {
+      font-size: 16px;
+      display: block
+    }
+
+    .etl small {
+      color: #667;
+      display: block
+    }
+
+    .esc {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1
+    }
+
+    .esc small {
+      font-size: 11px;
+      color: #888;
+      font-weight: 500
+    }
+
+    .trow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #eef1f6
+    }
+
+    .trow:last-child {
+      border-bottom: 0
+    }
+
+    .play {
+      flex: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 0;
+      background: #107c41;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(16, 124, 65, .45);
+      transition: transform .12s
+    }
+
+    .play:hover {
+      transform: scale(1.1)
+    }
+
+    .play:active {
+      transform: scale(.95)
+    }
+
+    .ttl {
+      flex: 1;
+      min-width: 0
+    }
+
+    .ttl small {
+      display: block;
+      color: #667;
+      font-size: 12px;
+      line-height: 1.55;
+      margin-top: 2px
+    }
+
+    .tbadge {
+      flex: none;
+      min-width: 44px;
+      text-align: center;
+      padding: 4px 9px;
+      border-radius: 14px;
+      background: #e6e9ee;
+      color: #999;
+      font-weight: 700;
+      font-size: 13px
+    }
+
+    .tbadge.has {
+      color: #fff
+    }
+
+    .efoot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: #fafbfd;
+      font-size: 12.5px;
+      color: #667;
+      border-top: 1px solid #eef1f6
+    }
+
+    .cfgbox {
+      margin-right: 22px;
+      padding: 8px 12px;
+      background: #f5f7fb;
+      border-radius: 10px;
+      transition: opacity .2s
+    }
+
+    .cfgrow {
+      margin: 2px 24px 8px 0
+    }
+
+    .mb .chk {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      margin: 12px 0 4px;
+      cursor: pointer
+    }
+
+    .mb .chk input {
+      width: 18px;
+      height: 18px
+    }
+
+    .mb .inp.sm {
+      width: 90px;
+      display: inline-block
+    }
+
+    .note {
+      font-size: 12px;
+      color: #667;
+      line-height: 1.7
+    }
+
+    .eh {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer
+    }
+
+    .ehl {
+      flex: 1;
+      min-width: 0
+    }
+
+    .eh .et {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .eh .etimer {
+      font-size: 18px;
+      margin: 0;
+      white-space: nowrap
+    }
+
+    .hsub {
+      border: 0;
+      background: #fff;
+      color: #107c41;
+      font-weight: 700;
+      border-radius: 7px;
+      padding: 7px 11px;
+      cursor: pointer;
+      font-size: 12.5px;
+      white-space: nowrap
+    }
+
+    .goal {
+      background: #fff8e1;
+      border: 1px solid #f1dd9a;
+      border-radius: 9px;
+      padding: 9px 11px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.65
+    }
+
+    .livebar {
+      margin: 6px 0
+    }
+
+    #examPanel {
+      width: 350px
+    }
+
+    #examPanel.collapsed .eb,
+    #examPanel.collapsed .ef {
+      display: none
+    }
+
+    .ef {
+      display: flex;
+      gap: 8px
+    }
+
+    .ef .mbtn {
+      width: auto;
+      flex: 1
+    }
+
+    /* ================= وضع الهاتف الانسيابي ================= */
+    body.reflow #zoomwrap {
+      zoom: 1 !important
+    }
+
+    body.reflow .ruler {
+      display: none
+    }
+
+    body.reflow #page {
+      width: min(100%, 880px);
+      max-width: 100%;
+      min-height: 0;
+      background-image: none;
+      padding: 24px 22px 140px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .2)
+    }
+
+    body.reflow .zoomc {
+      visibility: hidden
+    }
+
+    .mobonly {
+      display: none
+    }
+
+    @media print {
+      body.reflow #page {
+        width: auto !important;
+        padding: 48px !important
+      }
+    }
+
+    /* ================= الهاتف ================= */
+   @media (max-width:760px) {
+  html, body { overscroll-behavior: none }
+  #app { height: 100dvh }
+  input, select, textarea { font-size: 16px !important }
+  .mobonly { display: inline-flex !important; align-items: center; justify-content: center }
+
+  /* الشريط العلوي */
+  .titlebar { order: 1; height: calc(50px + env(safe-area-inset-top, 0px)); padding: env(safe-area-inset-top, 0px) 6px 0; gap: 4px }
+  .titlebar button { width: 42px; height: 42px; font-size: 20px }
+  .logo { display: none }
+  .title { font-size: 14px; font-weight: 600 }
+  [data-act="fs"] { display: none !important }
+
+  /* الترتيب: عنوان ← مستند ← أدوات ← تبويبات ← حالة */
+  .main { order: 2; flex: 1; flex-direction: column; min-height: 0 }
+  .ribbon { order: 3; height: auto; min-height: 68px; border-bottom: 0; border-top: 1px solid var(--line);
+            overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; box-shadow: 0 -2px 6px rgba(0,0,0,.08) }
+  .tabs { order: 4; height: auto; background: #fff; padding: 0 0 env(safe-area-inset-bottom, 0px);
+          border-top: 1px solid var(--line); gap: 0; align-items: stretch; overflow-x: auto }
+  .status { order: 5; height: 22px; font-size: 11px; gap: 12px; padding: 0 10px }
+  .status .sp, .status .zoomc, .status .lang { display: none }
+
+  /* تبويبات سفلية بأيقونات */
+  .tab { flex: 1 0 auto; min-width: 60px; color: #444; padding: 6px 8px; border-radius: 0; background: none;
+         display: flex; flex-direction: column; align-items: center; font-size: 11px; text-align: center }
+  .tab::before { content: attr(data-i); font-size: 20px; line-height: 1.15 }
+  .tab:hover { background: #f0f3f8 }
+  .tab.file { display: none }
+  .tab.active { background: #e8eefa; color: var(--blue); box-shadow: inset 0 3px 0 var(--blue) }
+  .tab.ctx { background: #fff3e8; color: #c55a11 }
+  .tab.ctx.active { background: #ffe3cc; box-shadow: inset 0 3px 0 #c55a11 }
+  .tab.exam { background: #e6f4ec; color: #107c41 }
+  .tab.exam.active { background: #cfeadb; box-shadow: inset 0 3px 0 #107c41 }
+
+  /* الأدوات: صف واحد قابل للتمرير، كلها أزرار كبيرة */
+  .panel { height: auto }
+  .panel.active { display: flex; align-items: center; padding: 4px 2px }
+  .group { flex-direction: row; padding: 2px 6px; border-left: 1px solid #e3e6ec }
+  .glabel, .sep, .hint-small { display: none }
+  .gbody, .gbody.col { flex-direction: row; flex-wrap: nowrap; gap: 2px }
+  .row { display: contents }
+  .btn { min-width: 46px; height: 46px; font-size: 17px }
+  .btn.small-l { height: 40px; font-size: 13px }
+  .btn.big { height: 60px; min-width: 62px; font-size: 10.5px; padding: 2px 6px }
+  .btn.big .ic { font-size: 23px }
+  .sel { height: 42px }
+  #fontName { width: 118px !important }
+  #fontSize { width: 62px !important }
+  .sty { width: 68px; height: 50px }
+  .timer { font-size: 17px; min-width: 54px }
+
+  /* المستند */
+  .workspace { padding: 0 0 10px; background: #dfe3ea }
+  body:not(.reflow) .workspace { padding: 8px 0 20px }
+  body.reflow #page { width: 100%; box-shadow: none; padding: 18px 16px 140px }
+
+  /* لوحة الاختبار: قابلة للطي بالضغط على رأسها */
+  #examPanel { width: 100%; max-height: 40%; border-right: 0; border-top: 1px solid var(--line); flex: none }
+
+  /* القوائم المنبثقة: نافذة من الأسفل */
+  #pop { left: 0 !important; right: 0; top: auto !important; bottom: 0; max-width: 100vw; max-height: 58vh;
+         border-radius: 18px 18px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 150 }
+  .mitem { padding: 15px 20px }
+  .tg { grid-template-columns: repeat(10, 1fr) } .tg div { width: auto; height: 30px }
+  .symg { grid-template-columns: repeat(8, 1fr) } .symg div { width: auto; height: 42px; line-height: 42px }
+  .pal { width: 100% } .pgrid .sw { height: 28px }
+
+  /* النوافذ */
+  .backdrop { align-items: flex-end }
+  .modal { width: 100%; max-width: 100%; min-width: 0; border-radius: 18px 18px 0 0; max-height: 92dvh;
+           padding-bottom: env(safe-area-inset-bottom, 0px) }
+  .modal.wide { width: 100%; height: 92dvh; max-height: 92dvh }
+  .backdrop.light { align-items: flex-start }
+  .backdrop.light .modal { margin: 52px 0 0; border-radius: 0 0 16px 16px; height: auto }
+  .mbtn { min-height: 46px; flex: 1 1 auto }
+  .toast { bottom: 170px }
+
+  #backstage { inset: calc(50px + env(safe-area-inset-top, 0px)) 0 0 0; flex-direction: column; overflow: auto }
+  .bsmenu { width: 100%; display: grid; grid-template-columns: 1fr 1fr; padding: 0; flex: none }
+  .bsmenu div { padding: 14px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,.15) }
+  .bscontent { padding: 18px; flex: none }
+}
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+    <div class="titlebar">
+      <button class="mobonly" data-act="file" title="القائمة">☰</button>
+      <div class="logo">W</div>
+      <button data-act="save" title="حفظ (Ctrl+S)">💾</button>
+      <button data-cmd="undo" title="تراجع (Ctrl+Z)">↶</button>
+      <button data-cmd="redo" title="إعادة (Ctrl+Y)">↷</button>
+      <div class="title" id="docTitle">مستند1 - Word</div>
+      <button data-act="fs" title="ملء الشاشة">⛶</button>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <div class="tab file" data-act="file">ملف</div>
+      <div class="tab active" data-tab="home">الصفحة الرئيسية</div>
+      <div class="tab" data-tab="insert">إدراج</div>
+      <div class="tab" data-tab="layout">تخطيط الصفحة</div>
+      <div class="tab" data-tab="view">عرض</div>
+      <div class="tab ctx hide" data-tab="table">تصميم الجدول</div>
+      <div class="tab ctx hide" data-tab="pic">تنسيق الصورة</div>
+      <div class="tab exam" data-tab="exam">🎓 الاختبار العملي</div>
+    </div>
+
+    <div class="ribbon" id="ribbon">
+
+      <!-- HOME -->
+      <div class="panel active" id="p-home">
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="paste"><span class="ic">📋</span>لصق</button>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <button class="btn small-l" data-cmd="cut">✂ قص</button>
+              <button class="btn small-l" data-cmd="copy">⧉ نسخ</button>
+            </div>
+          </div>
+          <div class="glabel">الحافظة</div>
+        </div>
+
+        <div class="group">
+          <div class="gbody col">
+            <div class="row">
+              <select id="fontName" class="sel" style="width:150px" title="نوع الخط">
+                <option>Segoe UI</option>
+                <option>Arial</option>
+                <option>Tahoma</option>
+                <option>Calibri</option>
+                <option>Times New Roman</option>
+                <option>Traditional Arabic</option>
+                <option>Simplified Arabic</option>
+                <option>Verdana</option>
+                <option>Georgia</option>
+                <option>Courier New</option>
+                <option>Comic Sans MS</option>
+                <option>Impact</option>
+              </select>
+              <select id="fontSize" class="sel" style="width:58px" title="حجم الخط">
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option selected>12</option>
+                <option>14</option>
+                <option>16</option>
+                <option>18</option>
+                <option>20</option>
+                <option>24</option>
+                <option>28</option>
+                <option>36</option>
+                <option>48</option>
+                <option>72</option>
+              </select>
+              <button class="btn" data-act="sizeUp" title="تكبير الخط">A▲</button>
+              <button class="btn" data-act="sizeDown" title="تصغير الخط">A▼</button>
+              <button class="btn" data-cmd="removeFormat" title="مسح التنسيق">🧹</button>
+            </div>
+            <div class="row">
+              <button class="btn" data-cmd="bold" title="غامق (Ctrl+B)"><b>B</b></button>
+              <button class="btn" data-cmd="italic" title="مائل (Ctrl+I)"><i>I</i></button>
+              <button class="btn" data-cmd="underline" title="تسطير (Ctrl+U)"><u>U</u></button>
+              <button class="btn" data-cmd="strikeThrough" title="يتوسطه خط"><s>ab</s></button>
+              <button class="btn" data-cmd="subscript" title="نص منخفض">x₂</button>
+              <button class="btn" data-cmd="superscript" title="نص مرتفع">x²</button>
+              <span class="sep"></span>
+              <button class="btn" data-act="fontColor" title="لون الخط"><span class="clr"><b>A</b><i id="fcBar"
+                    style="background:#e00000"></i></span></button>
+              <button class="btn" data-act="hilite" title="تمييز النص"><span class="clr"><b>🖍</b><i id="hlBar"
+                    style="background:#ffff00"></i></span></button>
+            </div>
+          </div>
+          <div class="glabel">الخط</div>
+        </div>
+
+        <div class="group">
+          <div class="gbody col">
+            <div class="row">
+              <button class="btn" data-cmd="insertUnorderedList" title="تعداد نقطي">•≡</button>
+              <button class="btn" data-cmd="insertOrderedList" title="تعداد رقمي">1≡</button>
+              <button class="btn" data-cmd="outdent" title="تقليل المسافة البادئة">⇥</button>
+              <button class="btn" data-cmd="indent" title="زيادة المسافة البادئة">⇤</button>
+              <span class="sep"></span>
+              <button class="btn" data-act="rtl" title="اتجاه من اليمين لليسار">¶◂</button>
+              <button class="btn" data-act="ltr" title="اتجاه من اليسار لليمين">▸¶</button>
+            </div>
+            <div class="row">
+              <button class="btn" data-cmd="justifyRight" title="محاذاة لليمين" data-ai="r"></button>
+              <button class="btn" data-cmd="justifyCenter" title="توسيط" data-ai="c"></button>
+              <button class="btn" data-cmd="justifyLeft" title="محاذاة لليسار" data-ai="l"></button>
+              <button class="btn" data-cmd="justifyFull" title="ضبط" data-ai="j"></button>
+              <span class="sep"></span>
+              <button class="btn" data-act="lineSpace" title="تباعد الأسطر">↕ تباعد الأسطر ▾</button>
+            </div>
+          </div>
+          <div class="glabel">الفقرة</div>
+        </div>
+
+        <div class="group">
+          <div class="gbody">
+            <button class="sty" data-act="style" data-tag="P"><span
+                style="font-size:13px">عادي</span><small>Normal</small></button>
+            <button class="sty" data-act="style" data-tag="H1"><span
+                style="font-size:17px;color:#2f5496;font-weight:600">عنوان 1</span><small>Heading 1</small></button>
+            <button class="sty" data-act="style" data-tag="H2"><span
+                style="font-size:14px;color:#2f5496;font-weight:600">عنوان 2</span><small>Heading 2</small></button>
+            <button class="sty" data-act="style" data-tag="H3"><span
+                style="font-size:12px;color:#1f3763;font-weight:600">عنوان 3</span><small>Heading 3</small></button>
+            <button class="sty" data-act="style" data-tag="BLOCKQUOTE"><span
+                style="font-size:12px;color:#555;font-style:italic">اقتباس</span><small>Quote</small></button>
+          </div>
+          <div class="glabel">الأنماط</div>
+        </div>
+
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="find"><span class="ic">🔍</span>بحث</button>
+            <button class="btn big" data-act="replace"><span class="ic">⇄</span>استبدال</button>
+            <button class="btn big" data-cmd="selectAll"><span class="ic">▤</span>تحديد الكل</button>
+          </div>
+          <div class="glabel">التحرير</div>
+        </div>
+      </div>
+
+      <!-- INSERT -->
+      <div class="panel" id="p-insert">
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="tablePop"><span class="ic">▦</span>جدول ▾</button>
+          </div>
+          <div class="glabel">جداول</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="picPop"><span class="ic">🖼</span>صورة ▾</button>
+          </div>
+          <div class="glabel">رسوم توضيحية</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="link"><span class="ic">🔗</span>رابط</button>
+          </div>
+          <div class="glabel">روابط</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="pageBreak"><span class="ic">⤓</span>فاصل صفحة</button>
+            <button class="btn big" data-act="hr"><span class="ic">―</span>خط أفقي</button>
+          </div>
+          <div class="glabel">صفحات</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="date"><span class="ic">📅</span>التاريخ والوقت</button>
+            <button class="btn big" data-act="symbols"><span class="ic">Ω</span>رمز ▾</button>
+          </div>
+          <div class="glabel">نص ورموز</div>
+        </div>
+      </div>
+
+      <!-- LAYOUT -->
+      <div class="panel" id="p-layout">
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="marginPop"><span class="ic">▭</span>الهوامش ▾</button>
+            <button class="btn big" data-act="orientPop"><span class="ic">⬒</span>الاتجاه ▾</button>
+            <button class="btn big" data-act="sizePop"><span class="ic">▯</span>الحجم ▾</button>
+            <button class="btn big" data-act="colPop"><span class="ic">☷</span>أعمدة ▾</button>
+          </div>
+          <div class="glabel">إعداد الصفحة</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <div class="hint-small" id="layInfo"></div>
+          </div>
+          <div class="glabel">الإعداد الحالي</div>
+        </div>
+      </div>
+
+      <!-- VIEW -->
+      <div class="panel" id="p-view">
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="zoomIn"><span class="ic">🔍＋</span>تكبير</button>
+            <button class="btn big" data-act="zoomOut"><span class="ic">🔍－</span>تصغير</button>
+            <button class="btn big" data-act="zoom100"><span class="ic">100%</span>100%</button>
+          </div>
+          <div class="glabel">التكبير/التصغير</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="ruler"><span class="ic">📏</span>إظهار/إخفاء المسطرة</button>
+            <button class="btn big" data-act="viewMode"><span class="ic">📱</span>عرض هاتف / صفحة</button>
+            <button class="btn big" data-act="fs"><span class="ic">⛶</span>ملء الشاشة</button>
+          </div>
+          <div class="glabel">إظهار</div>
+        </div>
+      </div>
+
+      <!-- TABLE (contextual) -->
+      <div class="panel" id="p-table">
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="rowAbove"><span class="ic">⤒</span>صف أعلى</button>
+            <button class="btn big" data-act="rowBelow"><span class="ic">⤓</span>صف أسفل</button>
+            <button class="btn big" data-act="colRight"><span class="ic">⇥</span>عمود يمين</button>
+            <button class="btn big" data-act="colLeft"><span class="ic">⇤</span>عمود يسار</button>
+          </div>
+          <div class="glabel">إدراج</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big danger" data-act="delRow"><span class="ic">▬</span>حذف الصف</button>
+            <button class="btn big danger" data-act="delCol"><span class="ic">▮</span>حذف العمود</button>
+            <button class="btn big danger" data-act="delTable"><span class="ic">✖</span>حذف الجدول</button>
+          </div>
+          <div class="glabel">حذف</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="cellShade"><span class="ic">🎨</span>تظليل الخلية</button>
+            <button class="btn big" data-act="headRow"><span class="ic">▤</span>تظليل الصف الأول</button>
+            <button class="btn big" data-act="borders"><span class="ic">▦</span>إظهار/إخفاء الحدود</button>
+          </div>
+          <div class="glabel">أنماط الجدول</div>
+        </div>
+      </div>
+
+      <!-- PICTURE (contextual) -->
+      <div class="panel" id="p-pic">
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="imgBigger"><span class="ic">＋</span>تكبير</button>
+            <button class="btn big" data-act="imgSmaller"><span class="ic">－</span>تصغير</button>
+          </div>
+          <div class="glabel">الحجم</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big" data-act="imgRight"><span class="ic">▤</span>يمين</button>
+            <button class="btn big" data-act="imgCenter"><span class="ic">▥</span>وسط</button>
+            <button class="btn big" data-act="imgLeft"><span class="ic">▧</span>يسار</button>
+          </div>
+          <div class="glabel">الموضع</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big danger" data-act="imgDel"><span class="ic">✖</span>حذف الصورة</button>
+          </div>
+          <div class="glabel">إجراءات</div>
+        </div>
+      </div>
+
+      <!-- EXAM -->
+      <div class="panel" id="p-exam">
+        <div class="group">
+          <div class="gbody">
+            <button class="btn big pri" data-act="catalog"><span class="ic">🎓</span>الاختبارات</button>
+            <button class="btn big" data-act="examSettings"><span class="ic">⚙</span>الإعدادات</button>
+            <button class="btn big" data-act="history"><span class="ic">📊</span>النتائج</button>
+          </div>
+          <div class="glabel">الاختبار العملي</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <div class="hint-small" id="runInfo" style="min-width:130px">لا توجد مهمة جارية</div>
+            <div class="timer" id="etimerR">--:--</div>
+            <button class="btn big pri" data-act="submitTask"><span class="ic">✔</span>تسليم</button>
+            <button class="btn big danger" data-act="exitRun"><span class="ic">✖</span>خروج</button>
+          </div>
+          <div class="glabel">المهمة الحالية</div>
+        </div>
+        <div class="group">
+          <div class="gbody">
+            <div class="hint-small">اضغط «الاختبارات» لاختيار الاختبار، ثم ▶ أمام أي مهمة لبدئها.<br>اضبط المؤقت من
+              «الإعدادات».</div>
+          </div>
+          <div class="glabel">إرشاد</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="workspace" id="workspace">
+        <div id="zoomwrap">
+          <div class="ruler"></div>
+          <div id="page">
+            <div id="editor" contenteditable="true" spellcheck="false" dir="rtl" lang="ar">
+              <p><br></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside id="examPanel"></aside>
+    </div>
+
+    <div class="status">
+      <span id="stPage">صفحة 1 من 1</span>
+      <span id="stWords">0 كلمة</span>
+      <span class="lang">العربية (العراق)</span>
+      <span class="sp">تصميم: أ. مصطفى رحيم فندي — مشروع ضمن مختبر الحاسوب الافتراضي التابع لموقع منصة طالب</span>
+      <div class="zoomc">
+        <button data-act="zoomOut">−</button>
+        <input type="range" id="zoomR" min="30" max="200" step="5" value="100">
+        <button data-act="zoomIn">+</button>
+        <span id="zoomT" style="min-width:36px">100%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- backstage -->
+  <div id="backstage">
+    <div class="bsmenu">
+      <div data-act="closeFile">⮕ عودة</div>
+      <div data-act="newDoc">🗋 جديد</div>
+      <div data-act="open">📂 فتح ملف (HTML / TXT)</div>
+      <div data-act="save">💾 حفظ (HTML)</div>
+      <div data-act="saveDoc">📄 حفظ بصيغة Word (.doc)</div>
+      <div data-act="print">🖨 طباعة</div>
+      <div data-act="history">📊 سجل نتائج الاختبارات</div>
+    </div>
+    <div class="bscontent">
+      <h2>برنامج Word التعليمي</h2>
+      <p>محاكاة تعليمية لبرنامج معالج النصوص <b>Microsoft Word</b> تعمل بالكامل داخل المتصفح، وتتضمن شريط الأدوات
+        (الصفحة الرئيسية، إدراج، تخطيط الصفحة، عرض، أدوات الجداول والصور) وقسم <b>الاختبار العملي</b> الذي يكلّف الطالب
+        بمهام ويصحّحها تلقائياً ويمنحه درجة.</p>
+      <p><b>تصميم:</b> أ. مصطفى رحيم فندي<br>مشروع ضمن <b>مختبر الحاسوب الافتراضي</b> التابع لموقع <b>منصة طالب</b>.</p>
+      <p><b>اختصارات:</b> Ctrl+B غامق · Ctrl+I مائل · Ctrl+U تسطير · Ctrl+S حفظ · Ctrl+P طباعة · Ctrl+F بحث · Ctrl+H
+        استبدال · Ctrl+Z تراجع · Ctrl+Y إعادة</p>
+    </div>
+  </div>
+
+  <div id="pop"></div>
+  <div class="backdrop" id="modalBd">
+    <div class="modal" id="modalBox">
+      <div class="mh" id="modalT"></div>
+      <div class="mb" id="modalB"></div>
+      <div class="mf" id="modalF"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <input type="file" id="openFile" accept=".html,.htm,.txt" hidden>
+  <input type="file" id="imgFile" accept="image/*" hidden>
+
+  <script>
+    (() => {
+      'use strict';
+      const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      const editor = $('#editor'), page = $('#page');
+      const S = { orientation: 'portrait', margin: 'normal', size: 'A4', columns: 1, zoom: 100, name: 'مستند1' };
+      const SIZES = { A4: [794, 1123], A5: [559, 794], Letter: [816, 1056] };
+      const MARGINS = { normal: '96px', narrow: '48px', moderate: '96px 72px', wide: '96px 192px' };
+      const MNAMES = { normal: 'عادي', narrow: 'ضيق', moderate: 'متوسط', wide: 'عريض' };
+      const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      let savedRange = null, selImg = null, popAnchor = null;
+
+      try { document.execCommand('defaultParagraphSeparator', false, 'p'); document.execCommand('styleWithCSS', false, true); } catch (e) { }
+
+      /* ---------- helpers ---------- */
+      function toast(m, t = 2600) { const e = $('#toast'); e.textContent = m; e.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => e.style.display = 'none', t); }
+      function inEditor(n) { return n && editor.contains(n.nodeType === 1 ? n : n.parentNode); }
+      document.addEventListener('selectionchange', () => {
+        const s = getSelection(); if (!s.rangeCount) return;
+        const r = s.getRangeAt(0);
+        if (inEditor(r.commonAncestorContainer)) { savedRange = r.cloneRange(); updateState(); }
+      });
+      function restore() {
+        editor.focus();
+        if (savedRange) { const s = getSelection(); s.removeAllRanges(); s.addRange(savedRange); }
+      }
+      function cmd(c, v) { restore(); try { document.execCommand(c, false, v == null ? null : v); } catch (e) { } afterChange(); }
+      function ensureNotEmpty() {
+        if (!editor.firstChild) { editor.innerHTML = '<p><br></p>'; return; }
+        if (editor.children.length === 0 && editor.textContent.length) {
+          const t = editor.textContent; editor.innerHTML = '<p></p>'; const p = editor.firstChild; p.textContent = t;
+          const r = document.createRange(); r.selectNodeContents(p); r.collapse(false);
+          const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        }
+      }
+      function dims() { let [w, h] = SIZES[S.size]; if (S.orientation === 'landscape') [w, h] = [h, w]; return [w, h]; }
+      function applyLayout() {
+        const [w, h] = dims(); const st = document.documentElement.style;
+        st.setProperty('--pw', w + 'px'); st.setProperty('--ph', h + 'px'); st.setProperty('--pm', MARGINS[S.margin]);
+        editor.style.columnCount = S.columns > 1 ? S.columns : 'auto'; editor.style.columnGap = '36px';
+        $('#pagecss').textContent = `@page{size:${w}px ${h}px;margin:0}`;
+        $('#layInfo').innerHTML = `الاتجاه: ${S.orientation === 'landscape' ? 'أفقي' : 'عمودي'}<br>الهوامش: ${MNAMES[S.margin]}<br>الحجم: ${S.size} · الأعمدة: ${S.columns}`;
+        updateStatus();
+      }
+      function updateStatus() {
+        const [, h] = dims(); const reflow = document.body.classList.contains('reflow'); page.style.minHeight = '0';
+        const ch = page.offsetHeight; const pages = reflow ? 1 : Math.max(1, Math.ceil(ch / h)); page.style.minHeight = reflow ? '' : (pages * h) + 'px';
+        let cur = 1;
+        try {
+          if (savedRange) {
+            let rc = savedRange.getClientRects()[0]; if (!rc) { const el = savedRange.startContainer.nodeType === 1 ? savedRange.startContainer : savedRange.startContainer.parentElement; rc = el.getBoundingClientRect(); }
+            const top = page.getBoundingClientRect().top; const z = S.zoom / 100;
+            cur = Math.min(pages, Math.max(1, Math.floor(((rc.top - top) / z) / h) + 1));
+          }
+        } catch (e) { }
+        const words = (editor.innerText || '').trim().split(/\s+/).filter(Boolean).length;
+        $('#stPage').textContent = `صفحة ${cur} من ${pages}`;
+        $('#stWords').textContent = `${words} كلمة`;
+      }
+      let saveT;
+      function scheduleSave() { if (ex.active) return; clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem('tw_doc', JSON.stringify({ h: editor.innerHTML, S })); } catch (e) { } }, 700); }
+      function afterChange() { updateStatus(); updateState(); scheduleSave(); if (ex.active) refreshExam(); }
+      editor.addEventListener('input', () => { ensureNotEmpty(); fixFonts(); afterChange(); });
+      editor.addEventListener('keyup', () => { updateStatus(); });
+      editor.addEventListener('keydown', e => {
+        if (e.key === 'Tab') { e.preventDefault(); document.execCommand('insertText', false, '\u00a0\u00a0\u00a0\u00a0'); }
+      });
+      $('#workspace').addEventListener('mousedown', e => {
+        if (e.target.id === 'workspace' || e.target.id === 'zoomwrap' || e.target.id === 'page') { e.preventDefault(); editor.focus(); const r = document.createRange(); r.selectNodeContents(editor); r.collapse(false); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+      });
+      editor.addEventListener('click', e => {
+        if (selImg) { selImg.classList.remove('sel'); selImg = null; }
+        if (e.target.tagName === 'IMG') { selImg = e.target; selImg.classList.add('sel'); }
+        updateContext();
+      });
+
+      /* ---------- font size ---------- */
+      let pendingPt = 12;
+      function convertFonts(pt) {
+        const made = [];
+        $$('font[size="7"]', editor).forEach(f => { const sp = document.createElement('span'); sp.style.fontSize = pt + 'pt'; while (f.firstChild) sp.appendChild(f.firstChild); f.replaceWith(sp); made.push(sp); });
+        return made;
+      }
+      function fixFonts() { if ($$('font[size="7"]', editor).length) convertFonts(pendingPt); }
+      function setFontSize(pt) {
+        pendingPt = pt; restore();
+        document.execCommand('styleWithCSS', false, false);
+        document.execCommand('fontSize', false, '7');
+        document.execCommand('styleWithCSS', false, true);
+        const made = convertFonts(pt);
+        if (made.length) { const r = document.createRange(); r.setStartBefore(made[0]); r.setEndAfter(made[made.length - 1]); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+        afterChange();
+      }
+      const SIZELIST = [8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 36, 48, 72];
+      function curSize() {
+        const s = getSelection(); if (!s.rangeCount || !inEditor(s.anchorNode)) return 12;
+        const el = s.anchorNode.nodeType === 1 ? s.anchorNode : s.anchorNode.parentElement;
+        return Math.round(parseFloat(getComputedStyle(el).fontSize) * 0.75);
+      }
+      function stepSize(d) {
+        const c = curSize(); let i = SIZELIST.findIndex(x => x >= c);
+        if (i < 0) i = SIZELIST.length - 1;
+        if (d > 0) { i = SIZELIST[i] > c ? i : i + 1; } else { i = i - 1; }
+        i = Math.max(0, Math.min(SIZELIST.length - 1, i)); setFontSize(SIZELIST[i]);
+      }
+
+      /* ---------- blocks ---------- */
+      const BLOCK = 'p,h1,h2,h3,h4,h5,h6,li,blockquote,div,td,th';
+      function getBlocks() {
+        const s = getSelection(); let r = null;
+        if (s.rangeCount && inEditor(s.getRangeAt(0).commonAncestorContainer)) r = s.getRangeAt(0); else r = savedRange;
+        if (!r) return [];
+        const out = [];
+        $$(BLOCK, editor).forEach(b => {
+          if (b.classList.contains('page-break') || b.querySelector(BLOCK + ',table')) return;
+          if (!r.intersectsNode(b)) return;
+          if (!r.collapsed) {
+            const pre = document.createRange(); pre.selectNodeContents(b);
+            if (r.compareBoundaryPoints(Range.START_TO_END, pre) <= 0) return;
+            if (r.compareBoundaryPoints(Range.END_TO_START, pre) >= 0) return;
+          }
+          out.push(b);
+        });
+        return out;
+      }
+      function blockStyle(prop, val) { restore(); getBlocks().forEach(b => b.style[prop] = val); afterChange(); }
+
+      /* ---------- state ---------- */
+      const STATE_CMDS = ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'insertUnorderedList', 'insertOrderedList', 'justifyRight', 'justifyCenter', 'justifyLeft', 'justifyFull'];
+      function updateState() {
+        const s = getSelection();
+        if (s.rangeCount && inEditor(s.anchorNode)) {
+          STATE_CMDS.forEach(c => { let on = false; try { on = document.queryCommandState(c); } catch (e) { } $$('[data-cmd="' + c + '"]').forEach(b => b.classList.toggle('on', !!on)); });
+          try {
+            let fn = (document.queryCommandValue('fontName') || '').split(',')[0].replace(/["']/g, '').trim().toLowerCase();
+            const fs = $('#fontName'); const o = [...fs.options].find(x => x.text.toLowerCase() === fn); if (o) fs.value = o.text;
+            const sz = curSize(); const so = [...$('#fontSize').options].reduce((a, b) => Math.abs(+b.text - sz) < Math.abs(+a.text - sz) ? b : a); $('#fontSize').value = so.text;
+          } catch (e) { }
+        }
+        updateContext();
+      }
+      function curCell() {
+        const n = savedRange && savedRange.startContainer; if (!n) return null;
+        const e = n.nodeType === 1 ? n : n.parentElement; if (!e || !editor.contains(e)) return null;
+        return e.closest('td,th');
+      }
+      function updateContext() {
+        const inT = !!curCell(), inI = !!(selImg && editor.contains(selImg));
+        $('[data-tab="table"]').classList.toggle('hide', !inT);
+        $('[data-tab="pic"]').classList.toggle('hide', !inI);
+        const act = $('.tab.active'); if (act && act.classList.contains('hide')) showTab('home');
+      }
+
+      /* ---------- tabs ---------- */
+      function showTab(n) {
+        $$('.tab[data-tab]').forEach(t => t.classList.toggle('active', t.dataset.tab === n));
+        $$('.panel').forEach(p => p.classList.toggle('active', p.id === 'p-' + n));
+      }
+
+      /* ---------- popup ---------- */
+      const pop = $('#pop');
+      function closePop() { pop.style.display = 'none'; pop.innerHTML = ''; popAnchor = null; }
+      function openPop(anchor, node) {
+        if (popAnchor === anchor) { closePop(); return; }
+        pop.innerHTML = ''; pop.appendChild(node); pop.style.display = 'block'; popAnchor = anchor;
+        const r = anchor.getBoundingClientRect();
+        let left = r.right - pop.offsetWidth; if (left < 4) left = 4; if (left + pop.offsetWidth > innerWidth - 4) left = innerWidth - pop.offsetWidth - 4;
+        pop.style.left = left + 'px';
+        let top = r.bottom + 2; if (top + pop.offsetHeight > innerHeight - 4) { top = r.top - pop.offsetHeight - 2; if (top < 4) top = Math.max(4, innerHeight - pop.offsetHeight - 4); }
+        pop.style.top = top + 'px';
+      }
+      document.addEventListener('mousedown', e => { if (!e.target.closest('#pop') && !e.target.closest('[data-act]')) closePop(); });
+      function menuNode(items) {
+        const w = document.createElement('div');
+        items.forEach(it => { const d = document.createElement('div'); d.className = 'mitem' + (it.active ? ' act' : ''); d.textContent = (it.active ? '✓ ' : '') + it.label; d.onclick = () => { closePop(); it.fn(); }; w.appendChild(d); });
+        return w;
+      }
+      function hsl2hex(h, s, l) { s /= 100; l /= 100; const k = n => (n + h / 30) % 12; const a = s * Math.min(l, 1 - l); const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); const x = v => Math.round(255 * v).toString(16).padStart(2, '0'); return '#' + x(f(0)) + x(f(8)) + x(f(4)); }
+      const COLORS = (() => {
+        const a = ['#000000', '#434343', '#666666', '#888888', '#aaaaaa', '#cccccc', '#dddddd', '#eeeeee', '#f6f6f6', '#ffffff'];[0, 30, 50, 90, 150, 180, 210, 240, 270, 320].forEach(() => { });
+        [85, 70, 55, 40, 25].forEach(l => [0, 30, 50, 90, 150, 180, 210, 240, 270, 320].forEach(h => a.push(hsl2hex(h, 78, l)))); return a;
+      })();
+      function paletteNode(cb, noneLabel) {
+        const w = document.createElement('div'); w.className = 'pal';
+        const g = document.createElement('div'); g.className = 'pgrid';
+        COLORS.forEach(c => { const d = document.createElement('div'); d.className = 'sw'; d.style.background = c; d.title = c; d.onclick = () => { closePop(); cb(c); }; g.appendChild(d); });
+        w.appendChild(g);
+        const n = document.createElement('div'); n.className = 'pitem'; n.textContent = noneLabel; n.onclick = () => { closePop(); cb(null); }; w.appendChild(n);
+        const m = document.createElement('label'); m.className = 'pitem'; m.innerHTML = '🎨 ألوان أخرى… <input type="color" style="visibility:hidden;width:0;height:0;position:absolute">';
+        m.querySelector('input').addEventListener('change', ev => { closePop(); cb(ev.target.value); });
+        w.appendChild(m); return w;
+      }
+      function tableGrid() {
+        const w = document.createElement('div');
+        const info = document.createElement('div'); info.className = 'tinfo'; info.textContent = 'اختر حجم الجدول'; w.appendChild(info);
+        const g = document.createElement('div'); g.className = 'tg';
+        for (let r = 1; r <= 8; r++)for (let c = 1; c <= 10; c++) { const d = document.createElement('div'); d.dataset.r = r; d.dataset.c = c; g.appendChild(d); }
+        g.addEventListener('mouseover', e => { const t = e.target; if (!t.dataset.r) return; const R = +t.dataset.r, C = +t.dataset.c; $$('div', g).forEach(x => x.classList.toggle('hl', +x.dataset.r <= R && +x.dataset.c <= C)); info.textContent = R + ' صف × ' + C + ' عمود'; });
+        g.addEventListener('click', e => { const t = e.target; if (!t.dataset.r) return; closePop(); insertTable(+t.dataset.r, +t.dataset.c); });
+        w.appendChild(g);
+        const m = document.createElement('div'); m.className = 'mitem'; m.textContent = '▦ جدول مخصص…'; m.onclick = () => { closePop(); tableDialog(); }; w.appendChild(m);
+        return w;
+      }
+
+      /* ---------- modal ---------- */
+      function modal(title, body, buttons, light) {
+        $('#modalBox').classList.remove('wide'); $('#modalB').onclick = null; $('#modalT').textContent = title; $('#modalB').innerHTML = body;
+        const f = $('#modalF'); f.innerHTML = '';
+        buttons.forEach(b => { const x = document.createElement('button'); x.className = 'mbtn ' + (b.cls || ''); x.textContent = b.label; x.onclick = () => { if (b.fn && b.fn() === false) return; closeModal(); }; f.appendChild(x); });
+        const bd = $('#modalBd'); bd.classList.toggle('light', !!light); bd.classList.add('show');
+        const i = $('#modalB input'); if (i) setTimeout(() => i.focus(), 30);
+      }
+      function closeModal() { $('#modalBd').classList.remove('show', 'light'); }
+
+      /* ---------- insert ---------- */
+      function insertHTML(h) { restore(); document.execCommand('insertHTML', false, h); afterChange(); }
+      function insertTable(r, c) {
+        let h = '<table style="border-collapse:collapse;width:100%"><tbody>';
+        for (let i = 0; i < r; i++) { h += '<tr>'; for (let j = 0; j < c; j++)h += '<td style="border:1px solid #333;padding:6px;vertical-align:top"><br></td>'; h += '</tr>'; }
+        insertHTML(h + '</tbody></table><p><br></p>');
+      }
+      function tableDialog() {
+        modal('إدراج جدول', '<label>عدد الأعمدة</label><input class="inp" id="tc" type="number" min="1" max="20" value="3"><label>عدد الصفوف</label><input class="inp" id="tr" type="number" min="1" max="50" value="3">',
+          [{ label: 'موافق', cls: 'pri', fn: () => { const c = Math.max(1, Math.min(20, +$('#tc').value || 3)), r = Math.max(1, Math.min(50, +$('#tr').value || 3)); insertTable(r, c); } }, { label: 'إلغاء' }]);
+      }
+      function linkDialog() {
+        const sel = savedRange ? savedRange.toString() : '';
+        modal('إدراج رابط تشعبي', '<label>النص المعروض</label><input class="inp" id="lt" value="' + esc(sel) + '"><label>العنوان (URL)</label><input class="inp" id="lu" dir="ltr" placeholder="https://example.com" value="https://">',
+          [{
+            label: 'موافق', cls: 'pri', fn: () => {
+              let u = $('#lu').value.trim(); if (!u || u === 'https://') { toast('أدخل عنوان الرابط'); return false; }
+              if (!/^(https?:|mailto:)/i.test(u)) u = 'https://' + u;
+              const t = $('#lt').value.trim() || u;
+              if (sel && t === sel) { restore(); document.execCommand('createLink', false, u); afterChange(); }
+              else insertHTML('<a href="' + esc(u) + '" target="_blank">' + esc(t) + '</a>&nbsp;');
+            }
+          }, { label: 'إلغاء' }]);
+      }
+      const SAMPLE_IMG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='320' height='200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#2b579a'/><stop offset='1' stop-color='#6fa8dc'/></linearGradient></defs><rect width='320' height='200' fill='url(#g)'/><circle cx='240' cy='60' r='28' fill='#ffd966'/><path d='M0 200 L110 90 L190 160 L240 120 L320 200Z' fill='#1e3f73' opacity='.85'/></svg>");
+      $('#imgFile').addEventListener('change', e => {
+        const f = e.target.files[0]; if (!f) return;
+        const rd = new FileReader(); rd.onload = () => { insertHTML('<img src="' + rd.result + '" style="width:300px">'); }; rd.readAsDataURL(f); e.target.value = '';
+      });
+      const SYMS = ['©', '®', '™', '€', '£', '¥', '§', '¶', '°', '±', '×', '÷', '≈', '≠', '≤', '≥', '∞', '√', '∑', 'π', 'Ω', 'α', 'β', 'γ', 'δ', 'µ', '←', '→', '↑', '↓', '↔', '✓', '✗', '★', '☆', '♥', '☺', '✉', '☎', '«', '»', '؟', '،', '؛', '½', '¼', '¾', '²', '³', '‰'];
+      function symbolsNode() { const g = document.createElement('div'); g.className = 'symg'; SYMS.forEach(s => { const d = document.createElement('div'); d.textContent = s; d.onclick = () => { closePop(); restore(); document.execCommand('insertText', false, s); afterChange(); }; g.appendChild(d); }); return g; }
+
+      /* ---------- find / replace ---------- */
+      function textNodes() { const w = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT); const a = []; while (w.nextNode()) a.push(w.currentNode); return a; }
+      function offsetOf(node, off) { const pre = document.createRange(); pre.selectNodeContents(editor); pre.setEnd(node, off); return pre.toString().length; }
+      function findNext(q) {
+        if (!q) return false;
+        const nodes = textNodes(), full = nodes.map(n => n.data).join('').toLowerCase(); q = q.toLowerCase();
+        let from = 0; if (savedRange && editor.contains(savedRange.endContainer)) from = offsetOf(savedRange.endContainer, savedRange.endOffset);
+        let i = full.indexOf(q, from); if (i < 0) i = full.indexOf(q, 0); if (i < 0) return false;
+        let acc = 0, sN, sO, eN, eO;
+        for (const n of nodes) {
+          const L = n.data.length;
+          if (sN === undefined && i < acc + L) { sN = n; sO = i - acc; }
+          if (sN !== undefined && i + q.length <= acc + L) { eN = n; eO = i + q.length - acc; break; }
+          acc += L;
+        }
+        if (!sN || !eN) return false;
+        const r = document.createRange(); r.setStart(sN, sO); r.setEnd(eN, eO);
+        const s = getSelection(); s.removeAllRanges(); s.addRange(r); savedRange = r.cloneRange();
+        const el = sN.parentElement; if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center' });
+        return true;
+      }
+      function replaceOne(q, rep) {
+        if (savedRange && savedRange.toString().toLowerCase() === q.toLowerCase() && q) {
+          const r = savedRange; r.deleteContents(); const t = document.createTextNode(rep); r.insertNode(t);
+          const nr = document.createRange(); nr.setStartAfter(t); nr.collapse(true); savedRange = nr; afterChange();
+        }
+        return findNext(q);
+      }
+      function replaceAll(q, rep) {
+        if (!q) return 0; let cnt = 0; const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        textNodes().forEach(n => { const m = n.data.match(re); if (m) { cnt += m.length; n.data = n.data.replace(re, () => rep); } });
+        afterChange(); return cnt;
+      }
+      function findDialog(withReplace) {
+        const body = '<label>البحث عن</label><input class="inp" id="fq">' + (withReplace ? '<label>استبدال بـ</label><input class="inp" id="fr">' : '');
+        const btns = [{ label: 'بحث عن التالي', cls: 'pri', fn: () => { if (!findNext($('#fq').value)) toast('لم يتم العثور على النص'); return false; } }];
+        if (withReplace) {
+          btns.push({ label: 'استبدال', fn: () => { if (!replaceOne($('#fq').value, $('#fr').value)) toast('لم يتم العثور على المزيد'); return false; } });
+          btns.push({ label: 'استبدال الكل', fn: () => { const n = replaceAll($('#fq').value, $('#fr').value); toast(n ? ('تم استبدال ' + n + ' موضع') : 'لم يتم العثور على النص'); return false; } });
+        }
+        btns.push({ label: 'إغلاق' });
+        modal(withReplace ? 'بحث واستبدال' : 'بحث', body, btns, true);
+      }
+
+      /* ---------- files ---------- */
+      function download(name, content, type) { const b = new Blob([content], { type }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+      function fileBase() { return (S.name || 'document').replace(/[\\/:*?"<>|]/g, '_'); }
+      function wrapDoc(forWord) {
+        const [w] = dims();
+        return '<!DOCTYPE html><html dir="rtl" lang="ar" ' + (forWord ? 'xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"' : '') + '><head><meta charset="utf-8"><title>' + esc(S.name) + '</title><style>body{font-family:Segoe UI,Tahoma,Arial;font-size:12pt;direction:rtl;line-height:1.5}table{border-collapse:collapse}img{max-width:100%}</style></head><body dir="rtl">' + editor.innerHTML + '</body></html>';
+      }
+      function sanitize(html) {
+        const d = new DOMParser().parseFromString(html, 'text/html');
+        d.querySelectorAll('script,iframe,object,embed,link,meta,style,base,form').forEach(e => e.remove());
+        d.querySelectorAll('*').forEach(e => { [...e.attributes].forEach(a => { if (/^on/i.test(a.name) || /^\s*javascript:/i.test(a.value)) e.removeAttribute(a.name); }); });
+        return d.body.innerHTML;
+      }
+      $('#openFile').addEventListener('change', e => {
+        const f = e.target.files[0]; if (!f) return; const rd = new FileReader();
+        rd.onload = () => {
+          let h;
+          if (/\.txt$/i.test(f.name)) h = String(rd.result).split(/\r?\n/).map(l => '<p>' + (esc(l) || '<br>') + '</p>').join('');
+          else h = sanitize(String(rd.result));
+          editor.innerHTML = h || '<p><br></p>'; S.name = f.name.replace(/\.[^.]+$/, ''); setTitle(); afterChange(); toast('تم فتح الملف');
+        }; rd.readAsText(f, 'utf-8'); e.target.value = '';
+      });
+      function setTitle() { $('#docTitle').textContent = S.name + ' - Word'; }
+      function newDoc() {
+        if ((editor.innerText || '').trim() && !confirm('سيتم مسح المستند الحالي. هل تريد المتابعة؟')) return;
+        resetDoc('<p><br></p>'); S.name = 'مستند1'; setTitle();
+      }
+      function resetDoc(h) {
+        editor.innerHTML = h; S.orientation = 'portrait'; S.margin = 'normal'; S.size = 'A4'; S.columns = 1; applyLayout();
+        selImg = null; savedRange = null; afterChange();
+      }
+      function doPrint() { closePop(); window.print(); }
+
+      /* ---------- table ops ---------- */
+      function mkCell(like) { const c = document.createElement(like.tagName); c.setAttribute('style', like.getAttribute('style') || ''); c.innerHTML = '<br>'; c.style.backgroundColor = ''; return c; }
+      function tblOp(fn) { const c = curCell(); if (!c) { toast('ضع المؤشر داخل خلية في الجدول'); return; } fn(c, c.parentElement, c.closest('table')); afterChange(); }
+
+      /* ---------- actions ---------- */
+      const ACT = {
+        file() { $('#backstage').classList.add('show'); },
+        closeFile() { $('#backstage').classList.remove('show'); },
+        newDoc() { ACT.closeFile(); newDoc(); },
+        open() { ACT.closeFile(); $('#openFile').click(); },
+        save() { ACT.closeFile(); download(fileBase() + '.html', wrapDoc(false), 'text/html'); toast('تم حفظ المستند'); },
+        saveDoc() { ACT.closeFile(); download(fileBase() + '.doc', wrapDoc(true), 'application/msword'); toast('تم حفظ المستند بصيغة Word'); },
+        print() { ACT.closeFile(); setTimeout(doPrint, 80); },
+        fs() { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); },
+        async paste() { try { const t = await navigator.clipboard.readText(); restore(); document.execCommand('insertText', false, t); afterChange(); } catch (e) { toast('المتصفح منع الوصول للحافظة — استخدم Ctrl+V'); } },
+        sizeUp() { stepSize(1); }, sizeDown() { stepSize(-1); },
+        fontColor(b) { openPop(b, paletteNode(c => { c = c || '#000000'; $('#fcBar').style.background = c; cmd('foreColor', c); }, 'تلقائي (أسود)')); },
+        hilite(b) { openPop(b, paletteNode(c => { if (c) $('#hlBar').style.background = c; restore(); const v = c || 'transparent'; if (!document.execCommand('hiliteColor', false, v)) document.execCommand('backColor', false, v); afterChange(); }, 'بدون تمييز')); },
+        rtl() { blockStyle('direction', 'rtl'); restore(); getBlocks().forEach(b => b.setAttribute('dir', 'rtl')); afterChange(); },
+        ltr() { restore(); getBlocks().forEach(b => { b.setAttribute('dir', 'ltr'); b.style.direction = 'ltr'; }); afterChange(); },
+        lineSpace(b) { openPop(b, menuNode(['1.0', '1.15', '1.5', '2.0', '2.5', '3.0'].map(v => ({ label: v, fn: () => blockStyle('lineHeight', v) })))); },
+        style(b) { restore(); document.execCommand('formatBlock', false, b.dataset.tag); afterChange(); },
+        find() { findDialog(false); }, replace() { findDialog(true); },
+        tablePop(b) { openPop(b, tableGrid()); },
+        picPop(b) { openPop(b, menuNode([{ label: '🖼 صورة من الجهاز…', fn: () => $('#imgFile').click() }, { label: '🏞 صورة تجريبية', fn: () => insertHTML('<img src="' + SAMPLE_IMG + '" style="width:300px">') }])); },
+        link() { linkDialog(); },
+        pageBreak() { insertHTML('<div class="page-break" contenteditable="false"></div><p><br></p>'); },
+        hr() { insertHTML('<hr><p><br></p>'); },
+        date() { restore(); document.execCommand('insertText', false, new Date().toLocaleString('ar-IQ', { dateStyle: 'full', timeStyle: 'short' })); afterChange(); },
+        symbols(b) { openPop(b, symbolsNode()); },
+        marginPop(b) { openPop(b, menuNode(Object.keys(MARGINS).map(k => ({ label: MNAMES[k], active: S.margin === k, fn: () => { S.margin = k; applyLayout(); afterChange(); } })))); },
+        orientPop(b) { openPop(b, menuNode([['portrait', 'عمودي'], ['landscape', 'أفقي']].map(([k, l]) => ({ label: l, active: S.orientation === k, fn: () => { S.orientation = k; applyLayout(); afterChange(); } })))); },
+        sizePop(b) { openPop(b, menuNode(Object.keys(SIZES).map(k => ({ label: k, active: S.size === k, fn: () => { S.size = k; applyLayout(); afterChange(); } })))); },
+        colPop(b) { openPop(b, menuNode([[1, 'عمود واحد'], [2, 'عمودان'], [3, 'ثلاثة أعمدة']].map(([k, l]) => ({ label: l, active: S.columns === k, fn: () => { S.columns = k; applyLayout(); afterChange(); } })))); },
+        zoomIn() { setZoom(S.zoom + 10); }, zoomOut() { setZoom(S.zoom - 10); }, zoom100() { setZoom(100); },
+        ruler() { document.body.classList.toggle('noruler'); },
+        rowAbove() { tblOp((c, r) => { const n = document.createElement('tr');[...r.cells].forEach(x => n.appendChild(mkCell(x))); r.before(n); }); },
+        rowBelow() { tblOp((c, r) => { const n = document.createElement('tr');[...r.cells].forEach(x => n.appendChild(mkCell(x))); r.after(n); }); },
+        colRight() { tblOp((c, r, t) => { const i = c.cellIndex;[...t.rows].forEach(row => { const ref = row.cells[i] || row.cells[row.cells.length - 1]; if (ref) ref.before(mkCell(ref)); }); }); },
+        colLeft() { tblOp((c, r, t) => { const i = c.cellIndex;[...t.rows].forEach(row => { const ref = row.cells[i] || row.cells[row.cells.length - 1]; if (ref) ref.after(mkCell(ref)); }); }); },
+        delRow() { tblOp((c, r, t) => { if (t.rows.length <= 1) t.remove(); else r.remove(); }); },
+        delCol() { tblOp((c, r, t) => { const i = c.cellIndex; if (r.cells.length <= 1) { t.remove(); return; } [...t.rows].forEach(row => { if (row.cells[i]) row.cells[i].remove(); }); }); },
+        delTable() { tblOp((c, r, t) => t.remove()); },
+        cellShade(b) { if (!curCell()) { toast('ضع المؤشر داخل خلية'); return; } openPop(b, paletteNode(col => tblOp(c => { c.style.backgroundColor = col || ''; }), 'بدون تظليل')); },
+        headRow() { tblOp((c, r, t) => { const row = t.rows[0]; const on = row.cells[0].style.backgroundColor === '';[...row.cells].forEach(x => { x.style.backgroundColor = on ? '#dce6f2' : ''; x.style.fontWeight = on ? '700' : ''; }); }); },
+        borders() { tblOp((c, r, t) => { const cells = $$('td,th', t); const on = cells[0].style.border.indexOf('none') > -1 || cells[0].style.borderStyle === 'none'; cells.forEach(x => { x.style.border = on ? '1px solid #333' : 'none'; }); }); },
+        imgBigger() { if (selImg) { selImg.style.width = Math.min(page.clientWidth, Math.round(selImg.getBoundingClientRect().width / (S.zoom / 100) * 1.2)) + 'px'; afterChange(); } },
+        imgSmaller() { if (selImg) { selImg.style.width = Math.max(24, Math.round(selImg.getBoundingClientRect().width / (S.zoom / 100) / 1.2)) + 'px'; afterChange(); } },
+        imgRight() { if (selImg) { selImg.style.cssText += ';float:right;display:inline;margin:4px 0 4px 12px'; afterChange(); } },
+        imgLeft() { if (selImg) { selImg.style.cssText += ';float:left;display:inline;margin:4px 12px 4px 0'; afterChange(); } },
+        imgCenter() { if (selImg) { selImg.style.cssText += ';float:none;display:block;margin:8px auto'; afterChange(); } },
+        imgDel() { if (selImg) { selImg.remove(); selImg = null; afterChange(); updateContext(); } },
+        catalog() { ACT.closeFile(); openCatalog(); }, examSettings() { openSettings(); }, history() { ACT.closeFile(); showHistory(); }, submitTask() { submitTask(false); }, exitRun() { exitRun(); }, viewMode() { S.view = S.view === 'mobile' ? 'print' : 'mobile'; applyView(); toast(S.view === 'mobile' ? 'عرض الهاتف (انسيابي)' : 'عرض الصفحة (A4)'); }
+      };
+      function setZoom(z) { if (document.body.classList.contains('reflow')) z = 100; S.zoom = Math.max(30, Math.min(200, Math.round(z / 5) * 5)); $('#zoomwrap').style.zoom = S.zoom / 100; $('#zoomR').value = S.zoom; $('#zoomT').textContent = S.zoom + '%'; updateStatus(); }
+      function applyView() {
+        document.body.classList.toggle('reflow', S.view === 'mobile');
+        setZoom(100);
+        if (S.view === 'print') { const ws = $('#workspace'); const w = dims()[0]; const fit = Math.floor((ws.clientWidth - 16) / w * 20) * 5; if (fit < 100) setZoom(fit); }
+        updateStatus();
+      }
+      $('#zoomR').addEventListener('input', e => setZoom(+e.target.value));
+
+      /* delegated clicks */
+      document.addEventListener('click', e => {
+        const tb = e.target.closest('.tab[data-tab]'); if (tb) { closePop(); showTab(tb.dataset.tab); if (tb.dataset.tab === 'exam') openCatalog(); return; }
+        const h = e.target.closest('[data-hint]'); if (h) { $('#hint' + h.dataset.hint).classList.toggle('show'); return; }
+        const b = e.target.closest('[data-cmd],[data-act]'); if (!b) return;
+        if (b.dataset.cmd) { closePop(); cmd(b.dataset.cmd, b.dataset.val); }
+        else if (ACT[b.dataset.act]) { ACT[b.dataset.act](b, e); }
+      });
+      document.addEventListener('mousedown', e => {
+        if (e.target.closest('.titlebar,.tabs,.ribbon,#pop,.status') && !e.target.closest('input,select,textarea,label,option')) e.preventDefault();
+      });
+      document.addEventListener('change', e => {
+        const t = e.target;
+        if (t.id === 'fontName') cmd('fontName', t.value);
+        else if (t.id === 'fontSize') setFontSize(+t.value);
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closePop(); closeModal(); ACT.closeFile(); return; }
+        if (e.ctrlKey || e.metaKey) {
+          const k = e.key.toLowerCase();
+          if (k === 's') { e.preventDefault(); ACT.save(); }
+          else if (k === 'p') { e.preventDefault(); doPrint(); }
+          else if (k === 'f') { e.preventDefault(); findDialog(false); }
+          else if (k === 'h') { e.preventDefault(); findDialog(true); }
+        }
+      });
+
+      /* alignment icons */
+      (function () {
+        const lines = { r: [[2, 16], [6, 16], [2, 16], [6, 16]], c: [[3, 13], [1, 15], [3, 13], [1, 15]], l: [[0, 14], [0, 16], [0, 14], [0, 16]], j: [[0, 16], [0, 16], [0, 16], [0, 16]] };
+        const rr = { r: [[6, 16], [2, 16], [8, 16], [2, 16]], c: [[4, 12], [2, 14], [4, 12], [2, 14]], l: [[0, 10], [0, 16], [0, 8], [0, 16]], j: [[0, 16], [0, 16], [0, 16], [0, 16]] };
+        $$('[data-ai]').forEach(b => { const k = b.dataset.ai; b.innerHTML = '<svg width="16" height="14" viewBox="0 0 16 14">' + rr[k].map((l, i) => `<rect x="${l[0]}" y="${i * 3.6}" width="${l[1] - l[0]}" height="1.8" fill="#333"/>`).join('') + '</svg>'; });
+      })();
+
+      /* =====================================================
+         الاختبار العملي: اختبارات ← مهام ← معايير
+         ===================================================== */
+      const ex = { active: false, submitted: false };
+      const LS = { get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } } };
+      let cfg = Object.assign({ name: '', timer: false, scope: 'task', taskMin: 5, examMin: 15, live: true }, LS.get('tw_cfg', {}));
+      const saveCfg = () => LS.set('tw_cfg', cfg);
+      let prog = LS.get('tw_prog', {});
+      const isBlack = c => /^(black|#000(000)?|rgb\(\s*0,\s*0,\s*0\s*\))$/i.test(c);
+      const allEl = r => [r, ...r.querySelectorAll('*')];
+      const has = (r, sel, re) => !!r && ((sel && r.querySelector(sel)) || allEl(r).some(e => re.test(e.getAttribute('style') || '')));
+      const SYMRE = /[©®™€£¥§°±×÷≈≠≤≥∞√∑πΩ←→★✓♥☺]/;
+      const H = {
+        words: () => (editor.innerText || '').trim().split(/\s+/).filter(Boolean).length,
+        bold: (r = editor) => has(r, 'b,strong', /font-weight:\s*(bold|[6-9]00)/i),
+        italic: (r = editor) => has(r, 'i,em', /font-style:\s*italic/i),
+        underline: (r = editor) => has(r, 'u', /underline/i),
+        strike: () => has(editor, 's,strike,del', /line-through/i),
+        color: (r = editor) => !!r && (allEl(r).some(e => e.style && e.style.color && !isBlack(e.style.color)) || !!r.querySelector('font[color]')),
+        family: (r = editor) => has(r, 'font[face]', /font-family/i),
+        size: n => $$('[style*="font-size"]', editor).some(e => /pt$/.test(e.style.fontSize) && parseFloat(e.style.fontSize) >= n),
+        align: (el, a) => !!el && (el.style.textAlign === a || el.getAttribute('align') === a),
+        anyAlign: a => $$('*', editor).some(e => H.align(e, a)),
+        bg: (r = editor) => !!r && allEl(r).some(e => e.style && e.style.backgroundColor && !/transparent|rgba\(0, 0, 0, 0\)/.test(e.style.backgroundColor)),
+        table: (n, m) => { const t = editor.querySelector('table'); return !!t && t.rows.length >= n && Math.max(...[...t.rows].map(r => r.cells.length)) >= m; },
+        indent: () => !!editor.querySelector('blockquote') || $$('[style*="margin"]', editor).some(e => /margin(-right|-left)?:\s*[^;]*[1-9]\d*px/.test(e.getAttribute('style') || '') && !/^(TD|TH|TABLE|IMG|HR|DIV)$/.test(e.tagName))
+      };
+      const P2 = 'أصبح الحاسوب جزءاً أساسياً من حياتنا اليومية، فهو يُستخدم في المدارس والجامعات والمستشفيات والمصانع والمصارف. ويساعد الإنسان على إنجاز أعماله بسرعة ودقة عاليتين، كما يوفر له الوقت والجهد في كتابة الوثائق وحفظ المعلومات والتواصل مع الآخرين.';
+      const P3 = 'ومن أبرز برامج الحاسوب المستخدمة في المكاتب برنامج معالج النصوص Word الذي يتيح كتابة المستندات وتنسيقها وطباعتها بسهولة. ويحتاج كل مستخدم إلى تعلم مهارات التنسيق الأساسية ليخرج مستنداته بشكل منظم وجذاب.';
+      const BLANK = '<p><br></p>';
+      const EXAMS = [
+        {
+          id: 'text', icon: '🔤', title: 'تنسيق النص', desc: 'الخط، الأحجام، الألوان والتمييز', tasks: [
+            {
+              id: 't1', title: 'الخط الأساسي', goal: 'اكتب فقرة عن مدرستك (15 كلمة فأكثر) ثم نسّق كلماتها بالغامق والمائل والتسطير واللون ونوع الخط.', start: BLANK, crit: [
+                { t: 'كتابة فقرة لا تقل عن 15 كلمة', pts: 20, hint: 'انقر داخل الصفحة واكتب أي موضوع تريده.', check: () => H.words() >= 15 },
+                { t: 'جعل كلمة بخط غامق (Bold)', pts: 15, hint: 'حدد كلمة ← الصفحة الرئيسية ← زر B (أو Ctrl+B).', check: () => H.bold() },
+                { t: 'جعل كلمة بخط مائل (Italic)', pts: 15, hint: 'حدد كلمة ← زر I (أو Ctrl+I).', check: () => H.italic() },
+                { t: 'وضع خط تحت كلمة (تسطير)', pts: 15, hint: 'حدد كلمة ← زر U (أو Ctrl+U).', check: () => H.underline() },
+                { t: 'تغيير لون جزء من النص (غير الأسود)', pts: 20, hint: 'حدد نصاً ← زر لون الخط (A الملوّنة) ← اختر لوناً.', check: () => H.color() },
+                { t: 'تغيير نوع الخط لجزء من النص', pts: 15, hint: 'حدد نصاً ← من قائمة نوع الخط اختر خطاً مختلفاً.', check: () => H.family() }]
+            },
+            {
+              id: 't2', title: 'الحجم والتمييز', goal: 'نسّق الجملة الجاهزة: كبّر حجم الخط، ميّز كلمة بلون، اشطب كلمة، واجعل رمزاً نصاً مرتفعاً.', start: '<p>تعلّم الحاسوب مهارة مهمة لكل طالب في العصر الحديث، وبرنامج Word من أسهل البرامج وأكثرها استخداماً في إعداد الواجبات والتقارير. مثال على النص المرتفع: م2</p>', crit: [
+                { t: 'تكبير حجم الخط إلى 18 أو أكثر لكلمة أو جملة', pts: 30, hint: 'حدد نصاً ← قائمة حجم الخط ← اختر 18 فأكثر (أو زر A▲).', check: () => H.size(18) },
+                { t: 'تمييز نص بلون (Highlight)', pts: 25, hint: 'حدد كلمة ← زر القلم 🖍 ← اختر لوناً.', check: () => H.bg() },
+                { t: 'جعل كلمة يتوسطها خط (شطب)', pts: 20, hint: 'حدد كلمة ← زر ab المشطوب في مجموعة الخط.', check: () => H.strike() },
+                { t: 'جعل الرقم 2 في «م2» نصاً مرتفعاً', pts: 25, hint: 'حدد الرقم 2 فقط ← زر x² (نص مرتفع).', check: () => !!editor.querySelector('sup') }]
+            }
+          ]
+        },
+        {
+          id: 'para', icon: '📝', title: 'الفقرات والقوائم', desc: 'العناوين، المحاذاة، القوائم، التباعد', tasks: [
+            {
+              id: 't1', title: 'العنوان والمحاذاة', goal: 'نسّق المستند الجاهز: اجعل السطر الأول عنواناً رئيسياً في الوسط، واضبط الفقرتين التاليتين.', start: '<p>الحاسوب في حياتنا</p><p>' + P2 + '</p><p>' + P3 + '</p>', crit: [
+                { t: 'جعل السطر الأول بنمط «عنوان 1»', pts: 25, hint: 'ضع المؤشر في السطر الأول ← مجموعة الأنماط ← عنوان 1.', check: () => { const f = editor.children[0]; return !!f && f.tagName === 'H1' && f.textContent.includes('الحاسوب'); } },
+                { t: 'توسيط العنوان', pts: 25, hint: 'ضع المؤشر في العنوان ← زر التوسيط.', check: () => H.align(editor.children[0], 'center') },
+                { t: 'ضبط الفقرة الثانية (Justify)', pts: 25, hint: 'ضع المؤشر في الفقرة الثانية ← زر الضبط (الرابع في صف المحاذاة).', check: () => H.align(editor.children[1], 'justify') },
+                { t: 'محاذاة الفقرة الثالثة لليسار', pts: 25, hint: 'ضع المؤشر في الفقرة الثالثة ← زر المحاذاة لليسار.', check: () => H.align(editor.children[2], 'left') }]
+            },
+            {
+              id: 't2', title: 'القوائم والتباعد', goal: 'حوّل الأسطر إلى قوائم مناسبة، ثم غيّر تباعد الأسطر وأضف مسافة بادئة.', start: '<p>مكوّنات الحاسوب:</p><p>المعالج</p><p>الذاكرة</p><p>الشاشة</p><p>خطوات تشغيل الحاسوب:</p><p>ضغط زر التشغيل</p><p>انتظار تحميل النظام</p><p>فتح البرنامج</p>', crit: [
+                { t: 'تحويل (المعالج، الذاكرة، الشاشة) إلى قائمة نقطية', pts: 30, hint: 'حدد الأسطر الثلاثة ← زر التعداد النقطي •≡.', check: () => $$('ul', editor).some(u => u.querySelectorAll('li').length >= 3 && u.textContent.includes('المعالج')) },
+                { t: 'تحويل خطوات التشغيل إلى قائمة مرقمة', pts: 30, hint: 'حدد الأسطر الثلاثة الأخيرة ← زر التعداد الرقمي 1≡.', check: () => $$('ol', editor).some(u => u.querySelectorAll('li').length >= 3 && u.textContent.includes('التشغيل')) },
+                { t: 'تغيير تباعد الأسطر لفقرة (مثلاً 2.0)', pts: 20, hint: 'ضع المؤشر في فقرة ← زر «تباعد الأسطر» ← اختر قيمة.', check: () => $$('[style*="line-height"]', editor).length > 0 },
+                { t: 'إضافة مسافة بادئة لفقرة أو سطر', pts: 20, hint: 'ضع المؤشر في سطر ← زر زيادة المسافة البادئة.', check: () => H.indent() }]
+            }
+          ]
+        },
+        {
+          id: 'insert', icon: '▦', title: 'الجداول والصور والروابط', desc: 'إدراج العناصر وتنسيقها', tasks: [
+            {
+              id: 't1', title: 'الجدول', goal: 'أدرج جدولاً واملأه ثم ظلّل جزءاً منه.', start: BLANK, crit: [
+                { t: 'إدراج جدول لا يقل عن 3 صفوف و3 أعمدة', pts: 40, hint: 'تبويب إدراج ← جدول ← اختر 3×3 أو أكثر.', check: () => H.table(3, 3) },
+                { t: 'كتابة نص في 4 خلايا على الأقل', pts: 30, hint: 'انقر داخل خلية واكتب، ثم انتقل لخلية أخرى.', check: () => $$('td,th', editor).filter(c => c.textContent.trim()).length >= 4 },
+                { t: 'تظليل خلية أو صف بلون', pts: 30, hint: 'ضع المؤشر في خلية ← تبويب «تصميم الجدول» ← تظليل الخلية.', check: () => $$('td,th', editor).some(c => c.style.backgroundColor && !/transparent/.test(c.style.backgroundColor)) }]
+            },
+            {
+              id: 't2', title: 'الصور والروابط', goal: 'أدرج صورة وغيّر حجمها ثم أدرج رابطاً تشعبياً.', start: BLANK, crit: [
+                { t: 'إدراج صورة', pts: 40, hint: 'تبويب إدراج ← صورة ← «صورة تجريبية».', check: () => !!editor.querySelector('img') },
+                { t: 'تغيير حجم الصورة', pts: 30, hint: 'انقر على الصورة ← تبويب «تنسيق الصورة» ← تكبير أو تصغير.', check: () => { const i = editor.querySelector('img'); return !!i && !!i.style.width && i.style.width !== '300px'; } },
+                { t: 'إدراج رابط تشعبي', pts: 30, hint: 'تبويب إدراج ← رابط ← اكتب النص والعنوان.', check: () => !!editor.querySelector('a[href]') }]
+            }
+          ]
+        },
+        {
+          id: 'layout', icon: '📄', title: 'تخطيط الصفحة', desc: 'الاتجاه، الهوامش، الأعمدة، الفواصل', tasks: [
+            {
+              id: 't1', title: 'إعداد الصفحة', goal: 'غيّر إعدادات الصفحة: الاتجاه والهوامش والأعمدة.', start: BLANK, crit: [
+                { t: 'تغيير اتجاه الصفحة إلى أفقي', pts: 35, hint: 'تبويب تخطيط الصفحة ← الاتجاه ← أفقي.', check: () => S.orientation === 'landscape' },
+                { t: 'جعل الهوامش «ضيقة»', pts: 35, hint: 'تبويب تخطيط الصفحة ← الهوامش ← ضيق.', check: () => S.margin === 'narrow' },
+                { t: 'تقسيم الصفحة إلى عمودين', pts: 30, hint: 'تبويب تخطيط الصفحة ← أعمدة ← عمودان.', check: () => S.columns >= 2 }]
+            },
+            {
+              id: 't2', title: 'الفواصل والرموز', goal: 'أدرج فاصل صفحة وخطاً أفقياً ورمزاً خاصاً.', start: '<p>اكتب هنا ثم أدرج العناصر المطلوبة.</p>', crit: [
+                { t: 'إدراج فاصل صفحة', pts: 40, hint: 'تبويب إدراج ← فاصل صفحة.', check: () => !!editor.querySelector('.page-break') },
+                { t: 'إدراج خط أفقي', pts: 30, hint: 'تبويب إدراج ← خط أفقي.', check: () => !!editor.querySelector('hr') },
+                { t: 'إدراج رمز خاص (مثل © أو ★)', pts: 30, hint: 'تبويب إدراج ← رمز ← اختر رمزاً.', check: () => SYMRE.test(editor.innerText || '') }]
+            }
+          ]
+        }
+      ];
+      const grade = p => p >= 90 ? 'ممتاز 🏆' : p >= 80 ? 'جيد جداً 🌟' : p >= 70 ? 'جيد 👍' : p >= 60 ? 'متوسط' : p >= 50 ? 'مقبول' : 'راسب — حاول مرة أخرى';
+      const gcol = p => p >= 90 ? '#107c41' : p >= 70 ? '#2b579a' : p >= 50 ? '#b7791f' : '#c62828';
+      const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+      function examStats(e) { const p = prog[e.id] || {}; let sum = 0, done = 0; e.tasks.forEach(t => { const b = p[t.id]; if (b) { sum += b.best; done++; } }); return { done, n: e.tasks.length, score: Math.round(sum / e.tasks.length) }; }
+      function saveProgress(eid, tid, score) { prog[eid] = prog[eid] || {}; const o = prog[eid][tid]; prog[eid][tid] = { best: Math.max(score, o ? o.best : 0), last: score, date: Date.now() }; LS.set('tw_prog', prog); }
+      function addHist(r) { const h = LS.get('tw_hist2', []); h.unshift(r); LS.set('tw_hist2', h.slice(0, 80)); }
+      function printResult() { document.body.classList.add('print-result'); setTimeout(() => { window.print(); document.body.classList.remove('print-result'); }, 80); }
+
+      /* ---- نافذة الاختبارات ---- */
+      function openCatalog() {
+        closePop();
+        const timerTxt = cfg.timer ? (cfg.scope === 'task' ? cfg.taskMin + ' د لكل مهمة' : cfg.examMin + ' د لكل اختبار') : 'بدون مؤقت';
+        const body = '<div class="cathead"><span>👤 ' + (cfg.name ? esc(cfg.name) : 'لم يُحدَّد الاسم بعد') + '</span><span>⏱ ' + timerTxt + '</span></div>' +
+          EXAMS.map(e => {
+            const st = examStats(e), p = prog[e.id] || {};
+            return '<div class="ecard"><div class="ehead2"><span class="eic">' + e.icon + '</span><div class="etl"><b>' + esc(e.title) + '</b><small>' + esc(e.desc) + '</small></div><div class="esc" style="color:' + (st.done ? gcol(st.score) : '#aaa') + '">' + (st.done ? st.score : '—') + '<small>/100</small></div></div>' +
+              '<div class="etasks">' + e.tasks.map((t, i) => { const b = p[t.id]; return '<div class="trow"><button class="play" data-play="' + e.id + '|' + i + '" title="ابدأ المهمة">▶</button><div class="ttl"><b>' + (i + 1) + '. ' + esc(t.title) + '</b><small>' + esc(t.goal) + '</small></div><div class="tbadge' + (b ? ' has' : '') + '" style="' + (b ? 'background:' + gcol(b.best) : '') + '">' + (b ? b.best : '—') + '</div></div>'; }).join('') + '</div>' +
+              '<div class="efoot"><span>أُنجزت ' + st.done + ' من ' + st.n + ' مهام</span><button class="mbtn green" data-runall="' + e.id + '">▶ بدء الاختبار كاملاً</button></div></div>';
+          }).join('');
+        modal('🎓 الاختبار العملي — اختر الاختبار والمهمة', body, [
+          { label: '⚙ إعدادات الاختبار', fn: () => { setTimeout(openSettings, 0); } },
+          { label: '📊 النتائج', fn: () => { setTimeout(showHistory, 0); } },
+          { label: 'إغلاق', cls: 'pri' }]);
+        $('#modalBox').classList.add('wide');
+        $('#modalB').onclick = ev => {
+          const pl = ev.target.closest('[data-play]');
+          if (pl) { const [id, i] = pl.dataset.play.split('|'); closeModal(); playTask(id, +i, 'single'); return; }
+          const ra = ev.target.closest('[data-runall]');
+          if (ra) { closeModal(); playTask(ra.dataset.runall, 0, 'full'); }
+        };
+      }
+      function openSettings() {
+        const body = '<label>اسم الطالب</label><input class="inp" id="cfgName" value="' + esc(cfg.name) + '">' +
+          '<label class="chk"><input type="checkbox" id="cfgTimer" ' + (cfg.timer ? 'checked' : '') + '> تفعيل المؤقت</label>' +
+          '<div id="cfgBox" class="cfgbox">' +
+          '<label class="chk"><input type="radio" name="cscope" value="task" ' + (cfg.scope === 'task' ? 'checked' : '') + '> وقت لكل مهمة</label>' +
+          '<div class="cfgrow">المدة (بالدقائق): <input class="inp sm" type="number" id="cfgTaskMin" min="1" max="180" value="' + cfg.taskMin + '"></div>' +
+          '<label class="chk"><input type="radio" name="cscope" value="exam" ' + (cfg.scope === 'exam' ? 'checked' : '') + '> وقت لكل اختبار (كامل)</label>' +
+          '<div class="cfgrow">المدة (بالدقائق): <input class="inp sm" type="number" id="cfgExamMin" min="1" max="300" value="' + cfg.examMin + '"></div>' +
+          '<div class="note">الوقت لكل اختبار يُطبَّق عند «بدء الاختبار كاملاً»، وإذا انتهى الوقت تُسلَّم المهمة الحالية وتُحتسب المهام المتبقية بصفر. عند تشغيل مهمة منفردة بهذا الخيار يكون الحل بدون مؤقت.</div></div>' +
+          '<label class="chk"><input type="checkbox" id="cfgLive" ' + (cfg.live ? 'checked' : '') + '> إظهار تقدّم المعايير والدرجة أثناء الحل</label>';
+        modal('⚙ إعدادات الاختبار', body, [
+          {
+            label: 'حفظ', cls: 'pri', fn: () => {
+              cfg.name = $('#cfgName').value.trim(); cfg.timer = $('#cfgTimer').checked;
+              cfg.scope = ($('input[name=cscope]:checked') || { value: 'task' }).value;
+              cfg.taskMin = Math.max(1, Math.min(180, +$('#cfgTaskMin').value || 5));
+              cfg.examMin = Math.max(1, Math.min(300, +$('#cfgExamMin').value || 15));
+              cfg.live = $('#cfgLive').checked; saveCfg(); toast('تم حفظ الإعدادات'); setTimeout(openCatalog, 0);
+            }
+          },
+          { label: 'إلغاء', fn: () => { setTimeout(openCatalog, 0); } }]);
+        const sync = () => { const on = $('#cfgTimer').checked; $('#cfgBox').style.opacity = on ? 1 : .45; $$('#cfgBox input').forEach(i => i.disabled = !on); };
+        $('#cfgTimer').onchange = sync; sync();
+      }
+      function ensureName(cb) {
+        if (cfg.name) { cb(); return; }
+        modal('اسم الطالب', '<label>اكتب اسمك للبدء</label><input class="inp" id="nm" placeholder="الاسم الثلاثي">', [
+          { label: 'ابدأ', cls: 'pri', fn: () => { const v = $('#nm').value.trim(); if (!v) { toast('اكتب اسمك أولاً'); return false; } cfg.name = v; saveCfg(); setTimeout(cb, 0); } },
+          { label: 'إلغاء', fn: () => { setTimeout(openCatalog, 0); } }]);
+      }
+
+      /* ---- تشغيل مهمة ---- */
+      function playTask(eid, idx, mode) {
+        const e = EXAMS.find(x => x.id === eid); if (!e) return;
+        ensureName(() => {
+          if (ex.active && !ex.submitted && !confirm('توجد مهمة جارية. هل تريد إلغاءها وبدء مهمة جديدة؟')) return;
+          if (!ex.active && (editor.innerText || '').trim() && !confirm('سيتم استبدال المستند الحالي بمستند المهمة. هل تريد المتابعة؟')) return;
+          Object.assign(ex, { active: true, exam: e, idx: idx, mode: mode, scores: e.tasks.map(() => null), submitted: false, timeUp: false, runStart: Date.now(), reshow: null });
+          loadTask(true);
+        });
+      }
+      function setupTimer(first) {
+        ex.timed = false;
+        if (cfg.timer) {
+          if (cfg.scope === 'task') { ex.timed = true; ex.end = Date.now() + cfg.taskMin * 60000; }
+          else if (ex.mode === 'full') { ex.timed = true; if (first) ex.end = Date.now() + cfg.examMin * 60000; }
+        }
+        clearInterval(ex.timer); ex.timer = setInterval(tick, 500); tick();
+      }
+      function loadTask(first) {
+        const e = ex.exam, t = e.tasks[ex.idx];
+        ex.submitted = false; ex.taskStart = Date.now();
+        resetDoc(t.start); S.name = 'اختبار - ' + e.title; setTitle();
+        document.body.classList.add('exam-on'); $('#examPanel').classList.remove('collapsed');
+        buildPanel();
+        $('#runInfo').textContent = e.title + ' › ' + t.title;
+        setupTimer(first); showTab('home');
+        const ws = $('#workspace'); if (ws) ws.scrollTop = 0;
+        toast('بدأت المهمة: ' + t.title);
+      }
+      function buildPanel() {
+        const e = ex.exam, t = e.tasks[ex.idx], p = $('#examPanel');
+        p.innerHTML = '<div class="eh" id="ehead"><div class="ehl"><div class="et">' + esc(e.icon + ' ' + e.title) + ' › ' + esc(t.title) + '</div><div class="es">👤 ' + esc(cfg.name) + (ex.mode === 'full' ? ' · المهمة ' + (ex.idx + 1) + ' من ' + e.tasks.length : ' · مهمة منفردة') + '</div></div><div class="etimer" id="etimer">∞</div><button class="hsub" data-act="submitTask">✔ تسليم</button></div>' +
+          '<div class="eb"><div class="goal">🎯 ' + esc(t.goal) + '</div><div class="livebar"><div class="eprog"><div id="eprogbar"></div></div><div class="es" id="eprogtxt"></div></div><ol class="tasks">' +
+          t.crit.map((c, i) => '<li id="tk' + i + '"><div class="tt">' + esc(c.t) + '<span class="pts">' + c.pts + ' درجة</span><button class="hintb" data-hint="' + i + '">💡 تلميح</button><div class="hint" id="hint' + i + '">' + esc(c.hint) + '</div></div></li>').join('') + '</ol></div>' +
+          '<div class="ef" id="ef"><button class="mbtn green" data-act="submitTask">✔ تسليم المهمة وعرض الدرجة</button><button class="mbtn" data-act="exitRun">خروج</button></div>';
+      }
+      function tick() {
+        if (!ex.active) return;
+        const a = $('#etimer'), b = $('#etimerR'); let txt = '∞', left = 1;
+        if (ex.timed && !ex.submitted) { left = Math.max(0, Math.round((ex.end - Date.now()) / 1000)); txt = fmt(left); }
+        if (!ex.submitted) { if (a) a.textContent = '⏱ ' + txt; if (b) { b.textContent = ex.timed ? txt : '∞'; b.classList.toggle('warn', ex.timed && left < 60); } }
+        if (ex.timed && !ex.submitted && left <= 0) { ex.timeUp = true; toast('انتهى الوقت — تم تسليم المهمة تلقائياً'); submitTask(true); return; }
+        refreshExam();
+      }
+      function refreshExam() {
+        if (!ex.active || ex.submitted) return;
+        const t = ex.exam.tasks[ex.idx], bar = $('#eprogbar'), txt = $('#eprogtxt'); if (!bar) return;
+        if (!cfg.live) { bar.style.width = '0'; txt.textContent = 'ستظهر الدرجة بعد التسليم'; return; }
+        let sc = 0;
+        t.crit.forEach((c, i) => { let ok = false; try { ok = !!c.check(); } catch (e) { } const li = $('#tk' + i); if (li) li.classList.toggle('done', ok); if (ok) sc += c.pts; });
+        bar.style.width = sc + '%'; txt.textContent = 'الدرجة الحالية: ' + sc + ' / 100';
+      }
+      function submitTask(force) {
+        if (!ex.active) { toast('لا توجد مهمة جارية — اختر مهمة من قائمة الاختبارات'); return; }
+        if (ex.submitted) { if (ex.reshow) ex.reshow(); return; }
+        if (!force && !confirm('هل تريد تسليم المهمة الآن؟')) return;
+        clearInterval(ex.timer); ex.submitted = true;
+        const e = ex.exam, t = e.tasks[ex.idx];
+        const res = t.crit.map(c => { let ok = false; try { ok = !!c.check(); } catch (err) { } return ok; });
+        let score = 0; t.crit.forEach((c, i) => { if (res[i]) score += c.pts; });
+        const used = Math.round((Date.now() - ex.taskStart) / 1000);
+        ex.scores[ex.idx] = score;
+        saveProgress(e.id, t.id, score);
+        addHist({ type: 'task', name: cfg.name, exam: e.title, task: t.title, score, date: Date.now(), used });
+        t.crit.forEach((c, i) => { const li = $('#tk' + i); if (li) li.classList.toggle('done', res[i]); });
+        const bar = $('#eprogbar'); if (bar) bar.style.width = score + '%';
+        const tx = $('#eprogtxt'); if (tx) tx.textContent = 'درجة المهمة: ' + score + ' / 100';
+        const te = $('#etimer'); if (te) te.textContent = '✔ ' + score + '/100';
+        const hs = $('#examPanel .hsub'); if (hs) hs.textContent = '📋 النتيجة';
+        const ef = $('#ef'); if (ef) ef.innerHTML = '<button class="mbtn green" data-act="submitTask">📋 عرض نتيجة المهمة</button><button class="mbtn" data-act="exitRun">خروج</button>';
+        $('#etimerR').classList.remove('warn');
+        ex.reshow = () => showTaskResult(score, res, used);
+        ex.reshow();
+      }
+      function showTaskResult(score, res, used) {
+        const e = ex.exam, t = e.tasks[ex.idx];
+        const rows = t.crit.map((c, i) => '<tr><td>' + (i + 1) + '</td><td>' + esc(c.t) + '</td><td>' + (res[i] ? '<span class="okc">✓ ' + c.pts + '</span>' : '<span class="nok">✗ 0</span>') + ' / ' + c.pts + '</td></tr>').join('');
+        const body = '<div class="brand">منصة طالب — مختبر الحاسوب الافتراضي</div>' +
+          '<div><b>الطالب:</b> ' + esc(cfg.name) + '<br><b>الاختبار:</b> ' + esc(e.title) + ' › <b>المهمة:</b> ' + esc(t.title) + '<br><b>الزمن المستغرق:</b> ' + fmt(used) + (ex.timeUp ? ' <span class="nok">(انتهى الوقت)</span>' : '') + '</div>' +
+          '<div class="score"><div class="n" style="color:' + gcol(score) + '">' + score + ' / 100</div><div class="g" style="color:' + gcol(score) + '">' + grade(score) + '</div></div>' +
+          '<div style="overflow-x:auto"><table class="rtab"><tr><th>#</th><th>المعيار</th><th>الدرجة</th></tr>' + rows + '</table></div>' +
+          '<div class="brand" style="margin-top:10px">تصميم: أ. مصطفى رحيم فندي</div>';
+        const btns = [{ label: '🖨 طباعة', fn: () => { printResult(); return false; } }];
+        if (ex.mode === 'full') {
+          const last = ex.idx >= e.tasks.length - 1 || (ex.timeUp && cfg.scope === 'exam');
+          btns.push(last ? { label: '📋 عرض نتيجة الاختبار', cls: 'green', fn: () => { setTimeout(showExamResult, 0); } } : { label: 'المهمة التالية ▶', cls: 'green', fn: () => { ex.idx++; loadTask(false); } });
+          btns.push({ label: 'عرض المستند' });
+        } else {
+          btns.push({ label: '↻ إعادة المحاولة', cls: 'green', fn: () => { const id = e.id, i = ex.idx; endRun(); setTimeout(() => playTask(id, i, 'single'), 0); } });
+          btns.push({ label: '📋 الاختبارات', cls: 'pri', fn: () => { endRun(); setTimeout(openCatalog, 0); } });
+          btns.push({ label: 'عرض المستند' });
+        }
+        modal('نتيجة المهمة', body, btns);
+      }
+      function showExamResult() {
+        const e = ex.exam;
+        const sc = e.tasks.map((t, i) => ex.scores[i] == null ? 0 : ex.scores[i]);
+        const total = Math.round(sc.reduce((a, b) => a + b, 0) / sc.length);
+        const used = Math.round((Date.now() - ex.runStart) / 1000);
+        addHist({ type: 'exam', name: cfg.name, exam: e.title, task: '', score: total, date: Date.now(), used });
+        const rows = e.tasks.map((t, i) => '<tr><td>' + (i + 1) + '</td><td>' + esc(t.title) + (ex.scores[i] == null ? ' <span class="nok">(لم تُسلَّم)</span>' : '') + '</td><td><b style="color:' + gcol(sc[i]) + '">' + sc[i] + '</b> / 100</td></tr>').join('');
+        const body = '<div class="brand">منصة طالب — مختبر الحاسوب الافتراضي</div>' +
+          '<div><b>الطالب:</b> ' + esc(cfg.name) + '<br><b>الاختبار:</b> ' + esc(e.icon + ' ' + e.title) + '<br><b>الزمن الكلي:</b> ' + fmt(used) + '</div>' +
+          '<div class="score"><div class="n" style="color:' + gcol(total) + '">' + total + ' / 100</div><div class="g" style="color:' + gcol(total) + '">' + grade(total) + '</div></div>' +
+          '<div style="overflow-x:auto"><table class="rtab"><tr><th>#</th><th>المهمة</th><th>الدرجة</th></tr>' + rows + '</table></div>' +
+          '<div class="note" style="margin-top:6px">درجة الاختبار = متوسط درجات المهام.</div>' +
+          '<div class="brand" style="margin-top:10px">تصميم: أ. مصطفى رحيم فندي</div>';
+        modal('🏁 نتيجة الاختبار', body, [
+          { label: '🖨 طباعة', fn: () => { printResult(); return false; } },
+          { label: '📋 الاختبارات', cls: 'pri', fn: () => { endRun(); setTimeout(openCatalog, 0); } },
+          { label: 'إغلاق', fn: () => { endRun(); } }]);
+      }
+      function endRun() {
+        clearInterval(ex.timer); ex.active = false; ex.submitted = false;
+        document.body.classList.remove('exam-on');
+        const b = $('#etimerR'); if (b) { b.textContent = '--:--'; b.classList.remove('warn'); }
+        const r = $('#runInfo'); if (r) r.textContent = 'لا توجد مهمة جارية';
+      }
+      function exitRun() {
+        if (!ex.active) { toast('لا توجد مهمة جارية'); return; }
+        if (!ex.submitted && !confirm('هل تريد الخروج؟ لن تُحتسب درجة هذه المهمة.')) return;
+        endRun();
+      }
+      function showHistory() {
+        const h = LS.get('tw_hist2', []);
+        const body = h.length ? '<div style="overflow-x:auto"><table class="rtab"><tr><th>الطالب</th><th>الاختبار / المهمة</th><th>الدرجة</th><th>التاريخ</th></tr>' + h.map(r => '<tr><td>' + esc(r.name) + '</td><td>' + (r.type === 'exam' ? '📋 ' : '▶ ') + esc(r.exam) + (r.task ? ' › ' + esc(r.task) : ' (اختبار كامل)') + '</td><td><b style="color:' + gcol(r.score) + '">' + r.score + '</b></td><td>' + new Date(r.date).toLocaleString('ar-IQ') + '</td></tr>').join('') + '</table></div>' : 'لا توجد نتائج محفوظة بعد.';
+        modal('📊 سجل النتائج', body, [
+          { label: 'مسح السجل والتقدّم', fn: () => { if (confirm('سيتم مسح كل النتائج والتقدّم. متابعة؟')) { LS.set('tw_hist2', []); prog = {}; LS.set('tw_prog', prog); } else return false; } },
+          { label: '🎓 الاختبارات', fn: () => { setTimeout(openCatalog, 0); } },
+          { label: 'إغلاق', cls: 'pri' }]);
+      }
+      document.addEventListener('click', e => {
+        if (e.target.closest('#ehead') && !e.target.closest('button')) $('#examPanel').classList.toggle('collapsed');
+      });
+
+
+      /* ---------- init ---------- */
+      (function init() {
+        try { const d = JSON.parse(localStorage.getItem('tw_doc') || 'null'); if (d && d.h) { editor.innerHTML = sanitize(d.h); Object.assign(S, d.S || {}); } } catch (e) { }
+        const mq = matchMedia('(max-width:760px)');
+        S.view = mq.matches ? 'mobile' : 'print';
+        applyLayout(); setTitle(); applyView();
+        const onMq = () => { S.view = mq.matches ? 'mobile' : 'print'; applyView(); };
+        if (mq.addEventListener) mq.addEventListener('change', onMq);
+        let lastW = innerWidth;
+        addEventListener('resize', () => { if (innerWidth !== lastW) { lastW = innerWidth; if (S.view === 'print') applyView(); } });
+        $('#docTitle').addEventListener('click', () => { const n = prompt('اسم المستند', S.name); if (n && n.trim()) { S.name = n.trim(); setTitle(); } });
+        setTimeout(() => toast('أهلاً بك في Word التعليمي — جرّب قسم 🎓 الاختبار العملي', 3600), 500);
+      })();
+    })();
+  </script>
+</body>
+
+</html>

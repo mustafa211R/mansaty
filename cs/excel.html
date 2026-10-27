@@ -1,0 +1,2022 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Excel – مختبر الحاسوب الافتراضي | منصة طالب</title>
+  <style>
+    :root {
+      --ac: #107c41;
+      --acd: #0b5d31;
+      --bg: #e6e6e6;
+      --rib: #f3f2f1;
+      --pn: #fff;
+      --tx: #222;
+      --ln: #d2d0ce;
+      --hv: #e1dfdd;
+      --on: #cde8d8;
+      --hd: #e9e9e9;
+      --gl: #d4d4d4;
+      --st: #f3f2f1
+    }
+
+    @media(prefers-color-scheme:dark) {
+      :root:not([data-theme=light]) {
+        --bg: #2b2b2b;
+        --rib: #3a3a3a;
+        --pn: #262626;
+        --tx: #eee;
+        --ln: #595959;
+        --hv: #4a4a4a;
+        --on: #1f5136;
+        --hd: #3a3a3a;
+        --gl: #444;
+        --st: #2f2f2f
+      }
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      font-size: 13px;
+      color: var(--tx);
+      background: var(--bg);
+      overflow: hidden;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px)
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100%
+    }
+
+    button,
+    select,
+    input,
+    textarea {
+      font-family: inherit;
+      color: inherit
+    }
+
+    .tb {
+      background: var(--ac);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 6px;
+      gap: 4px;
+      flex: none
+    }
+
+    .logo {
+      background: #fff;
+      color: var(--ac);
+      font: 800 15px Georgia, serif;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .qa {
+      background: none;
+      border: 0;
+      color: #fff;
+      width: 30px;
+      height: 28px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 15px
+    }
+
+    .qa:hover {
+      background: rgba(255, 255, 255, .22)
+    }
+
+    .ti {
+      flex: 1;
+      text-align: center;
+      font-size: 12.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .tabs {
+      background: var(--ac);
+      display: flex;
+      gap: 1px;
+      padding: 0 6px;
+      height: 32px;
+      align-items: flex-end;
+      overflow-x: auto;
+      flex: none
+    }
+
+    .tab {
+      padding: 6px 15px;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+      white-space: nowrap;
+      user-select: none
+    }
+
+    .tab:hover {
+      background: rgba(255, 255, 255, .2)
+    }
+
+    .tab.act {
+      background: var(--rib);
+      color: var(--ac);
+      font-weight: 600
+    }
+
+    .tab.ex {
+      background: #0a4d8c
+    }
+
+    .tab.ex.act {
+      background: var(--rib);
+      color: #0a4d8c
+    }
+
+    .rib {
+      background: var(--rib);
+      border-bottom: 1px solid var(--ln);
+      height: 104px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      flex: none
+    }
+
+    .pnl {
+      display: none;
+      height: 100%;
+      width: max-content;
+      min-width: 100%
+    }
+
+    .pnl.act {
+      display: flex
+    }
+
+    .grp {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--ln);
+      padding: 4px 8px 0
+    }
+
+    .gb {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 2px
+    }
+
+    .gl {
+      text-align: center;
+      font-size: 11px;
+      opacity: .7;
+      padding: 1px 0 3px
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      background: none;
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-width: 27px;
+      height: 27px;
+      white-space: nowrap
+    }
+
+    .btn:hover {
+      background: var(--hv);
+      border-color: var(--ln)
+    }
+
+    .btn.on {
+      background: var(--on);
+      border-color: var(--ac)
+    }
+
+    .btn.big {
+      flex-direction: column;
+      height: 70px;
+      min-width: 58px;
+      font-size: 11px;
+      gap: 2px;
+      padding: 3px 6px
+    }
+
+    .btn.big .ic {
+      font-size: 24px;
+      line-height: 1.1
+    }
+
+    .btn.pri {
+      background: #0a4d8c;
+      color: #fff
+    }
+
+    .btn.dg {
+      color: #d13438
+    }
+
+    .sel {
+      height: 26px;
+      border: 1px solid var(--ln);
+      background: var(--pn);
+      border-radius: 3px;
+      padding: 0 3px
+    }
+
+    .hs {
+      font-size: 11.5px;
+      max-width: 220px;
+      line-height: 1.4;
+      white-space: normal;
+      opacity: .85
+    }
+
+    #fbar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--pn);
+      border-bottom: 1px solid var(--ln);
+      padding: 3px 6px;
+      flex: none
+    }
+
+    #nb {
+      width: 78px;
+      height: 30px;
+      border: 1px solid var(--ln);
+      border-radius: 4px;
+      text-align: center;
+      background: var(--pn);
+      direction: ltr;
+      font-weight: 600
+    }
+
+    #fbar button {
+      border: 1px solid var(--ln);
+      background: var(--pn);
+      border-radius: 4px;
+      height: 30px;
+      min-width: 30px;
+      cursor: pointer;
+      font-weight: 700
+    }
+
+    #fbar button.on {
+      background: var(--on);
+      border-color: var(--ac)
+    }
+
+    #fbar #ok {
+      color: var(--ac);
+      display: none
+    }
+
+    #fbar #no {
+      color: #d13438;
+      display: none
+    }
+
+    body.editing #ok,
+    body.editing #no {
+      display: block
+    }
+
+    #fi {
+      flex: 1;
+      min-width: 0;
+      height: 30px;
+      border: 1px solid var(--ln);
+      border-radius: 4px;
+      padding: 0 8px;
+      background: var(--pn)
+    }
+
+    #fi:focus {
+      outline: 2px solid var(--ac);
+      outline-offset: -1px
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      position: relative
+    }
+
+    #gw {
+      flex: 1;
+      overflow: auto;
+      background: var(--pn);
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+      min-width: 0
+    }
+
+    body.smode #gw {
+      touch-action: none
+    }
+
+    #sbox {
+      position: relative;
+      width: max-content;
+      min-width: 100%
+    }
+
+    #grid {
+      border-collapse: collapse;
+      table-layout: fixed;
+      direction: rtl;
+      background: var(--pn)
+    }
+
+    #grid td {
+      border: 1px solid var(--gl);
+      padding: 0 5px;
+      overflow: hidden;
+      white-space: nowrap;
+      cursor: cell;
+      background: var(--pn);
+      color: var(--tx)
+    }
+
+    #grid th {
+      background: var(--hd);
+      color: var(--tx);
+      font-weight: 500;
+      border: 1px solid var(--gl);
+      position: sticky;
+      z-index: 3;
+      user-select: none;
+      font-size: 12px;
+      cursor: pointer
+    }
+
+    #grid thead th {
+      top: 0
+    }
+
+    #grid th.rn {
+      right: 0;
+      z-index: 2
+    }
+
+    #grid th.cn0 {
+      right: 0;
+      z-index: 4
+    }
+
+    #grid th.hl {
+      background: var(--on);
+      color: var(--acd);
+      font-weight: 700
+    }
+
+    #grid td.sel {
+      outline: 2px solid var(--ac);
+      outline-offset: -2px;
+      position: relative;
+      z-index: 1
+    }
+
+    #grid td.rg {
+      box-shadow: inset 0 0 0 200px rgba(16, 124, 65, .16)
+    }
+
+    #grid td.cov {
+      display: none
+    }
+
+    #grid.frz tbody tr:first-child td {
+      position: sticky;
+      top: 30px;
+      z-index: 1
+    }
+
+    .nogl #grid td {
+      border-color: transparent
+    }
+
+    .nohd #grid thead,
+    .nohd #grid .rn {
+      display: none
+    }
+
+    #fh {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: var(--ac);
+      border: 2px solid #fff;
+      border-radius: 3px;
+      display: none;
+      z-index: 6;
+      touch-action: none;
+      cursor: crosshair
+    }
+
+    .chart {
+      position: absolute;
+      background: var(--pn);
+      border: 1px solid var(--ln);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+      border-radius: 4px;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      direction: ltr
+    }
+
+    .chd {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--hd);
+      padding: 2px 4px;
+      cursor: move;
+      touch-action: none;
+      font-size: 12px;
+      font-weight: 600;
+      direction: rtl
+    }
+
+    .chd span {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .chd button {
+      border: 0;
+      background: none;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 2px 6px;
+      touch-action: manipulation
+    }
+
+    .cbd {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden
+    }
+
+    .cbd svg {
+      display: block;
+      width: 100%;
+      height: 100%
+    }
+
+    .crs {
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      width: 18px;
+      height: 18px;
+      background: var(--ac);
+      cursor: nwse-resize;
+      border-radius: 3px;
+      touch-action: none
+    }
+
+    #stat {
+      background: var(--st);
+      border-top: 1px solid var(--ln);
+      height: 26px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 10px;
+      font-size: 12px;
+      flex: none;
+      overflow: hidden;
+      white-space: nowrap
+    }
+
+    #stat .sp {
+      flex: 1
+    }
+
+    #stat button {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 0 6px
+    }
+
+    #sheets {
+      background: var(--st);
+      border-top: 1px solid var(--ln);
+      display: flex;
+      overflow-x: auto;
+      flex: none;
+      height: 34px;
+      align-items: stretch
+    }
+
+    .sh {
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      white-space: nowrap;
+      border-left: 1px solid var(--ln);
+      user-select: none
+    }
+
+    .sh.act {
+      background: var(--pn);
+      color: var(--ac);
+      font-weight: 700;
+      box-shadow: inset 0 -3px 0 var(--ac)
+    }
+
+    .sh.add {
+      font-size: 18px;
+      color: var(--ac);
+      font-weight: 700
+    }
+
+    #exp {
+      width: 330px;
+      background: var(--pn);
+      border-right: 1px solid var(--ln);
+      display: none;
+      flex-direction: column;
+      flex: none
+    }
+
+    body.exam #exp {
+      display: flex
+    }
+
+    .eh {
+      background: #0a4d8c;
+      color: #fff;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer
+    }
+
+    .eh .l {
+      flex: 1;
+      min-width: 0;
+      font-weight: 700
+    }
+
+    .eh small {
+      display: block;
+      font-weight: 400
+    }
+
+    .eb {
+      flex: 1;
+      overflow: auto;
+      padding: 10px 12px
+    }
+
+    .goal {
+      background: #fff4d6;
+      color: #5a3d00;
+      border: 1px solid #f1dd9a;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      line-height: 1.6
+    }
+
+    .pg {
+      height: 8px;
+      background: var(--hv);
+      border-radius: 4px;
+      overflow: hidden
+    }
+
+    .pg i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--ac);
+      transition: width .3s
+    }
+
+    .cr {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0;
+      counter-reset: c
+    }
+
+    .cr li {
+      counter-increment: c;
+      display: flex;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--ln);
+      border-radius: 8px;
+      margin-bottom: 7px;
+      line-height: 1.5
+    }
+
+    .cr li:before {
+      content: counter(c);
+      flex: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #999;
+      color: #fff;
+      text-align: center;
+      line-height: 22px;
+      font-size: 12px;
+      font-weight: 700
+    }
+
+    .cr li.d {
+      background: rgba(16, 124, 65, .14);
+      border-color: #5cb67f
+    }
+
+    .cr li.d:before {
+      content: "✓";
+      background: var(--ac)
+    }
+
+    .pt {
+      font-size: 11px;
+      background: rgba(43, 87, 154, .2);
+      border-radius: 10px;
+      padding: 0 7px;
+      margin-right: 6px
+    }
+
+    .hb {
+      background: none;
+      border: 0;
+      color: #3a8ee6;
+      cursor: pointer;
+      display: block;
+      padding: 0;
+      margin-top: 3px;
+      font-size: 12px
+    }
+
+    .hn {
+      display: none;
+      font-size: 12px;
+      background: #fff4d6;
+      color: #7a4b00;
+      border-radius: 4px;
+      padding: 4px 7px;
+      margin-top: 3px
+    }
+
+    .hn.show {
+      display: block
+    }
+
+    .ef {
+      padding: 10px;
+      border-top: 1px solid var(--ln);
+      display: flex;
+      gap: 6px
+    }
+
+    #pop {
+      position: fixed;
+      display: none;
+      background: var(--pn);
+      border: 1px solid var(--ln);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+      border-radius: 6px;
+      z-index: 80;
+      max-height: 70vh;
+      overflow: auto;
+      min-width: 150px
+    }
+
+    .mi {
+      padding: 8px 16px;
+      cursor: pointer;
+      white-space: nowrap
+    }
+
+    .mi:hover {
+      background: var(--hv)
+    }
+
+    .pgd {
+      display: grid;
+      grid-template-columns: repeat(6, 26px);
+      gap: 4px;
+      padding: 8px
+    }
+
+    .pgd i {
+      height: 26px;
+      border: 1px solid #888;
+      border-radius: 3px;
+      cursor: pointer
+    }
+
+    .gal {
+      display: grid;
+      grid-template-columns: repeat(3, 92px);
+      gap: 8px;
+      padding: 10px
+    }
+
+    .gi {
+      border: 1px solid var(--ln);
+      border-radius: 5px;
+      height: 62px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      gap: 2px;
+      text-align: center
+    }
+
+    .gi:hover {
+      border-color: var(--ac)
+    }
+
+    .gi b {
+      font-size: 20px
+    }
+
+    .bd {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100
+    }
+
+    .bd.show {
+      display: flex
+    }
+
+    .md {
+      background: var(--pn);
+      border-radius: 10px;
+      width: min(760px, 95vw);
+      max-height: 92vh;
+      overflow: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .4)
+    }
+
+    .mh {
+      background: var(--ac);
+      color: #fff;
+      padding: 12px 16px;
+      font-weight: 600
+    }
+
+    .mbd {
+      padding: 14px;
+      line-height: 1.7
+    }
+
+    .mbd label {
+      display: block;
+      font-weight: 600;
+      margin: 8px 0 3px
+    }
+
+    .mbd input {
+      width: 100%;
+      height: 34px;
+      border: 1px solid var(--ln);
+      border-radius: 5px;
+      padding: 0 8px;
+      background: var(--pn)
+    }
+
+    .mf {
+      padding: 10px 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--ln);
+      position: sticky;
+      bottom: 0;
+      background: var(--pn)
+    }
+
+    .mb {
+      border: 1px solid var(--ln);
+      background: var(--hv);
+      border-radius: 6px;
+      padding: 7px 16px;
+      cursor: pointer;
+      min-height: 36px
+    }
+
+    .mb.pri {
+      background: var(--ac);
+      color: #fff;
+      border-color: var(--acd)
+    }
+
+    .mb.gr {
+      background: #0a4d8c;
+      color: #fff
+    }
+
+    .ec {
+      border: 1px solid var(--ln);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden
+    }
+
+    .eh2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--hv)
+    }
+
+    .eh2 .i {
+      font-size: 26px
+    }
+
+    .eh2 .t {
+      flex: 1
+    }
+
+    .eh2 small {
+      display: block;
+      opacity: .7
+    }
+
+    .es {
+      font-size: 24px;
+      font-weight: 800
+    }
+
+    .tr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-top: 1px solid var(--ln)
+    }
+
+    .pl {
+      flex: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--ac);
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px
+    }
+
+    .tr .t {
+      flex: 1;
+      min-width: 0
+    }
+
+    .tr small {
+      display: block;
+      opacity: .75;
+      font-size: 12px
+    }
+
+    .bg {
+      min-width: 42px;
+      text-align: center;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: var(--hv);
+      font-weight: 700
+    }
+
+    .ef2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-top: 1px solid var(--ln);
+      font-size: 12.5px
+    }
+
+    .sc {
+      text-align: center;
+      margin: 8px 0
+    }
+
+    .sc .n {
+      font-size: 50px;
+      font-weight: 800;
+      line-height: 1
+    }
+
+    .rt {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px
+    }
+
+    .rt td,
+    .rt th {
+      border: 1px solid var(--ln);
+      padding: 5px 8px;
+      text-align: right
+    }
+
+    .ok {
+      color: var(--ac);
+      font-weight: 700
+    }
+
+    .no {
+      color: #d13438;
+      font-weight: 700
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #323232;
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: 6px;
+      z-index: 200;
+      display: none;
+      max-width: 90vw;
+      text-align: center
+    }
+
+    @media(max-width:760px) {
+
+      html,
+      body {
+        overscroll-behavior: none
+      }
+
+      #app {
+        height: 100dvh
+      }
+
+      body {
+        padding: 0
+      }
+
+      .tb {
+        order: 1;
+        height: calc(50px + env(safe-area-inset-top, 0px));
+        padding: env(safe-area-inset-top, 0px) 6px 0
+      }
+
+      .qa {
+        width: 42px;
+        height: 42px;
+        font-size: 20px
+      }
+
+      .logo {
+        display: none
+      }
+
+      .ti {
+        font-size: 14px;
+        font-weight: 600
+      }
+
+      #fbar {
+        order: 2;
+        padding: 4px 6px
+      }
+
+      #nb {
+        width: 70px;
+        height: 38px;
+        font-size: 15px
+      }
+
+      #fbar button {
+        height: 38px;
+        min-width: 38px
+      }
+
+      #fi {
+        height: 38px;
+        font-size: 16px
+      }
+
+      .main {
+        order: 3;
+        flex-direction: column
+      }
+
+      #exp {
+        width: 100%;
+        max-height: 40%;
+        border-right: 0;
+        border-top: 1px solid var(--ln);
+        flex: none
+      }
+
+      #exp.col .eb,
+      #exp.col .ef {
+        display: none
+      }
+
+      #stat {
+        order: 4
+      }
+
+      #sheets {
+        order: 5;
+        height: 40px
+      }
+
+      .rib {
+        order: 6;
+        height: auto;
+        min-height: 68px;
+        border-bottom: 0;
+        border-top: 1px solid var(--ln)
+      }
+
+      .tabs {
+        order: 7;
+        height: auto;
+        background: var(--pn);
+        padding: 0 0 env(safe-area-inset-bottom, 0px);
+        border-top: 1px solid var(--ln);
+        gap: 0;
+        align-items: stretch
+      }
+
+      .tab {
+        flex: 1 0 auto;
+        min-width: 60px;
+        color: var(--tx);
+        padding: 6px 8px;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 11px;
+        text-align: center
+      }
+
+      .tab::before {
+        content: attr(data-i);
+        font-size: 20px;
+        line-height: 1.15
+      }
+
+      .tab:hover {
+        background: var(--hv)
+      }
+
+      .tab.act {
+        background: var(--on);
+        color: var(--ac);
+        box-shadow: inset 0 3px 0 var(--ac)
+      }
+
+      .tab.ex,
+      .tab.ex.act {
+        color: #0a4d8c
+      }
+
+      .tab.ex {
+        background: none
+      }
+
+      .tab.ex.act {
+        background: rgba(10, 77, 140, .16);
+        box-shadow: inset 0 3px 0 #0a4d8c
+      }
+
+      .pnl.act {
+        align-items: center;
+        height: auto;
+        padding: 4px 2px
+      }
+
+      .grp {
+        flex-direction: row;
+        padding: 2px 6px
+      }
+
+      .gl,
+      .hs {
+        display: none
+      }
+
+      .btn {
+        min-width: 46px;
+        height: 46px;
+        font-size: 17px
+      }
+
+      .btn.big {
+        height: 60px;
+        min-width: 62px;
+        font-size: 10.5px
+      }
+
+      .btn.big .ic {
+        font-size: 23px
+      }
+
+      .sel {
+        height: 42px
+      }
+
+      .sh {
+        padding: 0 18px
+      }
+
+      #fh {
+        width: 26px;
+        height: 26px
+      }
+
+      .crs {
+        width: 28px;
+        height: 28px
+      }
+
+      #pop {
+        left: 0 !important;
+        right: 0;
+        top: auto !important;
+        bottom: 0;
+        max-height: 58vh;
+        border-radius: 18px 18px 0 0;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        z-index: 150
+      }
+
+      .gal {
+        grid-template-columns: repeat(3, 1fr)
+      }
+
+      .gi {
+        height: 74px
+      }
+
+      .pgd {
+        grid-template-columns: repeat(6, 1fr)
+      }
+
+      .pgd i {
+        height: 42px
+      }
+
+      .mi {
+        padding: 15px 20px
+      }
+
+      .bd {
+        align-items: flex-end
+      }
+
+      .md {
+        width: 100%;
+        border-radius: 18px 18px 0 0;
+        max-height: 92dvh;
+        padding-bottom: env(safe-area-inset-bottom, 0px)
+      }
+
+      .mb {
+        min-height: 46px;
+        flex: 1 1 auto
+      }
+
+      input,
+      select,
+      textarea {
+        font-size: 16px
+      }
+
+      .toast {
+        bottom: 160px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="tb"><button class="qa" data-a="file">☰</button>
+      <div class="logo">X</div>
+      <div class="ti" id="ti"></div><button class="qa" data-a="undo">↶</button><button class="qa"
+        data-a="redo">↷</button><button class="qa" data-a="saveX">💾</button>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="rib" id="rib"></div>
+    <div id="fbar"><input id="nb" value="A1" aria-label="مربع الاسم"><button data-a="smode" id="smb"
+        title="وضع تحديد نطاق">⬚</button><button data-a="fxM" title="إدراج دالة">fx</button><button id="no"
+        data-a="cancel">✗</button><button id="ok" data-a="okb">✓</button><input id="fi" autocomplete="off"
+        autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="اكتب قيمة أو صيغة مثل =SUM(A1:A5)">
+    </div>
+    <div class="main">
+      <div id="gw">
+        <div id="sbox">
+          <table id="grid"></table>
+          <div id="chl"></div>
+          <div id="fh"></div>
+        </div>
+      </div>
+      <aside id="exp"></aside>
+    </div>
+    <div id="stat"></div>
+    <div id="sheets"></div>
+  </div>
+  <div id="pop"></div>
+  <div class="bd" id="bd">
+    <div class="md">
+      <div class="mh" id="mt"></div>
+      <div class="mbd" id="mbd"></div>
+      <div class="mf" id="mf"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <input type="file" id="openF" accept=".xlsx,.xls,.csv,.json" hidden>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      /*ENGINE*/
+      const NC = 26, NR = 100;
+      const colName = n => n < 26 ? String.fromCharCode(65 + n) : String.fromCharCode(64 + Math.floor(n / 26)) + String.fromCharCode(65 + n % 26);
+      const K = (r, c) => colName(c) + (r + 1);
+      const pk = s => { const m = /^\$?([A-Za-z]{1,2})\$?(\d+)$/.exec(s); if (!m) return null; let c = 0; for (const ch of m[1].toUpperCase()) c = c * 26 + ch.charCodeAt(0) - 64; return [+m[2] - 1, c - 1] };
+      class XE { constructor(c) { this.c = c } }
+      const ERR = c => { throw new XE(c) };
+      let D, vc = new Map(), stack = new Set();
+      const rawAt = (si, r, c) => { const s = D.sheets[si], x = s && s.cells[K(r, c)]; return x ? x.v : '' };
+      function lit(raw) {
+        if (raw === '') return ''; const t = raw.trim();
+        if (/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return parseFloat(t);
+        if (/^[-+]?\d{1,3}(,\d{3})+(\.\d+)?$/.test(t)) return parseFloat(t.replace(/,/g, ''));
+        if (/^[-+]?(\d+\.?\d*|\.\d+)%$/.test(t)) return parseFloat(t) / 100;
+        if (/^TRUE$/i.test(t)) return true; if (/^FALSE$/i.test(t)) return false; return raw
+      }
+      function val(si, r, c) {
+        const raw = rawAt(si, r, c); if (raw === '' || raw[0] !== '=') return lit(raw);
+        const k = si + ':' + r + ',' + c; if (vc.has(k)) { const v = vc.get(k); if (v instanceof XE) throw v; return v }
+        if (stack.has(k)) throw new XE('#CIRC!'); stack.add(k); let v;
+        try { v = ev(parse(raw.slice(1)), si) } catch (e) { stack.delete(k); const x = e instanceof XE ? e : new XE('#VALUE!'); vc.set(k, x); throw x }
+        stack.delete(k); if (Array.isArray(v)) v = v[0][0]; if (v instanceof XE) { vc.set(k, v); throw v } vc.set(k, v); return v
+      }
+      const safe = (si, r, c) => { try { return val(si, r, c) } catch (e) { return e instanceof XE ? e : new XE('#VALUE!') } };
+      const TRE = /\s*(?:("(?:[^"]|"")*")|((?:'[^']+'|[A-Za-z_\u0600-\u06FF][\w\u0600-\u06FF.]*)!\$?[A-Za-z]{1,2}\$?\d+(?::\$?[A-Za-z]{1,2}\$?\d+)?)|(\$?[A-Za-z]{1,2}\$?\d+(?::\$?[A-Za-z]{1,2}\$?\d+)?(?![\w(]))|(\d+\.?\d*(?:[eE][+-]?\d+)?|\.\d+)|([A-Za-z_][\w.]*)|(<=|>=|<>|[-+*\/^&=<>(),;:%]))/y;
+      function toks(src) { const T = []; let i = 0; while (i < src.length) { TRE.lastIndex = i; const m = TRE.exec(src); if (!m) { if (/^\s*$/.test(src.slice(i))) break; throw new XE('#NAME?') } i = TRE.lastIndex; const v = m[1] || m[2] || m[3] || m[4] || m[5] || m[6]; T.push({ t: m[1] ? 's' : m[2] ? 'q' : m[3] ? 'r' : m[4] ? 'n' : m[5] ? 'i' : 'o', v, ws: m[0].slice(0, m[0].length - v.length) }) } return T }
+      const astC = new Map();
+      function parse(src) {
+        if (astC.has(src)) return astC.get(src); const T = toks(src); let p = 0;
+        const nx = () => T[p++], isO = o => T[p] && T[p].t === 'o' && (Array.isArray(o) ? o.includes(T[p].v) : T[p].v === o);
+        const B = (op, a, b) => ({ t: 'b', op, a, b });
+        function cmp() { let a = cat(); while (isO(['=', '<>', '<', '>', '<=', '>='])) a = B(nx().v, a, cat()); return a }
+        function cat() { let a = add(); while (isO('&')) { nx(); a = B('&', a, add()) } return a }
+        function add() { let a = mul(); while (isO(['+', '-'])) a = B(nx().v, a, mul()); return a }
+        function mul() { let a = pow(); while (isO(['*', '/'])) a = B(nx().v, a, pow()); return a }
+        function pow() { let a = un(); while (isO('^')) { nx(); a = B('^', a, un()) } return a }
+        function un() { if (isO(['-', '+'])) { const o = nx().v, a = un(); return o === '-' ? { t: 'u', a } : a } return post() }
+        function post() { let a = prim(); while (isO('%')) { nx(); a = B('/', a, { t: 'n', v: 100 }) } return a }
+        function prim() {
+          const k = nx(); if (!k) ERR('#VALUE!');
+          if (k.t === 'n') return { t: 'n', v: parseFloat(k.v) };
+          if (k.t === 's') return { t: 'l', v: k.v.slice(1, -1).replace(/""/g, '"') };
+          if (k.t === 'r' || k.t === 'q') {
+            let s = k.v, sh = null; if (k.t === 'q') { const i = s.lastIndexOf('!'); sh = s.slice(0, i).replace(/^'|'$/g, ''); s = s.slice(i + 1) }
+            const [a, b] = s.split(':'), A = pk(a); if (!A) ERR('#REF!'); if (!b) return { t: 'f', sh, r: A[0], c: A[1] }; const Bb = pk(b); if (!Bb) ERR('#REF!');
+            return { t: 'g', sh, r1: Math.min(A[0], Bb[0]), r2: Math.max(A[0], Bb[0]), c1: Math.min(A[1], Bb[1]), c2: Math.max(A[1], Bb[1]) }
+          }
+          if (k.t === 'i') {
+            const u = k.v.toUpperCase(); if (isO('(')) { nx(); const args = []; while (!isO(')')) { args.push(cmp()); if (isO([',', ';'])) nx(); else break } if (!isO(')')) ERR('#VALUE!'); nx(); return { t: 'fn', name: u, args } }
+            if (u === 'TRUE') return { t: 'l', v: true }; if (u === 'FALSE') return { t: 'l', v: false }; ERR('#NAME?')
+          }
+          if (k.t === 'o' && k.v === '(') { const e = cmp(); if (!isO(')')) ERR('#VALUE!'); nx(); return e }
+          ERR('#VALUE!')
+        }
+        const r = cmp(); if (p < T.length) ERR('#VALUE!'); astC.set(src, r); return r
+      }
+      const sidx = (sh, si) => { if (sh == null) return si; const i = D.sheets.findIndex(s => s.name === sh); if (i < 0) ERR('#REF!'); return i };
+      const sc = x => { if (Array.isArray(x)) x = x[0][0]; if (x instanceof XE) throw x; return x };
+      function num(x) { x = sc(x); if (typeof x === 'number') return x; if (x === '' || x == null) return 0; if (typeof x === 'boolean') return +x; const v = lit(String(x)); if (typeof v === 'number') return v; ERR('#VALUE!') }
+      const str = x => { x = sc(x); if (x === '' || x == null) return ''; if (typeof x === 'boolean') return x ? 'TRUE' : 'FALSE'; if (typeof x === 'number') return String(+x.toPrecision(15)); return String(x) };
+      const truthy = x => { x = sc(x); if (typeof x === 'string') { if (/^true$/i.test(x)) return true; if (/^false$/i.test(x)) return false; if (x === '') return false; ERR('#VALUE!') } return !!x };
+      function cmpV(a, b) { const na = typeof a === 'number' || a === '', nb = typeof b === 'number' || b === ''; if (typeof a === 'number' && typeof b === 'number') return a - b; if (na && nb) return (a === '' ? 0 : a) - (b === '' ? 0 : b); if (typeof a === 'string' && typeof b === 'string') return a.toLowerCase() < b.toLowerCase() ? -1 : a.toLowerCase() > b.toLowerCase() ? 1 : 0; if (typeof a === 'boolean' || typeof b === 'boolean') return (+a) - (+b); return (typeof a === 'number' || a === '') ? -1 : 1 }
+      function bin(op, a, b) {
+        switch (op) {
+          case '+': return num(a) + num(b); case '-': return num(a) - num(b); case '*': return num(a) * num(b);
+          case '/': { const d = num(b); if (d === 0) ERR('#DIV/0!'); return num(a) / d }
+          case '^': { const r = Math.pow(num(a), num(b)); if (!isFinite(r)) ERR('#NUM!'); return r }
+          case '&': return str(a) + str(b); case '=': return cmpV(a, b) === 0; case '<>': return cmpV(a, b) !== 0; case '<': return cmpV(a, b) < 0; case '>': return cmpV(a, b) > 0; case '<=': return cmpV(a, b) <= 0; case '>=': return cmpV(a, b) >= 0
+        }
+      }
+      function ev(n, si) {
+        switch (n.t) {
+          case 'n': case 'l': return n.v;
+          case 'f': return val(sidx(n.sh, si), n.r, n.c);
+          case 'g': { const i = sidx(n.sh, si), o = []; for (let r = n.r1; r <= n.r2; r++) { const row = []; for (let c = n.c1; c <= n.c2; c++)row.push(safe(i, r, c)); o.push(row) } return o }
+          case 'u': return -num(ev(n.a, si));
+          case 'b': return bin(n.op, sc(ev(n.a, si)), sc(ev(n.b, si)));
+          case 'fn': return call(n, si)
+        }
+      }
+      const cells2 = args => args.flatMap(a => Array.isArray(a) ? a.flat() : [a]);
+      function nums(args, strict) { const o = []; args.forEach(a => { if (Array.isArray(a)) a.flat().forEach(v => { if (v instanceof XE) throw v; if (typeof v === 'number') o.push(v) }); else { if (a instanceof XE) throw a; if (a === '' && !strict) return; o.push(num(a)) } }); return o }
+      function mkCrit(c) {
+        c = sc(c); if (typeof c === 'number' || typeof c === 'boolean') return v => typeof v === 'number' && v === +c; const m = /^(<=|>=|<>|=|<|>)?(.*)$/.exec(String(c)), op = m[1] || '=', rest = m[2], nv = lit(rest);
+        return v => {
+          if (v instanceof XE) return false; if (typeof nv === 'number') { if (typeof v !== 'number') return op === '<>'; return op === '=' ? v === nv : op === '<>' ? v !== nv : op === '<' ? v < nv : op === '>' ? v > nv : op === '<=' ? v <= nv : v >= nv }
+          const a = String(v).toLowerCase(), b = String(rest).toLowerCase(); let eq; if (b.includes('*') || b.includes('?')) { eq = new RegExp('^' + b.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\?/g, '.') + '$').test(a) } else eq = a === b; return op === '<>' ? !eq : eq
+        }
+      }
+      const serial = d => Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(1899, 11, 30)) / 864e5);
+      const fromSerial = n => new Date(Date.UTC(1899, 11, 30) + Math.floor(n) * 864e5);
+      function call(n, si) {
+        const a = n.args, E = i => ev(a[i], si), N = n.name;
+        if (N === 'IF') { return truthy(E(0)) ? (a[1] ? sc(E(1)) : true) : (a[2] ? sc(E(2)) : false) }
+        if (N === 'IFERROR') { try { return sc(E(0)) } catch (e) { if (e instanceof XE) return sc(E(1)); throw e } }
+        if (N === 'ROW' || N === 'COLUMN') { const x = a[0]; if (!x || (x.t !== 'f' && x.t !== 'g')) ERR('#VALUE!'); return N === 'ROW' ? (x.t === 'f' ? x.r : x.r1) + 1 : (x.t === 'f' ? x.c : x.c1) + 1 }
+        const g = a.map(x => ev(x, si));
+        switch (N) {
+          case 'SUM': return nums(g).reduce((p, q) => p + q, 0);
+          case 'PRODUCT': return nums(g).reduce((p, q) => p * q, 1);
+          case 'AVERAGE': { const v = nums(g); if (!v.length) ERR('#DIV/0!'); return v.reduce((p, q) => p + q, 0) / v.length }
+          case 'MIN': { const v = nums(g); return v.length ? Math.min(...v) : 0 }
+          case 'MAX': { const v = nums(g); return v.length ? Math.max(...v) : 0 }
+          case 'COUNT': { let c = 0; g.forEach(x => { if (Array.isArray(x)) x.flat().forEach(v => { if (typeof v === 'number') c++ }); else if (typeof x === 'number') c++ }); return c }
+          case 'COUNTA': { let c = 0; cells2(g).forEach(v => { if (v !== '' && v != null) c++ }); return c }
+          case 'COUNTBLANK': return cells2(g).filter(v => v === '').length;
+          case 'MEDIAN': { const v = nums(g).sort((p, q) => p - q); if (!v.length) ERR('#NUM!'); const m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2 }
+          case 'LARGE': case 'SMALL': { const v = nums([g[0]]).sort((p, q) => p - q), k = num(g[1]); if (k < 1 || k > v.length) ERR('#NUM!'); return N === 'LARGE' ? v[v.length - k] : v[k - 1] }
+          case 'ROUND': case 'ROUNDUP': case 'ROUNDDOWN': { const x = num(g[0]), d = g[1] == null ? 0 : num(g[1]), f = Math.pow(10, d); const y = Math.abs(x) * f + 1e-9 * 0; const r = N === 'ROUND' ? Math.round(Math.abs(x) * f + 1e-9) : N === 'ROUNDUP' ? Math.ceil(Math.abs(x) * f - 1e-9) : Math.floor(Math.abs(x) * f + 1e-9); return Math.sign(x) * r / f }
+          case 'ABS': return Math.abs(num(g[0]));
+          case 'SQRT': { const x = num(g[0]); if (x < 0) ERR('#NUM!'); return Math.sqrt(x) }
+          case 'POWER': return bin('^', sc(g[0]), sc(g[1]));
+          case 'MOD': { const d = num(g[1]); if (d === 0) ERR('#DIV/0!'); const x = num(g[0]); return x - d * Math.floor(x / d) }
+          case 'INT': return Math.floor(num(g[0]));
+          case 'PI': return Math.PI; case 'RAND': return Math.random();
+          case 'RANDBETWEEN': { const lo = Math.ceil(num(g[0])), hi = Math.floor(num(g[1])); return lo + Math.floor(Math.random() * (hi - lo + 1)) }
+          case 'AND': return cells2(g).filter(v => v !== '').every(v => truthy(v));
+          case 'OR': return cells2(g).filter(v => v !== '').some(v => truthy(v));
+          case 'NOT': return !truthy(g[0]);
+          case 'LEN': return str(g[0]).length;
+          case 'UPPER': return str(g[0]).toUpperCase(); case 'LOWER': return str(g[0]).toLowerCase();
+          case 'TRIM': return str(g[0]).trim().replace(/\s+/g, ' ');
+          case 'LEFT': return str(g[0]).slice(0, g[1] == null ? 1 : num(g[1]));
+          case 'RIGHT': { const s = str(g[0]), k = g[1] == null ? 1 : num(g[1]); return k ? s.slice(-k) : '' }
+          case 'MID': return str(g[0]).substr(num(g[1]) - 1, num(g[2]));
+          case 'CONCAT': case 'CONCATENATE': return cells2(g).map(str).join('');
+          case 'ISNUMBER': return typeof sc(g[0]) === 'number';
+          case 'SUMIF': case 'COUNTIF': case 'AVERAGEIF': { const rg = cells2([g[0]]), f = mkCrit(g[1]), sr = N === 'COUNTIF' ? rg : cells2([g[2] || g[0]]); let s = 0, c = 0; rg.forEach((v, i) => { if (f(v)) { c++; const w = sr[i]; if (typeof w === 'number') s += w } }); if (N === 'COUNTIF') return c; if (N === 'SUMIF') return s; if (!c) ERR('#DIV/0!'); return s / c }
+          case 'TODAY': return serial(new Date());
+          case 'NOW': { const d = new Date(); return serial(d) + (d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds()) / 86400 }
+          case 'DAY': return fromSerial(num(g[0])).getUTCDate(); case 'MONTH': return fromSerial(num(g[0])).getUTCMonth() + 1; case 'YEAR': return fromSerial(num(g[0])).getUTCFullYear();
+          case 'VLOOKUP': {
+            const key = sc(g[0]), T = g[1], ix = num(g[2]) - 1, exact = g[3] != null && !truthy(g[3]); if (!Array.isArray(T) || ix < 0 || ix >= T[0].length) ERR('#REF!');
+            let hit = -1; if (exact) { hit = T.findIndex(r => !(r[0] instanceof XE) && cmpV(r[0], key) === 0) } else { T.forEach((r, i) => { if (!(r[0] instanceof XE) && cmpV(r[0], key) <= 0) hit = i }) }
+            if (hit < 0) ERR('#N/A'); const v = T[hit][ix]; if (v instanceof XE) throw v; return v
+          }
+        }ERR('#NAME?')
+      }
+      function mapRefs(f, fn) {
+        let T; try { T = toks(f) } catch (e) { return f }
+        return T.map(t => {
+          if (t.t !== 'r' && t.t !== 'q') return t.ws + t.v; let pre = '', body = t.v, sh = null; if (t.t === 'q') { const i = t.v.lastIndexOf('!'); pre = t.v.slice(0, i + 1); sh = pre.slice(0, -1).replace(/^'|'$/g, ''); body = t.v.slice(i + 1) }
+          const eps = body.split(':').map(p => { const m = /^(\$?)([A-Za-z]{1,2})(\$?)(\d+)$/.exec(p); const q = pk(p); return { ac: m[1], ar: m[3], c: q[1], r: q[0] } });
+          const out = fn(eps, sh); if (!out) return t.ws + '#REF!'; return t.ws + pre + out.map(e => e.ac + colName(e.c) + e.ar + (e.r + 1)).join(':')
+        }).join('')
+      }
+      const shiftF = (f, dr, dc) => mapRefs(f, eps => { const o = eps.map(e => ({ ...e, c: e.ac ? e.c : e.c + dc, r: e.ar ? e.r : e.r + dr })); return o.some(e => e.c < 0 || e.r < 0) ? null : o });
+      function adjRefs(f, own, tsi, axis, at, d) {
+        return mapRefs(f, (eps, sh) => {
+          const si = sh == null ? own : D.sheets.findIndex(s => s.name === sh); if (si !== tsi) return eps;
+          const g = e => axis === 'r' ? e.r : e.c, s = (e, v) => { const o = { ...e }; if (axis === 'r') o.r = v; else o.c = v; return o };
+          if (eps.length === 1) { const v = g(eps[0]); if (d > 0) return [s(eps[0], v >= at ? v + d : v)]; if (v === at) return null; return [s(eps[0], v > at ? v - 1 : v)] }
+          const a = g(eps[0]), b = g(eps[1]); if (d > 0) return [s(eps[0], a >= at ? a + d : a), s(eps[1], b >= at ? b + d : b)]; if (a === at && b === at) return null; return [s(eps[0], a > at ? a - 1 : a), s(eps[1], b >= at ? b - 1 : b)]
+        })
+      }
+      /*ENDENGINE*/
+      /* ---------- state ---------- */
+      const mkSheet = n => ({ name: n, cells: {}, cw: {}, rh: {}, hidden: {}, merges: [], cf: [], charts: [], freeze: 0 });
+      const SHT = () => D.sheets[D.active];
+      let sel = { r: 0, c: 0 }, anchor = { r: 0, c: 0 }, rg = { r1: 0, c1: 0, r2: 0, c2: 0 }, editing = false, smode = false, showF = false, clip = null, hist = [], redo = [], ZM = 1, tds = [], flags = {}, lastPT = 'mouse', uid = 1, fiBase = null, fiIns = false;
+      const LS = { g(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v } catch (e) { return d } }, s(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } } };
+      function toast(m, t = 2400) { const e = $('#toast'); e.textContent = m; e.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => e.style.display = 'none', t) }
+      const cellAt = (r, c) => SHT().cells[K(r, c)];
+      const rawOf = (r, c) => { const x = cellAt(r, c); return x ? x.v : '' };
+      function snap() { hist.push(JSON.stringify(D)); if (hist.length > 40) hist.shift(); redo = [] }
+      function setRaw(r, c, v) { const S = SHT(), k = K(r, c), x = S.cells[k]; if (v === '' && (!x || !x.s || !Object.keys(x.s).length)) { delete S.cells[k]; return } S.cells[k] = Object.assign(x || {}, { v }) }
+      function setStyle(r, c, p) { const S = SHT(), k = K(r, c), x = S.cells[k] || (S.cells[k] = { v: '' }); x.s = x.s || {}; for (const a in p) { if (p[a] == null || p[a] === '' || (p[a] === 0 && a !== 'dec')) delete x.s[a]; else x.s[a] = p[a] } if (!Object.keys(x.s).length) { delete x.s; if (x.v === '') delete S.cells[k] } }
+      function forRg(fn) { for (let r = rg.r1; r <= rg.r2; r++)for (let c = rg.c1; c <= rg.c2; c++)fn(r, c) }
+      function save() { if (!ex.active) LS.s('xl_doc', D) }
+      /* ---------- formatting ---------- */
+      const AR = '٠١٢٣٤٥٦٧٨٩';
+      function norm(t) { let s = t.replace(/[٠-٩]/g, d => AR.indexOf(d)).replace(/٫/g, '.').replace(/٬/g, ','); if (s[0] === '=') { return s.replace(/،/g, ',').replace(/؛/g, ';') } return /^[-+]?[\d.,%\s]+$/.test(s) ? s : t }
+      const grp = (v, d) => v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+      const fdate = n => { const d = fromSerial(n); return String(d.getUTCDate()).padStart(2, '0') + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + d.getUTCFullYear() };
+      function fmtV(v, s, raw) {
+        if (v instanceof XE) return v.c; if (typeof v === 'boolean') return v ? 'TRUE' : 'FALSE';
+        if (typeof v === 'number') {
+          if (!isFinite(v)) return '#NUM!'; let nf = s.nf || 'gen'; if (nf === 'gen' && typeof raw === 'string' && /^=\s*(TODAY|NOW)\(/i.test(raw)) nf = 'date'; const d = s.dec;
+          if (nf === 'num') return grp(v, d == null ? 2 : d); if (nf === 'cur') return grp(v, d == null ? 2 : d) + ' د.ع'; if (nf === 'pct') return (v * 100).toFixed(d == null ? 0 : d) + '%'; if (nf === 'date') return fdate(v); if (nf === 'txt') return String(v);
+          if (d != null) return v.toFixed(d); return String(+v.toPrecision(10))
+        }
+        return String(v)
+      }
+      const lerp = (a, b, t) => a.map((x, i) => Math.round(x + (b[i] - x) * t));
+      function scaleCol(t) { const lo = [248, 105, 107], mid = [255, 235, 132], hi = [99, 190, 123]; const c = t < .5 ? lerp(lo, mid, t * 2) : lerp(mid, hi, (t - .5) * 2); return 'rgb(' + c.join(',') + ')' }
+      function paintCell(r, c) {
+        const td = tds[r] && tds[r][c]; if (!td) return; const S = SHT(), x = S.cells[K(r, c)];
+        if (!x) { if (td._p) { td.textContent = ''; td.style.cssText = ''; td._p = 0 } return }
+        const s = x.s || {}, v = safe(D.active, r, c); let t = showF && typeof x.v === 'string' && x.v[0] === '=' ? x.v : fmtV(v, s, x.v); td.textContent = t; td._p = 1;
+        const isN = typeof v === 'number', al = s.al || (isN ? 'left' : typeof v === 'boolean' || v instanceof XE ? 'center' : 'right');
+        let bg = s.bg, col = s.c, bold = s.b;
+        S.cf.forEach(f => {
+          if (r < f.r1 || r > f.r2 || c < f.c1 || c > f.c2) return; if (f.op === 'scale') { if (isN && f.max > f.min) { bg = scaleCol((v - f.min) / (f.max - f.min)) } return }
+          let ok = false; const fv = lit(String(f.val)); if (f.op === 'has') ok = String(v).toLowerCase().includes(String(f.val).toLowerCase()); else if (isN && typeof fv === 'number') ok = f.op === '>' ? v > fv : f.op === '<' ? v < fv : v === fv; else if (f.op === '=') ok = String(v) === String(f.val);
+          if (ok) { bg = f.bg; col = f.c }
+        });
+        let st = 'text-align:' + al + ';'; if (bold) st += 'font-weight:700;'; if (s.i) st += 'font-style:italic;'; if (s.u) st += 'text-decoration:underline;';
+        if (bg) st += 'background:' + bg + ';'; if (col) st += 'color:' + col + ';'; if (s.fs) st += 'font-size:' + Math.round(s.fs * ZM) + 'px;'; if (s.ff) st += 'font-family:' + s.ff + ';'; if (s.wrap) st += 'white-space:normal;';
+        ['t', 'b', 'l', 'r'].forEach(e => { if (s['b' + e]) st += 'border-' + { t: 'top', b: 'bottom', l: 'left', r: 'right' }[e] + ':2px solid #222;' }); td.style.cssText = st
+      }
+      function paintAll() {
+        const S = SHT(); S.cf.forEach(f => { if (f.op === 'scale') { const a = []; for (let r = f.r1; r <= f.r2; r++)for (let c = f.c1; c <= f.c2; c++) { const v = safe(D.active, r, c); if (typeof v === 'number') a.push(v) } f.min = a.length ? Math.min(...a) : 0; f.max = a.length ? Math.max(...a) : 0 } });
+        for (let r = 0; r < NR; r++)for (let c = 0; c < NC; c++)paintCell(r, c)
+      }
+      function buildGrid() {
+        const S = SHT(), cw = c => Math.round((S.cw[c] || 84) * ZM), rh = r => Math.round((S.rh[r] || 30) * ZM);
+        const cov = new Set(), org = {}; S.merges.forEach(m => { org[m.r1 + ',' + m.c1] = m; for (let r = m.r1; r <= m.r2; r++)for (let c = m.c1; c <= m.c2; c++)if (r !== m.r1 || c !== m.c1) cov.add(r + ',' + c) });
+        let h = '<colgroup><col style="width:' + Math.round(44 * ZM) + 'px">'; for (let c = 0; c < NC; c++)h += '<col style="width:' + cw(c) + 'px">';
+        h += '</colgroup><thead><tr style="height:' + Math.round(30 * ZM) + 'px"><th class="cn0" data-all="1"></th>'; for (let c = 0; c < NC; c++)h += '<th class="cn" data-c="' + c + '">' + colName(c) + '</th>'; h += '</tr></thead><tbody>';
+        for (let r = 0; r < NR; r++) {
+          h += '<tr style="height:' + rh(r) + 'px' + (S.hidden[r] ? ';display:none' : '') + '"><th class="rn" data-r="' + r + '">' + (r + 1) + '</th>';
+          for (let c = 0; c < NC; c++) { const m = org[r + ',' + c]; h += '<td data-r="' + r + '" data-c="' + c + '"' + (cov.has(r + ',' + c) ? ' class="cov"' : '') + (m ? ' rowspan="' + (m.r2 - m.r1 + 1) + '" colspan="' + (m.c2 - m.c1 + 1) + '"' : '') + '></td>' } h += '</tr>'
+        }
+        const g = $('#grid'); g.innerHTML = h + '</tbody>'; g.style.fontSize = Math.round(13 * ZM) + 'px'; g.classList.toggle('frz', !!S.freeze);
+        tds = []; $$('#grid tbody tr').forEach((tr, r) => { tds[r] = [...tr.querySelectorAll('td')] })
+      }
+      let marked = [];
+      function updateSel() {
+        marked.forEach(e => e.classList.remove('sel', 'rg', 'hl')); marked = [];
+        for (let r = rg.r1; r <= rg.r2; r++)for (let c = rg.c1; c <= rg.c2; c++) { const td = tds[r] && tds[r][c]; if (td) { td.classList.add('rg'); marked.push(td) } }
+        const a = tds[sel.r] && tds[sel.r][sel.c]; if (a) { a.classList.add('sel'); marked.push(a) }
+        const cs = $$('#grid thead .cn'), rs = $$('#grid .rn'); for (let c = rg.c1; c <= rg.c2; c++)if (cs[c]) { cs[c].classList.add('hl'); marked.push(cs[c]) } for (let r = rg.r1; r <= rg.r2; r++)if (rs[r]) { rs[r].classList.add('hl'); marked.push(rs[r]) }
+        const le = tds[rg.r2] && tds[rg.r2][rg.c2], fh = $('#fh'); if (le && !editing && !document.body.classList.contains('exam-sub')) { const b = le.getBoundingClientRect(), sb = $('#sbox').getBoundingClientRect(); fh.style.display = 'block'; fh.style.left = (b.left - sb.left - 8) + 'px'; fh.style.top = (b.bottom - sb.top - 8) + 'px' } else fh.style.display = 'none'
+      }
+      function updateBar() {
+        const one = rg.r1 === rg.r2 && rg.c1 === rg.c2; $('#nb').value = one ? K(sel.r, sel.c) : K(rg.r1, rg.c1) + ':' + K(rg.r2, rg.c2); if (!editing) $('#fi').value = rawOf(sel.r, sel.c);
+        const s = (cellAt(sel.r, sel.c) || {}).s || {}; $$('[data-a]').forEach(b => { const a = b.dataset.a, v = b.dataset.v; let on = false; if (a === 'b' || a === 'i' || a === 'u') on = !!s[a]; else if (a === 'wrap') on = !!s.wrap; else if (a === 'al') on = s.al === v; else if (a === 'merge') on = SHT().merges.some(m => m.r1 === sel.r && m.c1 === sel.c); else if (a === 'nf') on = (s.nf || 'gen') === v; else return; b.classList.toggle('on', on) });
+        if (s.ff) $('#ff') && ($('#ff').value = s.ff); if ($('#fs')) $('#fs').value = s.fs || 11;
+        let n = 0, sum = 0; forRg((r, c) => { const v = safe(D.active, r, c); if (typeof v === 'number') { n++; sum += v } });
+        $('#stat').innerHTML = '<span>' + (n ? 'المتوسط: ' + (+(sum / n).toPrecision(8)) + ' &nbsp; العدد: ' + n + ' &nbsp; المجموع: ' + (+sum.toPrecision(10)) : 'جاهز') + '</span><span class="sp"></span><button data-a="zOut">−</button><span>' + Math.round(ZM * 100) + '%</span><button data-a="zIn">+</button>'
+      }
+      function recalc() { vc = new Map(); paintAll(); renderCharts(); updateSel(); updateBar(); save(); refreshEx() }
+      function renderAll() { buildGrid(); sheetsBar(); paintAll(); updateSel(); updateBar(); renderCharts(); $('#ti').textContent = (ex.active ? 'اختبار' : 'مصنف1') + ' - Excel · ' + SHT().name; save(); refreshEx() }
+      /* ---------- selection ---------- */
+      function mergeAt(r, c) { return SHT().merges.find(m => r >= m.r1 && r <= m.r2 && c >= m.c1 && c <= m.c2) }
+      function selectCell(r, c, ext) {
+        r = Math.max(0, Math.min(NR - 1, r)); c = Math.max(0, Math.min(NC - 1, c));
+        if (editing && !fiIns) { commit() }
+        if (ext) { rg = { r1: Math.min(anchor.r, r), c1: Math.min(anchor.c, c), r2: Math.max(anchor.r, r), c2: Math.max(anchor.c, c) } }
+        else { const m = mergeAt(r, c); if (m) { sel = { r: m.r1, c: m.c1 }; rg = { ...m } } else { sel = { r, c }; rg = { r1: r, c1: c, r2: r, c2: c } } anchor = { ...sel } }
+        updateSel(); updateBar(); try { const t = tds[r][c]; t && t.scrollIntoView({ block: 'nearest', inline: 'nearest' }) } catch (e) { }
+      }
+      function moveSel(dr, dc, ext) { if (ext) { const r = (rg.r2 === anchor.r && rg.r1 !== anchor.r ? rg.r1 : rg.r2) + dr; } const cr = ext ? (anchor.r === rg.r1 ? rg.r2 : rg.r1) : sel.r, cc = ext ? (anchor.c === rg.c1 ? rg.c2 : rg.c1) : sel.c; selectCell(cr + dr, cc + dc, ext) }
+      function refText() { const one = rg.r1 === rg.r2 && rg.c1 === rg.c2; return one ? K(rg.r1, rg.c1) : K(rg.r1, rg.c1) + ':' + K(rg.r2, rg.c2) }
+      const OPEND = /[=+\-*\/^&(,;<>:]$/;
+      function fiInsertOK() { const v = $('#fi').value; return editing && v[0] === '=' && (OPEND.test(v) || fiIns) }
+      let drag = false;
+      function cellFromPt(x, y) { const el = document.elementFromPoint(x, y); return el && el.closest && el.closest('td[data-r]') }
+      const grid = $('#grid');
+      grid.addEventListener('pointerdown', e => {
+        lastPT = e.pointerType; const td = e.target.closest('td[data-r]');
+        if (!td) return; const r = +td.dataset.r, c = +td.dataset.c;
+        if (fiInsertOK()) { e.preventDefault(); if (!fiIns) { fiBase = $('#fi').value; fiIns = true } selectCell(r, c, false); $('#fi').value = fiBase + refText(); drag = true; grid._ins = true; return }
+        if (e.pointerType === 'mouse' || smode) { if (editing) commit(); if (e.shiftKey) selectCell(r, c, true); else selectCell(r, c, false); drag = true; grid._ins = false }
+      });
+      document.addEventListener('pointermove', e => { if (!drag) return; const td = cellFromPt(e.clientX, e.clientY); if (!td) return; const r = +td.dataset.r, c = +td.dataset.c; if (r === sel.r && c === sel.c && rg.r1 === rg.r2 && rg.c1 === rg.c2) return; selectCell(r, c, true); if (grid._ins) $('#fi').value = fiBase + refText() });
+      document.addEventListener('pointerup', () => { if (drag && grid._ins) { $('#fi').focus() } drag = false });
+      grid.addEventListener('click', e => {
+        const td = e.target.closest('td[data-r]');
+        if (!td) {
+          const th = e.target.closest('th'); if (!th) return; if (editing) commit();
+          if (th.dataset.all) { sel = { r: 0, c: 0 }; anchor = { r: 0, c: 0 }; rg = { r1: 0, c1: 0, r2: NR - 1, c2: NC - 1 } }
+          else if (th.dataset.c != null) { const c = +th.dataset.c; sel = { r: 0, c }; anchor = { r: 0, c }; rg = { r1: 0, c1: c, r2: NR - 1, c2: c } }
+          else { const r = +th.dataset.r; sel = { r, c: 0 }; anchor = { r, c: 0 }; rg = { r1: r, c1: 0, r2: r, c2: NC - 1 } } updateSel(); updateBar(); return
+        }
+        if (lastPT === 'mouse' || smode || fiIns) return; const r = +td.dataset.r, c = +td.dataset.c;
+        if (sel.r === r && sel.c === c && !editing && rg.r1 === rg.r2 && rg.c1 === rg.c2) { startEdit(null, true) } else selectCell(r, c, false)
+      });
+      grid.addEventListener('dblclick', e => { const td = e.target.closest('td[data-r]'); if (td) { selectCell(+td.dataset.r, +td.dataset.c, false); startEdit(null, true) } });
+      /* fill handle */
+      const fh = $('#fh');
+      fh.addEventListener('pointerdown', e => {
+        e.preventDefault(); e.stopPropagation(); if (editing) commit(); const src = { ...rg }; let tr = src.r2, tc = src.c2; fh.setPointerCapture && fh.setPointerCapture(e.pointerId);
+        const mv = ev => { const td = cellFromPt(ev.clientX, ev.clientY); if (!td) return; const r = +td.dataset.r, c = +td.dataset.c, dr = r - src.r2, dc = c - src.c2; if (dr > 0 && dr >= dc) { tr = r; tc = src.c2 } else if (dc > 0) { tc = c; tr = src.r2 } else { tr = src.r2; tc = src.c2 } rg = { ...src, r2: tr, c2: tc }; updateSel() };
+        const up = () => { fh.removeEventListener('pointermove', mv); fh.removeEventListener('pointerup', up); if (tr > src.r2 || tc > src.c2) { fillRange(src, tr, tc); rg = { ...src, r2: tr, c2: tc }; recalc() } else { rg = src; updateSel() } };
+        fh.addEventListener('pointermove', mv); fh.addEventListener('pointerup', up)
+      });
+      /* ---------- editing ---------- */
+      const fi = $('#fi');
+      function startEdit(txt, focus) { editing = true; fiIns = false; fi.value = txt == null ? rawOf(sel.r, sel.c) : txt; document.body.classList.add('editing'); $('#fh').style.display = 'none'; if (focus !== false) fi.focus() }
+      fi.addEventListener('focus', () => { if (!editing) { editing = true; fiIns = false; document.body.classList.add('editing') } });
+      fi.addEventListener('input', () => { fiIns = false });
+      function commit(mv) { if (!editing) return; const v = norm(fi.value); editing = false; fiIns = false; document.body.classList.remove('editing'); snap(); setRaw(sel.r, sel.c, v); fi.blur(); recalc(); if (mv === 'd') moveSel(1, 0); else if (mv === 'r') moveSel(0, 1) }
+      function cancelEdit() { editing = false; fiIns = false; document.body.classList.remove('editing'); fi.value = rawOf(sel.r, sel.c); fi.blur(); updateSel() }
+      fi.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); commit('d') } else if (e.key === 'Tab') { e.preventDefault(); commit('r') } else if (e.key === 'Escape') { e.preventDefault(); cancelEdit() } });
+      $('#nb').addEventListener('keydown', e => { if (e.key !== 'Enter') return; const t = e.target.value.trim().toUpperCase().split(':'), a = pk(t[0]), b = t[1] ? pk(t[1]) : a; if (a && b && a[0] < NR && a[1] < NC) { sel = { r: a[0], c: a[1] }; anchor = { ...sel }; rg = { r1: Math.min(a[0], b[0]), c1: Math.min(a[1], b[1]), r2: Math.min(NR - 1, Math.max(a[0], b[0])), c2: Math.min(NC - 1, Math.max(a[1], b[1])) }; updateSel(); updateBar(); e.target.blur() } else toast('مرجع غير صالح') });
+      /* ---------- clipboard / fill / sort ---------- */
+      function copyRg() {
+        const rows = [], tsv = []; for (let r = rg.r1; r <= rg.r2; r++) { const row = [], tr = []; for (let c = rg.c1; c <= rg.c2; c++) { const x = cellAt(r, c); row.push(x ? JSON.parse(JSON.stringify(x)) : null); const v = safe(D.active, r, c); tr.push(v instanceof XE ? v.c : fmtV(v, (x && x.s) || {}, x && x.v)) } rows.push(row); tsv.push(tr.join('\t')) }
+        clip = { r1: rg.r1, c1: rg.c1, rows, tsv: tsv.join('\n') }; try { navigator.clipboard.writeText(clip.tsv) } catch (e) { }
+      }
+      function pasteClip() {
+        if (!clip) return; snap(); clip.rows.forEach((row, i) => row.forEach((x, j) => { const r = sel.r + i, c = sel.c + j; if (r >= NR || c >= NC) return; const k = K(r, c); if (!x) { delete SHT().cells[k]; return } const n = JSON.parse(JSON.stringify(x)); if (typeof n.v === 'string' && n.v[0] === '=') n.v = '=' + shiftF(n.v.slice(1), r - (clip.r1 + i), c - (clip.c1 + j)); SHT().cells[k] = n }));
+        rg = { r1: sel.r, c1: sel.c, r2: Math.min(NR - 1, sel.r + clip.rows.length - 1), c2: Math.min(NC - 1, sel.c + clip.rows[0].length - 1) }; recalc()
+      }
+      function pasteText(t) { snap(); t.replace(/\r/g, '').split('\n').forEach((line, i) => line.split('\t').forEach((v, j) => { const r = sel.r + i, c = sel.c + j; if (r < NR && c < NC && !(v === '' && i === t.split('\n').length - 1)) setRaw(r, c, norm(v)) })); recalc() }
+      document.addEventListener('paste', e => { if (/INPUT|TEXTAREA/.test(e.target.tagName)) return; e.preventDefault(); const t = (e.clipboardData || window.clipboardData).getData('text'); if (clip && (t === clip.tsv || !t)) pasteClip(); else if (t) pasteText(t) });
+      const DAYS = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'], MONS = ['كانون الثاني', 'شباط', 'آذار', 'نيسان', 'أيار', 'حزيران', 'تموز', 'آب', 'أيلول', 'تشرين الأول', 'تشرين الثاني', 'كانون الأول'];
+      function nextVal(src, i, tr, tc, sr0, sc0, ser, hz) {
+        const n = src.length, raws = src.map(x => x ? x.v : ''); const sx = src[i % n], r0 = raws[i % n];
+        const nm = raws.map(v => lit(v));
+        if (n >= 2 && nm.every(v => typeof v === 'number')) { const step = (nm[n - 1] - nm[0]) / (n - 1); return String(+(nm[n - 1] + step * (i + 1)).toPrecision(12)) }
+        if (n === 1) {
+          const v0 = nm[0];
+          if (typeof v0 === 'number') { return ser ? String(v0 + i + 1) : r0 }
+          for (const L of [DAYS, MONS]) { const ix = L.indexOf(r0); if (ix >= 0 && ser !== false) return L[(ix + i + 1) % L.length] }
+          const m = /^(.*?)(\d+)$/.exec(r0); if (m && r0[0] !== '=' && ser !== false) return m[1] + (+m[2] + i + 1)
+        }
+        if (typeof r0 === 'string' && r0[0] === '=') return '=' + (hz ? shiftF(r0.slice(1), 0, tc - (sc0 + (i % n))) : shiftF(r0.slice(1), tr - (sr0 + (i % n)), 0)); return r0
+      }
+      function fillRange(s, tr, tc, ser) {
+        snap(); const S = SHT();
+        if (tr > s.r2) {
+          for (let c = s.c1; c <= s.c2; c++) {
+            const src = []; for (let r = s.r1; r <= s.r2; r++)src.push(S.cells[K(r, c)] || null); for (let r = s.r2 + 1; r <= tr; r++) {
+              const i = r - s.r2 - 1 + (src.length - 1) - (src.length - 1); const idx = r - s.r1; const base = src.length; let v;
+              // value for target row
+              const k = r - s.r2 - 1; v = nextVal(src, k + (base === 1 ? 0 : 0), r, c, s.r1, c, ser);
+              const sx = src[k % base]; const n = sx ? JSON.parse(JSON.stringify(sx)) : { v: '' }; n.v = v; if (v === '' && !n.s) delete S.cells[K(r, c)]; else S.cells[K(r, c)] = n
+            }
+          }
+        }
+        else if (tc > s.c2) { for (let r = s.r1; r <= s.r2; r++) { const src = []; for (let c = s.c1; c <= s.c2; c++)src.push(S.cells[K(r, c)] || null); for (let c = s.c2 + 1; c <= tc; c++) { const k = c - s.c2 - 1; const v = nextVal(src, k, r, c, r, s.c1, ser, 1); const sx = src[k % src.length]; const n = sx ? JSON.parse(JSON.stringify(sx)) : { v: '' }; n.v = v; if (v === '' && !n.s) delete S.cells[K(r, c)]; else S.cells[K(r, c)] = n } } }
+      }
+      function usedBox() { let r1 = 1e9, r2 = -1, c1 = 1e9, c2 = -1; for (const k in SHT().cells) { const x = SHT().cells[k]; if (x.v === '') continue; const p = pk(k); r1 = Math.min(r1, p[0]); r2 = Math.max(r2, p[0]); c1 = Math.min(c1, p[1]); c2 = Math.max(c2, p[1]) } return r2 < 0 ? null : { r1, c1, r2, c2 } }
+      function sortRg(dir) {
+        let { r1, c1, r2, c2 } = rg; if (r1 === r2 && c1 === c2) { const b = usedBox(); if (!b) { toast('لا توجد بيانات'); return } ({ r1, c1, r2, c2 } = b) }
+        const isS = (r) => { let any = false; for (let c = c1; c <= c2; c++) { const v = safe(D.active, r, c); if (typeof v === 'number') return false; if (v !== '') any = true } return any };
+        const hasNum = r => { for (let c = c1; c <= c2; c++)if (typeof safe(D.active, r, c) === 'number') return true; return false };
+        if (r2 > r1 && isS(r1) && hasNum(r1 + 1)) r1++; const kc = Math.max(c1, Math.min(c2, sel.c)); snap();
+        const rows = []; for (let r = r1; r <= r2; r++) { const o = {}; for (let c = c1; c <= c2; c++) { const x = SHT().cells[K(r, c)]; if (x) o[c] = x } rows.push({ r, o, k: safe(D.active, r, kc) }) }
+        rows.sort((a, b) => { const ea = a.k === '', eb = b.k === ''; if (ea || eb) return ea === eb ? 0 : ea ? 1 : -1; return dir * cmpV(a.k instanceof XE ? '' : a.k, b.k instanceof XE ? '' : b.k) || a.r - b.r });
+        for (let r = r1; r <= r2; r++)for (let c = c1; c <= c2; c++)delete SHT().cells[K(r, c)];
+        rows.forEach((row, i) => { const nr = r1 + i; for (const c in row.o) { const x = JSON.parse(JSON.stringify(row.o[c])); if (typeof x.v === 'string' && x.v[0] === '=') x.v = '=' + shiftF(x.v.slice(1), nr - row.r, 0); SHT().cells[K(nr, +c)] = x } }); recalc()
+      }
+      function structural(axis, at, d) {
+        snap(); D.sheets.forEach((S, si) => { for (const k in S.cells) { const x = S.cells[k]; if (typeof x.v === 'string' && x.v[0] === '=') x.v = '=' + adjRefs(x.v.slice(1), si, D.active, axis, at, d) } });
+        const S = SHT(), mapv = v => { if (d > 0) return v >= at ? v + d : v; if (v === at) return -1; return v > at ? v - 1 : v };
+        const nc = {}; for (const k in S.cells) { const p = pk(k); const v = mapv(axis === 'r' ? p[0] : p[1]); if (v < 0 || v >= (axis === 'r' ? NR : NC)) continue; nc[axis === 'r' ? K(v, p[1]) : K(p[0], v)] = S.cells[k] } S.cells = nc;
+        const remap = o => { const n = {}; for (const k in o) { const v = mapv(+k); if (v >= 0) n[v] = o[k] } return n }; if (axis === 'r') { S.rh = remap(S.rh); S.hidden = remap(S.hidden) } else S.cw = remap(S.cw);
+        S.merges = []; flags.ins = true; renderAll()
+      }
+      /* ---------- popups ---------- */
+      const pop = $('#pop'); let popA = null;
+      function closePop() { pop.style.display = 'none'; popA = null }
+      function openPop(a, node) { if (popA === a) { closePop(); return } pop.innerHTML = ''; pop.appendChild(node); pop.style.display = 'block'; popA = a; const r = a.getBoundingClientRect(); pop.style.left = Math.max(4, Math.min(r.right - pop.offsetWidth, innerWidth - pop.offsetWidth - 4)) + 'px'; pop.style.top = Math.max(4, Math.min(r.bottom + 2, innerHeight - pop.offsetHeight - 4)) + 'px' }
+      function menu(a, items) { const w = document.createElement('div'); items.forEach(it => { const d = document.createElement('div'); d.className = 'mi'; d.textContent = it[0]; d.onclick = () => { closePop(); it[1]() }; w.appendChild(d) }); openPop(a, w) }
+      function gallery(a, items) { const w = document.createElement('div'); w.className = 'gal'; items.forEach(it => { const d = document.createElement('div'); d.className = 'gi'; d.innerHTML = '<b>' + it[2] + '</b>' + esc(it[0]); d.onclick = () => { closePop(); it[1]() }; w.appendChild(d) }); openPop(a, w) }
+      const COLS = ['#000000', '#ffffff', '#c00000', '#ff0000', '#ffc000', '#ffff00', '#92d050', '#00b050', '#00b0f0', '#0070c0', '#7030a0', '#7f7f7f', '#fbe5d6', '#e2f0d9', '#dce6f2', '#fff2cc', '#ffc7ce', '#c6efce'];
+      function palette(a, cb, none) { const w = document.createElement('div'); const g = document.createElement('div'); g.className = 'pgd'; COLS.forEach(c => { const i = document.createElement('i'); i.style.background = c; i.onclick = () => { closePop(); cb(c) }; g.appendChild(i) }); w.appendChild(g); const n = document.createElement('div'); n.className = 'mi'; n.textContent = none; n.onclick = () => { closePop(); cb(null) }; w.appendChild(n); openPop(a, w) }
+      function modal(t, b, btns) { $('#mt').textContent = t; $('#mbd').innerHTML = b; $('#mbd').onclick = null; const f = $('#mf'); f.innerHTML = ''; btns.forEach(x => { const k = document.createElement('button'); k.className = 'mb ' + (x.c || ''); k.textContent = x.l; k.onclick = () => { if (x.f && x.f() === false) return; closeM() }; f.appendChild(k) }); $('#bd').classList.add('show'); const i = $('#mbd input'); if (i) setTimeout(() => i.focus(), 50) }
+      function closeM() { $('#bd').classList.remove('show') }
+      function askM(t, label, def, cb) { modal(t, '<label>' + esc(label) + '</label><input id="ai" value="' + esc(def || '') + '">', [{ l: 'موافق', c: 'pri', f: () => { const v = $('#ai').value; setTimeout(() => cb(v), 0) } }, { l: 'إلغاء' }]); $('#ai').addEventListener('keydown', e => { if (e.key === 'Enter') { const v = $('#ai').value; closeM(); setTimeout(() => cb(v), 0) } }) }
+      function yesM(t, cb) { modal(t, '', [{ l: 'نعم', c: 'pri', f: () => { setTimeout(cb, 0) } }, { l: 'لا' }]) }
+      /* ---------- charts ---------- */
+      const CC = ['#4472c4', '#ed7d31', '#a5a5a5', '#ffc000', '#5b9bd5', '#70ad47'];
+      function chartData(ch) {
+        const R = ch.rng, M = []; for (let r = R.r1; r <= R.r2; r++) { const row = []; for (let c = R.c1; c <= R.c2; c++) { const v = safe(D.active, r, c); row.push(v instanceof XE ? 0 : v) } M.push(row) }
+        const hdr = M.length > 1 && M[0].length > 1 && M[0].slice(1).some(x => typeof x === 'string' && x !== ''), body = hdr ? M.slice(1) : M, nc = M[0].length, lab = nc > 1 && body.every(r => typeof r[0] !== 'number');
+        const series = []; for (let c = lab ? 1 : 0; c < nc; c++)series.push({ name: hdr && typeof M[0][c] === 'string' && M[0][c] !== '' ? M[0][c] : 'سلسلة ' + (series.length + 1), vals: body.map(r => typeof r[c] === 'number' ? r[c] : 0) });
+        return { labels: body.map((r, i) => lab ? String(r[0]) : String(i + 1)), series }
+      }
+      function nice(x) { if (x <= 0) return 1; const p = Math.pow(10, Math.floor(Math.log10(x))), f = x / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p }
+      function chartSVG(ch, w, h) {
+        const d = chartData(ch), L = d.labels, SR = d.series; let s = '<svg viewBox="0 0 ' + w + ' ' + h + '" font-family="Segoe UI,Tahoma,sans-serif" font-size="11" preserveAspectRatio="none">';
+        if (!SR.length || !L.length) return s + '<text x="10" y="30">لا توجد بيانات</text></svg>';
+        const top = 8, bot = 40, lf = 50, rt = 10, pw = w - lf - rt, ph = h - top - bot;
+        const legend = (items) => { let x = lf, o = ''; items.forEach((t, i) => { o += '<rect x="' + x + '" y="' + (h - 14) + '" width="9" height="9" fill="' + CC[i % 6] + '"/><text x="' + (x + 12) + '" y="' + (h - 6) + '" fill="#555">' + esc(String(t).slice(0, 10)) + '</text>'; x += 22 + Math.min(String(t).length, 10) * 6.5 }); return o };
+        if (ch.type === 'pie') {
+          const v = SR[0].vals.map(x => Math.max(0, x)), tot = v.reduce((a, b) => a + b, 0) || 1, cx = w / 2, cy = top + (h - top - 22) / 2, R = Math.min(w - 20, h - top - 30) / 2; let a0 = -Math.PI / 2;
+          v.forEach((x, i) => { const f = x / tot, a1 = a0 + f * 2 * Math.PI; if (f >= .9999) s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="' + CC[i % 6] + '"/>'; else if (f > 0) { const lg = f > .5 ? 1 : 0; s += '<path d="M' + cx + ',' + cy + ' L' + (cx + R * Math.cos(a0)) + ',' + (cy + R * Math.sin(a0)) + ' A' + R + ',' + R + ' 0 ' + lg + ',1 ' + (cx + R * Math.cos(a1)) + ',' + (cy + R * Math.sin(a1)) + ' Z" fill="' + CC[i % 6] + '" stroke="#fff"/>'; if (f > .06) { const am = (a0 + a1) / 2; s += '<text x="' + (cx + R * .62 * Math.cos(am)) + '" y="' + (cy + R * .62 * Math.sin(am) + 4) + '" fill="#fff" text-anchor="middle" font-weight="700">' + Math.round(f * 100) + '%</text>' } } a0 = a1 });
+          return s + legend(L) + '</svg>'
+        }
+        const all = SR.flatMap(x => x.vals); let mx = Math.max(0, ...all), mn = Math.min(0, ...all); const st = nice((mx - mn) / 4 || 1); mx = Math.ceil(mx / st - 1e-9) * st; mn = Math.floor(mn / st + 1e-9) * st; if (mx === mn) mx = mn + st;
+        const y = v => top + ph - (v - mn) / (mx - mn) * ph; for (let v = mn; v <= mx + 1e-9; v += st) { s += '<line x1="' + lf + '" x2="' + (w - rt) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="#ddd"/><text x="' + (lf - 5) + '" y="' + (y(v) + 4) + '" text-anchor="end" fill="#666">' + (+v.toPrecision(6)) + '</text>' }
+        const n = L.length, bw = pw / n; L.forEach((t, i) => { s += '<text x="' + (lf + bw * (i + .5)) + '" y="' + (h - bot + 14) + '" text-anchor="middle" fill="#555">' + esc(t.slice(0, 9)) + '</text>' });
+        if (ch.type === 'line') { SR.forEach((q, j) => { const pts = q.vals.map((v, i) => (lf + bw * (i + .5)) + ',' + y(v)).join(' '); s += '<polyline fill="none" stroke="' + CC[j % 6] + '" stroke-width="2.5" points="' + pts + '"/>'; q.vals.forEach((v, i) => { s += '<circle cx="' + (lf + bw * (i + .5)) + '" cy="' + y(v) + '" r="3.5" fill="' + CC[j % 6] + '"/>' }) }) }
+        else { const m = SR.length, gw = bw * .72, w1 = gw / m; SR.forEach((q, j) => { q.vals.forEach((v, i) => { const x = lf + i * bw + (bw - gw) / 2 + j * w1, y0 = y(0), y1 = y(v); s += '<rect x="' + x + '" y="' + Math.min(y0, y1) + '" width="' + (w1 - 2) + '" height="' + Math.abs(y0 - y1) + '" fill="' + CC[j % 6] + '"/>' }) }) }
+        s += '<line x1="' + lf + '" x2="' + (w - rt) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="#888"/>'; return s + legend(SR.map(q => q.name)) + '</svg>'
+      }
+      const CT = { col: '📊 عمودي', line: '📈 خطي', pie: '🥧 دائري' };
+      function renderCharts() {
+        const L = $('#chl'); L.innerHTML = ''; SHT().charts.forEach(ch => {
+          const d = document.createElement('div'); d.className = 'chart'; d.dataset.id = ch.id; d.style.cssText = 'left:' + ch.x + 'px;top:' + ch.y + 'px;width:' + ch.w + 'px;height:' + ch.h + 'px';
+          d.innerHTML = '<div class="chd"><button data-ca="del">🗑</button><button data-ca="type" title="تغيير النوع">⟳</button><button data-ca="title">✎</button><span>' + esc(ch.title || CT[ch.type]) + '</span></div><div class="cbd">' + chartSVG(ch, ch.w, ch.h - 26) + '</div><div class="crs"></div>'; L.appendChild(d)
+        })
+      }
+      $('#chl').addEventListener('pointerdown', e => {
+        const d = e.target.closest('.chart'); if (!d) return; const ch = SHT().charts.find(x => x.id == d.dataset.id); const b = e.target.closest('[data-ca]');
+        if (b) { const a = b.dataset.ca; if (a === 'del') { snap(); SHT().charts = SHT().charts.filter(x => x !== ch); renderCharts(); save(); refreshEx() } else if (a === 'type') { snap(); const k = Object.keys(CT); ch.type = k[(k.indexOf(ch.type) + 1) % 3]; renderCharts(); save(); refreshEx() } else askM('عنوان المخطط', 'العنوان', ch.title, v => { snap(); ch.title = v; renderCharts(); save() }); return }
+        const mode = e.target.closest('.crs') ? 'rs' : e.target.closest('.chd') ? 'mv' : null; if (!mode) return; e.preventDefault(); snap(); const sx = e.clientX, sy = e.clientY, o = [ch.x, ch.y, ch.w, ch.h];
+        const mvf = ev => { const dx = ev.clientX - sx, dy = ev.clientY - sy; if (mode === 'mv') { ch.x = Math.round(o[0] + dx); ch.y = Math.round(o[1] + dy); d.style.left = ch.x + 'px'; d.style.top = ch.y + 'px' } else { ch.w = Math.max(180, Math.round(o[2] + dx)); ch.h = Math.max(140, Math.round(o[3] + dy)); d.style.width = ch.w + 'px'; d.style.height = ch.h + 'px' } };
+        const up = () => { removeEventListener('pointermove', mvf); removeEventListener('pointerup', up); renderCharts(); save() }; addEventListener('pointermove', mvf); addEventListener('pointerup', up)
+      });
+      function addChart(type) {
+        if (rg.r1 === rg.r2 && rg.c1 === rg.c2) { toast('حدد نطاق البيانات أولاً (فعّل ⬚ للتحديد)'); return } snap(); const g = $('#gw').getBoundingClientRect(), b = $('#sbox').getBoundingClientRect(), w = Math.min(340, g.width - 30);
+        SHT().charts.push({ id: uid++, type, rng: { ...rg }, x: Math.max(6, Math.round(g.left + (g.width - w) / 2 - b.left)), y: Math.max(6, Math.round(g.top + 30 - b.top)), w, h: 240, title: '' }); renderCharts(); save(); refreshEx()
+      }
+      /* ---------- actions ---------- */
+      const FN = {
+        math: [['SUM', 'جمع'], ['PRODUCT', 'ضرب'], ['ROUND', 'تقريب'], ['ABS', 'قيمة مطلقة'], ['SQRT', 'جذر'], ['POWER', 'أس'], ['MOD', 'باقي القسمة'], ['INT', 'عدد صحيح'], ['RANDBETWEEN', 'عشوائي بين']],
+        stat: [['AVERAGE', 'متوسط'], ['MIN', 'أصغر'], ['MAX', 'أكبر'], ['COUNT', 'عدد الأرقام'], ['COUNTA', 'عدد غير الفارغ'], ['MEDIAN', 'وسيط'], ['LARGE', 'الأكبر رقم k'], ['SMALL', 'الأصغر رقم k'], ['SUMIF', 'جمع بشرط'], ['COUNTIF', 'عدّ بشرط'], ['AVERAGEIF', 'متوسط بشرط']],
+        logic: [['IF', 'إذا'], ['IFERROR', 'عند الخطأ'], ['AND', 'و'], ['OR', 'أو'], ['NOT', 'ليس']],
+        text: [['LEN', 'الطول'], ['LEFT', 'يسار'], ['RIGHT', 'يمين'], ['MID', 'وسط'], ['UPPER', 'أحرف كبيرة'], ['LOWER', 'أحرف صغيرة'], ['TRIM', 'حذف الفراغات'], ['CONCAT', 'دمج نص']],
+        date: [['TODAY', 'اليوم'], ['NOW', 'الآن'], ['DAY', 'اليوم من تاريخ'], ['MONTH', 'الشهر'], ['YEAR', 'السنة']],
+        look: [['VLOOKUP', 'بحث رأسي'], ['ROW', 'رقم الصف'], ['COLUMN', 'رقم العمود']]
+      };
+      const FNN = { math: 'رياضية', stat: 'إحصائية', logic: 'منطقية', text: 'نصية', date: 'تاريخ ووقت', look: 'بحث ومرجع' };
+      function insFn(n) { if (!editing) startEdit('=', false); const v = fi.value; fi.value = (v === '' || v === '=' ? '=' : v) + n + '('; editing = true; document.body.classList.add('editing'); fi.focus(); fiIns = false }
+      function applyStyle(p) { snap(); forRg((r, c) => setStyle(r, c, p)); recalc() }
+      function curS() { return (cellAt(sel.r, sel.c) || {}).s || {} }
+      function autoSum(fn) {
+        snap(); const S = SHT(); if (rg.r1 === rg.r2 && rg.c1 === rg.c2) { let r = sel.r - 1; while (r >= 0 && typeof safe(D.active, r, sel.c) === 'number') r--; if (r < sel.r - 1) { setRaw(sel.r, sel.c, '=' + fn + '(' + K(r + 1, sel.c) + ':' + K(sel.r - 1, sel.c) + ')') } else { let c = sel.c - 1; while (c >= 0 && typeof safe(D.active, sel.r, c) === 'number') c--; if (c < sel.c - 1) setRaw(sel.r, sel.c, '=' + fn + '(' + K(sel.r, c + 1) + ':' + K(sel.r, sel.c - 1) + ')'); else { toast('لا توجد أرقام بجانب الخلية'); return } } }
+        else if (rg.r1 === rg.r2) { setRaw(rg.r1, Math.min(NC - 1, rg.c2 + 1), '=' + fn + '(' + K(rg.r1, rg.c1) + ':' + K(rg.r1, rg.c2) + ')') }
+        else for (let c = rg.c1; c <= rg.c2; c++)setRaw(Math.min(NR - 1, rg.r2 + 1), c, '=' + fn + '(' + K(rg.r1, c) + ':' + K(rg.r2, c) + ')'); recalc()
+      }
+      function bordersApply(kind) { snap(); forRg((r, c) => { const p = {}; if (kind === 'none') { p.bt = p.bb = p.bl = p.br = 0 } else if (kind === 'all') { p.bt = p.bb = p.bl = p.br = 1 } else if (kind === 'out') { if (r === rg.r1) p.bt = 1; if (r === rg.r2) p.bb = 1; if (c === rg.c1) p.br = 1; if (c === rg.c2) p.bl = 1 } else if (kind === 'bottom') { p.bb = 1 } else if (kind === 'top') { p.bt = 1 } setStyle(r, c, p) }); recalc() }
+      function cfAdd(op, label) { if (op === 'scale') { snap(); SHT().cf.push({ ...rg, op: 'scale' }); recalc(); return } askM('تنسيق شرطي — ' + label, 'القيمة', op === 'has' ? '' : '0', v => { snap(); SHT().cf.push({ ...rg, op, val: v, bg: '#ffc7ce', c: '#9c0006' }); recalc() }) }
+      function mergeToggle() { snap(); const S = SHT(), m = S.merges.findIndex(x => x.r1 === sel.r && x.c1 === sel.c); if (m >= 0) { S.merges.splice(m, 1) } else { if (rg.r1 === rg.r2 && rg.c1 === rg.c2) { toast('حدد أكثر من خلية للدمج'); hist.pop(); return } S.merges = S.merges.filter(x => x.r2 < rg.r1 || x.r1 > rg.r2 || x.c2 < rg.c1 || x.c1 > rg.c2); S.merges.push({ ...rg }); const keep = rawOf(rg.r1, rg.c1); forRg((r, c) => { if (r !== rg.r1 || c !== rg.c1) { delete S.cells[K(r, c)] } }); setStyle(rg.r1, rg.c1, { al: 'center' }); if (keep !== '') setRaw(rg.r1, rg.c1, keep) } renderAll() }
+      function filtBox() { const b = usedBox(); if (!b) toast('لا توجد بيانات'); return b }
+      function applyFilter(test) { const b = filtBox(); if (!b) return; snap(); const S = SHT(); S.hidden = {}; for (let r = b.r1 + 1; r <= b.r2; r++) { const v = safe(D.active, r, sel.c); if (!test(v)) S.hidden[r] = 1 } flags.filt = true; renderAll() }
+      const A = {
+        file() { modal('ملف', '<div>اختر إجراءً:</div>', [{ l: '🗋 جديد', f: () => { setTimeout(() => yesM('سيتم مسح المصنف الحالي. متابعة؟', () => { D = { sheets: [mkSheet('ورقة1')], active: 0 }; sel = { r: 0, c: 0 }; anchor = { r: 0, c: 0 }; rg = { r1: 0, c1: 0, r2: 0, c2: 0 }; hist = []; renderAll() }), 0) } }, { l: '🎨 قالب جاهز', f: () => { setTimeout(tmplM, 0) } }, { l: '📂 فتح', f: () => { $('#openF').click() } }, { l: '💾 حفظ xlsx', f: () => { setTimeout(A.saveX, 0) } }, { l: '📄 تصدير CSV', f: () => { setTimeout(A.saveCSV, 0) } }, { l: '🎓 الاختبارات', f: () => { setTimeout(() => { showTab('ex'); catalog() }, 0) } }, { l: 'إغلاق', c: 'pri' }]) },
+        saveX() { exportX() }, saveCSV() { exportCSV() },
+        undo() { if (editing) cancelEdit(); if (!hist.length) return; redo.push(JSON.stringify(D)); D = JSON.parse(hist.pop()); if (D.active >= D.sheets.length) D.active = 0; renderAll() },
+        redo() { if (!redo.length) return; hist.push(JSON.stringify(D)); D = JSON.parse(redo.pop()); renderAll() },
+        smode() { smode = !smode; document.body.classList.toggle('smode', smode); $('#smb').classList.toggle('on', smode); toast(smode ? 'وضع تحديد النطاق: اسحب لتحديد خلايا' : 'تم إيقاف وضع التحديد') },
+        okb() { commit('d') }, cancel() { cancelEdit() },
+        fxM(b) { menu(b, Object.keys(FN).map(k => [FNN[k] + ' ▸', () => setTimeout(() => A.fnM({ getBoundingClientRect: () => b.getBoundingClientRect() }, k), 0)])) },
+        fnM(b, k) { menu(b, FN[k].map(([n, d]) => [n + ' — ' + d, () => insFn(n)])) },
+        paste() { if (clip) pasteClip(); else try { navigator.clipboard.readText().then(t => t && pasteText(t)) } catch (e) { toast('استخدم Ctrl+V') } },
+        copy() { copyRg(); toast('تم النسخ') }, cut() { copyRg(); snap(); forRg((r, c) => delete SHT().cells[K(r, c)]); recalc() },
+        b() { applyStyle({ b: curS().b ? 0 : 1 }) }, i() { applyStyle({ i: curS().i ? 0 : 1 }) }, u() { applyStyle({ u: curS().u ? 0 : 1 }) }, wrap() { applyStyle({ wrap: curS().wrap ? 0 : 1 }) },
+        fillc(b) { palette(b, c => applyStyle({ bg: c }), 'بدون تعبئة') }, textc(b) { palette(b, c => applyStyle({ c: c }), 'تلقائي') },
+        bdM(b) { menu(b, [['▦ كل الحدود', () => bordersApply('all')], ['▢ حدود خارجية', () => bordersApply('out')], ['▁ حد سفلي', () => bordersApply('bottom')], ['▔ حد علوي', () => bordersApply('top')], ['✖ بدون حدود', () => bordersApply('none')]]) },
+        al(b, v) { applyStyle({ al: v }) }, merge() { mergeToggle() },
+        nfM(b) { menu(b, [['عام', 'gen'], ['رقم  1,234.00', 'num'], ['عملة  د.ع', 'cur'], ['نسبة مئوية %', 'pct'], ['تاريخ', 'date'], ['نص', 'txt']].map(([l, k]) => [l, () => applyStyle({ nf: k === 'gen' ? 0 : k, dec: null })])) },
+        nf(b, v) { applyStyle({ nf: v, dec: null }) },
+        dec(b, v) { const s = curS(), x = safe(D.active, sel.r, sel.c); let d = s.dec; if (d == null) { d = s.nf === 'num' || s.nf === 'cur' ? 2 : s.nf === 'pct' ? 0 : (typeof x === 'number' && String(x).includes('.') ? String(x).split('.')[1].length : 0) } applyStyle({ dec: Math.max(0, Math.min(10, d + +v)), nf: s.nf || 0 }) },
+        insM(b) { menu(b, [['➕ إدراج صف', () => structural('r', sel.r, 1)], ['➕ إدراج عمود', () => structural('c', sel.c, 1)], ['📄 ورقة جديدة', () => A.sheetAdd()]]) },
+        delM(b) { menu(b, [['➖ حذف الصف', () => structural('r', sel.r, -1)], ['➖ حذف العمود', () => structural('c', sel.c, -1)], ['🗑 حذف الورقة', () => delSheet(D.active)]]) },
+        fmtM(b) {
+          const cs = () => { const a = []; for (let c = rg.c1; c <= rg.c2; c++)a.push(c); return a }, rs = () => { const a = []; for (let r = rg.r1; r <= rg.r2; r++)a.push(r); return a };
+          menu(b, [['↔ توسيع العمود', () => { snap(); cs().forEach(c => SHT().cw[c] = (SHT().cw[c] || 84) + 30); renderAll() }], ['↔ تضييق العمود', () => { snap(); cs().forEach(c => SHT().cw[c] = Math.max(30, (SHT().cw[c] || 84) - 30)); renderAll() }], ['⇔ ملاءمة العرض تلقائياً', () => { snap(); cs().forEach(c => { let m = 40; for (let r = 0; r < NR; r++) { const x = cellAt(r, c); if (x) { const t = fmtV(safe(D.active, r, c), x.s || {}, x.v); m = Math.max(m, t.length * 8 + 16) } } SHT().cw[c] = m }); renderAll() }], ['↕ زيادة ارتفاع الصف', () => { snap(); rs().forEach(r => SHT().rh[r] = (SHT().rh[r] || 30) + 14); renderAll() }], ['↕ تقليل ارتفاع الصف', () => { snap(); rs().forEach(r => SHT().rh[r] = Math.max(18, (SHT().rh[r] || 30) - 14)); renderAll() }]])
+        },
+        sumM(b) { menu(b, [['∑ جمع', 'SUM'], ['متوسط', 'AVERAGE'], ['عدد', 'COUNT'], ['أكبر قيمة', 'MAX'], ['أصغر قيمة', 'MIN']].map(([l, f]) => [l, () => autoSum(f)])) },
+        fillM(b) { menu(b, [['⬇ تعبئة لأسفل (Ctrl+D)', () => fillDir('d')], ['⬅ تعبئة لليسار (Ctrl+R)', () => fillDir('r')], ['🔢 سلسلة', () => A.series()]]) },
+        series() {
+          const R = rg; if (R.r1 === R.r2 && R.c1 === R.c2) { toast('حدد نطاقاً أولاً'); return } snap(); if (R.r2 > R.r1) { for (let c = R.c1; c <= R.c2; c++) { const v0 = lit(rawOf(R.r1, c)), v1 = lit(rawOf(R.r1 + 1, c)); const seedN = typeof v1 === 'number' && rawOf(R.r1 + 1, c) !== '' ? 2 : 1; const src = []; for (let r = R.r1; r < R.r1 + seedN; r++)src.push(cellAt(r, c) || null); for (let r = R.r1 + seedN; r <= R.r2; r++) { const k = r - R.r1 - seedN; const v = nextVal(src, k, r, c, R.r1, c, true); const sx = src[k % src.length]; const n = sx ? JSON.parse(JSON.stringify(sx)) : { v: '' }; n.v = v; SHT().cells[K(r, c)] = n } } }
+          else { for (let r = R.r1; r <= R.r2; r++) { const src = [cellAt(r, R.c1) || null]; for (let c = R.c1 + 1; c <= R.c2; c++) { const k = c - R.c1 - 1; const v = nextVal(src, k, r, c, r, R.c1, true, 1); const n = src[0] ? JSON.parse(JSON.stringify(src[0])) : { v: '' }; n.v = v; SHT().cells[K(r, c)] = n } } } recalc()
+        },
+        sortM(b) { menu(b, [['↑ فرز تصاعدي', () => sortRg(1)], ['↓ فرز تنازلي', () => sortRg(-1)]]) }, sort(b, v) { sortRg(+v) },
+        clrM(b) { menu(b, [['🧽 مسح الكل', () => { snap(); forRg((r, c) => delete SHT().cells[K(r, c)]); recalc() }], ['🎨 مسح التنسيق', () => { snap(); forRg((r, c) => { const x = cellAt(r, c); if (x) { delete x.s; if (x.v === '') delete SHT().cells[K(r, c)] } }); recalc() }], ['⌫ مسح المحتوى', () => { snap(); forRg((r, c) => { const x = cellAt(r, c); if (x) { x.v = ''; if (!x.s) delete SHT().cells[K(r, c)] } }); recalc() }]]) },
+        find() { modal('بحث واستبدال', '<label>بحث عن</label><input id="fq"><label>استبدال بـ</label><input id="fr">', [{ l: 'بحث عن التالي', c: 'pri', f: () => { const q = $('#fq').value.toLowerCase(); if (!q) return false; const keys = Object.keys(SHT().cells).map(k => ({ k, p: pk(k) })).sort((a, b) => a.p[0] - b.p[0] || a.p[1] - b.p[1]); const cur = sel.r * 100 + sel.c; let hit = keys.find(x => x.p[0] * 100 + x.p[1] > cur && String(rawOf(x.p[0], x.p[1])).toLowerCase().includes(q)) || keys.find(x => String(rawOf(x.p[0], x.p[1])).toLowerCase().includes(q)); if (hit) { selectCell(hit.p[0], hit.p[1], false) } else toast('لم يتم العثور'); return false } }, { l: 'استبدال الكل', f: () => { const q = $('#fq').value, r = $('#fr').value; if (!q) return false; snap(); let n = 0; for (const k in SHT().cells) { const x = SHT().cells[k]; if (typeof x.v === 'string' && x.v.includes(q)) { x.v = x.v.split(q).join(r); n++ } } recalc(); toast('تم استبدال ' + n + ' خلية'); return false } }, { l: 'إغلاق' }]) },
+        cfM(b) { menu(b, [['أكبر من…', () => cfAdd('>', 'أكبر من')], ['أصغر من…', () => cfAdd('<', 'أصغر من')], ['يساوي…', () => cfAdd('=', 'يساوي')], ['نص يحتوي…', () => cfAdd('has', 'يحتوي')], ['🌈 تدرج لوني', () => cfAdd('scale')], ['✖ مسح القواعد من الورقة', () => { snap(); SHT().cf = []; recalc() }]]) },
+        styM(b) { const P = [['عنوان', { b: 1, bg: '#107c41', c: '#ffffff', al: 'center' }], ['جيد', { bg: '#c6efce', c: '#006100' }], ['سيئ', { bg: '#ffc7ce', c: '#9c0006' }], ['محايد', { bg: '#ffeb9c', c: '#9c5700' }], ['إجمالي', { b: 1, bt: 1 }], ['ملاحظة', { i: 1, c: '#7f7f7f' }]]; menu(b, P.map(([l, p]) => [l, () => applyStyle(p)])) },
+        tblSty() { if (rg.r1 === rg.r2 && rg.c1 === rg.c2) { const u = usedBox(); if (!u) { toast('لا توجد بيانات'); return } rg = { ...u } } snap(); forRg((r, c) => { const p = { bt: 1, bb: 1, bl: 1, br: 1 }; if (r === rg.r1) { p.b = 1; p.bg = '#107c41'; p.c = '#ffffff' } else if ((r - rg.r1) % 2 === 0) p.bg = '#e2f0d9'; setStyle(r, c, p) }); flags.tbl = true; recalc() },
+        chart(b, v) { addChart(v) }, today() { snap(); setRaw(sel.r, sel.c, '=TODAY()'); recalc() },
+        sheetAdd() { snap(); let n = D.sheets.length + 1; while (D.sheets.some(s => s.name === 'ورقة' + n)) n++; D.sheets.push(mkSheet('ورقة' + n)); D.active = D.sheets.length - 1; resetSel(); renderAll() },
+        showF() { showF = !showF; recalc() }, filtM(b) { menu(b, [['نص يحتوي…', () => askM('تصفية', 'النص المطلوب في العمود ' + colName(sel.c), '', v => { const q = v.toLowerCase(); applyFilter(x => String(x).toLowerCase().includes(q)) })], ['أكبر من…', () => askM('تصفية', 'القيمة', ' 0', v => { const n = +v; applyFilter(x => typeof x === 'number' && x > n) })], ['أصغر من…', () => askM('تصفية', 'القيمة', '0', v => { const n = +v; applyFilter(x => typeof x === 'number' && x < n) })]]) },
+        unfilt() { snap(); SHT().hidden = {}; renderAll() },
+        freeze() { snap(); SHT().freeze = SHT().freeze ? 0 : 1; renderAll() }, grid() { document.body.classList.toggle('nogl') }, heads() { document.body.classList.toggle('nohd') },
+        zIn() { ZM = Math.min(1.6, +(ZM + .1).toFixed(1)); renderAll() }, zOut() { ZM = Math.max(.6, +(ZM - .1).toFixed(1)); renderAll() }, zFit() { ZM = 1; renderAll() },
+        cat() { catalog() }, hist() { history() }, cfgM() { cfgModal() }, submit() { submit(false) }, exit() { exitRun() }
+      };
+      function fillDir(d) {
+        if (d === 'd') { if (rg.r2 > rg.r1) { snap(); for (let c = rg.c1; c <= rg.c2; c++)fillRange({ r1: rg.r1, c1: c, r2: rg.r1, c2: c }, rg.r2, c, false) } else if (rg.r1 > 0) { snap(); for (let c = rg.c1; c <= rg.c2; c++)fillRange({ r1: rg.r1 - 1, c1: c, r2: rg.r1 - 1, c2: c }, rg.r1, c, false) } }
+        else { if (rg.c2 > rg.c1) { snap(); for (let r = rg.r1; r <= rg.r2; r++)fillRange({ r1: r, c1: rg.c1, r2: r, c2: rg.c1 }, r, rg.c2, false) } else if (rg.c1 > 0) { snap(); for (let r = rg.r1; r <= rg.r2; r++)fillRange({ r1: r, c1: rg.c1 - 1, r2: r, c2: rg.c1 - 1 }, r, rg.c1, false) } } recalc()
+      }
+      function resetSel() { sel = { r: 0, c: 0 }; anchor = { r: 0, c: 0 }; rg = { r1: 0, c1: 0, r2: 0, c2: 0 } }
+      function delSheet(i) { if (D.sheets.length < 2) { toast('لا يمكن حذف الورقة الوحيدة'); return } yesM('حذف الورقة «' + D.sheets[i].name + '»؟', () => { snap(); D.sheets.splice(i, 1); D.active = Math.max(0, Math.min(D.active, D.sheets.length - 1)); resetSel(); renderAll() }) }
+      function sheetsBar() { $('#sheets').innerHTML = D.sheets.map((s, i) => '<div class="sh' + (i === D.active ? ' act' : '') + '" data-i="' + i + '">' + esc(s.name) + '</div>').join('') + '<div class="sh add" data-a="sheetAdd">＋</div>' }
+      $('#sheets').addEventListener('click', e => {
+        const t = e.target.closest('.sh[data-i]'); if (!t) return; const i = +t.dataset.i; if (editing) commit();
+        if (i === D.active) { menu(t, [['✎ إعادة تسمية', () => askM('إعادة تسمية الورقة', 'الاسم الجديد', D.sheets[i].name, v => { v = v.trim().replace(/['!\[\]:*?\/\\]/g, ''); if (!v || D.sheets.some((s, j) => j !== i && s.name === v)) { toast('اسم غير صالح أو مكرر'); return } snap(); const old = D.sheets[i].name, q = /^[\w\u0600-\u06FF.]+$/.test(v) ? v : "'" + v + "'"; D.sheets.forEach(S => { for (const k in S.cells) { const x = S.cells[k]; if (typeof x.v === 'string' && x.v[0] === '=') x.v = x.v.split("'" + old + "'!").join(q + '!').split(old + '!').join(q + '!') } }); D.sheets[i].name = v; renderAll() })], ['⧉ تكرار الورقة', () => { snap(); const c = JSON.parse(JSON.stringify(D.sheets[i])); c.name = c.name + ' (2)'; c.charts.forEach(x => x.id = uid++); D.sheets.splice(i + 1, 0, c); D.active = i + 1; resetSel(); renderAll() }], ['🗑 حذف الورقة', () => delSheet(i)]]) }
+        else { D.active = i; resetSel(); renderAll() }
+      });
+      /* ---------- ribbon ---------- */
+      const FF = '<select class="sel" id="ff" style="width:118px"><option>Segoe UI</option><option>Arial</option><option>Tahoma</option><option>Calibri</option><option>Times New Roman</option><option>Traditional Arabic</option><option>Courier New</option></select>', FS = '<select class="sel" id="fs" style="width:58px">' + [8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 36].map(n => '<option>' + n + '</option>').join('') + '</select>';
+      const RB = {
+        home: [['الحافظة', [['📋', 'لصق', 'paste'], ['✂', 'قص', 'cut'], ['⧉', 'نسخ', 'copy']]], ['الخط', [['@ff'], ['@fs'], ['B', 'غامق', 'b'], ['I', 'مائل', 'i'], ['U', 'تسطير', 'u'], ['🎨', 'تعبئة', 'fillc'], ['A', 'لون الخط', 'textc'], ['▦', 'حدود', 'bdM']]], ['المحاذاة', [['⇤', 'يسار', 'al', 'left'], ['≡', 'وسط', 'al', 'center'], ['⇥', 'يمين', 'al', 'right'], ['⊞', 'دمج وتوسيط', 'merge'], ['↵', 'التفاف', 'wrap']]], ['الأرقام', [['123', 'التنسيق', 'nfM'], ['%', 'نسبة', 'nf', 'pct'], ['٫٠', 'عشري +', 'dec', '1'], ['٫', 'عشري −', 'dec', '-1']]], ['الخلايا', [['➕', 'إدراج', 'insM'], ['➖', 'حذف', 'delM'], ['📏', 'تنسيق', 'fmtM']]], ['التحرير', [['∑', 'جمع تلقائي', 'sumM'], ['⬇', 'تعبئة', 'fillM'], ['⇅', 'فرز', 'sortM'], ['🧽', 'مسح', 'clrM'], ['🔍', 'بحث', 'find']]], ['الأنماط', [['🚦', 'شرطي', 'cfM'], ['🖌', 'أنماط', 'styM'], ['▤', 'كجدول', 'tblSty']]]],
+        ins: [['مخططات', [['📊', 'عمودي', 'chart', 'col'], ['📈', 'خطي', 'chart', 'line'], ['🥧', 'دائري', 'chart', 'pie']]], ['جداول', [['▤', 'جدول', 'tblSty']]], ['نص', [['📅', 'التاريخ', 'today'], ['📄', 'ورقة جديدة', 'sheetAdd'], ['➕', 'صف', 'insM'], ['ƒ', 'دالة', 'fxM']]]],
+        fm: [['مكتبة الدوال', Object.keys(FN).map(k => ['ƒ', FNN[k], 'fnM', k])], ['حساب', [['∑', 'جمع تلقائي', 'sumM'], ['👁', 'عرض الصيغ', 'showF']]]],
+        dt: [['فرز وتصفية', [['↑', 'فرز تصاعدي', 'sort', '1'], ['↓', 'فرز تنازلي', 'sort', '-1'], ['⏷', 'تصفية', 'filtM'], ['✖', 'مسح التصفية', 'unfilt']]], ['أدوات', [['🔢', 'سلسلة', 'series'], ['⬇', 'تعبئة', 'fillM'], ['🚦', 'تنسيق شرطي', 'cfM']]]],
+        vw: [['عرض', [['❄', 'تجميد الصف الأول', 'freeze'], ['▦', 'خطوط الشبكة', 'grid'], ['#', 'العناوين', 'heads'], ['👁', 'عرض الصيغ', 'showF']]], ['تكبير', [['＋', 'تكبير', 'zIn'], ['－', 'تصغير', 'zOut'], ['⤢', '100%', 'zFit']]]],
+        ex: [['الاختبار العملي', [['🎓', 'الاختبارات', 'cat'], ['📊', 'النتائج', 'hist'], ['⚙', 'الإعدادات', 'cfgM']]], ['المهمة الحالية', [['@raw', '<div class="hs" id="runI" style="min-width:110px">لا توجد مهمة جارية</div>'], ['✔', 'تسليم', 'submit'], ['✖', 'خروج', 'exit']]]]
+      };
+      const TABS = [['home', 'الرئيسية', '🏠'], ['ins', 'إدراج', '➕'], ['fm', 'صيغ', 'ƒ'], ['dt', 'بيانات', '🗂'], ['vw', 'عرض', '👁'], ['ex', 'الاختبار', '🎓']];
+      function mkRibbon() {
+        $('#tabs').innerHTML = TABS.map(t => '<div class="tab' + (t[0] === 'home' ? ' act' : '') + (t[0] === 'ex' ? ' ex' : '') + '" data-t="' + t[0] + '" data-i="' + t[2] + '">' + t[1] + '</div>').join('');
+        $('#rib').innerHTML = Object.keys(RB).map(t => '<div class="pnl' + (t === 'home' ? ' act' : '') + '" id="p-' + t + '">' + RB[t].map(([l, its]) => '<div class="grp"><div class="gb">' + its.map(it => it[0] === '@ff' ? FF : it[0] === '@fs' ? FS : it[0] === '@raw' ? it[1] : '<button class="btn big' + (it[2] === 'submit' ? ' pri' : it[2] === 'exit' ? ' dg' : '') + '" data-a="' + it[2] + '"' + (it[3] != null ? ' data-v="' + it[3] + '"' : '') + '><span class="ic">' + it[0] + '</span>' + it[1] + '</button>').join('') + '</div><div class="gl">' + l + '</div></div>').join('') + '</div>').join('')
+      }
+      function showTab(n) { $$('.tab').forEach(x => x.classList.toggle('act', x.dataset.t === n)); $$('.pnl').forEach(p => p.classList.toggle('act', p.id === 'p-' + n)) }
+      document.addEventListener('click', e => {
+        const t = e.target.closest('.tab[data-t]'); if (t) { closePop(); showTab(t.dataset.t); if (t.dataset.t === 'ex' && !ex.active) catalog(); return }
+        const h = e.target.closest('[data-h]'); if (h) { $('#hn' + h.dataset.h).classList.toggle('show'); return }
+        if (e.target.closest('#exp .eh') && !e.target.closest('button')) $('#exp').classList.toggle('col');
+        const b = e.target.closest('[data-a]'); if (b && A[b.dataset.a]) { const a = b.dataset.a; if (editing && !['okb', 'cancel', 'smode', 'fxM', 'fnM', 'zIn', 'zOut'].includes(a)) commit(); A[a](b, b.dataset.v) }
+      });
+      document.addEventListener('change', e => { if (e.target.id === 'ff') applyStyle({ ff: e.target.value }); else if (e.target.id === 'fs') applyStyle({ fs: +e.target.value }) });
+      document.addEventListener('mousedown', e => { if (!e.target.closest('#pop') && !e.target.closest('[data-a]')) closePop(); if (e.target.closest('.tb,.tabs,.rib,#pop,#stat,#sheets,#fbar button') && !e.target.closest('input,select,option')) e.preventDefault() });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closePop(); closeM(); if (editing) cancelEdit(); return }
+        const t = e.target; if (/INPUT|TEXTAREA|SELECT/.test(t.tagName) || document.querySelector('.bd.show')) return;
+        const ctl = e.ctrlKey || e.metaKey, k = e.key.toLowerCase();
+        if (ctl) { if (k === 'z') { e.preventDefault(); A.undo() } else if (k === 'y') { e.preventDefault(); A.redo() } else if (k === 'c') { e.preventDefault(); A.copy() } else if (k === 'x') { e.preventDefault(); A.cut() } else if (k === 'b') { e.preventDefault(); A.b() } else if (k === 'i') { e.preventDefault(); A.i() } else if (k === 'u') { e.preventDefault(); A.u() } else if (k === 'f') { e.preventDefault(); A.find() } else if (k === 'd') { e.preventDefault(); fillDir('d') } else if (k === 'r') { e.preventDefault(); fillDir('r') } else if (k === 's') { e.preventDefault(); A.saveX() } else if (k === 'a') { e.preventDefault(); rg = { r1: 0, c1: 0, r2: NR - 1, c2: NC - 1 }; updateSel(); updateBar() } return }
+        const sh = e.shiftKey;
+        if (e.key === 'ArrowDown') { e.preventDefault(); moveSel(1, 0, sh) } else if (e.key === 'ArrowUp') { e.preventDefault(); moveSel(-1, 0, sh) } else if (e.key === 'ArrowLeft') { e.preventDefault(); moveSel(0, 1, sh) } else if (e.key === 'ArrowRight') { e.preventDefault(); moveSel(0, -1, sh) }
+        else if (e.key === 'Enter') { e.preventDefault(); moveSel(sh ? -1 : 1, 0) } else if (e.key === 'Tab') { e.preventDefault(); moveSel(0, sh ? -1 : 1) }
+        else if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); snap(); forRg((r, c) => { const x = cellAt(r, c); if (x) { x.v = ''; if (!x.s) delete SHT().cells[K(r, c)] } }); recalc() }
+        else if (e.key === 'F2') { e.preventDefault(); startEdit(null, true) }
+        else if (e.key.length === 1 && !e.altKey) { e.preventDefault(); startEdit(e.key, true) }
+      });
+      /* ---------- files ---------- */
+      async function saveFile(name, data) { try { const dl = window.claude && await window.claude.use('downloads'); if (!dl) { toast('الحفظ غير متاح هنا'); return } await dl.save({ filename: name, data }); toast('تم الحفظ') } catch (e) { if (!e || e.code !== 'declined') toast('تعذّر الحفظ') } }
+      function csvOf(si) { const S = D.sheets[si], b = { r1: 0, c1: 0, r2: 0, c2: 0 }; for (const k in S.cells) { if (S.cells[k].v === '') continue; const p = pk(k); b.r2 = Math.max(b.r2, p[0]); b.c2 = Math.max(b.c2, p[1]) } let o = []; for (let r = 0; r <= b.r2; r++) { const row = []; for (let c = 0; c <= b.c2; c++) { const v = safe(si, r, c), t = v instanceof XE ? v.c : str(v); row.push(/[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t) } o.push(row.join(',')) } return '\ufeff' + o.join('\n') }
+      function exportCSV() { saveFile((SHT().name || 'sheet') + '.csv', csvOf(D.active)) }
+      function exportX() {
+        if (typeof XLSX === 'undefined') { toast('مكتبة xlsx غير متاحة — سيتم التصدير كـ CSV'); exportCSV(); return }
+        try {
+          const wb = XLSX.utils.book_new(); D.sheets.forEach((S, si) => {
+            const ws = {}; let mr = 0, mc = 0; for (const k in S.cells) {
+              const x = S.cells[k]; if (x.v === '') continue; const p = pk(k); mr = Math.max(mr, p[0]); mc = Math.max(mc, p[1]); const v = safe(si, p[0], p[1]), o = {};
+              if (v instanceof XE) { o.t = 's'; o.v = v.c } else if (typeof v === 'number') { o.t = 'n'; o.v = v } else if (typeof v === 'boolean') { o.t = 'b'; o.v = v } else { o.t = 's'; o.v = String(v) } if (x.v[0] === '=') o.f = x.v.slice(1); ws[k] = o
+            }
+            ws['!ref'] = 'A1:' + K(mr, mc); XLSX.utils.book_append_sheet(wb, ws, S.name.slice(0, 31))
+          }); wb.Workbook = { Views: [{ RTL: true }] };
+          const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' }); saveFile('workbook.xlsx', out)
+        } catch (e) { toast('تعذّر إنشاء xlsx'); exportCSV() }
+      }
+      $('#openF').addEventListener('change', e => {
+        const f = e.target.files[0]; if (!f) return; const rd = new FileReader(); e.target.value = '';
+        if (/\.json$/i.test(f.name)) { rd.onload = () => { try { D = JSON.parse(rd.result); resetSel(); hist = []; renderAll() } catch (x) { toast('ملف غير صالح') } }; rd.readAsText(f) }
+        else if (/\.csv$/i.test(f.name)) { rd.onload = () => { D = { sheets: [mkSheet(f.name.replace(/\.csv$/i, '') || 'ورقة1')], active: 0 }; String(rd.result).replace(/^\ufeff/, '').split(/\r?\n/).forEach((l, r) => { if (r >= NR) return; const cols = l.match(/("([^"]|"")*"|[^,]*)(,|$)/g) || []; cols.forEach((c, j) => { if (j >= NC) return; c = c.replace(/,$/, ''); if (c[0] === '"') c = c.slice(1, -1).replace(/""/g, '"'); if (c !== '') D.sheets[0].cells[K(r, j)] = { v: c } }) }); resetSel(); hist = []; renderAll() }; rd.readAsText(f, 'utf-8') }
+        else if (typeof XLSX !== 'undefined') { rd.onload = () => { try { const wb = XLSX.read(rd.result, { type: 'array' }); D = { sheets: [], active: 0 }; wb.SheetNames.forEach(n => { const ws = wb.Sheets[n], S = mkSheet(n.slice(0, 31)); for (const a in ws) { if (a[0] === '!') continue; const p = pk(a); if (!p || p[0] >= NR || p[1] >= NC) continue; const c = ws[a]; S.cells[a] = { v: c.f ? '=' + c.f : (c.v == null ? '' : String(c.v)) } } D.sheets.push(S) }); resetSel(); hist = []; renderAll() } catch (x) { toast('تعذّر فتح الملف') } }; rd.readAsArrayBuffer(f) }
+        else toast('فتح xlsx غير متاح')
+      });
+      /* ---------- templates ---------- */
+      const HS = { b: 1, bg: '#107c41', c: '#ffffff', al: 'center' };
+      function put(S, k, v, s) { S.cells[k] = { v: String(v) }; if (s) S.cells[k].s = { ...s } }
+      const TPLS = [['فاتورة مبيعات', '🧾'], ['كشف درجات', '🎓'], ['ميزانية شهرية', '💰']];
+      function tpl(i) {
+        const S = mkSheet(['فاتورة', 'الدرجات', 'الميزانية'][i]); D = { sheets: [S], active: 0 };
+        if (i === 0) {
+          put(S, 'A1', 'فاتورة مبيعات', { b: 1, fs: 20, c: '#107c41' });['المنتج', 'السعر', 'الكمية', 'الإجمالي'].forEach((h, j) => put(S, K(2, j), h, HS));
+          [['دفتر', 1500, 10], ['قلم', 500, 25], ['حقيبة', 12000, 2], ['مسطرة', 750, 12]].forEach((r, j) => { put(S, K(3 + j, 0), r[0]); put(S, K(3 + j, 1), r[1], { nf: 'cur', dec: 0 }); put(S, K(3 + j, 2), r[2]); put(S, K(3 + j, 3), '=B' + (4 + j) + '*C' + (4 + j), { nf: 'cur', dec: 0 }) });
+          put(S, 'C8', 'المجموع', { b: 1 }); put(S, 'D8', '=SUM(D4:D7)', { b: 1, nf: 'cur', dec: 0, bt: 1 }); put(S, 'C9', 'الضريبة 15%', { b: 1 }); put(S, 'D9', '=D8*0.15', { nf: 'cur', dec: 0 }); put(S, 'C10', 'الصافي', { b: 1 }); put(S, 'D10', '=D8+D9', { b: 1, nf: 'cur', dec: 0, bg: '#c6efce' }); S.cw[0] = 130; S.cw[3] = 120
+        }
+        if (i === 1) {
+          ['الطالب', 'عربي', 'رياضيات', 'علوم', 'المجموع', 'المعدل', 'النتيجة'].forEach((h, j) => put(S, K(0, j), h, HS));
+          [['أحمد', 85, 90, 78], ['سارة', 92, 95, 98], ['علي', 48, 55, 40], ['نور', 67, 72, 80], ['زينب', 55, 49, 61]].forEach((r, j) => { const n = j + 2; r.forEach((v, c) => put(S, K(j + 1, c), v)); put(S, K(j + 1, 4), '=SUM(B' + n + ':D' + n + ')'); put(S, K(j + 1, 5), '=AVERAGE(B' + n + ':D' + n + ')', { nf: 'num', dec: 1 }); put(S, K(j + 1, 6), '=IF(F' + n + '>=50,"ناجح","راسب")', { b: 1, al: 'center' }) });
+          S.cf.push({ r1: 1, c1: 5, r2: 5, c2: 5, op: 'scale' }); S.cw[0] = 110
+        }
+        if (i === 2) {
+          put(S, 'A1', 'الميزانية الشهرية', { b: 1, fs: 20, c: '#107c41' }); put(S, 'A3', 'البند', HS); put(S, 'B3', 'المبلغ', HS);
+          [['الراتب', 1500000], ['مكافأة', 250000], ['إيجار', -500000], ['طعام', -400000], ['مواصلات', -120000], ['ترفيه', -90000]].forEach((r, j) => { put(S, K(3 + j, 0), r[0]); put(S, K(3 + j, 1), r[1], { nf: 'num', dec: 0 }) });
+          put(S, 'A10', 'المتبقي', { b: 1 }); put(S, 'B10', '=SUM(B4:B9)', { b: 1, nf: 'num', dec: 0, bg: '#c6efce', bt: 1 }); S.cf.push({ r1: 3, c1: 1, r2: 8, c2: 1, op: '<', val: '0', bg: '#ffc7ce', c: '#9c0006' }); S.cw[0] = 120; S.cw[1] = 110;
+          S.charts.push({ id: uid++, type: 'pie', rng: { r1: 3, c1: 0, r2: 6, c2: 1 }, x: 260, y: 50, w: 300, h: 230, title: 'الدخل والمصروف' })
+        }
+        resetSel(); hist = []; renderAll()
+      }
+      function tmplM() { modal('🎨 قوالب جاهزة', '<div class="gal" style="grid-template-columns:repeat(3,1fr)">' + TPLS.map((x, i) => '<div class="gi" data-tp="' + i + '" style="height:96px"><b>' + x[1] + '</b>' + x[0] + '</div>').join('') + '</div>', [{ l: 'إغلاق', c: 'pri' }]); $('#mbd').onclick = e => { const g = e.target.closest('[data-tp]'); if (g) { closeM(); tpl(+g.dataset.tp) } } }
+      /* ---------- exam ---------- */
+      const ex = { active: false };
+      let cfg = Object.assign({ name: '', min: 0 }, LS.g('xl_cfg', {})), prog = LS.g('xl_prog', {});
+      const G = rows => { const o = {}; rows.forEach((row, i) => row.forEach((v, j) => { if (v !== '' && v != null) o[K(i, j)] = { v: String(v) } })); return o };
+      const S0 = () => D.sheets[0], C0 = k => S0().cells[k] || {}, VK = (si, k) => { const p = pk(k); return safe(si, p[0], p[1]) }, NK = k => { const v = VK(0, k); return typeof v === 'number' ? v : NaN };
+      const near = (a, b) => Math.abs(a - b) < 1e-6, cs0 = () => Object.entries(S0().cells).filter(([k, x]) => x.v !== '');
+      const anyS = pr => Object.values(S0().cells).some(x => x.s && pr(x.s));
+      const anyF = (re, t) => D.sheets.some((S, si) => Object.entries(S.cells).some(([k, x]) => typeof x.v === 'string' && x.v[0] === '=' && re.test(x.v) && (!t || t(VK(si, k)))));
+      const isF = k => { const v = C0(k).v; return typeof v === 'string' && v[0] === '=' };
+      const colS = (c, pr) => Object.entries(S0().cells).some(([k, x]) => pk(k)[1] === c && pk(k)[0] > 0 && x.s && pr(x.s));
+      const c = (t, p, h, k) => ({ t, p, h, k });
+      const EXAMS = [
+        {
+          id: 'e1', icon: '⌨', title: 'إدخال البيانات', desc: 'كتابة الجداول، التنسيق الأساسي، التعبئة التلقائية والدمج', tasks: [
+            {
+              id: 't1', title: 'إدخال جدول', goal: 'أنشئ جدولاً صغيراً: عناوين في الصف الأول و5 صفوف بيانات، ثم نسّق العناوين.', st: () => ({}), crit: [
+                c('كتابة 3 عناوين أعمدة في الصف الأول', 20, 'اضغط خلية A1 ثم اكتب في شريط الصيغة.', () => cs0().filter(([k]) => pk(k)[0] === 0).length >= 3),
+                c('إدخال 5 صفوف بيانات (18 خلية فأكثر بالمجموع)', 20, 'اكتب بيانات تحت العناوين.', () => cs0().length >= 18),
+                c('وجود 6 أرقام على الأقل', 20, 'اكتب أعداداً في بعض الأعمدة.', () => cs0().filter(([k]) => typeof lit(S0().cells[k].v) === 'number').length >= 6),
+                c('جعل خط العناوين غامقاً', 20, 'حدد صف العناوين ← زر B.', () => cs0().some(([k, x]) => pk(k)[0] === 0 && x.s && x.s.b)),
+                c('تلوين خلفية العناوين', 20, 'حدد العناوين ← زر التعبئة 🎨.', () => cs0().some(([k, x]) => pk(k)[0] === 0 && x.s && x.s.bg))]
+            },
+            {
+              id: 't2', title: 'التعبئة والدمج', goal: 'استخدم التعبئة التلقائية للأيام والأرقام ثم ادمج خلايا.', st: () => G([['السبت', 1], ['', 2]]), crit: [
+                c('تعبئة أيام الأسبوع من A1 إلى A7', 35, 'حدد A1 ثم اسحب المربع الأخضر ■ لأسفل، أو تعبئة ← سلسلة.', () => VK(0, 'A2') === 'الأحد' && VK(0, 'A7') === 'الجمعة'),
+                c('تعبئة سلسلة الأرقام 1 إلى 10 في العمود B', 35, 'حدد B1:B2 ثم اسحب مقبض التعبئة حتى B10.', () => NK('B10') === 10 && NK('B5') === 5),
+                c('دمج وتوسيط خليتين أو أكثر', 30, 'حدد خلايا ← زر دمج وتوسيط.', () => S0().merges.length > 0)]
+            }]
+        },
+        {
+          id: 'e2', icon: 'ƒ', title: 'الصيغ والدوال', desc: 'العمليات الحسابية والدوال SUM وAVERAGE وIF', tasks: [
+            {
+              id: 't1', title: 'الصيغ الأساسية', goal: 'احسب الإجمالي لكل صنف ثم المجموع والصافي بعد الخصم.', st: () => G([['المنتج', 'السعر', 'الكمية', 'الإجمالي'], ['قلم', 500, 4], ['دفتر', 1500, 3], ['حقيبة', 12000, 1], ['مسطرة', 750, 2]]), crit: [
+                c('D2: صيغة ضرب السعر في الكمية', 25, 'اكتب =B2*C2 في D2.', () => isF('D2') && NK('D2') === 2000),
+                c('تعبئة الصيغة في D3:D5', 25, 'حدد D2 ← اسحب المقبض لأسفل.', () => ['D3', 'D4', 'D5'].every(isF) && NK('D3') === 4500 && NK('D4') === 12000 && NK('D5') === 1500),
+                c('D6: مجموع الإجماليات بدالة SUM', 25, 'اكتب =SUM(D2:D5) أو استخدم ∑.', () => /SUM/i.test(C0('D6').v || '') && NK('D6') === 20000),
+                c('D7: الصافي بعد خصم 10% بصيغة', 25, 'اكتب =D6*0.9 أو =D6-D6*10%.', () => isF('D7') && near(NK('D7'), 18000))]
+            },
+            {
+              id: 't2', title: 'الدوال', goal: 'استخدم دوال المتوسط والأعلى والأدنى وIF.', st: () => G([['الطالب', 'الدرجة', '', 'النتيجة'], ['أحمد', 85], ['سارة', 92], ['علي', 48], ['نور', 67], ['زينب', 55], ['حسن', 79]]), crit: [
+                c('AVERAGE: متوسط الدرجات', 25, '=AVERAGE(B2:B7) في أي خلية.', () => anyF(/AVERAGE\(/i, v => near(v, (85 + 92 + 48 + 67 + 55 + 79) / 6))),
+                c('MAX: أعلى درجة', 25, '=MAX(B2:B7).', () => anyF(/MAX\(/i, v => v === 92)),
+                c('MIN: أدنى درجة', 25, '=MIN(B2:B7).', () => anyF(/MIN\(/i, v => v === 48)),
+                c('IF: نتيجة ناجح/راسب لثلاثة طلاب في العمود D', 25, 'D2: =IF(B2>=50,"ناجح","راسب") ثم اسحب.', () => ['D2', 'D3', 'D4', 'D5', 'D6', 'D7'].filter(k => /IF\(/i.test(C0(k).v || '') && /ناجح|راسب/.test(String(VK(0, k)))).length >= 3)]
+            }]
+        },
+        {
+          id: 'e3', icon: '🎨', title: 'التنسيق والأرقام', desc: 'تنسيق الخلايا وصيغ الأرقام والتنسيق الشرطي', tasks: [
+            {
+              id: 't1', title: 'تنسيق الخلايا', goal: 'نسّق الجدول الجاهز بعدة أنواع من التنسيق.', st: () => G([['الاسم', 'المادة', 'الدرجة'], ['أحمد', 'حاسوب', 90], ['سارة', 'علوم', 85], ['علي', 'رياضيات', 70]]), crit: [
+                c('خط غامق', 15, 'زر B.', () => anyS(s => s.b)), c('خط مائل', 15, 'زر I.', () => anyS(s => s.i)), c('لون خط', 15, 'زر A الملوّنة.', () => anyS(s => s.c)), c('لون تعبئة', 15, 'زر التعبئة 🎨.', () => anyS(s => s.bg)),
+                c('حدود للخلايا', 20, 'حدود ← كل الحدود.', () => anyS(s => s.bt || s.bb || s.bl || s.br)), c('محاذاة وسط', 10, 'زر ≡.', () => anyS(s => s.al === 'center')), c('حجم خط 14 فأكثر', 10, 'قائمة الحجم.', () => anyS(s => s.fs >= 14))]
+            },
+            {
+              id: 't2', title: 'تنسيق الأرقام', goal: 'طبّق تنسيقات العملة والنسبة والتاريخ وقاعدة شرطية.', st: () => G([['السعر', 'النسبة', 'التاريخ'], [1500, 0.25, 45000], [2750, 0.5, 45100], [900, 0.75, 45200]]), crit: [
+                c('تنسيق عملة لأرقام السعر', 25, 'حدد A2:A4 ← التنسيق ← عملة.', () => colS(0, s => s.nf === 'cur')),
+                c('نسبة مئوية لعمود النسبة', 25, 'حدد B2:B4 ← زر %.', () => colS(1, s => s.nf === 'pct')),
+                c('تنسيق تاريخ لعمود التاريخ', 25, 'حدد C2:C4 ← التنسيق ← تاريخ.', () => colS(2, s => s.nf === 'date')),
+                c('إضافة تنسيق شرطي', 25, 'التنسيق الشرطي ← أكبر من…', () => S0().cf.length > 0)]
+            }]
+        },
+        {
+          id: 'e4', icon: '⇅', title: 'الفرز والصفوف', desc: 'فرز وتصفية البيانات وتحكم الصفوف والأعمدة', tasks: [
+            {
+              id: 't1', title: 'الفرز والتصفية', goal: 'افرز الطلاب بحسب الدرجة تنازلياً ثم طبّق تصفية.', st: () => G([['الطالب', 'الدرجة'], ['علي', 55], ['سارة', 92], ['نور', 67], ['أحمد', 85], ['زينب', 48], ['حسن', 79]]), crit: [
+                c('فرز الدرجات تنازلياً', 40, 'حدد خلية في عمود الدرجة ← فرز ← تنازلي.', () => { const a = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7'].map(NK); return a.every((v, i) => !isNaN(v) && (i === 0 || a[i - 1] >= v)) }),
+                c('بقاء عنوان الجدول في الصف الأول', 20, 'الفرز يستثني الصف العنوان تلقائياً.', () => C0('A1').v === 'الطالب' && C0('B1').v === 'الدرجة'),
+                c('تطبيق تصفية تخفي بعض الصفوف', 20, 'بيانات ← تصفية ← أكبر من…', () => Object.keys(S0().hidden).length > 0),
+                c('بقاء بيانات الطلاب الستة كاملة', 20, 'لا تحذف أي صف.', () => ['علي', 'سارة', 'نور', 'أحمد', 'زينب', 'حسن'].every(n => cs0().some(([k, x]) => x.v === n)))]
+            },
+            {
+              id: 't2', title: 'الصفوف والأعمدة', goal: 'غيّر أبعاد الخلايا وأدرج وجمّد.', st: () => G([['الاسم', 'العمر'], ['أحمد', 12], ['سارة', 13]]), crit: [
+                c('توسيع العمود A (120 بكسل فأكثر)', 25, 'تنسيق ← توسيع العمود (مرتين).', () => (S0().cw[0] || 84) >= 120),
+                c('رفع ارتفاع صف إلى 40 فأكثر', 25, 'تنسيق ← زيادة ارتفاع الصف.', () => Object.values(S0().rh).some(h => h >= 40)),
+                c('إدراج صف أو عمود', 25, 'إدراج ← إدراج صف.', () => !!flags.ins),
+                c('تجميد الصف الأول', 25, 'عرض ← تجميد الصف الأول.', () => !!S0().freeze)]
+            }]
+        },
+        {
+          id: 'e5', icon: '📊', title: 'المخططات والأوراق', desc: 'إدراج المخططات وإدارة أوراق العمل', tasks: [
+            {
+              id: 't1', title: 'المخططات', goal: 'ارسم مخططاً من بيانات المبيعات.', st: () => G([['الشهر', 'المبيعات', 'المصروفات'], ['كانون الثاني', 500, 300], ['شباط', 650, 350], ['آذار', 800, 400], ['نيسان', 720, 380]]), crit: [
+                c('إدراج مخطط', 40, 'حدد A1:C5 (فعّل ⬚) ← إدراج ← مخطط.', () => S0().charts.length > 0),
+                c('أن يكون المخطط خطياً أو دائرياً', 30, 'اضغط ⟳ على المخطط لتبديل نوعه.', () => S0().charts.some(x => x.type !== 'col')),
+                c('مخطط يغطي 3 صفوف فأكثر', 30, 'حدد نطاقاً من 3 صفوف أو أكثر.', () => S0().charts.some(x => x.rng.r2 - x.rng.r1 >= 2))]
+            },
+            {
+              id: 't2', title: 'الأوراق', goal: 'أضف ورقة وأعد تسمية ورقة واربط بينهما بصيغة.', st: () => G([['البند', 'المبلغ'], ['إيجار', 500], ['كهرباء', 80]]), crit: [
+                c('إضافة ورقة ثانية', 30, 'اضغط ＋ في شريط الأوراق.', () => D.sheets.length >= 2),
+                c('إعادة تسمية ورقة', 30, 'اضغط اسم الورقة النشطة ← إعادة تسمية.', () => D.sheets.some(s => !/^ورقة\d+$/.test(s.name))),
+                c('صيغة تشير إلى ورقة أخرى (مثل =Sheet!B2)', 40, 'اكتب =اسم_الورقة!B2 في ورقة أخرى.', () => anyF(/!/))]
+            }]
+        }];
+      const grade = p => p >= 90 ? 'ممتاز 🏆' : p >= 80 ? 'جيد جداً 🌟' : p >= 70 ? 'جيد 👍' : p >= 60 ? 'متوسط' : p >= 50 ? 'مقبول' : 'راسب — حاول مرة أخرى';
+      const gc = p => p >= 90 ? '#107c41' : p >= 70 ? '#2b79d6' : p >= 50 ? '#b7791f' : '#d13438';
+      const fmtT = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+      function stats(e) { const p = prog[e.id] || {}; let s = 0, d = 0; e.tasks.forEach(t => { if (p[t.id] != null) { s += p[t.id]; d++ } }); return { d, n: e.tasks.length, s: Math.round(s / e.tasks.length) } }
+      function catalog() {
+        closeM(); const b = '<div style="margin-bottom:10px">👤 ' + (cfg.name ? esc(cfg.name) : 'لم يُحدَّد الاسم بعد') + ' · ⏱ ' + (cfg.min ? cfg.min + ' د لكل مهمة' : 'بدون مؤقت') + '</div>' + EXAMS.map(e => {
+          const st = stats(e), p = prog[e.id] || {};
+          return '<div class="ec"><div class="eh2"><span class="i">' + e.icon + '</span><div class="t"><b>' + esc(e.title) + '</b><small>' + esc(e.desc) + '</small></div><div class="es" style="color:' + (st.d ? gc(st.s) : '#999') + '">' + (st.d ? st.s : '—') + '</div></div>' +
+            e.tasks.map((t, i) => '<div class="tr"><button class="pl" data-play="' + e.id + '|' + i + '">▶</button><div class="t"><b>' + (i + 1) + '. ' + esc(t.title) + '</b><small>' + esc(t.goal) + '</small></div><div class="bg" style="' + (p[t.id] != null ? 'background:' + gc(p[t.id]) + ';color:#fff' : '') + '">' + (p[t.id] != null ? p[t.id] : '—') + '</div></div>').join('') +
+            '<div class="ef2"><span>أُنجزت ' + st.d + ' من ' + st.n + '</span><button class="mb gr" data-all="' + e.id + '">▶ الاختبار كاملاً</button></div></div>'
+        }).join('');
+        modal('🎓 الاختبار العملي — اختر المهمة', b, [{ l: '⚙ الإعدادات', f: () => { setTimeout(cfgModal, 0) } }, { l: '📊 النتائج', f: () => { setTimeout(history, 0) } }, { l: 'إغلاق', c: 'pri' }]);
+        $('#mbd').onclick = ev => { const p = ev.target.closest('[data-play]'); if (p) { const [a, i] = p.dataset.play.split('|'); closeM(); start(a, +i, 'single'); return } const al = ev.target.closest('[data-all]'); if (al) { closeM(); start(al.dataset.all, 0, 'full') } }
+      }
+      function cfgModal(cb) { modal('⚙ إعدادات الاختبار', '<label>اسم الطالب</label><input id="nm" value="' + esc(cfg.name) + '"><label>مؤقت لكل مهمة (بالدقائق، 0 = بدون)</label><input id="mn" type="number" min="0" max="120" value="' + cfg.min + '">', [{ l: 'حفظ', c: 'pri', f: () => { const v = $('#nm').value.trim(); if (!v) { toast('اكتب اسمك'); return false } cfg.name = v; cfg.min = Math.max(0, Math.min(120, +$('#mn').value || 0)); LS.s('xl_cfg', cfg); setTimeout(cb || catalog, 0) } }, { l: 'إلغاء' }]) }
+      function start(eid, i, mode) {
+        if (!cfg.name) { cfgModal(() => start(eid, i, mode)); return }
+        const go = () => { Object.assign(ex, { active: true, e: EXAMS.find(x => x.id === eid), idx: i, mode, scores: [] }); load() };
+        if (ex.active && !ex.sub) yesM('توجد مهمة جارية. هل تريد إلغاءها؟', go); else go()
+      }
+      function load() { const t = ex.e.tasks[ex.idx], S = mkSheet('ورقة1'); S.cells = t.st(); D = { sheets: [S], active: 0 }; resetSel(); flags = {}; hist = []; redo = []; ex.sub = false; ex.t0 = Date.now(); document.body.classList.add('exam'); panel(); renderAll(); $('#runI').textContent = ex.e.title + ' › ' + t.title; clearInterval(ex.iv); ex.iv = setInterval(tick, 500); showTab('home') }
+      function tick() { if (!ex.active || ex.sub) return; const u = Math.round((Date.now() - ex.t0) / 1000), m = $('#etm'), left = cfg.min ? cfg.min * 60 - u : null; if (m) m.textContent = left == null ? '⏱ ' + fmtT(u) : '⏱ ' + fmtT(Math.max(0, left)); if (left != null && left <= 0) { toast('انتهى الوقت — تم التسليم تلقائياً'); submit(true) } }
+      function panel() {
+        const t = ex.e.tasks[ex.idx]; $('#exp').innerHTML = '<div class="eh"><div class="l">' + esc(ex.e.icon + ' ' + ex.e.title) + ' › ' + esc(t.title) + '<small>👤 ' + esc(cfg.name) + (ex.mode === 'full' ? ' · المهمة ' + (ex.idx + 1) + ' من ' + ex.e.tasks.length : '') + '</small></div><div id="etm" style="font:700 16px Consolas,monospace">⏱ 00:00</div></div><div class="eb"><div class="goal">🎯 ' + esc(t.goal) + '</div><div class="pg"><i id="pgb"></i></div><div id="pgt" style="font-size:12px;margin-top:3px"></div><ol class="cr">' +
+          t.crit.map((q, i) => '<li id="k' + i + '"><div>' + esc(q.t) + '<span class="pt">' + q.p + ' درجة</span><button class="hb" data-h="' + i + '">💡 تلميح</button><div class="hn" id="hn' + i + '">' + esc(q.h) + '</div></div></li>').join('') + '</ol></div><div class="ef" id="ef"><button class="mb gr" data-a="submit" style="flex:1">✔ تسليم المهمة</button><button class="mb" data-a="exit">خروج</button></div>'
+      }
+      function score() { const t = ex.e.tasks[ex.idx]; let s = 0; const r = t.crit.map(q => { let o = false; try { o = !!q.k() } catch (e) { } if (o) s += q.p; return o }); return { s, r } }
+      function refreshEx() { if (!ex.active || ex.sub) return; const { s, r } = score(); r.forEach((o, i) => { const l = $('#k' + i); l && l.classList.toggle('d', o) }); const b = $('#pgb'); if (b) { b.style.width = s + '%'; $('#pgt').textContent = 'الدرجة الحالية: ' + s + ' / 100' } }
+      function submit(force) {
+        if (!ex.active) { toast('لا توجد مهمة جارية — اختر مهمة من الاختبارات'); return } if (ex.sub) { ex.show && ex.show(); return }
+        const go = () => {
+          if (editing) commit(); ex.sub = true; clearInterval(ex.iv); const { s, r } = score(), t = ex.e.tasks[ex.idx], used = Math.round((Date.now() - ex.t0) / 1000);
+          ex.scores[ex.idx] = s; prog[ex.e.id] = prog[ex.e.id] || {}; prog[ex.e.id][t.id] = Math.max(s, prog[ex.e.id][t.id] || 0); LS.s('xl_prog', prog);
+          const h = LS.g('xl_hist', []); h.unshift({ name: cfg.name, exam: ex.e.title, task: t.title, score: s, date: Date.now() }); LS.s('xl_hist', h.slice(0, 80));
+          r.forEach((o, i) => { const l = $('#k' + i); l && l.classList.toggle('d', o) }); $('#ef').innerHTML = '<button class="mb gr" data-a="submit" style="flex:1">📋 عرض النتيجة</button><button class="mb" data-a="exit">خروج</button>';
+          ex.show = () => result(s, r, used); ex.show()
+        };
+        if (force) go(); else yesM('هل تريد تسليم المهمة الآن؟', go)
+      }
+      function result(s, r, used) {
+        const e = ex.e, t = e.tasks[ex.idx];
+        const rows = t.crit.map((q, i) => '<tr><td>' + (i + 1) + '</td><td>' + esc(q.t) + '</td><td>' + (r[i] ? '<span class="ok">✓ ' + q.p + '</span>' : '<span class="no">✗ 0</span>') + ' / ' + q.p + '</td></tr>').join('');
+        const b = '<div style="text-align:center;opacity:.7;font-size:12px">منصة طالب — مختبر الحاسوب الافتراضي</div><div><b>الطالب:</b> ' + esc(cfg.name) + '<br><b>الاختبار:</b> ' + esc(e.title) + ' › ' + esc(t.title) + '<br><b>الزمن:</b> ' + fmtT(used) + '</div><div class="sc"><div class="n" style="color:' + gc(s) + '">' + s + ' / 100</div><div style="font-size:20px;font-weight:700;color:' + gc(s) + '">' + grade(s) + '</div></div><div style="overflow-x:auto"><table class="rt"><tr><th>#</th><th>المعيار</th><th>الدرجة</th></tr>' + rows + '</table></div>';
+        const btns = [];
+        if (ex.mode === 'full') { if (ex.idx >= e.tasks.length - 1) btns.push({ l: '📋 نتيجة الاختبار', c: 'gr', f: () => { setTimeout(examResult, 0) } }); else btns.push({ l: 'المهمة التالية ▶', c: 'gr', f: () => { ex.idx++; load() } }) }
+        else { btns.push({ l: '↻ إعادة', c: 'gr', f: () => { const a = e.id, i = ex.idx; endRun(); setTimeout(() => start(a, i, 'single'), 0) } }); btns.push({ l: '📋 الاختبارات', c: 'pri', f: () => { endRun(); setTimeout(catalog, 0) } }) }
+        btns.push({ l: 'عرض العمل' }); modal('نتيجة المهمة', b, btns)
+      }
+      function examResult() {
+        const e = ex.e, s = e.tasks.map((t, i) => ex.scores[i] || 0), tot = Math.round(s.reduce((a, b) => a + b, 0) / s.length);
+        const h = LS.g('xl_hist', []); h.unshift({ name: cfg.name, exam: e.title, task: '', score: tot, date: Date.now() }); LS.s('xl_hist', h.slice(0, 80));
+        modal('🏁 نتيجة الاختبار', '<div class="sc"><div class="n" style="color:' + gc(tot) + '">' + tot + ' / 100</div><div style="font-size:20px;font-weight:700">' + grade(tot) + '</div></div><table class="rt"><tr><th>#</th><th>المهمة</th><th>الدرجة</th></tr>' + e.tasks.map((t, i) => '<tr><td>' + (i + 1) + '</td><td>' + esc(t.title) + '</td><td><b>' + s[i] + '</b></td></tr>').join('') + '</table>', [{ l: '📋 الاختبارات', c: 'pri', f: () => { endRun(); setTimeout(catalog, 0) } }, { l: 'إغلاق', f: () => endRun() }])
+      }
+      function endRun() { clearInterval(ex.iv); ex.active = false; ex.sub = false; document.body.classList.remove('exam'); const r = $('#runI'); if (r) r.textContent = 'لا توجد مهمة جارية'; D = LS.g('xl_doc', null) || { sheets: [mkSheet('ورقة1')], active: 0 }; resetSel(); flags = {}; hist = []; renderAll() }
+      function exitRun() { if (!ex.active) { toast('لا توجد مهمة جارية'); return } if (ex.sub) endRun(); else yesM('هل تريد الخروج؟ لن تُحتسب درجة هذه المهمة.', endRun) }
+      function history() {
+        closeM(); const h = LS.g('xl_hist', []);
+        modal('📊 سجل النتائج', h.length ? '<div style="overflow-x:auto"><table class="rt"><tr><th>الطالب</th><th>الاختبار</th><th>الدرجة</th><th>التاريخ</th></tr>' + h.map(r => '<tr><td>' + esc(r.name) + '</td><td>' + esc(r.exam) + (r.task ? ' › ' + esc(r.task) : ' (كامل)') + '</td><td><b style="color:' + gc(r.score) + '">' + r.score + '</b></td><td>' + new Date(r.date).toLocaleString('ar-IQ') + '</td></tr>').join('') + '</table></div>' : 'لا توجد نتائج بعد.',
+          [{ l: 'مسح السجل', f: () => { setTimeout(() => yesM('مسح كل النتائج؟', () => { LS.s('xl_hist', []); prog = {}; LS.s('xl_prog', prog) }), 0) } }, { l: '🎓 الاختبارات', f: () => { setTimeout(catalog, 0) } }, { l: 'إغلاق', c: 'pri' }])
+      }
+      /* ---------- init ---------- */
+      D = LS.g('xl_doc', null); if (!D || !D.sheets || !D.sheets.length) D = { sheets: [mkSheet('ورقة1')], active: 0 };
+      uid = Math.max(1, ...D.sheets.flatMap(s => s.charts.map(x => x.id))) + 1;
+      mkRibbon(); renderAll();
+      if (window.ResizeObserver) new ResizeObserver(() => updateSel()).observe($('#gw'));
+      $('#gw').addEventListener('scroll', () => { }, { passive: true });
+      setTimeout(() => toast('أهلاً بك في Excel التعليمي — جرّب 🎓 الاختبار العملي أو ☰ ← قالب جاهز', 4000), 500);
+    })();
+  </script>
+</body>
+
+</html>
