@@ -6,7 +6,7 @@ const books = [
     teacher: "ا.مصطفى رحيم فندي",
     file: "uploads/ملزمة_Word_الرابع_الاعدادي-2.pdf",
     date: "2026-10-29",
-    cover: "https://www.vecteezy.com/png/27179344-microsoft-word-icon-logo-symbol"
+    cover: "https://img.icons8.com/?size=100&id=13674&format=png&color=000000"
   }
 ];
 
