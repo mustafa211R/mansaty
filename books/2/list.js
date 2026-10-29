@@ -4,7 +4,7 @@ const books = [
     id: 1,
     name: "برنامج word",
     teacher: "ا.مصطفى رحيم فندي",
-    file: "uploads/ملزمة_Word_الرابع_الاعدادي-2.pdf",
+    file: "uploads/ملخص النظري العملي Word الثاني متوسط.pdf",
     date: "2026-10-29",
     cover: "https://img.icons8.com/?size=100&id=13674&format=png&color=000000"
   }
