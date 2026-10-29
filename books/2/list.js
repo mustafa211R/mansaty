@@ -2,27 +2,11 @@
 const books = [
   {
     id: 1,
-    name: "مبادئ الحاسوب",
-    teacher: "الأستاذ أحمد علي",
-    file: "uploads/pdf-test.pdf",
-    date: "2025-11-10",
-    cover: "https://img.freepik.com/free-vector/open-book-concept-illustration_114360-4527.jpg"
-  },
-  {
-    id: 2,
-    name: "أساسيات البرمجة",
-    teacher: "الأستاذ مصطفى حيم فندي",
-    file: "uploads/programming_fundamentals.pdf",
-    date: "2025-11-09",
-    cover: "https://img.freepik.com/free-vector/programming-concept-illustration_114360-1673.jpg"
-  },
-  {
-    id: 3,
-    name: "مدخل إلى الذكاء الاصطناعي",
-    teacher: "الأستاذة سارة علي",
-    file: "uploads/ai_intro.pdf",
-    date: "2025-11-08",
-    cover: "https://img.freepik.com/free-vector/artificial-intelligence-illustration_114360-3916.jpg"
+    name: "برنامج word",
+    teacher: "ا.مصطفى رحيم فندي",
+    file: "uploads/ملزمة_Word_الرابع_الاعدادي-2.pdf",
+    date: "2026-10-29",
+    cover: "https://www.vecteezy.com/png/27179344-microsoft-word-icon-logo-symbol"
   }
 ];
 
