@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مختبر حالات المادة ثلاثي الأبعاد</title>
+<style>
+:root{color-scheme:dark;--bg:#070b14;--pn:rgba(12,20,38,.9);--ln:#26385c;--tx:#e8f0ff;--mu:#8fa3c7;--ac:#4fd1ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;overflow:hidden}
+body{position:relative}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#top{position:absolute;top:calc(env(safe-area-inset-top,0px) + 8px);inset-inline:10px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+#top b{font-size:16px}#top small{color:var(--ac);margin-inline-start:6px}
+#badge{padding:6px 14px;border-radius:99px;font-weight:700;font-size:14px;background:var(--pn);border:1px solid var(--ln)}
+#panel{position:absolute;inset-inline:0;bottom:0;max-height:46%;overflow:auto;background:var(--pn);backdrop-filter:blur(8px);border-top:1px solid var(--ln);padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-radius:16px 16px 0 0;touch-action:pan-y}
+#info{font-size:12.5px;color:var(--mu);line-height:1.7;margin-bottom:6px}#info b{color:var(--tx)}
+.row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+button{font:inherit;font-size:13px;color:var(--tx);background:#16264a;border:1px solid var(--ln);border-radius:10px;padding:8px 10px;cursor:pointer}
+button:active{background:#1f3a72}button.on{border-color:var(--ac)}
+label{display:block;font-size:13px;margin-top:6px}label b{color:var(--ac);float:left;direction:ltr}
+input[type=range]{width:100%;accent-color:#4fd1ff;margin:4px 0}
+#gr{width:100%;height:90px;display:block;margin-top:6px;background:#0a1226;border-radius:8px}
+#tbl{position:absolute;inset:0;background:rgba(5,8,16,.97);z-index:5;overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 10px 20px}
+#tbl[hidden]{display:none}
+#g{display:grid;grid-template-columns:repeat(18,38px);grid-auto-rows:38px;gap:2px;direction:ltr;width:max-content}
+#g button{padding:0;font-size:12px;font-weight:700;color:#0a1020;border:0;border-radius:5px;line-height:1.05;position:relative}
+#g button i{position:absolute;top:1px;left:3px;font-size:7px;font-style:normal;opacity:.7}
+#g button.sel{outline:2px solid #fff}
+@media(min-width:900px){#panel{inset:0 auto 0 0;width:360px;max-height:none;border-radius:0 16px 16px 0;border-top:0;border-right:1px solid var(--ln)}#top{inset-inline-start:380px}}
+#bk{position:absolute;top:56px;inset-inline-start:10px;z-index:3;background:#7a1f3d}#bk[hidden]{display:none}
+#msg{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 52%);inset-inline:10px;text-align:center;font-size:12.5px;color:var(--tx);pointer-events:none;text-shadow:0 1px 4px #000}
+@media(min-width:900px){#msg{bottom:16px;inset-inline-start:380px}}
+h4{margin:12px 0 2px;font-size:13px;color:var(--ac)}
+@media(min-width:900px){#top,#msg{inset-inline-start:10px;inset-inline-end:380px}}
+#log{position:absolute;top:calc(env(safe-area-inset-top,0px) + 98px);right:10px;width:min(310px,calc(100% - 20px));display:flex;flex-direction:column;gap:6px;z-index:4;pointer-events:none}
+#log div{background:rgba(10,18,36,.94);border:1px solid var(--ln);border-inline-start:3px solid var(--ac);border-radius:10px;padding:8px 10px;font-size:12px;line-height:1.6;pointer-events:auto;animation:nin .3s}
+#log b{color:var(--ac);display:block}@keyframes nin{from{opacity:0;transform:translateY(-6px)}}
+#msg sup{font-size:9px}
+</style></head><body>
+<canvas id="c"></canvas>
+<div id="top"><div><b>مختبر حالات المادة</b><small>3D</small></div><div id="badge"></div></div>
+<button id="bk" hidden>⬅ رجوع للمختبر</button><div id="msg"></div><div id="log"></div>
+<div id="panel">
+<div id="info"></div>
+<div id="atc" style="display:none"><h4>⚛️ التحكم بمكونات الذرة</h4><div class="row" id="at"></div></div>
+<div class="row"><button id="bEl">🧪 الجدول الدوري (118 عنصراً)</button><button id="bSh">🌀 رجّ</button><button id="bRot" class="on">🔄 دوران</button></div>
+<label>🌡️ درجة الحرارة <b id="vT"></b></label><input type="range" id="sT" min="0" max="1000" value="0">
+<label>⏱️ الضغط <b id="vP"></b></label><input type="range" id="sP" min="0" max="1000" value="400">
+<h4>العرض</h4><div class="row"><button id="vM" class="on">👁️ عين مجردة</button><button id="vA">⚛️ جزيئات</button></div>
+<h4>أنواع الطاقة</h4>
+<label>⚡ المجال الكهربائي <b id="vE"></b></label><input type="range" id="sE" min="0" max="100" value="0">
+<label>🧲 المجال المغناطيسي <b id="vB"></b></label><input type="range" id="sB" min="0" max="100" value="0">
+<label>📡 ميكروويف / ليزر <b id="vW"></b></label><input type="range" id="sW" min="0" max="100" value="0">
+<h4>خلط المواد</h4><div class="row"><button id="bMix">➕ مادة ثانية: <span id="mn">—</span></button></div>
+<label>نسبة المادة الثانية <b id="vX"></b></label><input type="range" id="sX" min="0" max="100" value="0">
+<h4>تجارب حرارية</h4><div class="row" id="ex"></div>
+<h4>تجارب متقدمة</h4><div class="row" id="ex2"></div>
+<canvas id="gr"></canvas>
+</div>
+<div id="tbl" hidden><div class="row"><button id="bX">✕ إغلاق</button><span style="color:var(--mu);font-size:13px;align-self:center">اختر مادة للتجربة (مرّر الجدول أفقياً)</span></div><div id="g"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const S="H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf Es Fm Md No Lr Rf Db Sg Bh Hs Mt Ds Rg Cn Nh Fl Mc Lv Ts Og".split(" ");
+const N="Hydrogen Helium Lithium Beryllium Boron Carbon Nitrogen Oxygen Fluorine Neon Sodium Magnesium Aluminium Silicon Phosphorus Sulfur Chlorine Argon Potassium Calcium Scandium Titanium Vanadium Chromium Manganese Iron Cobalt Nickel Copper Zinc Gallium Germanium Arsenic Selenium Bromine Krypton Rubidium Strontium Yttrium Zirconium Niobium Molybdenum Technetium Ruthenium Rhodium Palladium Silver Cadmium Indium Tin Antimony Tellurium Iodine Xenon Caesium Barium Lanthanum Cerium Praseodymium Neodymium Promethium Samarium Europium Gadolinium Terbium Dysprosium Holmium Erbium Thulium Ytterbium Lutetium Hafnium Tantalum Tungsten Rhenium Osmium Iridium Platinum Gold Mercury Thallium Lead Bismuth Polonium Astatine Radon Francium Radium Actinium Thorium Protactinium Uranium Neptunium Plutonium Americium Curium Berkelium Californium Einsteinium Fermium Mendelevium Nobelium Lawrencium Rutherfordium Dubnium Seaborgium Bohrium Hassium Meitnerium Darmstadtium Roentgenium Copernicium Nihonium Flerovium Moscovium Livermorium Tennessine Oganesson".split(" ");
+const MP=[14,1,454,1560,2349,3820,63,54,53,25,371,923,933,1687,317,388,172,84,337,1115,1814,1941,2183,2180,1519,1811,1768,1728,1358,693,303,1211,1090,494,266,116,312,1050,1799,2128,2750,2896,2430,2607,2237,1828,1235,594,430,505,904,723,387,161,302,1000,1193,1068,1208,1297,1315,1345,1099,1585,1629,1680,1734,1802,1818,1097,1925,2506,3290,3695,3459,3306,2719,2041,1337,234,577,601,544,527,575,202,300,973,1323,2115,1841,1405,917,912,1449,1613,1259,1173,1133,1800,1100,1100,1900];
+const BP=[20,4,1615,2742,4200,4300,77,90,85,27,1156,1363,2792,3538,550,718,239,87,1032,1757,3109,3560,3680,2944,2334,3134,3200,3186,2835,1180,2477,3106,1300,958,332,120,961,1655,3609,4682,5017,4912,4538,4423,3968,3236,2435,1040,2345,2875,1860,1261,457,165,944,2170,3737,3716,3403,3347,3273,2067,1802,3546,3503,2840,2993,3141,2223,1469,3675,4876,5731,5828,5869,5285,4701,4098,3129,630,1746,2022,1837,1235,610,211,950,2010,3471,5061,4300,4404,4175,3505,2880,3383,2900,1743,1269,2000,1400,1400,2000];
+const SET={a:[3,11,19,37,55,87],b:[4,12,20,38,56,88],n:[2,10,18,36,54,86,118],h:[9,17,35,53,85,117],m:[5,14,32,33,51,52],o:[1,6,7,8,15,16,34],p:[13,31,49,50,81,82,83,84,113,114,115,116]};
+const CC={a:'#ff6b6b',b:'#ffa94d',n:'#b197fc',h:'#63e6be',m:'#a9e34b',o:'#4dabf7',p:'#94a3b8',L:'#f783ac',A:'#e599f7',T:'#ffd43b'};
+function cat(z){for(const k in SET)if(SET[k].includes(z))return CC[k];return z>=57&&z<=71?CC.L:z>=89&&z<=103?CC.A:CC.T}
+const E=[{s:'H₂O',n:'Water',mp:273,bp:373,c:'#4fd1ff'}];
+for(let z=1;z<=118;z++)E.push({s:S[z-1],n:N[z-1],mp:MP[z-1]||2000,bp:BP[z-1]||4000,c:cat(z)});
+function pos(z){if(z==0)return[1,5];if(z==1)return[1,1];if(z==2)return[1,18];if(z<=4)return[2,z-2];if(z<=10)return[2,z+8];if(z<=12)return[3,z-10];if(z<=18)return[3,z];if(z<=36)return[4,z-18];if(z<=54)return[5,z-36];if(z<=56)return[6,z-54];if(z<=71)return[8,z-54];if(z<=86)return[6,z-68];if(z<=88)return[7,z-86];if(z<=103)return[9,z-86];return[7,z-100]}
+const $=id=>document.getElementById(id);
+const LNMAX=Math.log(50000);
+let lnT=Math.log(263),tgt=null,lnP=0,el=0,auto=true,hist=[],hacc=0,iacc=0;
+let el2=-1,mixX=0,pickMode=0,E_=0,B_=0,W_=0,macro=true,zoom=false,expM=0;
+const mix={k:70,c:5,A:30,g:0,p:0};
+const ST=['صلب','سائل','غاز','بلازما'],SC=['#9ad0ff','#38d9a9','#ffd43b','#ff6bd6'];
+function thr(e){const P=Math.exp(lnP);const x=el2>=0?mixX:0,e2=E[el2>=0?el2:0];const mp=(e.mp*(1-x)+e2.mp*x)*(1+.01*Math.log(P));let bp=(e.bp*(1-x)+e2.bp*x)*(1+.1*Math.log(P));bp=Math.max(bp,mp*1.05);return{mp,bp,tp:Math.max(Math.max(bp*2.2,4000)/(1+E_*1.5),bp*1.1)}}
+
+/* ---------- 3D ---------- */
+const cv=$('c'),R=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+R.setPixelRatio(Math.min(devicePixelRatio,2));
+const sc=new THREE.Scene();sc.background=new THREE.Color(0x070b14);sc.fog=new THREE.FogExp2(0x070b14,.015);
+const cam=new THREE.PerspectiveCamera(50,1,.1,200);
+sc.add(new THREE.HemisphereLight(0xbfd8ff,0x101830,1.1));
+const dl=new THREE.DirectionalLight(0xffffff,1.1);dl.position.set(5,10,7);sc.add(dl);
+const box=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(10,10,10)),new THREE.LineBasicMaterial({color:0x4fd1ff,transparent:true,opacity:.55}));sc.add(box);
+const grid=new THREE.GridHelper(10,10,0x2a4a7a,0x16264a);grid.position.y=-5;sc.add(grid);
+const NP=512,P=new Float32Array(NP*3),V=new Float32Array(NP*3),L=new Float32Array(NP*3),H=new Float32Array(NP*3),SF=new Float32Array(NP);
+for(let i=0;i<NP;i++){const j=i*3;L[j]=((i%8)-3.5)*.95;L[j+1]=-4.4+Math.floor(i/64)*.95;L[j+2]=(Math.floor(i/8)%8-3.5)*.95;
+P[j]=L[j];P[j+1]=L[j+1];P[j+2]=L[j+2];H[j]=(Math.random()-.5)*8.6;H[j+1]=-4.4+Math.random()*4.9;H[j+2]=(Math.random()-.5)*8.6;SF[i]=.5+Math.random()}
+const mat=new THREE.MeshStandardMaterial({roughness:.35,metalness:.25}),
+inst=new THREE.InstancedMesh(new THREE.SphereGeometry(.38,14,10),mat,NP);
+inst.instanceMatrix.setUsage(THREE.DynamicDrawUsage);inst.frustumCulled=false;sc.add(inst);
+for(let i=0;i<NP;i++)inst.setColorAt(i,new THREE.Color(1,1,1));
+const tx=document.createElement('canvas');tx.width=tx.height=64;{const x=tx.getContext('2d'),g=x.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,64,64)}
+const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(P,3));
+const pm=new THREE.PointsMaterial({size:1.8,map:new THREE.CanvasTexture(tx),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0,color:0x8fb4ff});
+const glow=new THREE.Points(pg,pm);glow.frustumCulled=false;sc.add(glow);
+
+/* ---------- camera / touch orbit ---------- */
+let th=.7,ph=1.2,rad=22;const ptr=new Map();let pd=0;
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptr.set(e.pointerId,[e.clientX,e.clientY]);pd=0});
+cv.addEventListener('pointerup',e=>ptr.delete(e.pointerId));cv.addEventListener('pointercancel',e=>ptr.delete(e.pointerId));
+cv.addEventListener('pointermove',e=>{if(!ptr.has(e.pointerId))return;const o=ptr.get(e.pointerId);
+if(ptr.size==1){th-=(e.clientX-o[0])*.006;ph=Math.min(2.9,Math.max(.2,ph-(e.clientY-o[1])*.006))}
+ptr.set(e.pointerId,[e.clientX,e.clientY]);
+if(ptr.size==2){const a=[...ptr.values()],d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);if(pd)rad=Math.min(45,Math.max(9,rad*pd/d));pd=d}});
+cv.addEventListener('wheel',e=>{rad=Math.min(45,Math.max(9,rad*(1+e.deltaY*.001)));e.preventDefault()},{passive:false});
+function resize(){const w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);cam.aspect=w/h;if(w<h&&rad<20)rad=26;
+const wd=w>=900;cam.setViewOffset(w,h,wd?-180:0,wd?0:$('panel').offsetHeight*.5,w,h);cam.updateProjectionMatrix();drawGraph()}
+addEventListener('resize',resize);
+
+/* ---------- UI ---------- */
+function setEl(z){if(pickMode){el2=z==el?-1:z;pickMode=0;$('tbl').hidden=true;applyMix();return}el=z;applyMix();
+document.querySelectorAll('#g button').forEach(b=>b.classList.toggle('sel',+b.dataset.z==z));$('tbl').hidden=true}
+const bases=Array(NP).fill(new THREE.Color(0x4fd1ff));
+const g=$('g');for(let z=0;z<=118;z++){const b=document.createElement('button'),[r,c]=pos(z);b.dataset.z=z;b.innerHTML=(z?'<i>'+z+'</i>':'')+E[z].s;b.title=E[z].n;b.style.gridRow=r;b.style.gridColumn=c;b.style.background=E[z].c;b.onclick=()=>setEl(z);g.appendChild(b)}
+$('bEl').onclick=()=>{pickMode=0;$('tbl').hidden=false};$('bX').onclick=()=>$('tbl').hidden=true;
+$('bSh').onclick=()=>{for(let i=0;i<NP*3;i++)V[i]+=(Math.random()-.5)*12};
+$('bRot').onclick=e=>{auto=!auto;e.target.classList.toggle('on',auto)};
+const sT=$('sT'),sP=$('sP');
+const T2s=T=>1000*Math.log(T)/LNMAX;
+sT.value=T2s(263);sT.oninput=()=>{tgt=null;lnT=sT.value/1000*LNMAX};
+sP.oninput=()=>{lnP=-4.6+11.5*sP.value/1000};sP.oninput();
+const EX=[['❄️ تجميد',t=>t.mp*.6],['💧 صهر',t=>t.mp*1.12],['♨️ غليان',t=>t.bp*1.08],['⚡ بلازما',t=>t.tp*1.08],['🏠 25°C',()=>298]];
+EX.forEach(([n,f])=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{tgt=Math.min(50000,Math.max(1,f(thr(E[el]))))};$('ex').appendChild(b)});
+const gr=$('gr'),gx=gr.getContext('2d');
+function drawGraph(){const w=gr.width=gr.clientWidth,h=gr.height=90,Y=T=>h-4-Math.min(1,Math.max(0,Math.log(T)/LNMAX))*(h-8);
+gx.clearRect(0,0,w,h);const t=thr(E[el]);[[t.mp,SC[0]],[t.bp,SC[1]],[t.tp,SC[3]]].forEach(([v,c])=>{gx.strokeStyle=c;gx.globalAlpha=.4;gx.setLineDash([4,4]);gx.beginPath();gx.moveTo(0,Y(v));gx.lineTo(w,Y(v));gx.stroke()});
+gx.setLineDash([]);gx.globalAlpha=1;gx.lineWidth=2;for(let i=1;i<hist.length;i++){gx.strokeStyle=SC[hist[i].s];gx.beginPath();gx.moveTo((i-1)/240*w,Y(hist[i-1].T));gx.lineTo(i/240*w,Y(hist[i].T));gx.stroke()}}
+
+/* ---------- extras: macro, atom, experiments ---------- */
+const mac=new THREE.Group();sc.add(mac);
+const sMat=new THREE.MeshStandardMaterial({metalness:.85,roughness:.28,transparent:true}),lMat=new THREE.MeshStandardMaterial({metalness:.1,roughness:.1,transparent:true}),
+solidB=new THREE.Mesh(new THREE.BoxGeometry(7.8,7.8,7.8),sMat),liqB=new THREE.Mesh(new THREE.BoxGeometry(9.6,1,9.6),lMat);
+solidB.position.y=-.9;mac.add(solidB,liqB);
+const atomG=new THREE.Group(),expG=new THREE.Group();sc.add(atomG,expG);
+let els=[],rings=[],hs=[],shN=0,tg=[],alive=[],tooth,jet,killed=0,white=new THREE.Color(1,1,1);
+function vis(){const lab=!zoom&&!expM;inst.visible=lab&&!macro;mac.visible=lab&&macro;glow.visible=lab;box.visible=grid.visible=lab;atomG.visible=zoom;expG.visible=!!expM;$('bk').hidden=lab}
+function applyMix(){const c1=new THREE.Color(E[el].c),c2=new THREE.Color(E[el2>=0?el2:0].c);for(let i=0;i<NP;i++)bases[i]=(el2>=0&&SF[i]-.5<mixX)?c2:c1;$('mn').textContent=el2>=0?E[el2].s:'—';document.querySelectorAll('#g button').forEach(b=>b.classList.toggle('sel',+b.dataset.z==el))}
+const mk=(r,c,x,y,z)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,14,10),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.3}));m.position.set(x,y,z);return m};
+function zoomTo(z){atomG.clear();els=[];rings=[];hs=[];const Zn=z||8,sh=[2,8,18,32,32,18,8];let rem=Zn;shN=0;
+const nuc=new THREE.Group(),n=Math.min(Zn*2,30);for(let i=0;i<n;i++)nuc.add(mk(.3,i%2?0xff4d4d:0xb0b8c8,(Math.random()-.5)*.9,(Math.random()-.5)*.9,(Math.random()-.5)*.9));atomG.add(nuc);
+for(let s=0;s<7&&rem>0;s++){const c=Math.min(rem,sh[s]);rem-=c;shN++;const g=new THREE.Group(),r=1.8+s*.95;g.rotation.set(Math.random()*3,0,Math.random()*3);
+const pts=[];for(let k=0;k<=64;k++)pts.push(new THREE.Vector3(Math.cos(k/64*6.283)*r,0,Math.sin(k/64*6.283)*r));g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x4fd1ff,transparent:true,opacity:.3})));
+for(let k=0;k<c;k++){const m=mk(.14,0x7ffcff,0,0,0);g.add(m);els.push({m,r,a:k/c*6.283,s,out:s==shN-1&&rem==0})}atomG.add(g);rings.push(g)}
+if(!z){[-1,1].forEach(s=>{const h=mk(.55,0xffffff,s*1.5,-1.1,0);atomG.add(h);hs.push(h)});nuc.scale.setScalar(2.2)}
+zoom=true;rad=Math.min(44,9+shN*2.2);vis()}
+function startExp(k){expM=k;expG.clear();tg=[];alive=[];killed=0;tgt=300;sE.value=0;sE.oninput();rad=13;th=.5;ph=1.3;
+const add=(p,c)=>{const m=mk(.15,c,p.x,p.y,p.z);expG.add(m);tg.push(m);alive.push(1)};
+if(k==1){tooth=new THREE.Group();const w=new THREE.MeshStandardMaterial({color:0xf5f2e8,roughness:.4}),cr=new THREE.Mesh(new THREE.SphereGeometry(2,24,16),w);cr.scale.set(1.2,1,1);tooth.add(cr);
+[-1,1].forEach(s=>{const r=new THREE.Mesh(new THREE.ConeGeometry(.7,3,12),w);r.position.set(s*.9,-2.6,0);r.rotation.z=Math.PI;tooth.add(r)});expG.add(tooth);
+for(let i=0;i<50;i++){const d=new THREE.Vector3(Math.random()-.5,Math.random()*.9,Math.random()-.5).normalize().multiplyScalar(2.08);d.x*=1.2;add(d,0x5bff5b)}}
+else{tooth=new THREE.Mesh(new THREE.BoxGeometry(9,6,6),new THREE.MeshStandardMaterial({color:0x4fd1ff,transparent:true,opacity:.22}));expG.add(tooth);for(let i=0;i<70;i++)add(new THREE.Vector3((Math.random()-.5)*8.4,(Math.random()-.5)*5.4,(Math.random()-.5)*5.4),0xff5555)}
+const jp=new Float32Array(240);jet=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(jp,3)),pm.clone());jet.material.size=.9;jet.material.color.set('#ff6bd6');expG.add(jet);vis()}
+function anim(dt,T,st,t){const tm=performance.now()/1000;
+if(zoom){const ion=st==3?1:E_>.8?(E_-.8)*5:0,sp=1+Math.log(1+T)/5+W_*2;
+els.forEach(o=>{o.a+=dt*sp*2.2/o.r;const r=o.r*(o.out?1+ion*2.2:1);o.m.position.set(Math.cos(o.a)*r,0,Math.sin(o.a)*r)});
+rings.forEach(g=>g.position.x=-E_*.7);atomG.rotation.z=B_*.6;
+hs.forEach((h,i)=>{const s=i?1:-1,v=Math.sin(tm*(4+T/60))*(.1+Math.min(.5,T/3000));h.position.set(s*(1.5+v),-1.1+v*.5,0)});
+$('msg').textContent=E[atomZ_()].n+' — '+(els.length)+' إلكترون في '+shN+' أغلفة'+(ion>.3?' — تأيّن: الإلكترونات الخارجية تتحرر':'')+' · اسحب للتدوير';return}
+if(expM){const jx=Math.sin(tm*.8)*2.2,pw=E_,a=jet.geometry.attributes.position.array;for(let i=0;i<80;i++){const f=i/80;a[i*3]=jx+(Math.random()-.5)*f*1.6;a[i*3+1]=5-f*(expM==1?5:8);a[i*3+2]=(Math.random()-.5)*f*1.6}jet.geometry.attributes.position.needsUpdate=true;jet.material.opacity=pw>.1?.3+pw*.6:0;
+let k=0;tg.forEach((m,i)=>{if(alive[i]&&pw>.25&&Math.abs(m.position.x-jx)<1.4&&(expM==2||m.position.y>-.8)&&Math.random()<dt*pw*3){alive[i]=0;m.visible=false}if(!alive[i])k++});killed=k;
+const hot=T>330;if(expM==1)tooth.children[0].material.color.set(hot&&pw>.25?0x8a5a2b:0xf5f2e8);
+$('msg').textContent=(expM==1?'علاج الأسنان بالبلازما الباردة':'تعقيم الماء بالبلازما')+': تم القضاء على '+Math.round(k/tg.length*100)+'% · '+(pw<=.25?'ارفع المجال الكهربائي لتشغيل البلازما':hot?'⚠️ الحرارة مرتفعة (>57°C): ضرر حراري!':'✅ بلازما باردة آمنة')+(expM==2?' · الميكروويف يضيف أشعة UV':'');return}
+if(macro){const ws=Math.min(1,mix.k/45),wl=Math.max(0,(1-ws)*(1-mix.g)),cc=new THREE.Color(E[el].c);
+sMat.color.copy(cc);sMat.opacity=ws;solidB.visible=ws>.03;solidB.scale.setScalar(.75+.25*ws);
+lMat.color.copy(cc).lerp(white,.3);lMat.opacity=.8*wl;liqB.visible=wl>.03;liqB.scale.y=5.4*wl+.01;liqB.position.y=-5+liqB.scale.y/2+Math.sin(tm*2)*.04}
+$('msg').textContent='انقر على المادة أو أي جسيم لتكبيره حتى الذرة'}
+const atomZ_=()=>{return atomZ}; let atomZ=0;
+const sE=$('sE'),sB=$('sB'),sW=$('sW'),sX=$('sX');
+sE.oninput=()=>{E_=sE.value/100;$('vE').textContent=(E_*1000|0)+' V/m'};sB.oninput=()=>{B_=sB.value/100;$('vB').textContent=(B_*2).toFixed(1)+' T'};
+sW.oninput=()=>{W_=sW.value/100;$('vW').textContent=(W_*100|0)+'%'};sX.oninput=()=>{mixX=sX.value/100;$('vX').textContent=sX.value+'%';applyMix()};
+[sE,sB,sW,sX].forEach(s=>s.oninput());
+$('bMix').onclick=()=>{pickMode=1;$('tbl').hidden=false};
+$('vM').onclick=()=>{macro=true;$('vM').classList.add('on');$('vA').classList.remove('on');vis()};
+$('vA').onclick=()=>{macro=false;$('vA').classList.add('on');$('vM').classList.remove('on');vis()};
+$('bk').onclick=()=>{zoom=false;expM=0;rad=22;vis()};
+[['🦷 علاج الأسنان بالبلازما',()=>startExp(1)],['💧 تعقيم الماء بالبلازما',()=>startExp(2)],['🔮 مصباح بلازما (أرغون)',()=>{setEl(18);tgt=300;sE.value=100;sE.oninput()}],['🧲 مغناطة الحديد',()=>{setEl(26);tgt=293;sB.value=90;sB.oninput()}]].forEach(([n,f])=>{const b=document.createElement('button');b.textContent=n;b.onclick=f;$('ex2').appendChild(b)});
+let sx=0,sy=0;const rc=new THREE.Raycaster();
+cv.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});
+cv.addEventListener('pointerup',e=>{if(zoom||expM||Math.hypot(e.clientX-sx,e.clientY-sy)>6)return;let z=el;
+if(!macro){const r=cv.getBoundingClientRect();rc.setFromCamera(new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),cam);const h=rc.intersectObject(inst);if(!h.length)return;const id=h[0].instanceId;z=(el2>=0&&SF[id]-.5<mixX)?el2:el}
+atomZ=z;zoomTo(z)});
+/* ---------- v3: real shapes, atom editor, notifications ---------- */
+const RC={79:'#ffd700',29:'#b87333',26:'#8d9199',16:'#f2e24a',80:'#cfd3d8',35:'#8b2500',17:'#c8e65a',53:'#6a3d9a',47:'#dcdcdc',13:'#c9ced4',82:'#6b7280',6:'#222222',0:'#4aa8ff',11:'#d9d9d9',15:'#e8d5a0',30:'#aab4c0',28:'#9aa3ad',50:'#c7ccd1',78:'#d7dbe0'};
+E.forEach((e,z)=>e.r=RC[z]||e.c);
+let ap=8,an=8,ae=8,wat=false,flash=0,nucG,lastC=0,prevSt=-1,fr=0;
+const nN=p=>p<2?0:Math.round(p+.021*Math.pow(p,5/3));
+function note(t,x,col){const l=$('log'),d=document.createElement('div');d.style.borderInlineStartColor=col||'#4fd1ff';d.innerHTML='<b>'+t+'</b>'+x;d.onclick=()=>d.remove();l.prepend(d);while(l.children.length>4)l.lastChild.remove();setTimeout(()=>d.remove(),14000)}
+function applyMix(){const c1=new THREE.Color(E[el].r),c2=new THREE.Color(E[el2>=0?el2:0].r);for(let i=0;i<NP;i++)bases[i]=(el2>=0&&SF[i]-.5<mixX)?c2:c1;$('mn').textContent=el2>=0?E[el2].s:'—';document.querySelectorAll('#g button').forEach(b=>b.classList.toggle('sel',+b.dataset.z==el))}
+function vis(){const lab=!zoom&&!expM;inst.visible=lab&&!macro;mac.visible=lab&&macro;glow.visible=lab;box.visible=grid.visible=lab;atomG.visible=zoom;expG.visible=!!expM;$('bk').hidden=lab;$('atc').style.display=zoom?'':'none'}
+{const g=new THREE.IcosahedronGeometry(3.6,3),p=g.attributes.position;for(let i=0;i<p.count;i++){let x=p.getX(i),y=p.getY(i),z=p.getZ(i);const n=1+.16*Math.sin(x*1.7)*Math.sin(y*1.9+1)*Math.sin(z*1.5+2)+.08*Math.sin(x*4+z*3);y=Math.max(y*n,-2.5);p.setXYZ(i,x*n*1.15,y,z*n*1.15)}g.computeVertexNormals();solidB.geometry=g;sMat.flatShading=true}
+const surfG=new THREE.PlaneGeometry(9.6,9.6,36,36);surfG.rotateX(-Math.PI/2);
+const surf=new THREE.Mesh(surfG,new THREE.MeshStandardMaterial({transparent:true,roughness:.05,metalness:.3,side:THREE.DoubleSide}));mac.add(surf);
+const arcs=new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(384),3)),new THREE.LineBasicMaterial({color:0xff9bf0,transparent:true,opacity:0,blending:THREE.AdditiveBlending}));arcs.frustumCulled=false;mac.add(arcs);
+function updArcs(op){const a=arcs.geometry.attributes.position.array;let k=0;for(let i=0;i<8;i++){const ex=(Math.random()-.5)*8,ey=(Math.random()-.5)*7-1,ez=(Math.random()-.5)*8;let px=0,py=-1,pz=0;for(let s=1;s<=8;s++){const f=s/8,nx=ex*f+(Math.random()-.5)*1.2,ny=-1+(ey+1)*f+(Math.random()-.5)*1.2,nz=ez*f+(Math.random()-.5)*1.2;a[k++]=px;a[k++]=py;a[k++]=pz;a[k++]=nx;a[k++]=ny;a[k++]=nz;px=nx;py=ny;pz=nz}}arcs.geometry.attributes.position.needsUpdate=true;arcs.material.opacity=op}
+function buildAtom(){atomG.clear();els=[];rings=[];hs=[];wat=wat&&ap==8;const sh=[2,8,18,32,32,18,8];let rem=ae;shN=0;nucG=new THREE.Group();
+const cnt=Math.min(ap+an,44),np=Math.max(1,Math.round(cnt*ap/(ap+an))),R=.36*Math.cbrt(cnt)+.1;
+for(let i=0;i<cnt;i++){const d=new THREE.Vector3(Math.random()-.5,Math.random()-.5,Math.random()-.5).normalize().multiplyScalar(R*Math.cbrt(Math.random()));nucG.add(mk(.3,i<np?0xff4d4d:0xb0b8c8,d.x,d.y,d.z))}atomG.add(nucG);
+for(let s=0;s<7&&rem>0;s++){const c=Math.min(rem,sh[s]);rem-=c;shN++;lastC=c;const g=new THREE.Group(),r=1.8+s*.95;g.rotation.set(Math.random()*3,0,Math.random()*3);
+const pts=[];for(let k=0;k<=64;k++)pts.push(new THREE.Vector3(Math.cos(k/64*6.283)*r,0,Math.sin(k/64*6.283)*r));g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x4fd1ff,transparent:true,opacity:.3})));
+for(let k=0;k<c;k++){const m=mk(.14,0x7ffcff,0,0,0);g.add(m);els.push({m,r,r0:r,a:k/c*6.283,s,ex:0,out:s==shN-1})}atomG.add(g);rings.push(g)}
+if(wat)[-1,1].forEach(s=>{const h=mk(.55,0xffffff,s*1.5,-1.1,0);atomG.add(h);hs.push(h)})}
+function zoomTo(z){atomZ=z;wat=!z;ap=z||8;an=z?nN(z):8;ae=ap;buildAtom();zoom=true;rad=Math.min(44,9+shN*2.2);vis();note('تكبير إلى المستوى الذري',(z?E[z].n+' ('+E[z].s+')':'جزيء الماء')+': نواة في المركز وإلكترونات تدور في أغلفتها. استخدم أزرار التحكم لإضافة أو إزالة البروتونات والنيوترونات والإلكترونات.')}
+const stab=()=>ap<=83&&an>=ap*.9&&an<=ap*(1.02+.0085*ap)+1;
+const AC=[['− إلكترون',()=>{ae=Math.max(0,ae-1)},'تأيّن','إزالة إلكترون تجعل الذرة أيوناً موجباً وتزداد جاذبية النواة لما تبقى.'],['+ إلكترون',()=>{ae=Math.min(118,ae+1)},'التقاط إلكترون','الذرة تكتسب شحنة سالبة وتصبح أيوناً سالباً.'],
+['− نيوترون',()=>{an=Math.max(0,an-1)},'نظير جديد','تغيير عدد النيوترونات يغيّر العدد الكتلي دون تغيير العنصر؛ قد يصبح النظير مشعاً.'],['+ نيوترون',()=>{an++},'نظير جديد','إضافة نيوترون تزيد الكتلة؛ كثرة النيوترونات تجعل النواة غير مستقرة.'],
+['− بروتون',()=>{if(ap>1)ap--;wat=false},'تحوّل عنصري','تغيير عدد البروتونات يغيّر هوية العنصر كلياً.'],['+ بروتون',()=>{if(ap<118)ap++;wat=false},'تحوّل عنصري','تغيير عدد البروتونات يغيّر هوية العنصر كلياً.'],
+['🔆 فوتون',()=>{const o=els[els.length*Math.random()|0];if(o){o.ex=3;flash=.5}},'امتصاص فوتون','قفز إلكترون إلى مدار أعلى؛ بعد لحظات يعود وينبعث فوتون بالطاقة نفسها (أساس الألوان والليزر).'],
+['☢️ تحلل ألفا',()=>{if(ap>2&&an>1){ap-=2;an-=2;flash=1.2}},'تحلل ألفا','انطلقت نواة هيليوم (2 بروتون + 2 نيوترون) فنقص العدد الذري 2 والكتلي 4 وتحوّل العنصر.'],
+['β تحلل بيتا',()=>{if(an>0&&ap<118){an--;ap++;flash=1}},'تحلل بيتا−','تحوّل نيوترون إلى بروتون مع إطلاق إلكترون ونيوترينو؛ زاد العدد الذري 1.'],
+['💥 انشطار',()=>{if(ap>3){ap=ap>>1;an=an>>1;ae=Math.min(ae,ap+2);flash=2.5}},'انشطار نووي','انقسمت النواة إلى نواتين أصغر وتحرّرت طاقة هائلة وفق E=mc² (نحو 200 MeV لليورانيوم).'],
+['☀️ اندماج',()=>{if(ap<117){ap++;an++;flash=2}},'اندماج نووي','اندمجت نواة ديوتيريوم مع النواة؛ الاندماج يطلق طاقة للعناصر الخفيفة (كالشمس) ويمتصها بعد الحديد.'],['↺ إعادة',()=>zoomTo(atomZ),'إعادة ضبط','عادت الذرة إلى حالتها الطبيعية.']];
+AC.forEach(([n,f,t,x])=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{wat0=wat;f();buildAtom();if(n!='↺ إعادة'){note(t,x+(stab()?'':' — النواة الحالية غير مستقرة (نظير مشع).'),'#ffd43b')}};$('at').appendChild(b)});let wat0;
+function anim2(dt,T,st){const tm=performance.now()/1000,t=thr(E[el]);fr++;
+if(st!==prevSt){const X=[['صلب','الجسيمات مقيّدة في شبكة بلورية منتظمة وتهتز حول مواضعها فقط، فللمادة شكل وحجم ثابتان.'],['سائل','ارتفعت الطاقة الحركية فتغلبت على جزء من الروابط: الجسيمات تنزلق فوق بعضها وتأخذ شكل الوعاء مع بقاء الحجم.'],['غاز','تحررت الجسيمات من الروابط وتتحرك بسرعة عشوائية وتتصادم مع الجدران وتملأ كل الحيّز (ضغط الغاز).'],['بلازما','تمزّقت الذرات: نوى موجبة وإلكترونات حرة. المادة موصلة للكهرباء وتتأثر بالمجالات المغناطيسية وتتوهج.']];
+if(prevSt>=0)note('انتقال إلى الحالة: '+X[st][0]+' ('+E[el].n+')',X[st][1],SC[st]);prevSt=st}
+if(zoom){flash=Math.max(0,flash-dt);nucG.children.forEach(m=>m.material.emissiveIntensity=.3+flash*1.5);atomG.scale.setScalar(1+flash*.04);nucG.rotation.y+=dt*.8;const u=stab();nucG.position.set(u?0:(Math.random()-.5)*.08,u?0:(Math.random()-.5)*.08,0);
+els.forEach(o=>{if(o.ex>0){o.ex-=dt;o.r=o.r0+1.9;if(o.ex<=0){o.r=o.r0;flash=.7;note('انبعاث فوتون','عاد الإلكترون إلى مداره الأصلي وأطلق الطاقة الزائدة على شكل ضوء.','#ffe066')}}});
+const q=ap-ae,f='<sup>'+(ap+an)+'</sup>'+E[ap].s+(q?'<sup>'+(Math.abs(q)>1?Math.abs(q):'')+(q>0?'+':'−')+'</sup>':'');
+$('msg').innerHTML=(wat?'جزيء الماء H₂O — ':'')+f+' · بروتونات '+ap+' · نيوترونات '+an+' · إلكترونات '+ae+' · شحنة '+(q>0?'+':'')+q+' — '+(stab()?'نواة مستقرة':'<span style="color:#ff6b6b">نظير مشع غير مستقر</span>')+(lastC?' · إلكترونات الغلاف الخارجي: '+lastC:'');return}
+if(macro&&!expM){const rc=new THREE.Color(E[el].r),wl=Math.max(0,(1-Math.min(1,mix.k/45))*(1-mix.g));
+sMat.color.copy(rc);solidB.position.y=-5+2.52*solidB.scale.y;lMat.color.copy(rc).lerp(white,.2);
+surf.visible=wl>.03;surf.material.color.copy(rc).lerp(white,.35);surf.material.opacity=.85*wl;surf.position.y=liqB.position.y+liqB.scale.y/2;
+const amp=.07+.9*Math.min(1,Math.max(0,(T-t.bp*.85)/(t.bp*.15))),p=surfG.attributes.position;for(let i=0;i<p.count;i++){const x=p.getX(i),z=p.getZ(i);p.setY(i,Math.sin(x*.9+tm*2)*amp+Math.cos(z*1.1+tm*1.7)*amp+Math.sin((x+z)*1.7+tm*3.1)*amp*.5)}p.needsUpdate=true;if(fr%2==0)surfG.computeVertexNormals();
+arcs.visible=mix.p>.05;if(arcs.visible&&fr%3==0)updArcs(mix.p*.9)}}
+[['sT','الحرارة','تغيّرت الطاقة الحركية الوسطى للجسيمات؛ كلما زادت الحرارة زادت سرعتها وابتعدت عن بعضها.'],['sP','الضغط','زيادة الضغط تدفع الجسيمات للتقارب فترتفع نقطة الغليان، وتقلّه ينخفض فيغلي السائل أبكر.'],['sE','المجال الكهربائي','يسحب الشحنات الموجبة والسالبة باتجاهين متعاكسين؛ في الغاز يؤدي لاصطدام الإلكترونات بالذرات وتأيّنها (تفريغ كهربائي) ثم بلازما.'],['sB','المجال المغناطيسي','قوة لورنتز تلف الجسيمات المشحونة في مسارات دائرية، وتجذب المواد الفرومغناطيسية (Fe وCo وNi).'],['sW','الميكروويف/الليزر','يمتص المادة الإشعاع فتهتز الجزيئات أسرع فترتفع حرارتها الفعلية.'],['sX','خلط المواد','المادتان تمتزجان فتتوسّط نقطتا الانصهار والغليان تبعاً لنسبة الخلط (كالسبائك والمحاليل).']].forEach(([id,t,x])=>$(id).addEventListener('change',()=>note(t,x)));
+/* ---------- physics loop ---------- */
+const dm=new THREE.Object3D(),tc=new THREE.Color(),pc=[new THREE.Color('#ff4fd8'),new THREE.Color('#7ffcff')];
+let last=performance.now();
+function loop(now){requestAnimationFrame(loop);const dt=Math.min(.033,(now-last)/1000);last=now;
+if(tgt!=null){const d=Math.log(tgt)-lnT;lnT+=d*(1-Math.exp(-1.2*dt));sT.value=T2s(Math.exp(lnT));if(Math.abs(d)<.003)tgt=null}
+const T=Math.exp(lnT)*(1+W_*.6),e=E[el],t=thr(e),st=T<t.mp?0:T<t.bp?1:T<t.tp?2:3;
+const tk=[70,3.5,0,0][st],tcc=[5,1.6,.02,.02][st],tA=st==0?15+70*Math.min(1,T/t.mp):st==1?50+25*(T-t.mp)/(t.bp-t.mp):0,a=1-Math.exp(-3*dt);
+mix.k+=(tk-mix.k)*a;mix.c+=(tcc-mix.c)*a;mix.A+=(tA-mix.A)*a;mix.g+=((st>1?1:0)-mix.g)*a;mix.p+=((st==3?1:0)-mix.p)*a;
+const vt=.9*Math.pow(1+T,.18)*(1+.8*mix.p),fe=el>=26&&el<=28;
+for(let i=0;i<NP;i++){const j=i*3;
+if(st>0)for(let d=0;d<3;d+=2){H[j+d]=Math.max(-4.3,Math.min(4.3,H[j+d]+(Math.random()-.5)*.5))}
+if(st>0)H[j+1]=Math.max(-4.4,Math.min(.5,H[j+1]+(Math.random()-.5)*.5));
+const hm=st==0?L:H;
+for(let d=0;d<3;d++)V[j+d]+=(-mix.k*(P[j+d]-hm[j+d])-mix.c*V[j+d]+(Math.random()-.5)*mix.A)*dt;
+if(mix.g>.01){const sp=Math.hypot(V[j],V[j+1],V[j+2])+1e-4,tv=vt*SF[i]*((st==3&&(i&1))?1.8:1),r=1+(tv/sp-1)*Math.min(1,2.5*dt)*mix.g;V[j]*=r;V[j+1]*=r;V[j+2]*=r}
+{const ch=(i&1)?1:-1;V[j]+=ch*E_*30*(st>1?1:.15)*dt;if(B_){if(st==3){const b=B_*6*dt*ch,vx=V[j],vz=V[j+2];V[j]=vx*Math.cos(b)-vz*Math.sin(b);V[j+2]=vx*Math.sin(b)+vz*Math.cos(b)}else if(fe)V[j]+=B_*12*dt}}
+for(let d=0;d<3;d++){P[j+d]+=V[j+d]*dt;if(P[j+d]>4.6){P[j+d]=4.6;V[j+d]*=-.9}else if(P[j+d]<-4.6){P[j+d]=-4.6;V[j+d]*=-.9}}
+const el_=(i&1)?pc[1]:pc[0];tc.copy(bases[i]).lerp(el_,mix.p);inst.setColorAt(i,tc);
+const s=1-.55*mix.p*(i&1);dm.position.set(P[j],P[j+1],P[j+2]);dm.scale.setScalar(s);dm.updateMatrix();inst.setMatrixAt(i,dm.matrix)}
+inst.instanceMatrix.needsUpdate=true;inst.instanceColor.needsUpdate=true;pg.attributes.position.needsUpdate=true;
+mat.emissive.setScalar(.4*mix.p);pm.opacity=(macro?.3:.15)*mix.g+.5*mix.p;pm.size=(macro?3.2:1.4)+.8*mix.p;pm.color.set(macro?e.c:'#8fb4ff').lerp(pc[0],mix.p);
+if(auto&&!ptr.size)th+=dt*.25;
+cam.position.set(rad*Math.sin(ph)*Math.sin(th),rad*Math.cos(ph),rad*Math.sin(ph)*Math.cos(th));cam.lookAt(0,zoom||expM?0:-1,0);anim(dt,T,st,t);anim2(dt,T,st);
+R.render(sc,cam);
+hacc+=dt;if(hacc>.1){hacc=0;hist.push({T,s:st});if(hist.length>240)hist.shift();drawGraph()}
+iacc+=dt;if(iacc>.15){iacc=0;const b=$('badge');b.textContent=ST[st];b.style.color=SC[st];b.style.borderColor=SC[st];
+$('vT').textContent=T.toFixed(T<100?1:0)+' K | '+(T-273.15).toFixed(0)+' °C';$('vP').textContent=Math.exp(lnP).toFixed(2)+' atm';
+$('info').innerHTML='<b>'+e.n+' ('+e.s+')</b> — انصهار: '+t.mp.toFixed(0)+' K ('+(t.mp-273.15).toFixed(0)+'°C) · غليان: '+t.bp.toFixed(0)+' K ('+(t.bp-273.15).toFixed(0)+'°C) · تأين: ≈'+t.tp.toFixed(0)+' K<br>السرعة الحرارية النسبية: '+vt.toFixed(1)}}
+resize();setEl(0);vis();requestAnimationFrame(loop);
+</script></body></html>
