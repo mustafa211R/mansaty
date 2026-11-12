@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b1f3a">
+    <title>الاختبار الشهري | منصة طالب</title>
+    <meta name="description" content="اختبار شهري في منصة طالب — اختر اختباراً سهلاً أو متوسطاً أو صعباً وحدد وقته من 1 إلى 60 دقيقة. الأسئلة تُسحب تلقائياً من أسئلة الكورسات.">
+    <meta name="author" content="الأستاذ مصطفى رحيم فندي">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="الاختبار الشهري | منصة طالب">
+    <meta property="og:description" content="اختر مستوى الاختبار الذي يناسبك وحدد وقته بنفسك.">
+    <meta property="og:image" content="../logo.jfif">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+
+    <link rel="icon" type="image/png" href="../logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="../fonts.css" rel="stylesheet">
+    <link href="../webfonts/fontawesome-free-6.5.2-web/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --oxford-blue: #0b1f3a;
+            --oxford-gold: #c9a227;
+            --oxford-cream: #f6f3ec;
+            --sf-text-primary: #1d1d1f;
+            --sf-text-secondary: #6e6e73;
+            --sf-text-tertiary: #86868b;
+        }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        html, body {
+            margin: 0; padding: 0; background: var(--oxford-cream); color: var(--sf-text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 17px; line-height: 1.5; letter-spacing: -0.01em; min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.022em; margin: 0; }
+        .wrap { max-width: 72rem; margin: 0 auto; padding: 0 16px; }
+
+        .hero-bg {
+            background: linear-gradient(rgba(11,31,58,0.88), rgba(11,31,58,0.94)), url('../logo.jfif') center/cover no-repeat;
+            color: #fff; text-align: center; padding: 34px 0 30px;
+        }
+        .hero-bg h1 { color: #fff; font-size: clamp(28px, 5vw, 38px); font-weight: 800; }
+        .hero-bg p { color: rgba(255,255,255,.82); max-width: 32rem; margin: 10px auto 0; font-size: 15.5px; }
+        .gold-line { height: 3px; background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent); }
+        .hero-bg .gold-line { width: 112px; margin: 14px auto; }
+        .crest {
+            width: 64px; height: 64px; object-fit: contain; border-radius: 50%; background: #fff; padding: 5px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.4); border: 2px solid var(--oxford-gold); margin-bottom: 12px;
+        }
+
+        main { padding: 36px 0 48px; }
+        .intro { text-align: center; margin-bottom: 34px; }
+        .intro .pill {
+            display: inline-block; padding: 7px 20px; border-radius: 9999px; margin-bottom: 14px;
+            background: rgba(201,162,39,.12); border: 1px solid rgba(201,162,39,.3);
+            color: var(--oxford-blue); font-weight: 600; font-size: 13.5px;
+        }
+        .intro h2 { font-size: clamp(26px, 4vw, 34px); font-weight: 800; color: var(--oxford-blue); margin-bottom: 12px; }
+        .intro p { color: var(--sf-text-secondary); max-width: 46rem; margin: 0 auto; line-height: 1.9; }
+
+        .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 40px; }
+        .level-card {
+            --c: #06762f; --c2: #0a8f3b;
+            background: #fff; border: 1px solid rgba(11,31,58,.06); border-radius: 22px; overflow: hidden;
+            box-shadow: 0 8px 28px rgba(11,31,58,.1); display: flex; flex-direction: column;
+            transition: transform .3s cubic-bezier(.25,.1,.25,1), box-shadow .3s; position: relative;
+            animation: slideUp .7s ease-out backwards;
+        }
+        .level-card:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(11,31,58,.16); }
+        .level-card.medium { --c: #b8911f; --c2: #c9a227; animation-delay: .12s; }
+        .level-card.hard { --c: #b32a2a; --c2: #d33333; animation-delay: .24s; }
+        .level-badge {
+            position: absolute; top: 14px; left: 14px; z-index: 2; color: #fff; font-weight: 700; font-size: 13px;
+            padding: 6px 16px; border-radius: 9999px; background: linear-gradient(135deg, var(--c), var(--c2));
+            box-shadow: 0 4px 14px rgba(11,31,58,.25);
+        }
+        .card-img { height: 170px; background: linear-gradient(135deg, rgba(11,31,58,.05), rgba(201,162,39,.1)); overflow: hidden; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; display: block; }
+        .level-card:hover .card-img img { transform: scale(1.05); }
+        .card-body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+        .card-title { font-size: 24px; font-weight: 800; color: var(--oxford-blue); margin-bottom: 8px; }
+        .card-desc { font-size: 14px; color: var(--sf-text-secondary); line-height: 1.8; margin: 0 0 16px; }
+        .card-list { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        .card-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--sf-text-secondary); line-height: 1.6; }
+        .card-list li i { color: var(--c2); width: 18px; text-align: center; margin-top: 3px; flex-shrink: 0; }
+        .btn-start {
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+            padding: 13px 24px; font-weight: 700; font-size: 15px; border-radius: 9999px; text-decoration: none; color: #fff;
+            background: linear-gradient(135deg, var(--c), var(--c2)); box-shadow: 0 6px 18px rgba(11,31,58,.2);
+            transition: transform .25s; border: none; cursor: pointer;
+        }
+        .btn-start:hover { transform: translateY(-2px); } .btn-start:active { transform: scale(.97); }
+
+        .stats-box { background: #fff; border: 1px solid rgba(11,31,58,.06); border-radius: 24px; padding: 30px 24px; box-shadow: 0 8px 32px rgba(11,31,58,.08); }
+        .stats-box h3 { text-align: center; font-size: 22px; color: var(--oxford-blue); margin-bottom: 8px; }
+        .stats-box .gold-line { width: 96px; margin: 0 auto 26px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .stat-card { background: #faf8f3; border: 1px solid rgba(201,162,39,.2); border-radius: 18px; text-align: center; padding: 24px 16px; }
+        .stat-num { font-size: 42px; font-weight: 800; line-height: 1; margin-bottom: 10px; color: var(--oxford-blue); }
+        .stat-label { font-size: 15px; font-weight: 700; color: var(--oxford-blue); }
+        .stat-sub { font-size: 12.5px; color: var(--sf-text-tertiary); margin-top: 6px; }
+
+        footer { background: #081729; color: #d1d5db; text-align: center; padding: 28px 16px; font-size: 13px; }
+        footer .gold-line { width: 128px; margin: 0 auto 14px; }
+        footer p { margin: 0; } footer small { color: rgba(255,255,255,.5); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(34px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 900px) { .cards, .stats-grid { grid-template-columns: 1fr; } .card-img { height: 150px; } }
+    </style>
+</head>
+<body>
+
+    <header class="hero-bg">
+        <div class="wrap">
+            <a href="../index.html"><img src="../logo.jfif" alt="شعار منصة طالب" class="crest"></a>
+            <h1>الاختبار الشهري</h1>
+            <div class="gold-line"></div>
+            <p>اختر مستوى الاختبار الذي يناسبك، وحدد وقته بنفسك</p>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <div class="intro">
+            <span class="pill">أسئلة تلقائية من الكورسات</span>
+            <h2>اختر مستوى الاختبار</h2>
+            <p>
+                تُسحب أسئلة الاختبار تلقائياً من أسئلة الكورسات التي تختارها، وتحدد أنت مدة الاختبار من 1 إلى 60 دقيقة.
+                عند تحقيق 80% فأكثر تحصل على الشهادة.
+            </p>
+        </div>
+
+        <div class="cards">
+            <div class="level-card easy">
+                <span class="level-badge"><i class="fas fa-seedling"></i> سهل</span>
+                <div class="card-img"><img src="assets/images/1.png" alt="اختبار سهل"></div>
+                <div class="card-body">
+                    <h3 class="card-title">اختبار سهل</h3>
+                    <p class="card-desc">أسئلة مباشرة لقياس معرفتك بالمفاهيم الأساسية.</p>
+                    <ul class="card-list">
+                        <li><i class="fas fa-list-ul"></i><span>النوع: اختيار من متعدد وصح / خطأ</span></li>
+                        <li><i class="fas fa-clock"></i><span>الوقت: تحدده أنت (1 – 60 دقيقة)</span></li>
+                        <li><i class="fas fa-question-circle"></i><span>عدد الأسئلة: تختاره أنت</span></li>
+                        <li><i class="fas fa-book"></i><span>الدروس: تختارها من الكورسات</span></li>
+                    </ul>
+                    <a href="easy.html" class="btn-start"><i class="fas fa-arrow-left"></i> ابدأ الاختبار السهل</a>
+                </div>
+            </div>
+
+            <div class="level-card medium">
+                <span class="level-badge"><i class="fas fa-bolt"></i> متوسط</span>
+                <div class="card-img"><img src="assets/images/2.png" alt="اختبار متوسط"></div>
+                <div class="card-body">
+                    <h3 class="card-title">اختبار متوسط</h3>
+                    <p class="card-desc">أسئلة تطبيقية تحتاج فهماً لا حفظاً.</p>
+                    <ul class="card-list">
+                        <li><i class="fas fa-list-ul"></i><span>النوع: سيناريوهات واختيار من متعدد</span></li>
+                        <li><i class="fas fa-clock"></i><span>الوقت: تحدده أنت (1 – 60 دقيقة)</span></li>
+                        <li><i class="fas fa-question-circle"></i><span>عدد الأسئلة: تختاره أنت</span></li>
+                        <li><i class="fas fa-book"></i><span>الدروس: تختارها من الكورسات</span></li>
+                    </ul>
+                    <a href="medium.html" class="btn-start"><i class="fas fa-arrow-left"></i> ابدأ الاختبار المتوسط</a>
+                </div>
+            </div>
+
+            <div class="level-card hard">
+                <span class="level-badge"><i class="fas fa-fire"></i> صعب</span>
+                <div class="card-img"><img src="assets/images/3.png" alt="اختبار صعب"></div>
+                <div class="card-body">
+                    <h3 class="card-title">اختبار صعب</h3>
+                    <p class="card-desc">سيناريوهات معقدة وأسئلة تكتب إجابتها بنفسك.</p>
+                    <ul class="card-list">
+                        <li><i class="fas fa-list-ul"></i><span>النوع: سيناريوهات وإكمال الفراغ</span></li>
+                        <li><i class="fas fa-clock"></i><span>الوقت: تحدده أنت (1 – 60 دقيقة)</span></li>
+                        <li><i class="fas fa-question-circle"></i><span>عدد الأسئلة: تختاره أنت</span></li>
+                        <li><i class="fas fa-book"></i><span>الدروس: تختارها من الكورسات</span></li>
+                    </ul>
+                    <a href="hard.html" class="btn-start"><i class="fas fa-arrow-left"></i> ابدأ الاختبار الصعب</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-box">
+            <h3>عن الاختبار الشهري</h3>
+            <div class="gold-line"></div>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">مستويات</div><div class="stat-sub">سهل - متوسط - صعب</div></div>
+                <div class="stat-card"><div class="stat-num">1-60</div><div class="stat-label">دقيقة</div><div class="stat-sub">وقت الاختبار تحدده أنت</div></div>
+                <div class="stat-card"><div class="stat-num">80%</div><div class="stat-label">للحصول على الشهادة</div><div class="stat-sub">نفس شهادة الكورسات</div></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="gold-line"></div>
+        <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+        <small>تأسيس: الأستاذ مصطفى رحيم فندي</small>
+    </footer>
+
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
