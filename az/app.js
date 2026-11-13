@@ -2,7 +2,7 @@
    SDQuiz.mount(document.getElementById("sd-root"), { user:{name,grade,school}, endpoint:"https://script.google.com/.../exec", ai:false }) */
 (function () {
   const E = window.SDEngine;
-  const DEFAULTS = { endpoint: "", ai: false, aiTimeout: 12000, user: null, lockModel: null, onFinish: null, title: "اكتشف شخصيتك" };
+  const DEFAULTS = { endpoint: "https://script.google.com/macros/s/AKfycbwr8ZE9pIChgIxDJ2pJoFuj6MxAAPdMjlEKjlXJSO5BNGEQjLFhVrgshXiropyqSN8-_g/exec", ai: false, aiTimeout: 12000, user: null, lockModel: null, onFinish: null, title: "اكتشف شخصيتك" };
   const LETTERS = ["أ", "ب", "ج", "د"];
   const COLORS = ["var(--sd-c0)", "var(--sd-c1)", "var(--sd-c2)", "var(--sd-c3)"];
   const FAST_LIMIT = 6, SLOW_DELAY = 5;
