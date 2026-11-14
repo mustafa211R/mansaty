@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منظومة T-AZ — التشخيص التربوي للمعلم</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="t-style.css">
+<style>body{margin:0;background:#e9e5d8;padding:18px 10px}</style>
+</head>
+<body>
+<div id="t-root"></div>
+<script src="t-spec.js"></script>
+<script src="t-scenes.js"></script>
+<script src="t-questions-1.js"></script>
+<script src="t-questions-2.js"></script>
+<script src="t-questions-3.js"></script>
+<script src="t-questions-4.js"></script>
+<script src="t-engine.js"></script>
+<script src="t-app.js"></script>
+<script>
+  TQuiz.mount(document.getElementById("t-root"), {
+    endpoint: "https://script.google.com/macros/s/AKfycbyzD8mKVPJxzCuGIWn3iEgYi5CwVzxzPtAXcZhf4RBrohz7U2JXbyR5Z4KrX8vAp363/exec",  // ضع هنا رابط Web App الذي ينتهي بـ /exec ؛ إن بقي فارغاً لن تُرسل البيانات إلى Google Sheets
+    user: null     // في المنصة: { id:"معرّف مستعار ثابت", specialization:"...", school:"...", code:"..." }
+  });
+</script>
+</body>
+</html>
