@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b1f3a">
+    <title>قائمة الكورسات | منصة طالب</title>
+    <meta name="description" content="قائمة الكورسات المجانية في منصة طالب — تعلم مهارات جديدة في مجالات متنوعة.">
+    <meta name="author" content="الأستاذ مصطفى رحيم فندي">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="قائمة الكورسات | منصة طالب">
+    <meta property="og:description" content="قائمة الكورسات المجانية في منصة طالب.">
+    <meta property="og:image" content="../logo.jfif">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+
+    <link rel="icon" type="image/png" href="../logo.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/dist/tailwind.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --oxford-blue: #0b1f3a;
+            --oxford-blue-deep: #081729;
+            --oxford-gold: #c9a227;
+            --oxford-gold-dark: #b8911f;
+            --oxford-cream: #f6f3ec;
+            --sf-text-primary: #1d1d1f;
+            --sf-text-secondary: #6e6e73;
+            --sf-text-tertiary: #86868b;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            margin: 0; padding: 0;
+            background: var(--oxford-cream);
+            color: var(--sf-text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 400; font-size: 17px; line-height: 1.5;
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1,h2,h3,h4,h5,h6 {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Noto Kufi Arabic', sans-serif;
+            font-weight: 700; letter-spacing: -0.022em; color: var(--sf-text-primary); margin: 0;
+        }
+        p, span, a, li, div, button, input {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        /* ====== الإشعار ====== */
+        .notice {
+            position: fixed; top: 14px; left: 14px; z-index: 100;
+            background: rgba(11,31,58,0.95); color: var(--oxford-gold);
+            border: 1px solid var(--oxford-gold); border-radius: 9999px;
+            padding: 8px 16px; font-size: 13px; font-weight: 600;
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        /* ====== الهيدر ====== */
+        .hero-bg {
+            background:
+                linear-gradient(rgba(11,31,58,0.9), rgba(11,31,58,0.96)),
+                url('../logo.jfif') center/cover no-repeat;
+        }
+        .gold-line {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+        }
+        .crest {
+            width: 60px; height: 60px; object-fit: contain;
+            border-radius: 50%; background: #fff; padding: 5px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            border: 2px solid var(--oxford-gold);
+        }
+
+        /* ====== بطاقات بيضاء عامة ====== */
+        .ios-card {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.06);
+            border-radius: 20px;
+            box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+            transition: all .3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        /* ====== بطاقة الكورس ====== */
+        .course-card {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.06);
+            border-radius: 20px;
+            transition: all .3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            overflow: hidden;
+            height: 100%;
+            box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+            position: relative;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(201,162,39,0.4);
+            box-shadow: 0 14px 32px rgba(11,31,58,0.12);
+        }
+        .course-card h3 {
+            color: var(--oxford-blue);
+        }
+        .course-card p {
+            color: var(--sf-text-secondary);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #f0ede4;
+        }
+
+        /* ====== شارات المستويات ====== */
+        .badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        /* ====== نص الشعار ====== */
+        .logo-text {
+            background: linear-gradient(90deg, var(--oxford-gold), #e6c34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        /* ====== الأزرار ====== */
+        .btn-primary {
+            background: var(--oxford-gold);
+            color: #fff;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary:hover {
+            background: var(--oxford-gold-dark);
+            box-shadow: 0 6px 20px rgba(201,162,39,0.5);
+            transform: translateY(-2px);
+        }
+        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--oxford-blue);
+            border: 2px solid rgba(11,31,58,0.15);
+            padding: 9px 20px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 14.5px;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background: rgba(201,162,39,0.1);
+            border-color: var(--oxford-gold);
+            color: var(--oxford-gold-dark);
+            transform: translateY(-2px);
+        }
+        .btn-secondary:active { transform: scale(0.97); }
+
+        /* زر داخل الهيدر (فاتح) */
+        .btn-secondary.on-dark {
+            color: #fff;
+            border-color: rgba(255,255,255,0.3);
+        }
+        .btn-secondary.on-dark:hover {
+            background: rgba(201,162,39,0.2);
+            border-color: var(--oxford-gold);
+            color: var(--oxford-gold);
+        }
+
+        /* ====== شريط التقدم ====== */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(11,31,58,0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--oxford-gold), #e6c34a);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* ====== النافذة المنبثقة ====== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11,31,58,0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.08);
+            border-radius: 22px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 60px rgba(11,31,58,0.4);
+            position: relative;
+        }
+        .modal-content::before {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
+            border-radius: 22px 22px 0 0;
+        }
+
+        .modal-header {
+            padding: 20px 22px;
+            border-bottom: 1px solid rgba(11,31,58,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #ffffff;
+            z-index: 1;
+            border-radius: 22px 22px 0 0;
+        }
+        .modal-header h3 {
+            color: var(--oxford-blue);
+            font-size: 18px;
+        }
+
+        .modal-body {
+            padding: 22px;
+            color: var(--sf-text-primary);
+        }
+        .modal-body .text-gray-300,
+        .modal-body .text-gray-400 {
+            color: var(--sf-text-secondary) !important;
+        }
+
+        .close-btn {
+            background: rgba(11,31,58,0.05);
+            border: none;
+            color: var(--oxford-blue);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .3s ease;
+            font-size: 14px;
+        }
+        .close-btn:hover {
+            background: rgba(201,162,39,0.15);
+            color: var(--oxford-gold-dark);
+            transform: rotate(90deg);
+        }
+
+        /* ====== مربع البحث ====== */
+        .search-box {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.1);
+            border-radius: 14px;
+            padding: 13px 16px;
+            color: var(--sf-text-primary);
+            width: 100%;
+            font-size: 15px;
+            transition: all .25s ease;
+            outline: none;
+            font-family: inherit;
+        }
+        .search-box::placeholder {
+            color: var(--sf-text-tertiary);
+        }
+        .search-box:focus {
+            border-color: var(--oxford-gold);
+            box-shadow: 0 0 0 3px rgba(201,162,39,0.15);
+        }
+
+        /* ====== فلترة ====== */
+        .filter-chip {
+            background: #ffffff;
+            border: 1px solid rgba(11,31,58,0.1);
+            border-radius: 9999px;
+            padding: 8px 18px;
+            color: var(--oxford-blue);
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            transition: all .25s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .filter-chip:hover {
+            background: rgba(201,162,39,0.08);
+            border-color: var(--oxford-gold);
+            color: var(--oxford-gold-dark);
+            transform: translateY(-2px);
+        }
+        .filter-chip.active {
+            background: var(--oxford-gold);
+            border-color: var(--oxford-gold);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(201,162,39,0.35);
+        }
+
+        /* ====== توصيات AI ====== */
+        .ai-recommendation {
+            background: linear-gradient(135deg, rgba(201,162,39,0.08), rgba(11,31,58,0.04));
+            border: 1px solid rgba(201,162,39,0.3);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+        .ai-badge {
+            background: rgba(201,162,39,0.15);
+            color: var(--oxford-gold-dark);
+            padding: 5px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        #aiRecommendationText {
+            color: var(--sf-text-secondary);
+        }
+
+        /* ====== زر إعادة المحاولة ====== */
+        .btn-reset {
+            background: rgba(211,51,51,0.06);
+            color: #d33333;
+            border: 1px solid rgba(211,51,51,0.3);
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s ease;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            letter-spacing: -0.01em;
+        }
+        .btn-reset:hover {
+            background: rgba(211,51,51,0.12);
+            transform: translateY(-2px);
+            border-color: rgba(211,51,51,0.5);
+        }
+
+        /* ====== خيارات الاختبار ====== */
+        .option-item {
+            padding: 12px 14px;
+            background: #faf8f3;
+            border: 1px solid rgba(11,31,58,0.06);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all .25s ease;
+            color: var(--oxford-blue);
+            font-size: 14.5px;
+            letter-spacing: -0.01em;
+        }
+        .option-item:hover {
+            background: rgba(201,162,39,0.08);
+            border-color: rgba(201,162,39,0.4);
+            transform: translateX(-3px);
+        }
+        .option-item span.text-gray-400 {
+            color: var(--sf-text-tertiary) !important;
+        }
+
+        /* ====== Animations ====== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.3s ease-out; }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 640px) {
+            html, body { font-size: 16px; }
+            .notice { font-size: 11px; padding: 6px 12px; }
+            .crest { width: 52px; height: 52px; }
+            .course-image { height: 150px; }
+            .btn-primary, .btn-secondary {
+                padding: 9px 18px;
+                font-size: 14px;
+            }
+            .modal-content { max-height: 90vh; }
+            .btn-reset {
+                padding: 9px 14px;
+                font-size: 13px;
+            }
+            .modal-body { padding: 18px; }
+            .modal-header { padding: 16px 18px; }
+        }
+    
+        /* ===== مسارات التعلم + نتائج المساعد + الاعتمادات ===== */
+        .paths-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+        .path-card{background:#fff;border:1px solid rgba(11,31,58,.08);border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+        .path-card.active{border-color:var(--oxford-gold);box-shadow:0 0 0 2px rgba(201,162,39,.35)}
+        .path-card>img{width:100%;height:140px;object-fit:cover;display:block;background:#0b1f3a}
+        .path-body{padding:14px 16px}.path-body h3{font-weight:800;color:var(--oxford-blue);margin-bottom:4px}
+        .path-body p{font-size:13px;color:var(--sf-text-secondary);margin-bottom:8px}
+        .path-meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--sf-text-tertiary)}
+        .path-list summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--oxford-gold-dark)}
+        .path-list ol{margin:6px 0 0;padding-right:20px;font-size:13px;line-height:1.9;list-style:decimal}
+        .path-list a{color:var(--oxford-blue)}
+        .path-bar{display:flex;justify-content:space-between;align-items:center;background:#fff7dd;border:1px solid #ecd68a;border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:14px}
+        .path-bar button{background:#0b1f3a;color:#fff;border-radius:999px;padding:4px 14px;font-size:12px}
+        .ai-results{display:grid;gap:10px}
+        .ai-result{display:flex;gap:12px;background:#fff;border:1px solid rgba(11,31,58,.08);border-radius:14px;overflow:hidden}
+        .ai-result img{width:110px;object-fit:cover;flex-shrink:0;background:#0b1f3a}
+        .ai-result-body{padding:10px 12px;flex:1}.ai-result-title{font-weight:800;color:var(--oxford-blue);font-size:14px}
+        .ai-result-topics{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+        .credits{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;color:var(--sf-text-tertiary);margin-bottom:12px;border-top:1px dashed rgba(11,31,58,.12);padding-top:8px}
+        .badge{background:rgba(201,162,39,.14);color:#7a5f10}
+    </style>
+    <link rel="stylesheet" href="lesson_kit.css">
+</head>
+<body class="relative">
+
+
+
+    <!-- الهيدر -->
+    <header class="hero-bg text-white">
+        <div class="container mx-auto px-4 py-8 max-w-6xl">
+
+            <!-- الشعار والعنوان + أزرار التنقل -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-5 mb-8">
+
+                <div class="flex items-center gap-3">
+                    <a href="../home.html">
+                        <img src="../logo.jfif" alt="شعار منصة طالب" class="crest">
+                    </a>
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl" style="color: #fff;">قائمة الكورسات</h1>
+                        <p class="text-sm mt-1" style="color: rgba(255,255,255,0.7);">منصة طالب — كورسات مجانية</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <a href="../home.html" class="btn-secondary on-dark">
+                        <i class="fas fa-arrow-right"></i>
+                        الرئيسية
+                    </a>
+                    <a href="certificates.html" class="btn-secondary on-dark">
+                        <i class="fas fa-certificate"></i>
+                        شهاداتي
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="gold-line w-32 mx-auto mb-8"></div>
+
+            <!-- المساعد الذكي: اختيار الكورسات بحسب المحتوى -->
+            <div class="ios-card p-6 mb-6 text-right" style="color: var(--sf-text-primary);">
+                <h2 class="text-xl flex items-center gap-2 mb-2" style="color: var(--oxford-blue);">
+                    <i class="fas fa-robot" style="color: var(--oxford-gold);"></i>
+                    المساعد الذكي لاختيار الكورسات
+                </h2>
+                <p class="mb-4 text-sm" style="color: var(--sf-text-secondary);">
+                    اكتب ما تريد تعلّمه (موضوع، درس، قاعدة، كلمة من المنهج) وسأقترح الكورسات الأنسب بحسب محتواها.
+                </p>
+                <div class="flex gap-2 flex-wrap">
+                    <input type="text" id="aiInput" class="search-box" style="flex:1;min-width:200px;"
+                           placeholder="مثال: الماضي المستمر، المغناطيسية، المبني للمجهول، Word...">
+                    <button id="aiAskBtn" class="btn-primary"><i class="fas fa-wand-magic-sparkles"></i> اقترح لي</button>
+                </div>
+                <div id="aiSuggestChips" class="flex flex-wrap gap-2 mt-3"></div>
+
+                <div id="aiRecommendations" class="ai-recommendation hidden mt-4">
+                    <div class="flex items-center gap-2 mb-3 flex-wrap">
+                        <span class="ai-badge"><i class="fas fa-robot"></i> اقتراحات الذكاء الاصطناعي</span>
+                    </div>
+                    <p id="aiRecommendationText" class="text-sm mb-3"></p>
+                    <div id="recommendedCourses" class="ai-results"></div>
+                </div>
+            </div>
+
+            <!-- قسم البحث والفلترة -->
+            <div class="ios-card p-6 mb-6 text-right">
+                <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div class="flex-1 w-full">
+                        <div class="relative">
+                            <i class="fas fa-search absolute" style="left: 16px; top: 50%; transform: translateY(-50%); color: var(--sf-text-tertiary);"></i>
+                            <input type="text" id="searchInput" placeholder="ابحث في محتوى الكورسات (عنوان، درس، موضوع)..." class="search-box" style="padding-left: 44px;">
+                        </div>
+                    </div>
+                    <div id="subjectChips" class="flex flex-wrap gap-2">
+                        <button class="filter-chip active" data-filter="all">الكل</button>
+                    </div>
+                    <button id="randomQuizBtn" class="btn-primary">
+                        <i class="fas fa-question-circle"></i>
+                        اختبرني
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 pb-12 pt-8 max-w-6xl">
+        <!-- شبكة الكورسات -->
+        <section id="pathsSection" class="mb-10"></section>
+        <div id="activePathBar" class="path-bar hidden"></div>
+        <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </main>
+
+    <!-- الحقوق -->
+    <footer class="bg-[#081729] text-gray-300 py-6 text-center text-sm px-4">
+        <div class="gold-line w-32 mx-auto mb-4"></div>
+        <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+        <p class="mt-1 text-xs text-gray-400">تأسيس: الأستاذ مصطفى رحيم فندي</p>
+    </footer>
+
+    <!-- سكربتات قاعدة البيانات -->
+    <script src="images_map.js"></script>
+    <script src="db_course.js"></script>
+    <script src="processing_the_answers.js"></script>
+
+    <!-- JavaScript (بدون أي تغيير في الجوهر) -->
+    <script>
+                // ===== أدوات النص العربي للبحث بحسب المحتوى =====
+        const TXT = {
+            stop: ['من','في','عن','على','الى','إلى','هو','هي','ما','ماذا','اريد','أريد','ان','أن','اتعلم','أتعلم','تعلم','تعلّم','كورس','كورسات','درس','دروس','لي','لو','هل','كيف','عند','او','أو','مع','هذا','هذه','ذلك','اود','أود','ابحث','عن'],
+            norm: function(t) {
+                return String(t == null ? '' : t).toLowerCase()
+                    .replace(/[\u064B-\u0652\u0640]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+                    .replace(/انجليز/g, 'انكليز').replace(/[^\u0621-\u064Aa-z0-9\s']/g, ' ').replace(/\s+/g, ' ').trim();
+            },
+            tokens: function(q) {
+                const stop = this.stop.map(s => this.norm(s));
+                return this.norm(q).split(' ').filter(w => w.length > 1 && stop.indexOf(w) === -1)
+                    .map(w => (w.length > 3 && w.indexOf('ال') === 0) ? w.slice(2) : w);
+            }
+        };
+
+        const app = {
+            currentModal: null,
+            currentFilter: 'all',
+            currentPath: null,
+            currentQuiz: null,
+            searchTerm: '',
+            _index: null,
+
+            init: function() {
+                this.buildSubjectChips();
+                this.renderPaths();
+                this.renderAISuggestions();
+                this.filterCourses();
+                this.setupEventListeners();
+            },
+
+            // ---------- فهرسة محتوى الكورسات ----------
+            getIndex: function() {
+                if (this._index) return this._index;
+                this._index = window.coursesDB.courses.map(c => {
+                    const topicTitles = (c.topics || []).map(t => t.title);
+                    const topicItems = [].concat.apply([], (c.topics || []).map(t => t.items || []));
+                    return {
+                        course: c,
+                        fields: [
+                            { w: 4, t: TXT.norm([].concat(c.keywords || []).join(' ')) },
+                            { w: 3, t: TXT.norm(c.title + ' ' + (c.chapterTitle || '') + ' ' + (c.unitTitle || '')) },
+                            { w: 3, t: TXT.norm(topicTitles.join(' | ')), raw: topicTitles },
+                            { w: 3, t: TXT.norm(topicItems.join(' | ')), raw: topicItems },
+                            { w: 2, t: TXT.norm((c.learn || []).join(' | ')) },
+                            { w: 2, t: TXT.norm((c.subject || '') + ' ' + (c.grade || '') + ' ' + (c.category || '')) },
+                            { w: 1.5, t: TXT.norm(c.description || '') },
+                            { w: 1, t: TXT.norm(c.about || '') }
+                        ]
+                    };
+                });
+                return this._index;
+            },
+
+            // يرجع الكورسات مرتبة بحسب مطابقتها لمحتوى السؤال مع أسباب المطابقة
+            matchCourses: function(query) {
+                const toks = TXT.tokens(query);
+                const phrase = TXT.norm(query);
+                if (!toks.length) return [];
+                const out = [];
+                this.getIndex().forEach(ix => {
+                    let score = 0; const matched = new Set();
+                    ix.fields.forEach(f => {
+                        toks.forEach(tk => {
+                            if (f.t.indexOf(tk) !== -1) {
+                                score += f.w;
+                                if (f.raw) f.raw.forEach(r => { if (TXT.norm(r).indexOf(tk) !== -1) matched.add(r); });
+                            }
+                        });
+                        if (phrase.length > 3 && f.t.indexOf(phrase) !== -1) score += f.w * 2;
+                    });
+                    if (score > 0) out.push({ course: ix.course, score: score, topics: Array.from(matched).slice(0, 4) });
+                });
+                return out.sort((a, b) => b.score - a.score);
+            },
+
+            // ---------- المساعد الذكي ----------
+            renderAISuggestions: function() {
+                const box = document.getElementById('aiSuggestChips');
+                if (!box) return;
+                const picks = [];
+                window.coursesDB.courses.forEach(c => (c.topics || []).slice(0, 1).forEach(t => picks.push(t.title)));
+                picks.sort(() => Math.random() - 0.5);
+                box.innerHTML = '<span class="text-xs" style="color:var(--sf-text-tertiary);align-self:center;">جرّب:</span>';
+                picks.slice(0, 6).forEach(t => {
+                    const b = document.createElement('button');
+                    b.type = 'button'; b.className = 'filter-chip ai-chip'; b.textContent = t;
+                    b.onclick = () => { document.getElementById('aiInput').value = t; this.askAI(); };
+                    box.appendChild(b);
+                });
+            },
+
+            askAI: function() {
+                const q = document.getElementById('aiInput').value.trim();
+                const aiSection = document.getElementById('aiRecommendations');
+                const aiText = document.getElementById('aiRecommendationText');
+                const list = document.getElementById('recommendedCourses');
+                if (!q) { aiSection.classList.add('hidden'); return; }
+                const res = this.matchCourses(q).slice(0, 5);
+                list.innerHTML = '';
+                if (!res.length) {
+                    aiText.textContent = 'لم أجد كورسًا يحتوي على «' + q + '». جرّب كلمات أقرب لعنوان درس أو موضوع (مثل: المبني للمجهول، المغناطيسية، Word).';
+                } else {
+                    aiText.textContent = 'بحسب محتوى الكورسات، وجدت ' + res.length + ' كورس' + (res.length > 1 ? 'ات' : '') + ' مناسبة لـ «' + q + '»، مرتبة من الأنسب:';
+                    res.forEach((r, i) => {
+                        const c = r.course;
+                        const card = document.createElement('div');
+                        card.className = 'ai-result';
+                        card.innerHTML = `
+                            <img src="${c.image}" alt="" data-seed="course${c.id}" onerror="PLATFORM_IMG.fb(this)">
+                            <div class="ai-result-body">
+                                <div class="ai-result-title">${i + 1}. ${c.title}</div>
+                                <div class="text-xs" style="color:var(--sf-text-tertiary);">${c.subject || ''} — ${c.grade || ''}</div>
+                                ${r.topics.length ? '<div class="ai-result-topics">' + r.topics.map(t => '<span class="badge">' + t + '</span>').join('') + '</div>' : ''}
+                                <div class="flex gap-2 mt-2">
+                                    <button class="btn-primary" style="padding:6px 14px;font-size:13px;" onclick="app.startCourse(${c.id})">ابدأ الكورس</button>
+                                    <button class="btn-secondary" style="padding:6px 12px;font-size:13px;" onclick="app.showCourseDetails(${c.id})">التفاصيل</button>
+                                </div>
+                            </div>`;
+                        list.appendChild(card);
+                    });
+                }
+                aiSection.classList.remove('hidden');
+            },
+
+            // ---------- المسارات ----------
+            renderPaths: function() {
+                const box = document.getElementById('pathsSection');
+                if (!box || !window.coursesDB.getPaths) return;
+                const paths = window.coursesDB.getPaths();
+                box.innerHTML = '<h2 class="text-xl font-bold mb-4" style="color:var(--oxford-blue);"><i class="fas fa-route" style="color:var(--oxford-gold);margin-left:8px;"></i>مسارات التعلّم</h2><div class="paths-grid"></div>';
+                const grid = box.querySelector('.paths-grid');
+                paths.forEach(p => {
+                    const cs = p.courseIds.map(id => window.coursesDB.getCourseById(id)).filter(Boolean);
+                    const lessons = cs.reduce((a, c) => a + (c.totalLessons || 0), 0);
+                    const prog = cs.length ? Math.round(cs.reduce((a, c) => a + window.coursesDB.calculateProgress(c.id), 0) / cs.length) : 0;
+                    const el = document.createElement('div');
+                    el.className = 'path-card' + (this.currentPath === p.id ? ' active' : '');
+                    el.innerHTML = `
+                        <img src="${p.image}" alt="" data-seed="path-${p.id}" onerror="PLATFORM_IMG.fb(this)">
+                        <div class="path-body">
+                            <h3>${p.title}</h3>
+                            <p>${p.description}</p>
+                            <div class="path-meta"><span>${cs.length} كورس</span><span>${lessons} درس</span><span>التقدم ${prog}%</span></div>
+                            <div class="progress-container" style="margin:8px 0;"><div class="progress-bar" style="width:${prog}%"></div></div>
+                            <details class="path-list"><summary>الكورسات داخل المسار</summary>
+                                <ol>${cs.map(c => '<li><a href="#" onclick="app.showCourseDetails(' + c.id + ');return false;">' + (c.chapterTitle ? ((c.chapterLabel || ('الفصل ' + c.chapterNo)) + ': ' + c.chapterTitle) : c.title) + '</a></li>').join('')}</ol>
+                            </details>
+                            <button class="btn-primary w-full" style="margin-top:8px;" onclick="app.selectPath('${p.id}')">${this.currentPath === p.id ? 'إلغاء تحديد المسار' : 'عرض كورسات المسار'}</button>
+                        </div>`;
+                    grid.appendChild(el);
+                });
+            },
+
+            selectPath: function(id) {
+                this.currentPath = (this.currentPath === id) ? null : id;
+                this.renderPaths();
+                this.filterCourses();
+                if (this.currentPath) document.getElementById('coursesGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            },
+
+            // ---------- الفلاتر ----------
+            buildSubjectChips: function() {
+                const bar = document.getElementById('subjectChips');
+                const subjects = [];
+                window.coursesDB.courses.forEach(c => { const s = c.subject || c.category; if (s && subjects.indexOf(s) === -1) subjects.push(s); });
+                subjects.forEach(s => {
+                    const b = document.createElement('button');
+                    b.type = 'button'; b.className = 'filter-chip'; b.dataset.filter = s; b.textContent = s;
+                    bar.appendChild(b);
+                });
+            },
+
+            setupEventListeners: function() {
+                document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.currentModal) this.closeModal(); });
+                document.getElementById('searchInput').addEventListener('input', (e) => { this.searchTerm = e.target.value; this.filterCourses(); });
+                document.querySelectorAll('#subjectChips .filter-chip').forEach(chip => {
+                    chip.addEventListener('click', (e) => {
+                        document.querySelectorAll('#subjectChips .filter-chip').forEach(c => c.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentFilter = e.target.dataset.filter;
+                        this.filterCourses();
+                    });
+                });
+                document.getElementById('aiAskBtn').addEventListener('click', () => this.askAI());
+                document.getElementById('aiInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') this.askAI(); });
+                document.getElementById('randomQuizBtn').addEventListener('click', () => this.showRandomQuiz());
+            },
+
+            filterCourses: function() {
+                if (!window.coursesDB || !window.coursesDB.courses) return;
+                let filtered = window.coursesDB.courses.slice();
+
+                if (this.currentPath) {
+                    const p = window.coursesDB.getPathById(this.currentPath);
+                    if (p) filtered = p.courseIds.map(id => window.coursesDB.getCourseById(id)).filter(Boolean);
+                }
+                if (this.currentFilter !== 'all') {
+                    filtered = filtered.filter(c => (c.subject || c.category) === this.currentFilter);
+                }
+                // البحث بحسب المحتوى (العنوان، الموضوعات، الدروس، الكلمات المفتاحية)
+                if (this.searchTerm.trim()) {
+                    const ranks = {};
+                    this.matchCourses(this.searchTerm).forEach(r => { ranks[r.course.id] = r.score; });
+                    filtered = filtered.filter(c => ranks[c.id]).sort((a, b) => ranks[b.id] - ranks[a.id]);
+                }
+                const bar = document.getElementById('activePathBar');
+                if (bar) {
+                    const p = this.currentPath && window.coursesDB.getPathById(this.currentPath);
+                    bar.classList.toggle('hidden', !p);
+                    if (p) bar.innerHTML = '<span>المسار الحالي: <b>' + p.title + '</b></span><button type="button" onclick="app.selectPath(\'' + p.id + '\')">إلغاء</button>';
+                }
+                this.displayFilteredCourses(filtered);
+            },
+
+            creditsHTML: function(c) {
+                const parts = [];
+                if (c.developer) parts.push('المطوّر: ' + c.developer);
+                if (c.teacher) parts.push('المعلّم: ' + c.teacher);
+                if (c.curriculum) parts.push('المنهج: ' + c.curriculum);
+                if (c.creator) parts.push('منشئ الكورس: ' + c.creator);
+                return parts.map(p => '<span>' + p + '</span>').join('');
+            },
+
+            displayFilteredCourses: function(courses) {
+                const coursesGrid = document.getElementById('coursesGrid');
+                coursesGrid.innerHTML = '';
+
+                if (courses.length === 0) {
+                    coursesGrid.innerHTML = `
+                        <div class="col-span-3 text-center py-12">
+                            <i class="fas fa-search text-5xl mb-4" style="color: var(--oxford-gold);"></i>
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--oxford-blue);">لا توجد كورسات مطابقة</h3>
+                            <p style="color: var(--sf-text-secondary);">جرب كلمات بحث مختلفة أو أزل الفلاتر</p>
+                        </div>`;
+                    return;
+                }
+
+                courses.forEach(course => {
+                    try {
+                        const progressPercent = window.coursesDB.calculateProgress(course.id);
+                        const courseCard = document.createElement('div');
+                        courseCard.className = 'course-card';
+                        courseCard.innerHTML = `
+                            <div class="h-full flex flex-col">
+                                <img src="${course.image}" alt="${course.title}" class="course-image" data-seed="course${course.id}" onerror="PLATFORM_IMG.fb(this)">
+                                <div class="p-5 flex-1 flex flex-col">
+                                    <div class="flex justify-between items-start mb-3 gap-2">
+                                        <h3 class="text-lg font-bold">${course.title || 'كورس بدون عنوان'}</h3>
+                                    </div>
+                                    <p class="text-sm mb-3 flex-1">${course.description || 'لا يوجد وصف متاح'}</p>
+                                    <div class="credits">${this.creditsHTML(course)}</div>
+                                    <div class="mb-4">
+                                        <div class="flex justify-between text-xs mb-1" style="color: var(--sf-text-tertiary);">
+                                            <span>التقدم</span><span>${progressPercent}%</span>
+                                        </div>
+                                        <div class="progress-container"><div class="progress-bar" style="width: ${progressPercent}%"></div></div>
+                                    </div>
+                                    <div class="flex justify-between items-center text-xs mb-4" style="color: var(--sf-text-tertiary);">
+                                        <div><i class="far fa-clock" style="margin-left:4px;"></i>${course.completionTime || 'غير محدد'}</div>
+                                        <div><i class="fas fa-book" style="margin-left:4px;"></i>${course.totalLessons || 0} درس</div>
+                                        <div><i class="fas fa-question" style="margin-left:4px;"></i>${course.totalQuestions || 0} سؤال</div>
+                                    </div>
+                                    <div class="flex gap-2 mt-auto">
+                                        <button class="btn-primary flex-1" onclick="app.startCourse(${course.id})">
+                                            ${progressPercent > 0 ? 'استمر في التعلم' : 'بدء الكورس'}<i class="fas fa-arrow-left"></i>
+                                        </button>
+                                        <button class="btn-secondary" onclick="app.showCourseDetails(${course.id})"><i class="fas fa-info-circle"></i></button>
+                                    </div>
+                                    ${progressPercent > 0 ? `<button class="btn-reset mt-3" onclick="app.resetCourseProgress(${course.id})"><i class="fas fa-redo"></i> إعادة المحاولة</button>` : ''}
+                                </div>
+                            </div>`;
+                        coursesGrid.appendChild(courseCard);
+                    } catch (error) {
+                        console.error('Error creating course card:', error);
+                    }
+                });
+            },
+
+            startCourse: function(courseId) {
+                try { window.location.href = `course.html?courseId=${courseId}`; }
+                catch (error) { console.error('Error starting course:', error); alert('حدث خطأ في بدء الكورس'); }
+            },
+
+            showCourseDetails: function(courseId) {
+                try {
+                    const course = window.coursesDB.getCourseById(courseId);
+                    if (!course) { alert('الكورس غير موجود'); return; }
+                    const progressPercent = window.coursesDB.calculateProgress(courseId);
+                    if (this.currentModal) this.closeModal();
+
+                    const row = (k, v) => v ? `<div class="flex justify-between text-sm"><span style="color: var(--sf-text-tertiary);">${k}</span><span style="color: var(--oxford-blue); font-weight: 600; text-align:left;">${v}</span></div>` : '';
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-overlay';
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>${course.title || 'كورس بدون عنوان'}</h3>
+                                <button class="close-btn" onclick="app.closeModal()"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="relative mb-4">
+                                    <img src="${course.image}" alt="${course.title}" class="w-full h-48 object-cover rounded-lg" data-seed="course${course.id}" onerror="PLATFORM_IMG.fb(this)">
+                                </div>
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="font-bold" style="color: var(--oxford-blue);">التقدم الحالي</h4>
+                                        <span class="font-bold" style="color: var(--oxford-gold-dark);">${progressPercent}%</span>
+                                    </div>
+                                    <div class="progress-container"><div class="progress-bar" style="width: ${progressPercent}%"></div></div>
+                                </div>
+                                <p class="mb-4 text-sm">${course.about || 'لا يوجد وصف مفصل متاح'}</p>
+                                <div class="space-y-3 mb-6 p-4 rounded-lg" style="background: #faf8f3; border: 1px solid rgba(11,31,58,0.06);">
+                                    ${row('المادة:', course.category || course.subject)}
+                                    ${row('الصف:', course.grade)}
+                                    ${row('المطوّر:', course.developer)}
+                                    ${row('المعلّم (صاحب الملزمة):', course.teacher)}
+                                    ${row('المنهج:', course.curriculum)}
+                                    ${row('منشئ الكورس:', course.creator)}
+                                    ${row('المدة:', course.completionTime)}
+                                    ${row('عدد الدروس:', course.totalLessons || 0)}
+                                    ${row('عدد الأسئلة:', course.totalQuestions || 0)}
+                                </div>
+                                <div class="mb-6">
+                                    <h4 class="font-bold mb-3" style="color: var(--oxford-blue);">ما ستتعلمه:</h4>
+                                    <ul class="space-y-2">
+                                        ${(course.learn && course.learn.length > 0 ? course.learn.map(item => `
+                                            <li class="flex items-start p-2 rounded-lg text-sm" style="background: rgba(201,162,39,0.06);">
+                                                <i class="fas fa-check" style="color: var(--oxford-gold); margin-left: 8px; margin-top: 3px; flex-shrink: 0;"></i><span>${item}</span>
+                                            </li>`).join('') : '<li class="text-center py-4 text-sm" style="color: var(--sf-text-tertiary);">لا توجد معلومات متاحة</li>')}
+                                    </ul>
+                                </div>
+                                <button class="btn-primary w-full" onclick="app.startCourse(${course.id})">
+                                    ${progressPercent > 0 ? 'استمر في التعلم' : 'بدء الكورس الآن'}<i class="fas fa-arrow-left"></i>
+                                </button>
+                                ${progressPercent > 0 ? `<button class="btn-reset mt-3" onclick="app.resetCourseProgress(${course.id})"><i class="fas fa-redo"></i> إعادة المحاولة</button>` : ''}
+                            </div>
+                        </div>`;
+                    document.body.appendChild(modal);
+                    this.currentModal = modal;
+                    modal.addEventListener('click', (e) => { if (e.target === modal) this.closeModal(); });
+                } catch (error) {
+                    console.error('Error showing course details:', error);
+                    alert('حدث خطأ في عرض تفاصيل الكورس');
+                }
+            },
+
+            closeModal: function() {
+                try { if (this.currentModal) { this.currentModal.remove(); this.currentModal = null; } }
+                catch (error) { console.error('Error closing modal:', error); }
+            },
+
+            resetCourseProgress: function(courseId) {
+                try {
+                    if (confirm('هل أنت متأكد من رغبتك في إعادة بدء الكورس؟ سيتم حذف كل تقدمك الحالي ولا يمكن التراجع عن هذا الإجراء.')) {
+                        localStorage.removeItem(`course_progress_${courseId}`);
+                        window.coursesDB.clearAnswered(courseId);
+                        this.renderPaths();
+                        this.filterCourses();
+                        if (this.currentModal) this.closeModal();
+                        this.showNotification('تم إعادة تعيين تقدم الكورس', 'success');
+                    }
+                } catch (error) {
+                    console.error('Error resetting course progress:', error);
+                    alert('حدث خطأ في إعادة تعيين تقدم الكورس');
+                }
+            },
+
+            // ===== اختبرني: يعرض فقط الأسئلة التي أجاب عنها الطالب داخل الكورسات =====
+            showRandomQuiz: async function() {
+                try {
+                    let answered = window.coursesDB.getAnsweredList();
+                    if (!answered.length) { this.showNoAnswered(); return; }
+
+                    // تفضيل الأسئلة التي أخطأ فيها في آخر مرة (وزن أعلى)
+                    for (let tries = 0; tries < 12 && answered.length; tries++) {
+                        const pool = [];
+                        answered.forEach(a => { for (let i = 0; i < (a.last ? 1 : 3); i++) pool.push(a); });
+                        const pick = pool[Math.floor(Math.random() * pool.length)];
+                        const course = window.coursesDB.getCourseById(pick.courseId);
+                        const quizzes = course ? await window.coursesDB.loadQuizzes(pick.courseId) : null;
+                        const quiz = quizzes && quizzes[pick.key];
+                        if (course && quiz) { this.showQuizModal(course, quiz, pick.key); return; }
+                        answered = answered.filter(a => a !== pick);   // سؤال لم يعد موجودًا
+                    }
+                    this.showNoAnswered();
+                } catch (error) {
+                    console.error('Error showing random quiz:', error);
+                    alert('حدث خطأ في تحميل السؤال');
+                }
+            },
+
+            showNoAnswered: function() {
+                if (this.currentModal) this.closeModal();
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header"><h3>اختبرني</h3><button class="close-btn" onclick="app.closeModal()"><i class="fas fa-times"></i></button></div>
+                        <div class="modal-body text-center">
+                            <i class="fas fa-clipboard-question" style="font-size:44px;color:var(--oxford-gold);margin-bottom:12px;"></i>
+                            <p class="font-bold mb-2" style="color: var(--oxford-blue);">لم تُجب عن أي سؤال بعد</p>
+                            <p class="text-sm mb-4" style="color: var(--sf-text-secondary);">يعرض «اختبرني» الأسئلة التي أجبت عنها داخل الكورسات فقط. ابدأ أي كورس وأجب عن أسئلة دروسه، ثم عُد لمراجعتها هنا.</p>
+                            <button class="btn-primary" onclick="app.closeModal()">حسنًا</button>
+                        </div>
+                    </div>`;
+                document.body.appendChild(modal);
+                this.currentModal = modal;
+                modal.addEventListener('click', (e) => { if (e.target === modal) this.closeModal(); });
+            },
+
+            showQuizModal: function(course, quiz, key) {
+                if (this.currentModal) this.closeModal();
+                const isTF = quiz.type === 'true-false';
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                let answerArea = '';
+                if (quiz.options) {
+                    answerArea = `<div class="mt-4 space-y-2" id="quizOptions">${quiz.options.map((option, index) => `
+                        <div class="option-item" onclick="app.selectAnswer(${index}, ${quiz.correctAnswer})">
+                            <span style="color: var(--sf-text-tertiary); margin-left: 8px;">${String.fromCharCode(65 + index)}.</span><span>${option}</span>
+                        </div>`).join('')}</div>`;
+                } else if (isTF) {
+                    answerArea = `<div class="mt-4 space-y-2" id="quizOptions">
+                        <div class="option-item" onclick="app.selectBool(true)"><span>✔ صح</span></div>
+                        <div class="option-item" onclick="app.selectBool(false)"><span>✘ خطأ</span></div></div>`;
+                } else {
+                    answerArea = `<div class="mt-4">
+                        <input type="text" id="terminalAnswer" placeholder="اكتب إجابتك هنا..." class="search-box w-full mb-2">
+                        <button class="btn-primary w-full" onclick="app.checkTextAnswer()"><i class="fas fa-check"></i> تحقق من الإجابة</button></div>`;
+                }
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header"><h3>${course.title}</h3><button class="close-btn" onclick="app.closeModal()"><i class="fas fa-times"></i></button></div>
+                        <div class="modal-body">
+                            <div class="mb-3 text-xs" style="color: var(--sf-text-tertiary);"><i class="fas fa-history"></i> من الأسئلة التي أجبت عنها سابقًا</div>
+                            <div class="p-4 rounded-lg mb-4" style="background: #faf8f3; border: 1px solid rgba(11,31,58,0.06);">
+                                <div class="text-lg mb-2 font-bold" style="color: var(--oxford-blue);">${quiz.question || 'سؤال بدون عنوان'}</div>
+                                ${quiz.scenario ? `<p class="text-sm mt-2" style="color: var(--sf-text-secondary);">🎯 ${quiz.scenario}</p>` : ''}
+                                ${quiz.hint ? `<p class="text-sm mt-2" style="color: var(--oxford-gold-dark);">💡 تلميح: ${quiz.hint}</p>` : ''}
+                                ${answerArea}
+                            </div>
+                            <div id="answerResult" class="mt-4 hidden">
+                                <div class="rounded-lg p-4" id="correctResult" style="background: rgba(6,118,47,0.08); border: 1px solid rgba(6,118,47,0.4);">
+                                    <div class="font-bold mb-2" style="color: #06762f;">✅ إجابة صحيحة!</div>
+                                    <div id="explanationText" class="text-sm" style="color: var(--sf-text-secondary);"></div>
+                                </div>
+                                <div class="rounded-lg p-4 hidden" id="wrongResult" style="background: rgba(211,51,51,0.08); border: 1px solid rgba(211,51,51,0.4);">
+                                    <div class="font-bold mb-2" style="color: #d33333;">❌ إجابة خاطئة</div>
+                                    <div class="text-sm mb-2" id="correctAnswerDisplay" style="color: var(--sf-text-secondary);"></div>
+                                    <div id="explanationWrongText" class="text-sm" style="color: var(--sf-text-secondary);"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button class="btn-secondary flex-1" onclick="app.showRandomQuiz()"><i class="fas fa-random"></i> سؤال آخر</button>
+                            </div>
+                        </div>
+                    </div>`;
+                document.body.appendChild(modal);
+                this.currentModal = modal;
+                this.currentQuiz = { courseId: course.id, key: key, correctAnswer: quiz.correctAnswer, explanation: quiz.explanation || '' };
+                modal.addEventListener('click', (e) => { if (e.target === modal) this.closeModal(); });
+            },
+
+            _record: function(ok) {
+                if (this.currentQuiz && this.currentQuiz.key) window.coursesDB.logAnswer(this.currentQuiz.courseId, this.currentQuiz.key, ok);
+            },
+
+            _showResult: function(ok, correctText) {
+                document.getElementById('answerResult').classList.remove('hidden');
+                document.getElementById('correctResult').classList.toggle('hidden', !ok);
+                document.getElementById('wrongResult').classList.toggle('hidden', ok);
+                if (ok) document.getElementById('explanationText').innerHTML = this.currentQuiz.explanation || 'إجابة ممتازة! 🎉';
+                else {
+                    document.getElementById('correctAnswerDisplay').innerHTML = '<span style="color:#06762f; font-weight:600;">الإجابة الصحيحة: ' + correctText + '</span>';
+                    document.getElementById('explanationWrongText').innerHTML = this.currentQuiz.explanation || 'حاول مرة أخرى! 💪';
+                }
+                this._record(ok);
+            },
+
+            selectAnswer: function(selectedIndex, correctIndex) {
+                const items = document.querySelectorAll('.option-item');
+                items.forEach(i => { i.style.background = '#faf8f3'; i.style.borderColor = 'rgba(11,31,58,0.06)'; i.style.pointerEvents = 'none'; });
+                const ok = selectedIndex === correctIndex;
+                items[selectedIndex].style.background = ok ? 'rgba(6,118,47,0.12)' : 'rgba(211,51,51,0.12)';
+                items[selectedIndex].style.borderColor = ok ? '#06762f' : '#d33333';
+                if (!ok) { items[correctIndex].style.background = 'rgba(6,118,47,0.12)'; items[correctIndex].style.borderColor = '#06762f'; }
+                const txt = items[correctIndex].querySelector('span:last-child').innerHTML;
+                this._showResult(ok, String.fromCharCode(65 + correctIndex) + '. ' + txt);
+            },
+
+            selectBool: function(val) {
+                const items = document.querySelectorAll('.option-item');
+                const correct = this.currentQuiz.correctAnswer === true;
+                const ok = val === (this.currentQuiz.correctAnswer === true);
+                items.forEach(i => { i.style.pointerEvents = 'none'; });
+                const chosen = items[val ? 0 : 1], right = items[correct ? 0 : 1];
+                chosen.style.background = ok ? 'rgba(6,118,47,0.12)' : 'rgba(211,51,51,0.12)';
+                chosen.style.borderColor = ok ? '#06762f' : '#d33333';
+                if (!ok) { right.style.background = 'rgba(6,118,47,0.12)'; right.style.borderColor = '#06762f'; }
+                this._showResult(ok, correct ? 'صح' : 'خطأ');
+            },
+
+            checkTextAnswer: function() {
+                const user = document.getElementById('terminalAnswer').value;
+                const correct = String(this.currentQuiz.correctAnswer);
+                const ok = window.answerProcessor ? window.answerProcessor.compareAnswers(user, correct) : user.trim().toLowerCase() === correct.toLowerCase();
+                this._showResult(ok, correct);
+            },
+
+            showNotification: function(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.style.cssText = `position: fixed; top: 20px; left: 20px; z-index: 2000; background: ${type === 'success' ? '#06762f' : '#d33333'}; color: #fff; padding: 14px 20px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; font-family: inherit; font-size: 14px; font-weight: 600; animation: fadeIn 0.3s ease;`;
+                notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}" style="font-size:18px;"></i><div><div style="font-weight:700;">${type === 'success' ? 'تم بنجاح!' : 'خطأ'}</div><div style="font-size:12px; opacity:0.9; margin-top:2px;">${message}</div></div>`;
+                document.body.appendChild(notification);
+                setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 3000);
+            }
+        };
+
+        // عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            if (window.coursesDB) {
+                app.init();
+            } else {
+                setTimeout(() => {
+                    if (window.coursesDB) {
+                        app.init();
+                    } else {
+                        console.error('coursesDB not loaded');
+                        const coursesGrid = document.getElementById('coursesGrid');
+                        if (coursesGrid) {
+                            coursesGrid.innerHTML = `
+                                <div class="col-span-3 text-center py-12">
+                                    <i class="fas fa-exclamation-triangle text-5xl mb-4" style="color: #d33333;"></i>
+                                    <h3 class="text-xl font-bold mb-2" style="color: var(--oxford-blue);">خطأ في التحميل</h3>
+                                    <p class="mb-4" style="color: var(--sf-text-secondary);">تعذر تحميل قاعدة البيانات</p>
+                                    <button onclick="location.reload()" class="btn-primary">
+                                        <i class="fas fa-redo"></i>
+                                        إعادة تحميل الصفحة
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                }, 500);
+            }
+        });
+    </script>
+    <script src="topic_tree.js"></script>
+</body>
+</html>
