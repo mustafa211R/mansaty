@@ -1,0 +1,2515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1f3a">
+<title>المجتمع | منصة طالب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --oxford-blue:#0b1f3a; --oxford-blue-deep:#081729; --oxford-gold:#c9a227; --oxford-gold-dark:#b8911f;
+  --oxford-cream:#f6f3ec; --tx:#1d1d1f; --tx2:#6e6e73; --tx3:#86868b;
+  --line:rgba(11,31,58,.08); --green:#06762f; --red:#d33333;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','Noto Kufi Arabic','Helvetica Neue',Arial,sans-serif;
+  background:var(--oxford-cream);color:var(--tx);font-size:16px;line-height:1.5;letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;padding-bottom:96px;
+}
+h1,h2,h3,h4{font-weight:700;letter-spacing:-.022em}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+[hidden]{display:none!important}
+
+/* ===== الهيدر ===== */
+.hero-bg{background:linear-gradient(rgba(11,31,58,.9),rgba(11,31,58,.96)),url('logo.jfif') center/cover no-repeat;color:#fff}
+.hero-in{max-width:760px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 18px 26px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.hero-top{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+.hero-actions{display:flex;align-items:center;gap:8px}
+.btn-sec{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:9999px;font-weight:600;font-size:14px;
+  border:2px solid rgba(255,255,255,.3);color:#fff;transition:.25s;min-height:40px}
+.btn-sec:hover{background:rgba(201,162,39,.2);border-color:var(--oxford-gold);color:var(--oxford-gold)}
+.btn-sec:active{transform:scale(.97)}
+.btn-sec svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4}
+.bell-btn{position:relative;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(201,162,39,.55);background:rgba(255,255,255,.08);color:#fff;transition:.2s}
+.bell-btn:hover{background:rgba(201,162,39,.22);border-color:var(--oxford-gold)}
+.bell-btn:active{transform:scale(.94)}
+.bell-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.badge-cnt{position:absolute;top:-4px;left:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:9999px;background:var(--red);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;border:2px solid var(--oxford-blue);font-variant-numeric:tabular-nums}
+.me-chip{display:flex;align-items:center;gap:8px;padding:3px;border-radius:9999px;border:1px solid rgba(201,162,39,.55);background:rgba(255,255,255,.08);transition:.2s;min-height:42px}
+.me-chip:active{transform:scale(.95)}
+.me-chip .txt{padding:5px 14px;font-size:13px;font-weight:700;color:var(--oxford-gold)}
+.crest-wrap{position:relative;margin-bottom:12px}
+.crest{width:84px;height:84px;object-fit:contain;border-radius:50%;background:#fff;padding:8px;border:2px solid var(--oxford-gold);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.crest-fallback{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#fff,#f3ebd3);border:2px solid var(--oxford-gold);display:grid;place-items:center;color:var(--oxford-blue);font-weight:800;font-size:26px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.hero-in h1{color:#fff;font-size:30px;font-weight:800;letter-spacing:-.03em}
+.gold-line{height:3px;width:130px;margin:12px 0;background:linear-gradient(90deg,transparent,var(--oxford-gold),transparent)}
+.hero-in p{color:rgba(255,255,255,.82);font-size:14.5px;max-width:460px}
+
+/* ===== شريط الأقسام ===== */
+.tabbar{position:sticky;top:0;z-index:30;background:rgba(246,243,236,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.tabs-in{max-width:760px;margin:0 auto;padding:10px 14px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}
+.tabs-in::-webkit-scrollbar{display:none}
+.nav-b{flex:1 0 auto;position:relative;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;border-radius:9999px;background:#fff;border:1px solid var(--line);
+  color:var(--oxford-blue);font-size:13px;font-weight:600;transition:all .25s cubic-bezier(.25,.1,.25,1);white-space:nowrap;min-height:42px}
+.nav-b svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;flex:none}
+.nav-b:hover{border-color:var(--oxford-gold);color:var(--oxford-gold-dark)}
+.nav-b.on{background:var(--oxford-gold);border-color:var(--oxford-gold);color:#fff;box-shadow:0 4px 14px rgba(201,162,39,.35)}
+.tab-cnt{min-width:19px;height:19px;padding:0 5px;border-radius:9999px;background:var(--red);color:#fff;font-size:11px;font-weight:800;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
+.nav-b.on .tab-cnt{background:var(--oxford-blue);color:#fff}
+
+.wrap{max-width:760px;margin:0 auto;padding:16px 14px}
+.view{display:none}
+.view.active{display:block;animation:viewIn .35s cubic-bezier(.25,.1,.25,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ===== أفاتار ===== */
+.av{position:relative;display:grid;place-items:center;border-radius:50%;overflow:hidden;flex:none;
+  width:var(--s,44px);height:var(--s,44px);font-weight:800;color:#fff;font-size:calc(var(--s,44px)*.42);
+  background:linear-gradient(135deg,hsl(var(--h) 55% 48%),hsl(calc(var(--h) + 35) 55% 34%))}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--oxford-blue)}
+.av.sm{--s:34px}.av.lg{--s:64px}.av.xl{--s:96px}
+
+/* ===== بطاقات ===== */
+.card{background:#fff;border:1px solid rgba(11,31,58,.06);border-radius:20px;padding:16px;box-shadow:0 4px 16px rgba(11,31,58,.06);transition:all .25s cubic-bezier(.25,.1,.25,1)}
+.rv{opacity:0;transform:translateY(12px);animation:up .45s cubic-bezier(.25,.1,.25,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes up{to{opacity:1;transform:none}}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px 12px;flex-wrap:wrap}
+.sec-head h2{font-size:20px;font-weight:800;color:var(--oxford-blue)}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--line);transition:.2s;flex:none}
+.icon-btn:hover{border-color:var(--oxford-gold)}
+.icon-btn svg{width:18px;height:18px;stroke:var(--oxford-blue)}
+.icon-btn.spin svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 18px;border-radius:9999px;font-weight:600;font-size:15px;transition:all .25s cubic-bezier(.25,.1,.25,1);min-height:44px}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--oxford-gold);color:#fff;box-shadow:0 4px 14px rgba(201,162,39,.35)}
+.btn.primary:hover{background:var(--oxford-gold-dark);box-shadow:0 6px 20px rgba(201,162,39,.5)}
+.btn.navy{background:var(--oxford-blue);color:#fff;box-shadow:0 4px 14px rgba(11,31,58,.25)}
+.btn.navy:hover{background:var(--oxford-blue-deep)}
+.btn.ghost{background:transparent;border:2px solid rgba(11,31,58,.15);color:var(--oxford-blue);margin-top:10px}
+.btn.ghost:hover{background:rgba(201,162,39,.1);border-color:var(--oxford-gold);color:var(--oxford-gold-dark)}
+.btn.danger{background:rgba(211,51,51,.06);border:1px solid rgba(211,51,51,.3);color:var(--red);margin-top:10px}
+.btn.sm{width:auto;padding:8px 16px;font-size:13px;min-height:38px;margin-top:0}
+.btn[disabled]{opacity:.6;pointer-events:none}
+.btn .ld{width:18px;height:18px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+
+/* ===== شرائح التصفية ===== */
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 14px 12px;margin:0 -14px;align-items:center}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 16px;border-radius:9999px;border:1px solid rgba(11,31,58,.1);background:#fff;color:var(--oxford-blue);font-weight:600;font-size:13.5px;transition:all .2s;white-space:nowrap;min-height:40px}
+.chip:hover{border-color:var(--oxford-gold);color:var(--oxford-gold-dark)}
+.chip.on{background:var(--c,var(--oxford-gold));border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(11,31,58,.2)}
+
+/* ===== كاتب المنشور والبانر ===== */
+.composer{display:flex;align-items:center;gap:12px;margin-bottom:14px;cursor:pointer}
+.composer:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(11,31,58,.12);border-color:rgba(201,162,39,.35)}
+.composer:active{transform:scale(.985)}
+.composer .fake{flex:1;padding:12px 18px;border-radius:9999px;background:var(--oxford-cream);color:var(--tx3);font-size:14px}
+.banner{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:16px;margin-bottom:12px;font-size:13.5px;color:var(--oxford-blue);
+  background:linear-gradient(135deg,rgba(201,162,39,.12),rgba(11,31,58,.04));border:1px solid rgba(201,162,39,.35);flex-wrap:wrap}
+.banner button{margin-inline-start:auto;padding:8px 16px;border-radius:9999px;background:var(--oxford-gold);color:#fff;font-weight:600;font-size:13px;flex:none;min-height:38px}
+.banner.ok{background:linear-gradient(135deg,rgba(6,118,47,.1),rgba(201,162,39,.08));border-color:rgba(6,118,47,.3)}
+.banner.ok button{background:var(--green)}
+
+/* ===== المنشور ===== */
+.post{margin-bottom:14px;scroll-margin-top:80px}
+.post:hover{border-color:rgba(201,162,39,.35);box-shadow:0 12px 28px rgba(11,31,58,.1)}
+.post.highlight{border-color:var(--oxford-gold);box-shadow:0 0 0 3px rgba(201,162,39,.28),0 12px 30px rgba(11,31,58,.14);background:linear-gradient(180deg,#fffdf4,#fff)}
+.post-h{display:flex;align-items:center;gap:10px}
+.post-h .who{flex:1;min-width:0}
+.post-h .nm{font-weight:700;font-size:15px;color:var(--oxford-blue);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.post-h .sub{font-size:12px;color:var(--tx3);line-height:1.5;word-break:break-word}
+.role{font-size:11px;padding:2px 10px;border-radius:9999px;font-weight:700}
+.role.teacher{background:rgba(201,162,39,.16);color:#7a5f10}
+.role.student{background:rgba(11,31,58,.08);color:var(--oxford-blue)}
+.tbadge{display:inline-flex;align-items:center;gap:6px;margin:12px 0 8px;padding:5px 14px;border-radius:9999px;font-size:12.5px;font-weight:700;
+  color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff);border:1px solid color-mix(in srgb,var(--c) 30%,#fff)}
+.ptxt{font-size:15px;line-height:1.9;word-break:break-word;white-space:pre-wrap;color:var(--tx)}
+.ptxt.clamp{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.more{color:var(--oxford-gold-dark);font-weight:700;font-size:13px;margin-top:4px;padding:4px 0}
+.post-f{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.contact{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:9999px;font-size:13px;font-weight:700;direction:ltr;unicode-bidi:isolate;transition:.2s;max-width:100%;white-space:nowrap;flex-shrink:0;min-height:40px;font-variant-numeric:tabular-nums}
+.contact span{direction:ltr;unicode-bidi:embed;white-space:nowrap}
+.contact svg{width:18px;height:18px;fill:currentColor;flex:none}
+.contact.tg{background:rgba(34,158,217,.12);color:#1a7fb0}
+.contact.wa{background:rgba(37,211,102,.14);color:#128a45}
+.contact:active{transform:scale(.95)}
+.star{margin-inline-start:auto;position:relative;display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:9999px;background:var(--oxford-cream);border:1px solid var(--line);font-weight:700;color:var(--oxford-blue);transition:.2s;min-height:40px;font-variant-numeric:tabular-nums}
+.star svg{width:21px;height:21px;fill:none;stroke:var(--tx3);stroke-width:1.8;transition:.25s}
+.star.on{background:rgba(201,162,39,.14);border-color:rgba(201,162,39,.5);color:var(--oxford-gold-dark)}
+.star.on svg{fill:var(--oxford-gold);stroke:var(--oxford-gold);filter:drop-shadow(0 0 5px rgba(201,162,39,.6))}
+.star.pop svg{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+.star.pop::after{content:"";position:absolute;inset:-1px;border-radius:9999px;border:2px solid var(--oxford-gold);animation:ripple .5s ease-out forwards}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.6) rotate(-18deg)}100%{transform:scale(1)}}
+@keyframes ripple{from{opacity:.9;transform:scale(1)}to{opacity:0;transform:scale(1.5)}}
+
+/* ===== البحث والأشخاص المشابهون والإشعارات ===== */
+.search-bar{display:grid;gap:10px;margin-bottom:14px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-row select{padding:9px 14px 9px 32px;border-radius:9999px;background:#fff;border:1px solid rgba(11,31,58,.12);font-size:13px;font-weight:600;color:var(--oxford-blue);min-height:40px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2386868b' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 12px center}
+.summary-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.sum-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 10px;text-align:center}
+.sum-box b{display:block;font-size:20px;font-weight:800;color:var(--oxford-blue);font-variant-numeric:tabular-nums}
+.sum-box span{font-size:12px;color:var(--tx2);font-weight:600}
+
+.person-card{margin-bottom:12px;display:flex;flex-direction:column;gap:10px}
+.person-card:hover{border-color:rgba(201,162,39,.35);box-shadow:0 12px 28px rgba(11,31,58,.1)}
+.person-top{display:flex;align-items:center;gap:12px}
+.person-info{flex:1;min-width:0}
+.person-name{font-weight:800;font-size:15.5px;color:var(--oxford-blue);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.person-meta{font-size:13px;color:var(--tx2);margin-top:3px;line-height:1.5}
+.match-score{flex:none;text-align:center;background:linear-gradient(135deg,rgba(201,162,39,.16),rgba(11,31,58,.06));border:1px solid rgba(201,162,39,.35);border-radius:14px;padding:7px 11px;min-width:66px}
+.match-score b{display:block;font-size:16px;font-weight:800;color:var(--oxford-gold-dark);font-variant-numeric:tabular-nums}
+.match-score span{font-size:10.5px;color:var(--tx2);font-weight:700}
+.reasons{font-size:12.5px;color:var(--oxford-blue);background:#faf8f3;border:1px solid rgba(11,31,58,.06);border-radius:12px;padding:9px 12px;line-height:1.6}
+.latest-quote{font-size:13px;color:var(--tx2);padding:8px 12px;background:var(--oxford-cream);border-radius:12px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.person-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:4px}
+
+.notif-card{margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;position:relative}
+.notif-card.unread{background:linear-gradient(180deg,#fffdf5,#fff);border-color:rgba(201,162,39,.45);box-shadow:0 6px 20px rgba(201,162,39,.12)}
+.notif-dot{width:10px;height:10px;border-radius:50%;background:var(--oxford-gold);flex:none;margin-top:6px}
+.notif-body{flex:1;min-width:0}
+.notif-title{font-weight:700;font-size:14.5px;color:var(--oxford-blue);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.notif-sub{font-size:12px;color:var(--tx2);margin-top:2px}
+.notif-txt{font-size:13.5px;color:var(--tx);margin-top:6px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.notif-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;flex-wrap:wrap}
+.notif-time{font-size:11.5px;color:var(--tx3);font-weight:600}
+.notif-ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+
+/* ===== هيكل التحميل / فارغ ===== */
+.sk{background:linear-gradient(90deg,#ece8dc 25%,#f6f3ec 50%,#ece8dc 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:12px}
+@keyframes sh{to{background-position:-200% 0}}
+.empty{text-align:center;padding:36px 16px;color:var(--tx2)}
+.empty .big{font-size:44px;margin-bottom:8px}
+.empty .btn{width:auto;display:inline-flex;margin-top:14px;padding:11px 26px}
+
+/* ===== زر عائم ===== */
+.fab{position:fixed;left:16px;bottom:calc(22px + env(safe-area-inset-bottom));z-index:25;width:56px;height:56px;border-radius:50%;
+  display:none;place-items:center;background:var(--oxford-gold);box-shadow:0 8px 24px rgba(201,162,39,.5);transition:.2s;border:2px solid #fff}
+.fab.show{display:grid;animation:fabIn .5s cubic-bezier(.3,1.5,.5,1)}
+.fab:active{transform:scale(.9)}
+.fab svg{width:26px;height:26px;stroke:#fff;stroke-width:2.6}
+@keyframes fabIn{from{transform:scale(0)}to{transform:scale(1)}}
+
+/* ===== النماذج ===== */
+.form h3{font-size:18px;font-weight:800;color:var(--oxford-blue);margin-bottom:12px}
+.seg2{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:9999px;background:var(--oxford-cream);border:1px solid var(--line);margin-bottom:14px}
+.seg2 button{padding:10px;border-radius:9999px;font-weight:600;color:var(--oxford-blue);transition:.25s;min-height:42px}
+.seg2 button.on{background:var(--oxford-blue);color:#fff;box-shadow:0 4px 12px rgba(11,31,58,.3)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;color:var(--tx2);margin-bottom:6px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;padding:13px 16px;border-radius:14px;background:#fff;border:1px solid rgba(11,31,58,.12);outline:0;transition:.25s;font-size:15px;color:var(--tx)}
+.field textarea{min-height:130px;resize:vertical;line-height:1.7}
+.field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2386868b' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-left:36px}
+.field input::placeholder,.field textarea::placeholder{color:var(--tx3)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--oxford-gold);box-shadow:0 0 0 3px rgba(201,162,39,.15)}
+.field.err input,.field.err select,.field.err textarea{border-color:var(--red);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(5px)}75%{transform:translateX(-5px)}}
+.field small{display:block;margin-top:5px;color:var(--tx3);font-size:12px}
+.avrow{display:flex;gap:10px;align-items:center}
+.avrow input{direction:ltr;text-align:left}
+.form[data-role=student] .only-teacher,.form[data-role=teacher] .only-student{display:none}
+.counter{font-size:12px;color:var(--tx3);text-align:left;margin-top:4px}
+
+/* ===== الملف الشخصي ===== */
+.profile{text-align:center}
+.profile .av{margin:6px auto 10px;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--oxford-gold)}
+.profile h3{font-size:20px;font-weight:800;color:var(--oxford-blue)}
+.plist{margin:16px 0 4px;text-align:right;display:grid;gap:8px}
+.plist div{display:flex;justify-content:space-between;gap:10px;padding:11px 14px;border-radius:14px;background:#faf8f3;border:1px solid rgba(11,31,58,.05);font-size:14px}
+.plist span:first-child{color:var(--tx3)}
+.plist span:last-child{font-weight:700;color:var(--oxford-blue);text-align:left}
+
+/* ===== النافذة السفلية ===== */
+.sheet-back{position:fixed;inset:0;z-index:60;background:rgba(11,31,58,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:.28s}
+.sheet-back.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;max-width:760px;margin:0 auto;max-height:92vh;overflow-y:auto;
+  background:#fff;border-radius:26px 26px 0 0;padding:10px 18px calc(22px + env(safe-area-inset-bottom));
+  transform:translateY(105%);transition:transform .38s cubic-bezier(.2,.9,.2,1);box-shadow:0 -20px 50px rgba(11,31,58,.35)}
+.sheet::before{content:"";position:absolute;top:0;right:0;left:0;height:4px;border-radius:26px 26px 0 0;background:linear-gradient(90deg,transparent,var(--oxford-gold),transparent)}
+.sheet.open{transform:none}
+.grab{width:46px;height:5px;border-radius:9px;background:rgba(11,31,58,.15);margin:6px auto 14px}
+.sheet h3{font-size:18px;font-weight:800;color:var(--oxford-blue);margin-bottom:14px}
+.tchips{display:flex;flex-wrap:wrap;gap:8px}
+.tchips .chip{padding:9px 14px}
+.cseg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.cseg button{padding:10px 4px;border-radius:9999px;background:#fff;border:1px solid rgba(11,31,58,.12);font-size:13px;font-weight:600;color:var(--oxford-blue);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px}
+.cseg button svg{width:16px;height:16px;fill:currentColor}
+.cseg button.on{background:var(--oxford-gold);border-color:var(--oxford-gold);color:#fff}
+
+/* ===== الإحصائيات ===== */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.tile{padding:16px;border-radius:20px;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(11,31,58,.12)}
+.tile::after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.1);left:-24px;top:-24px}
+.tile .v{font-size:27px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .l{font-size:12.5px;opacity:.9;font-weight:600}
+.seg{display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:none;white-space:nowrap;padding:8px 18px;border-radius:9999px;background:#fff;border:1px solid rgba(11,31,58,.1);font-size:13.5px;font-weight:600;color:var(--oxford-blue);transition:all .25s;min-height:40px}
+.seg button:hover{border-color:var(--oxford-gold);color:var(--oxford-gold-dark)}
+.seg button.on{background:var(--oxford-blue);border-color:var(--oxford-blue);color:#fff;box-shadow:0 4px 14px rgba(11,31,58,.25)}
+.search{position:relative;margin-bottom:10px}
+.search input{width:100%;padding:13px 44px 13px 16px;border-radius:14px;background:#fff;border:1px solid rgba(11,31,58,.1);outline:0;font-size:15px;transition:.25s}
+.search input::placeholder{color:var(--tx3)}
+.search input:focus{border-color:var(--oxford-gold);box-shadow:0 0 0 3px rgba(201,162,39,.15)}
+.search svg{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--tx3);fill:none;stroke-width:2}
+.mine-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13.5px;color:var(--tx2);font-weight:600;min-height:40px}
+.mine-row input{width:18px;height:18px;accent-color:var(--oxford-gold)}
+.top3{margin-bottom:14px}
+.top3 h4,.bars h4{font-size:15px;margin-bottom:10px;color:var(--oxford-blue)}
+.pod{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.pod:last-child{border:0}
+.pod .md{font-size:22px}
+.pod .n{flex:1;font-weight:600;font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--oxford-blue)}
+.pod .s{font-weight:800;color:var(--oxford-gold-dark);font-variant-numeric:tabular-nums}
+.bars{margin-bottom:14px}
+.bar{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:13px}
+.bar .t{width:96px;color:var(--tx2);font-weight:600}
+.bar .tr{flex:1;height:10px;border-radius:99px;background:rgba(11,31,58,.07);overflow:hidden}
+.bar .f{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--oxford-gold),#e6c34a);width:0;animation:grow 1s .2s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes grow{to{width:var(--w)}}
+.bar .c{width:34px;text-align:left;font-weight:800;color:var(--oxford-blue);font-variant-numeric:tabular-nums}
+.rec{display:flex;gap:12px;align-items:center;margin-bottom:10px;padding:14px;position:relative}
+.rec:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(11,31,58,.1);border-color:rgba(201,162,39,.35)}
+.rec.me{border-color:var(--oxford-gold);box-shadow:0 0 0 1px rgba(201,162,39,.4),0 10px 28px rgba(201,162,39,.15);background:linear-gradient(180deg,#fffdf5,#fff)}
+.ring{position:relative;width:58px;height:58px;flex:none}
+.ring svg{width:58px;height:58px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:5}
+.ring .bgc{stroke:rgba(11,31,58,.08)}
+.ring .fg{stroke:var(--rc);stroke-linecap:round;stroke-dasharray:138.2;stroke-dashoffset:calc(138.2 * (1 - var(--p) / 100));animation:ring 1.1s cubic-bezier(.2,.8,.2,1)}
+@keyframes ring{from{stroke-dashoffset:138.2}}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:var(--oxford-blue);font-variant-numeric:tabular-nums}
+.rec .bd{flex:1;min-width:0}
+.rec .nm{font-weight:700;font-size:15px;color:var(--oxford-blue);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.me-b{font-size:10.5px;padding:2px 10px;border-radius:99px;background:var(--oxford-gold);color:#fff;font-weight:700}
+.me-b.close{background:rgba(201,162,39,.18);color:#7a5f10}
+.st{font-size:11px;padding:2px 10px;border-radius:99px;font-weight:800}
+.st.pass{background:rgba(6,118,47,.12);color:#06762f}
+.st.great{background:linear-gradient(135deg,#c9a227,#e6c34a);color:#fff}
+.st.excellent{background:rgba(6,118,47,.12);color:#06762f}
+.st.good{background:rgba(11,31,58,.09);color:#0b1f3a}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.mt{font-size:11.5px;padding:3px 10px;border-radius:99px;background:var(--oxford-cream);color:var(--tx2);font-weight:600}
+.mt.cat{background:rgba(201,162,39,.16);color:#7a5f10}
+.mt.cert{direction:ltr;font-family:ui-monospace,Consolas,monospace;background:rgba(11,31,58,.07);color:var(--oxford-blue)}
+
+/* ===== التذييل ===== */
+.foot{background:var(--oxford-blue-deep);color:#d1d5db;text-align:center;font-size:14px;padding:22px 16px;margin-top:20px}
+.foot .gold-line{margin:0 auto 14px;width:130px}
+.foot small{display:block;margin-top:4px;color:#9ca3af;font-size:12px}
+
+.toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,30px);z-index:90;
+  padding:12px 20px;border-radius:9999px;background:var(--oxford-blue);color:#fff;border:1px solid var(--oxford-gold);box-shadow:0 12px 30px rgba(11,31,58,.35);
+  font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.bad{background:#7f1d1d;border-color:#d33333}
+.toast.ok{border-color:#34d399}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;transition-duration:.01ms!important}}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}.hero-in h1{font-size:36px}}
+@media (max-width:420px){.nav-b{font-size:12.5px;padding:9px 10px;gap:5px}.nav-b svg{width:15px;height:15px}}
+</style>
+</head>
+<body>
+
+<header class="hero-bg">
+  <div class="hero-in">
+    <div class="hero-top">
+      <a class="btn-sec" href="dashbord.html">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+        الرئيسية
+      </a>
+      <div class="hero-actions">
+        <button class="bell-btn" id="notifBell" aria-label="الإشعارات غير المقروءة">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge-cnt" id="notifBadge" hidden>0</span>
+        </button>
+        <button class="me-chip" id="meChip" aria-label="حسابي"></button>
+      </div>
+    </div>
+    <div class="crest-wrap">
+      <img class="crest" id="crestImg" src="logo.jfif" alt="شعار منصة طالب" onerror="this.hidden=true;document.getElementById('crestFallback').hidden=false;">
+      <div class="crest-fallback" id="crestFallback" hidden>ط</div>
+    </div>
+    <h1>المجتمع</h1>
+    <div class="gold-line"></div>
+    <p>اطرح مشكلتك أو سؤالك، وتواصل مع من يشبهونك في التخصص والاهتمامات، وتابع الإشعارات والإحصائيات</p>
+  </div>
+</header>
+
+<div class="tabbar"><div class="tabs-in">
+  <button class="nav-b on" data-v="feed"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20h5v-2a4 4 0 0 0-3-3.9M9 20H2v-2a4 4 0 0 1 4-4h3a4 4 0 0 1 4 4v2z"/><circle cx="7.5" cy="7" r="3.5"/><path d="M16 3.1a3.5 3.5 0 0 1 0 6.8"/></svg>المجتمع</button>
+  <button class="nav-b" data-v="search"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>البحث</button>
+  <button class="nav-b" data-v="similar"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>يشبهونني</button>
+  <button class="nav-b" data-v="notifications"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>الإشعارات<span class="tab-cnt" id="tabNotifBadge" hidden>0</span></button>
+  <button class="nav-b" data-v="stats"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>الإحصائيات</button>
+  <button class="nav-b" data-v="me"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>حسابي</button>
+</div></div>
+
+<main class="wrap">
+  <!-- المجتمع -->
+  <section class="view active" id="view-feed">
+    <div id="regBanner"></div>
+    <div id="notifPermBanner"></div>
+    <div class="card composer rv" id="composerCard">
+      <span id="composerAv"></span>
+      <div class="fake">اطرح مشكلتك أو سؤالك على المجتمع...</div>
+    </div>
+    <div class="chips" id="typeChips"></div>
+    <div id="feed"></div>
+  </section>
+
+  <!-- البحث -->
+  <section class="view" id="view-search">
+    <div class="sec-head">
+      <h2>🔍 البحث في المجتمع</h2>
+      <button class="icon-btn" id="refSearch" aria-label="تحديث البيانات"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+    </div>
+    <div class="summary-strip" id="communitySummary"></div>
+    <div class="search-bar">
+      <div class="search" style="margin-bottom:0">
+        <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="searchQ" type="search" placeholder="ابحث عن أشخاص (الاسم، التخصص، المدرسة) أو منشورات...">
+      </div>
+      <div class="seg" id="searchModeTabs" style="margin-bottom:0">
+        <button class="on" data-m="all">الكل</button>
+        <button data-m="people">👥 أشخاص</button>
+        <button data-m="posts">📝 منشورات</button>
+      </div>
+      <div class="filter-row">
+        <select id="searchRoleFilter" aria-label="تصفية الصفة">
+          <option value="">كل الصفات</option>
+          <option value="student">طالب</option>
+          <option value="teacher">أستاذ</option>
+        </select>
+        <select id="searchGovFilter" aria-label="تصفية المحافظة">
+          <option value="">كل المحافظات</option>
+        </select>
+        <button class="btn ghost sm" id="clearAuthorFilter" hidden>إلغاء فلتر العضو</button>
+      </div>
+    </div>
+    <div id="searchResults"></div>
+  </section>
+
+  <!-- أشخاص يشبهونني -->
+  <section class="view" id="view-similar">
+    <div class="sec-head">
+      <h2>🤝 أشخاص يشبهونني</h2>
+      <button class="icon-btn" id="refSimilar" aria-label="تحديث"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+    </div>
+    <div id="similarBox"></div>
+  </section>
+
+  <!-- الإشعارات -->
+  <section class="view" id="view-notifications">
+    <div class="sec-head">
+      <h2>🔔 الإشعارات</h2>
+      <button class="btn ghost sm" id="markAllReadBtn">تحديد الكل كمقروء</button>
+    </div>
+    <div class="card" id="notifSettingsCard" style="margin-bottom:14px"></div>
+    <div class="seg" id="notifFilterTabs">
+      <button class="on" data-f="unread">غير المقروءة</button>
+      <button data-f="all">كل الإشعارات</button>
+    </div>
+    <div id="notificationsList"></div>
+  </section>
+
+  <!-- الإحصائيات -->
+  <section class="view" id="view-stats">
+    <div class="sec-head"><h2>📈 الإحصائيات</h2>
+      <button class="icon-btn" id="refStats" aria-label="تحديث"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <div class="seg" id="statTabs">
+      <button class="on" data-c="all">الكل</button>
+      <button data-c="games">🧠 ألعاب العقل</button>
+      <button data-c="courses">🎓 الكورسات</button>
+      <button data-c="monthly">📝 الاختبار الشهري</button>
+    </div>
+    <div class="search"><svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="statQ" type="search" placeholder="ابحث بالاسم أو معرف الشهادة..."></div>
+    <label class="mine-row" id="mineRow" hidden><input type="checkbox" id="onlyMine"> عرض نتائجي فقط</label>
+    <div id="statTop"></div>
+    <div id="statList"></div>
+    <button class="btn ghost" id="statMore" hidden>عرض المزيد</button>
+  </section>
+
+  <!-- حسابي -->
+  <section class="view" id="view-me"><div id="meBox"></div></section>
+</main>
+
+<footer class="foot">
+  <div class="gold-line"></div>
+  <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
+  <small>تأسيس: الأستاذ مصطفى رحيم فندي</small>
+</footer>
+
+<button class="fab" id="fab" aria-label="منشور جديد"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+
+<!-- نافذة كتابة منشور -->
+<div class="sheet-back" id="sBack"></div>
+<div class="sheet" id="sheet" role="dialog" aria-label="منشور جديد">
+  <div class="grab"></div>
+  <h3>✍️ منشور جديد</h3>
+  <div class="field" id="fName"><label>الاسم</label><input id="pName" maxlength="60" autocomplete="name" placeholder="اكتب اسمك"></div>
+  <div class="field"><label>نوع المنشور</label><div class="tchips" id="pTypes"></div></div>
+  <div class="field" id="fText"><label>المشكلة / السؤال</label><textarea id="pText" maxlength="1200" placeholder="اشرح مشكلتك بوضوح..."></textarea><div class="counter"><span id="pCount">0</span> / 1200</div></div>
+  <div class="field" id="fContact"><label>وسيلة تواصل (اختياري)</label>
+    <div class="cseg" id="cSeg">
+      <button type="button" data-c="" class="on">بدون</button>
+      <button type="button" data-c="telegram"><svg viewBox="0 0 24 24"><path d="M21.9 4.3 2.8 11.7c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 1.9 5.8c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.4-1.8-1.1-1.5z"/></svg>تلجرام</button>
+      <button type="button" data-c="whatsapp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>واتساب</button>
+    </div>
+    <input id="pContact" hidden dir="ltr" placeholder="" style="text-align:left">
+    <small id="cHint" hidden></small>
+  </div>
+  <button class="btn primary" id="pSend">نشر</button>
+</div>
+
+<!-- رسالة تفعيل إشعارات المتصفح عند الدخول للمسجلين -->
+<div class="sheet-back" id="notifModalBack"></div>
+<div class="sheet" id="notifModal" role="dialog" aria-label="تفعيل إشعارات المتصفح">
+  <div class="grab"></div>
+  <h3 id="notifModalTitle">🔔 تفعيل إشعارات المتصفح</h3>
+  <p id="notifModalDesc" style="font-size:14.5px;color:var(--tx2);line-height:1.8;margin-bottom:16px"></p>
+  <button class="btn primary" id="notifModalEnable">🔔 تفعيل الإشعارات الآن</button>
+  <a class="btn navy" id="notifModalOpenTab" href="community.html" target="_blank" rel="noopener noreferrer" hidden style="margin-top:10px">فتح الصفحة في نافذة مستقلة</a>
+  <button class="btn ghost" id="notifModalLater">لاحقاً</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+function extractSheetId(urlOrId){
+  const s = String(urlOrId || '').trim();
+  const m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  return m ? m[1] : s;
+}
+
+const CONFIG = {
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwZm4p3pRKOV3XnLg6AjOpaH9t9uWC3U8dYQkogtQRMq9BCTN4JeBcPMYp8OQP98zj6Ww/exec',
+  COMMUNITY_SHEET_URL: 'https://docs.google.com/spreadsheets/d/1M_X8WB0AswjRwDL4F1yIVKfMEJVGVfK9COm-FsMn17g/edit?usp=sharing',
+  get COMMUNITY_SHEET_ID(){ return extractSheetId(this.COMMUNITY_SHEET_URL); },
+  POSTS_SHEET_NAME: 'Posts',
+  USERS_SHEET_NAME: 'Users',
+  STARS_SHEET_NAME: 'Stars',
+  STATS_SHEET_ID: '1oIpqZCXPOcG6GIzlJfuOr4_P7Sncum7cD4sKyJ2DCSY',
+  STATS_SHEETS: ['Sheet1', 'HOOK_Certificates', 'HOOK_Certificates_Log'],
+  NOTIF_POLL_INTERVAL_MS: 5 * 60 * 1000,
+};
+
+const GOVS = ['بغداد','نينوى','البصرة','صلاح الدين','دهوك','أربيل','السليمانية','ديالى','واسط','ميسان','ذي قار','المثنى','بابل','كربلاء','النجف','الأنبار','القادسية','كركوك'];
+const STAGES = ['ابتدائي','الأول المتوسط','الثاني المتوسط','الثالث المتوسط','الرابع الإعدادي','الخامس الإعدادي','السادس الإعدادي','جامعي'];
+const TYPES = [
+  {k:'مسألة', i:'🧮', c:'#2f5fa8'},
+  {k:'تعليق تربوي', i:'💬', c:'#7c5cc4'},
+  {k:'مشكلة داخل المدرسة', i:'🏫', c:'#c2410c'},
+  {k:'تقييم تربوي أو دراسي', i:'📊', c:'#0f766e'},
+  {k:'سؤال ضمن المواد', i:'❓', c:'#a8861b'},
+  {k:'تقييم مدرس', i:'👨‍🏫', c:'#be185d'},
+];
+const CAT_LABEL = {games:'ألعاب العقل', courses:'الكورسات', monthly:'الاختبار الشهري', other:'أخرى'};
+
+const STOPWORDS = new Set([
+  'في','من','على','الى','إلى','عن','مع','هذا','هذه','ذلك','تلك','التي','الذي','الذين','اللذين','او','أو','و','ثم',
+  'ان','إن','أن','كان','كانت','يكون','تكون','ليس','لا','لم','لن','ما','ماذا','لماذا','كيف','متى','اين','أين','هل',
+  'انا','أنا','نحن','انت','أنت','هو','هي','هم','كل','بعض','غير','جدا','جداً','فقط','عند','بعد','قبل','بين','حول',
+  'ممكن','اريد','أريد','احتاج','أحتاج','سؤال','مشكلة','مساعدة','شباب','بنات','طلاب','استاذ','أستاذ','مرحبا','السلام',
+  'عليكم','شكرا','شكراً','جزاكم','الله','خير','يرجى','الرجاء','يوجد','توجد','عندي','لدي','فيه','فيها','منها','منه',
+  'عليها','عليه','به','بها','لها','له','ولكن','لكن','اذا','إذا','حتى','منذ','خلال','ضمن','حيث','قد','لقد','كما','مثل'
+]);
+
+const SUBJECT_SYNONYMS = [
+  ['رياضيات','حساب','جبر','هندسة','تفاضل','تكامل','معادلات','مشتقة','احتمالات','احصاء'],
+  ['فيزياء','كهرباء','مغناطيس','بصريات','ميكانيك','حرارة','نووية','موجات'],
+  ['كيمياء','عضوية','تحليلية','تفاعلات','ذرة','مول','حوامض','املاح'],
+  ['احياء','أحياء','بيولوجي','وراثة','خلية','انسجة','تشريح','نبات','حيوان'],
+  ['عربي','لغة عربية','قواعد','نحو','صرف','ادب','أدب','بلاغة','املاء','انشاء'],
+  ['انكليزي','إنجليزي','انجليزي','english','قواعد انكليزي','ترجمة','قطع'],
+  ['حاسوب','برمجة','كومبيوتر','كمبيوتر','تقنية','خوارزميات','python','html','شبكات'],
+  ['اسلامية','تربية اسلامية','قران','قرآن','تفسير','حديث','فقه'],
+  ['تاريخ','جغرافية','اجتماعيات','وطنية','اقتصاد','فلسفة','علم نفس'],
+];
+
+/* <pure> */
+const toLatinDigits = s => String(s ?? '')
+  .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+  .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function safeUrl(u){
+  try{ const x = new URL(String(u||'').trim()); return /^https?:$/.test(x.protocol) ? x.href : ''; }
+  catch(e){ return ''; }
+}
+
+const norm = s => toLatinDigits(s).toLowerCase()
+  .replace(/[\u064B-\u065F\u0670\u0640]/g,'')
+  .replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي')
+  .replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
+
+function pick(row, keys){
+  if(!row) return '';
+  for(const k of keys){
+    if(row[k] !== undefined && String(row[k]).trim() !== '') return String(row[k]).trim();
+  }
+  const lowerMap = {};
+  Object.keys(row).forEach(rk => { lowerMap[rk.toLowerCase().trim()] = row[rk]; });
+  for(const k of keys){
+    const val = lowerMap[k.toLowerCase()];
+    if(val !== undefined && String(val).trim() !== '') return String(val).trim();
+  }
+  return '';
+}
+
+function lev(a,b){
+  const m=a.length,n=b.length; if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++) cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    prev=cur;
+  }
+  return prev[n];
+}
+function similarity(a,b){
+  const na=norm(a), nb=norm(b);
+  if(!na||!nb) return 0;
+  if(na===nb) return 1;
+  const l = 1 - lev(na,nb)/Math.max(na.length,nb.length);
+  const ta=new Set(na.split(' ')), tb=new Set(nb.split(' '));
+  let inter=0; ta.forEach(x=>{ if(tb.has(x)) inter++; });
+  const j = inter/(ta.size+tb.size-inter);
+  return Math.max(l,j);
+}
+
+function extractTopics(text){
+  const words = norm(text).split(' ').filter(w => w.length >= 3 && !STOPWORDS.has(w) && !/^\d+$/.test(w));
+  const set = new Set(words);
+  for(const group of SUBJECT_SYNONYMS){
+    const normGroup = group.map(norm);
+    if(normGroup.some(term => words.some(w => w.includes(term) || term.includes(w)))){
+      set.add('domain:' + normGroup[0]);
+    }
+  }
+  return set;
+}
+
+function parseCSV(text){
+  const rows=[]; let row=[], cur='', q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; }
+      else cur+=c;
+    }else if(c==='"') q=true;
+    else if(c===','){ row.push(cur); cur=''; }
+    else if(c==='\n'||c==='\r'){ if(c==='\r'&&text[i+1]==='\n') i++; row.push(cur); cur=''; rows.push(row); row=[]; }
+    else cur+=c;
+  }
+  if(cur!==''||row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+function csvToObjects(text){
+  const rows=parseCSV(String(text).replace(/^\uFEFF/,''));
+  if(!rows.length) return [];
+  const seen={};
+  const head=rows[0].map((h,i)=>{
+    let n=String(h).trim()||('col'+(i+1));
+    if(seen[n]) n+='_'+(++seen[n]); else seen[n]=1;
+    return n;
+  });
+  return rows.slice(1)
+    .filter(r=>r.some(c=>String(c).trim()!==''))
+    .map(r=>{ const o={}; head.forEach((h,i)=>{ o[h]=String(r[i]??'').trim(); }); return o; });
+}
+
+function parseScore(v){
+  const s=toLatinDigits(v).trim();
+  if(!s) return {pct:null,label:''};
+  let m=s.match(/(-?\d+(?:[.,]\d+)?)\s*\/\s*(\d+(?:[.,]\d+)?)/);
+  if(m){
+    const a=parseFloat(m[1].replace(',','.')), b=parseFloat(m[2].replace(',','.'));
+    if(b>0) return {pct:Math.max(0,Math.min(100,a/b*100)), label:m[1]+'/'+m[2]};
+  }
+  m=s.match(/-?\d+(?:[.,]\d+)?/);
+  if(m){
+    const n=parseFloat(m[0].replace(',','.'));
+    return {pct:(n>=0&&n<=100)?n:null, label:s.includes('%')?m[0]+'%':m[0]};
+  }
+  return {pct:null,label:s};
+}
+
+const FIELD_RX=[
+  ['cert',/cert|شهاد|serial/i],
+  ['courseNo',/course.?(no|num|id|code)|رقم.?(ال)?(كورس|دور)/i],
+  ['course',/course|كورس|دور[ةه]/i],
+  ['date',/date|time|تاريخ|وقت/i],
+  ['score',/score|grade|mark|درج|نتيج|علام/i],
+  ['status',/status|الحالة|حالة/i],
+  ['country',/country|دول[ةه]|بلد/i],
+  ['region',/region|province|governorate|محافظ|منطق|اقليم|إقليم/i],
+  ['type',/type|test|exam|categor|نوع|اختبار|امتحان|قسم/i],
+  ['id',/^\s*id\s*$/i],
+  ['name',/name|اسم|student|طالب/i],
+];
+function mapHeaders(headers){
+  const map={}, used=new Set();
+  for(const [f,rx] of FIELD_RX){
+    const h=headers.find(h=>!used.has(h)&&rx.test(h));
+    if(h){ map[f]=h; used.add(h); }
+  }
+  if(!map.cert){
+    const h=headers.find(h=>!used.has(h)&&/معرف|رمز|code/i.test(h));
+    if(h){ map[f]=h; used.add(h); }
+  }
+  return map;
+}
+function categorize(r){
+  const t=(r.type||'')+' '+(r.course||'');
+  if(/game|لعب|عقل|brain|puzzle|ذكاء|تحدي|challenge/i.test(t)) return 'games';
+  if(/month|شهري|الشهر/i.test(t)) return 'monthly';
+  if(r.course||r.cert||/cert|course|كورس|دور/i.test(t+' '+(r.source||''))) return 'courses';
+  return 'other';
+}
+function normalizeContact(type,v){
+  v=String(v||'').trim();
+  if(type==='telegram'){
+    v=v.replace(/^https?:\/\/t\.me\//i,'').replace(/^@/,'');
+    return /^[A-Za-z0-9_]{4,32}$/.test(v)?v:'';
+  }
+  if(type==='whatsapp'){
+    let d=toLatinDigits(v).replace(/\D/g,'');
+    if(d.startsWith('00')) d=d.slice(2); else if(d.startsWith('0')) d='964'+d.slice(1);
+    return (d.length>=9&&d.length<=15)?d:'';
+  }
+  return '';
+}
+function timeAgo(iso){
+  const t=Date.parse(iso); if(isNaN(t)) return '';
+  const s=Math.max(0,(Date.now()-t)/1000);
+  if(s<60) return 'الآن';
+  if(s<3600) return 'قبل '+Math.floor(s/60)+' دقيقة';
+  if(s<86400) return 'قبل '+Math.floor(s/3600)+' ساعة';
+  if(s<2592000) return 'قبل '+Math.floor(s/86400)+' يوم';
+  return new Date(t).toLocaleDateString('ar-IQ');
+}
+const AR_PLACES={iraq:'العراق',baghdad:'بغداد',nineveh:'نينوى',ninawa:'نينوى',mosul:'نينوى',basra:'البصرة',basrah:'البصرة',
+  'salah ad din':'صلاح الدين','salah al din':'صلاح الدين',saladin:'صلاح الدين',duhok:'دهوك',dohuk:'دهوك',erbil:'أربيل',arbil:'أربيل',
+  sulaymaniyah:'السليمانية',sulaimaniyah:'السليمانية',sulaymaniya:'السليمانية',diyala:'ديالى',wasit:'واسط',maysan:'ميسان',missan:'ميسان',
+  'dhi qar':'ذي قار','thi qar':'ذي قار',muthanna:'المثنى',babil:'بابل',babylon:'بابل',karbala:'كربلاء',najaf:'النجف',anbar:'الأنبار',
+  qadisiyyah:'القادسية',qadisiyah:'القادسية',diwaniyah:'القادسية',kirkuk:'كركوك'};
+
+function cleanUnknown(v){
+  let s=String(v==null?'':v).replace(/\bunknown\b/ig,'').replace(/غير\s*معروف[ةه]?/g,'');
+  return s.replace(/^[\s,،\-–—\/|:;]+|[\s,،\-–—\/|:;]+$/g,'').replace(/\s+/g,' ').trim();
+}
+function arabicOnlyTitle(v){
+  let s=cleanUnknown(v).replace(/[A-Za-z]+/g,' ');
+  s=s.replace(/[\(\[\{]\s*[\)\]\}]/g,' ')
+     .replace(/^[\s,،\-–—\/|:;()\[\]{}]+|[\s,،\-–—\/|:;()\[\]{}]+$/g,'').replace(/\s+/g,' ').trim();
+  return /[؀-ۿ0-9]/.test(s)?s:'';
+}
+function arabize(v){
+  const s=cleanUnknown(v); if(!s) return '';
+  const k=s.toLowerCase().replace(/governorate|province|region/g,'').replace(/[-_]/g,' ').replace(/^\s*al\s+/,'').replace(/\s+/g,' ').trim();
+  return AR_PLACES[k]||s;
+}
+function statusOf(v){
+  const s=cleanUnknown(v).toLowerCase();
+  return /^(success|succeeded|passed?|ناجح|نجاح)$/.test(s)?'pass':'';
+}
+function gradeOf(pct){
+  if(pct==null||isNaN(pct)) return null;
+  if(pct>=100) return {k:'great',t:'عظيم',i:'🏆'};
+  if(pct>=90) return {k:'excellent',t:'ممتاز',i:'⭐'};
+  if(pct>=80) return {k:'good',t:'جيد',i:'👍'};
+  return null;
+}
+function derive(rec){
+  const sc=parseScore(rec.scoreRaw); rec.pct=sc.pct; rec.scoreLabel=sc.label;
+  const ts=Date.parse(toLatinDigits(rec.date)); rec.ts=isNaN(ts)?0:ts;
+  rec.cat=categorize({type:rec.type,course:rec.courseRaw,cert:rec.cert,source:rec.source});
+  return rec;
+}
+const HIDDEN_HEADER_RX=/cert\w*[\s_\-]*data|بيانات\s*(ال)?شهاد/i;
+function buildRecords(src,rows){
+  if(!rows.length) return [];
+  const headers=Object.keys(rows[0]).filter(k=>!HIDDEN_HEADER_RX.test(k));
+  const map=mapHeaders(headers);
+  const claimed=new Set(Object.values(map));
+  return rows.map(r=>{
+    const g=f=>map[f]?(r[map[f]]||''):'';
+    const nm=g('name');
+    const rec={
+      source:src,
+      name:/unknown|غير\s*معروف/i.test(nm)?'':nm.replace(/\s+/g,' ').trim(),
+      courseRaw:g('course'), course:arabicOnlyTitle(g('course')), courseNo:cleanUnknown(g('courseNo')),
+      type:cleanUnknown(g('type')), cert:cleanUnknown(g('cert')), id:cleanUnknown(g('id')),
+      date:cleanUnknown(g('date')), scoreRaw:cleanUnknown(g('score')), status:statusOf(g('status')),
+      country:arabize(g('country')), region:arabize(g('region')),
+    };
+    if(!rec.name) return null;
+    rec.key=(rec.cert||rec.id||'').toLowerCase();
+    rec.extras=headers.filter(h=>!claimed.has(h)&&!/note|ملاحظ|remark|comment|تعليق/i.test(h)&&!/^col\d+/.test(h))
+      .map(h=>[h,cleanUnknown(r[h])]).filter(x=>x[1]).slice(0,3);
+    return derive(rec);
+  }).filter(Boolean);
+}
+function dedupeRecords(list){
+  const seen=new Map(), out=[];
+  for(const r of list){
+    if(!r.key){ out.push(r); continue; }
+    const p=seen.get(r.key);
+    if(!p){ seen.set(r.key,r); out.push(r); continue; }
+    ['name','course','courseRaw','courseNo','date','scoreRaw','status','country','region','type','cert','id'].forEach(f=>{ if(!p[f]&&r[f]) p[f]=r[f]; });
+    derive(p);
+  }
+  return out;
+}
+/* </pure> */
+
+/* ============================================================
+   أدوات عامة والتخزين المحلي
+   ============================================================ */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+const LS = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} },
+};
+const rnd = ()=>Math.random().toString(36).slice(2,8);
+let CID = LS.get('mns_cid',null);
+if(!CID){ CID='c'+Date.now().toString(36)+rnd(); LS.set('mns_cid',CID); }
+
+const ICON = {
+  star:'<svg viewBox="0 0 24 24" stroke-linejoin="round"><path d="M12 2.8l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.6 6.1 20.8l1.2-6.5L2.5 9.7l6.6-.9z"/></svg>',
+  tg:'<svg viewBox="0 0 24 24"><path d="M21.9 4.3 2.8 11.7c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 1.9 5.8c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.4-1.8-1.1-1.5z"/></svg>',
+  wa:'<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>',
+};
+
+const DEFAULT_CREST_SVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="62" fill="#0b1f3a" stroke="#c9a227" stroke-width="4"/><text x="64" y="78" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="56" fill="#c9a227">ط</text></svg>'
+);
+
+let toastT;
+function toast(msg,kind=''){
+  const t=$('#toast'); t.textContent=msg; t.className='toast show '+kind;
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),3400);
+}
+function hue(s){ let h=0; for(const c of String(s)) h=(h*31+c.charCodeAt(0))>>>0; return h%360; }
+function avatar(name,url,cls=''){
+  const ch=(String(name||'?').trim()[0]||'?').toUpperCase();
+  const u=safeUrl(url);
+  const img=u?`<img src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">`:'';
+  return `<span class="av ${cls}" style="--h:${hue(name||'')}"><b>${esc(ch)}</b>${img}</span>`;
+}
+function countUp(el,to,dec=0,suffix=''){
+  const t0=performance.now(), d=900;
+  (function f(t){
+    const p=Math.min(1,(t-t0)/d), e=1-Math.pow(1-p,3);
+    el.textContent=(to*e).toFixed(dec)+suffix;
+    if(p<1) requestAnimationFrame(f);
+  })(t0);
+}
+
+/* ============================================================
+   الاتصال مع Google Sheets / Apps Script
+   ============================================================ */
+const scriptReady = ()=>CONFIG.APPS_SCRIPT_URL && !/PUT_/.test(CONFIG.APPS_SCRIPT_URL);
+
+async function api(payload){
+  if(!scriptReady()) throw new Error('no-url');
+  const res = await fetch(CONFIG.APPS_SCRIPT_URL,{
+    method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify(payload), redirect:'follow',
+  });
+  const j = await res.json();
+  if(!j.ok) throw new Error(j.error||'api');
+  return j;
+}
+
+async function fetchAppsScriptGet(params={}){
+  if(!scriptReady()) return null;
+  try{
+    const qs = new URLSearchParams(params).toString();
+    const url = CONFIG.APPS_SCRIPT_URL + (qs ? '?' + qs : '');
+    const r = await fetch(url, { redirect:'follow' });
+    if(!r.ok) return null;
+    const text = await r.text();
+    if(/^\s*[\{\[]/.test(text)) return JSON.parse(text);
+    return null;
+  }catch(e){ return null; }
+}
+
+function gvizUrl(id,sheet,extra){
+  return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=${extra}&sheet=${encodeURIComponent(sheet)}&headers=1&_=${Date.now()}`;
+}
+function jsonpSheet(id,sheet){
+  return new Promise((resolve,reject)=>{
+    const cb='__gv'+rnd()+Date.now().toString(36);
+    const s=document.createElement('script');
+    const clean=()=>{ clearTimeout(tm); delete window[cb]; s.remove(); };
+    const tm=setTimeout(()=>{ clean(); reject(new Error('timeout')); },15000);
+    window[cb]=res=>{
+      clean();
+      if(!res||res.status!=='ok'){ reject(new Error('gviz')); return; }
+      const cols=res.table.cols.map((c,i)=>(c.label||'').trim()||('col'+(i+1)));
+      resolve(res.table.rows.map(r=>{
+        const o={}; cols.forEach((h,i)=>{ const c=r.c&&r.c[i]; o[h]=String(c?(c.f??c.v??''):'').trim(); }); return o;
+      }));
+    };
+    s.onerror=()=>{ clean(); reject(new Error('net')); };
+    s.src=gvizUrl(id,sheet,'out:json;responseHandler:'+cb);
+    document.head.appendChild(s);
+  });
+}
+async function fetchSheet(id,sheet){
+  try{
+    const r=await fetch(gvizUrl(id,sheet,'out:csv'));
+    if(!r.ok) throw new Error('http');
+    const t=await r.text();
+    if(/^\s*</.test(t)) throw new Error('html');
+    return csvToObjects(t);
+  }catch(e){
+    return jsonpSheet(id,sheet);
+  }
+}
+
+/* ============================================================
+   الحالة العامة
+   ============================================================ */
+let user = LS.get('mns_user',null);
+let posts = [];
+let usersList = [];
+let communityPeople = [];
+let starsMap = {}; // postId -> { count, clients: Set, myStarred: boolean|null }
+let filterType = '';
+let starred = LS.get('mns_starred',{});
+let starCache = LS.get('mns_star_cache',{}); // { [postId]: { count, starred, ts } }
+let mine = LS.get('mns_mine',[]);
+let notifications = LS.get('mns_notifications',[]);
+let seenPostIds = LS.get('mns_seen_posts',null);
+let notifFilter = 'unread';
+let searchMode = 'all';
+let searchQuery = '';
+let searchRole = '';
+let searchGov = '';
+let searchAuthorId = '';
+let searchAuthorName = '';
+let statsRows = null, statsTab='all', statsQ='', onlyMine=false, statsShown=20, statsLoading=false;
+let editing=false;
+let swReg = null;
+let pollTimer = null;
+const myName = ()=> (user&&user.name) || LS.get('mns_guest_name','') || '';
+const isRegistered = ()=> {
+  try{
+    const raw = localStorage.getItem('mns_user');
+    if(!raw) return false;
+    const parsed = JSON.parse(raw);
+    return !!(parsed && typeof parsed === 'object' && String(parsed.name || '').trim().length >= 2);
+  }catch(e){
+    return !!(user && user.name && user.id);
+  }
+};
+
+let notifPermState = (function(){
+  if(!('Notification' in window)) return 'unsupported';
+  if(Notification.permission === 'granted'){
+    LS.set('mns_notif_perm', 'granted');
+    return 'granted';
+  }
+  const saved = LS.get('mns_notif_perm', '');
+  if(saved === 'granted' && Notification.permission !== 'denied') return 'granted';
+  return Notification.permission || 'default';
+})();
+const isInIframe = ()=> { try{ return window.self !== window.top; }catch(e){ return true; } };
+
+function getNotifPermission(){
+  if(!('Notification' in window)) return 'unsupported';
+  const live = Notification.permission;
+  if(live === 'granted'){
+    notifPermState = 'granted';
+    LS.set('mns_notif_perm', 'granted');
+    return 'granted';
+  }
+  if(live === 'denied'){
+    notifPermState = 'denied';
+    LS.set('mns_notif_perm', 'denied');
+    return 'denied';
+  }
+  const saved = LS.get('mns_notif_perm', '');
+  if(saved === 'granted' || notifPermState === 'granted') return 'granted';
+  return live || 'default';
+}
+
+async function syncNotifPermissionState(){
+  if(!('Notification' in window)){
+    notifPermState = 'unsupported';
+    return 'unsupported';
+  }
+  const live = Notification.permission;
+  if(live === 'granted'){
+    notifPermState = 'granted';
+    LS.set('mns_notif_perm', 'granted');
+    return 'granted';
+  }
+  if(live === 'denied'){
+    notifPermState = 'denied';
+    LS.set('mns_notif_perm', 'denied');
+    return 'denied';
+  }
+  if(navigator.permissions && typeof navigator.permissions.query === 'function'){
+    try{
+      const status = await navigator.permissions.query({ name: 'notifications' });
+      const mapped = status.state === 'prompt' ? 'default' : status.state;
+      if(mapped === 'granted'){
+        notifPermState = 'granted';
+        LS.set('mns_notif_perm', 'granted');
+      }else if(mapped === 'denied'){
+        notifPermState = 'denied';
+        LS.set('mns_notif_perm', 'denied');
+      }
+      // لا نمسح حالة granted المخزنة إذا كانت القيمة prompt داخل بيئة مؤقتة
+      status.onchange = () => {
+        const next = status.state === 'prompt' ? 'default' : status.state;
+        if(next === 'granted' || next === 'denied'){
+          notifPermState = next;
+          LS.set('mns_notif_perm', next);
+        }
+        renderNotifPermBanner();
+        renderNotifSettings();
+        if($('#view-me').classList.contains('active')) renderMe();
+        if(next === 'granted') closeNotifModal();
+      };
+    }catch(e){}
+  }
+  return getNotifPermission();
+}
+
+async function initServiceWorker(){
+  if(!('serviceWorker' in navigator)) return;
+  try{
+    swReg = await navigator.serviceWorker.register('./sw.js');
+    navigator.serviceWorker.addEventListener('message', ev => {
+      if(ev.data && ev.data.type === 'OPEN_POST' && ev.data.postId){
+        jumpToPost(ev.data.postId);
+      }
+    });
+  }catch(e){
+    // يعمل الإشعار عبر Notification API القياسي كبديل إن لم يتوفر sw.js
+  }
+}
+
+function closeNotifModal(){
+  const b=$('#notifModalBack'), m=$('#notifModal');
+  if(b) b.classList.remove('open');
+  if(m) m.classList.remove('open');
+}
+
+function checkEntryNotificationPrompt(){
+  // الإشعارات فقط للمسجلين في الموقع الذين لديهم localStorage مخزن
+  if(!isRegistered()){
+    closeNotifModal();
+    return;
+  }
+  const perm = getNotifPermission();
+  // إذا كان إشعار المتصفح مفعّلاً فلا تظهر الرسالة نهائياً
+  if(perm === 'granted'){
+    closeNotifModal();
+    return;
+  }
+  const titleEl = $('#notifModalTitle');
+  const descEl = $('#notifModalDesc');
+  const enableBtn = $('#notifModalEnable');
+  const openTabBtn = $('#notifModalOpenTab');
+  if(!titleEl || !descEl || !enableBtn) return;
+  if(openTabBtn){
+    openTabBtn.hidden = !isInIframe();
+    openTabBtn.href = location.href;
+  }
+
+  if(isInIframe() && perm !== 'granted'){
+    titleEl.textContent = '🔔 فعّل إشعارات المتصفح';
+    descEl.innerHTML = `مرحباً <b>${esc(user.name)}</b>! المتصفح يمنع طلب إذن الإشعارات داخل نافذة المعاينة المضمّنة (iframe). افتح الصفحة في نافذة مستقلة لتفعيل الإشعارات بشكل دائم على جهازك، أو اضغط تفعيل إذا كان متصفحك يسمح بذلك.`;
+    enableBtn.hidden = false;
+  }else if(perm === 'denied'){
+    titleEl.textContent = '🔕 إشعارات المتصفح غير مفعّلة';
+    descEl.innerHTML = 'أنت مسجّل في المجتمع، لكن إشعارات المتصفح محظورة حالياً في إعدادات المتصفح. لتصلك التنبيهات الفورية عند نشر أي شخص على الموبايل أو الحاسوب، يرجى السماح بالإشعارات من أيقونة القفل/الإعدادات بجانب رابط الموقع.';
+    enableBtn.hidden = true;
+  }else if(perm === 'unsupported'){
+    titleEl.textContent = '🔔 تنبيه إشعارات المتصفح';
+    descEl.innerHTML = 'متصفحك الحالي لا يدعم إشعارات النظام المنبثقة، لكن يمكنك متابعة جميع المنشورات الجديدة داخل قائمة الإشعارات في الموقع.';
+    enableBtn.hidden = true;
+  }else{
+    titleEl.textContent = '🔔 فعّل إشعارات المتصفح';
+    descEl.innerHTML = `مرحباً <b>${esc(user.name)}</b>! إشعارات المتصفح غير مفعّلة لديك حالياً. فعّلها الآن لتصلك رسالة فورية على الموبايل أو الحاسوب مع كامل التفاصيل فور قيام أي شخص بالنشر على الموقع.`;
+    enableBtn.hidden = false;
+  }
+  $('#notifModalBack').classList.add('open');
+  $('#notifModal').classList.add('open');
+}
+
+async function requestBrowserNotifPermission(){
+  // نغلق النافذة المنبثقة فوراً حتى لا تظهر مع نافذة إذن/إعدادات المتصفح
+  closeNotifModal();
+
+  if(!('Notification' in window)){
+    toast('المتصفح الحالي لا يدعم إشعارات النظام','bad');
+    return 'unsupported';
+  }
+  if(!isRegistered()){
+    toast('يرجى تسجيل معلوماتك في «حسابي» أولاً لتصلك الإشعارات','bad');
+    go('me');
+    return getNotifPermission();
+  }
+  // إذا كان الإذن مفعلاً بالفعل، لا نطلب من المتصفح مجدداً
+  if(getNotifPermission() === 'granted'){
+    notifPermState = 'granted';
+    LS.set('mns_notif_perm', 'granted');
+    renderNotifSettings();
+    renderNotifPermBanner();
+    return 'granted';
+  }
+
+  await initServiceWorker();
+  try{
+    const perm = await new Promise(resolve => {
+      try{
+        const res = Notification.requestPermission(p => resolve(p));
+        if(res && typeof res.then === 'function'){
+          res.then(resolve).catch(()=>resolve(Notification.permission || 'default'));
+        }
+      }catch(err){
+        resolve(Notification.permission || 'default');
+      }
+    });
+    const finalPerm = (Notification.permission === 'granted' || perm === 'granted') ? 'granted'
+      : (Notification.permission === 'denied' || perm === 'denied') ? 'denied' : 'default';
+    notifPermState = finalPerm;
+    if(finalPerm === 'granted' || finalPerm === 'denied'){
+      LS.set('mns_notif_perm', finalPerm);
+    }
+    renderNotifSettings();
+    renderNotifPermBanner();
+    if($('#view-me').classList.contains('active')) renderMe();
+
+    if(finalPerm === 'granted'){
+      closeNotifModal();
+      toast('تم تفعيل إشعارات المتصفح بنجاح ✅','ok');
+    }else if(finalPerm === 'denied'){
+      toast(isInIframe() ? 'افتح الصفحة في لسان مستقل لتفعيل الإشعارات' : 'تم حظر الإشعارات من إعدادات المتصفح','bad');
+    }else if(isInIframe()){
+      toast('المعاينة المضمّنة لا تحفظ إذن الإشعارات — افتح الصفحة في نافذة مستقلة','bad');
+    }
+    return finalPerm;
+  }catch(e){
+    toast('تعذر طلب إذن الإشعارات','bad');
+    return getNotifPermission();
+  }
+}
+
+async function dispatchBrowserNotification(notif){
+  // لا تُرسل إشعارات المتصفح إلا إذا كان المستخدم مسجلاً في localStorage
+  if(!isRegistered()) return false;
+  if(getNotifPermission() !== 'granted') return false;
+
+  const tInfo = TYPES.find(x=>x.k===notif.postType) || TYPES[0];
+  const roleLabel = notif.authorRole === 'teacher' ? 'أستاذ' : notif.authorRole === 'student' ? 'طالب' : 'عضو';
+  const details = [
+    roleLabel,
+    notif.authorSpec || '',
+    notif.school || '',
+    notif.governorate || ''
+  ].filter(Boolean).join(' • ');
+
+  const title = `منشور جديد من ${notif.authorName}`;
+  const snippet = (notif.postText || '').slice(0, 140) + ((notif.postText || '').length > 140 ? '...' : '');
+  const body = `${tInfo.i} ${notif.postType}${details ? ' (' + details + ')' : ''}\n${snippet}`;
+  const icon = safeUrl(notif.authorAvatar) || DEFAULT_CREST_SVG;
+
+  const options = {
+    body,
+    icon,
+    badge: DEFAULT_CREST_SVG,
+    tag: 'talib-post-' + notif.postId,
+    renotify: true,
+    dir: 'rtl',
+    lang: 'ar',
+    vibrate: [150, 70, 150],
+    data: { postId: notif.postId, url: '#feed' }
+  };
+
+  try{
+    if(navigator.vibrate) navigator.vibrate([120, 60, 120]);
+  }catch(e){}
+
+  // المحاولة 1: عبر Service Worker النشط (ضروري للموبايل)
+  try{
+    if('serviceWorker' in navigator){
+      let reg = swReg && swReg.active ? swReg : null;
+      if(!reg){
+        reg = await Promise.race([
+          navigator.serviceWorker.ready,
+          new Promise((_, rej) => setTimeout(()=>rej(new Error('sw-timeout')), 900))
+        ]).catch(()=>null);
+      }
+      if(reg && reg.active && typeof reg.showNotification === 'function'){
+        await reg.showNotification(title, options);
+        return true;
+      }
+    }
+  }catch(e){}
+
+  // المحاولة 2: عبر Notification API المباشر (للحاسوب أو بدون sw.js)
+  try{
+    const n = new Notification(title, options);
+    n.onclick = () => {
+      window.focus();
+      markNotificationRead(notif.id);
+      jumpToPost(notif.postId);
+      n.close();
+    };
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+async function sendTestNotification(){
+  if(!isRegistered()){
+    toast('سجّل حسابك أولاً لتجربة الإشعارات','bad');
+    go('me');
+    return;
+  }
+  const perm = getNotifPermission();
+
+  const samplePost = posts.find(p => p.authorId !== CID) || posts[0] || {
+    id: 'test_' + Date.now(),
+    name: 'علي كريم محمد',
+    role: 'teacher',
+    subject: 'الرياضيات',
+    school: 'ثانوية بغداد',
+    governorate: 'بغداد',
+    avatar: '',
+    type: 'مسألة',
+    text: 'تجربة إشعار فوري من منصة طالب: تم نشر مسألة جديدة في الرياضيات للمراجعة.',
+    createdAt: new Date().toISOString()
+  };
+
+  const notif = {
+    id: 'n_test_' + Date.now(),
+    postId: samplePost.id,
+    authorName: samplePost.name,
+    authorRole: samplePost.role || 'teacher',
+    authorSpec: samplePost.subject || samplePost.stage || '',
+    school: samplePost.school || '',
+    governorate: samplePost.governorate || '',
+    authorAvatar: samplePost.avatar || '',
+    postType: samplePost.type || TYPES[0].k,
+    postText: samplePost.text,
+    createdAt: new Date().toISOString(),
+    read: false,
+    isTest: true
+  };
+  notifications.unshift(notif);
+  notifications = notifications.slice(0, 80);
+  LS.set('mns_notifications', notifications);
+  updateNotifBadges();
+  renderNotifications();
+
+  if(perm !== 'granted'){
+    toast('أُضيف الإشعار لقائمة الإشعارات — فعّل إذن المتصفح ليظهر إشعار النظام','bad');
+    return;
+  }
+
+  const sent = await dispatchBrowserNotification(notif);
+  if(sent){
+    toast('تم إرسال إشعار المتصفح والتفاصيل كاملة ✅','ok');
+  }else{
+    toast('أُضيف الإشعار لقائمة الإشعارات (تعذر عرض إشعار المتصفح في هذه البيئة)','');
+  }
+}
+
+function updateNotifBadges(){
+  const unreadCount = notifications.filter(n => !n.read).length;
+  const hb = $('#notifBadge'), tb = $('#tabNotifBadge');
+  if(hb){ hb.textContent = unreadCount > 99 ? '99+' : unreadCount; hb.hidden = unreadCount === 0; }
+  if(tb){ tb.textContent = unreadCount > 99 ? '99+' : unreadCount; tb.hidden = unreadCount === 0; }
+}
+
+function markNotificationRead(notifId){
+  const n = notifications.find(x => x.id === notifId);
+  if(n && !n.read){
+    n.read = true;
+    LS.set('mns_notifications', notifications);
+    updateNotifBadges();
+    renderNotifications();
+  }
+}
+
+function markAllNotificationsRead(){
+  let changed = false;
+  notifications.forEach(n => { if(!n.read){ n.read = true; changed = true; } });
+  if(changed){
+    LS.set('mns_notifications', notifications);
+    updateNotifBadges();
+    renderNotifications();
+    toast('تم تحديد جميع الإشعارات كمقروءة','ok');
+  }
+}
+
+function jumpToPost(postId){
+  filterType = '';
+  renderChips();
+  renderFeed();
+  go('feed');
+  requestAnimationFrame(() => {
+    const el = document.querySelector(`#feed .post[data-id="${CSS.escape(postId)}"]`);
+    if(el){
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('highlight');
+      setTimeout(()=>el.classList.remove('highlight'), 3200);
+    }
+  });
+}
+
+/* ============================================================
+   التنقل والعناصر العلوية
+   ============================================================ */
+function go(v){
+  $$('.view').forEach(s=>s.classList.toggle('active',s.id==='view-'+v));
+  $$('.nav-b').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  $('#fab').classList.toggle('show',v==='feed');
+  if(v==='stats'&&!statsRows&&!statsLoading) loadStats();
+  if(v==='me') renderMe();
+  if(v==='search') renderSearch();
+  if(v==='similar') renderSimilar();
+  if(v==='notifications') renderNotifications();
+  { const y=$('.hero-bg').offsetHeight; if(window.scrollY>y) window.scrollTo({top:y,behavior:'smooth'}); }
+  try{ history.replaceState(null,'','#'+v); }catch(e){}
+}
+$$('.nav-b').forEach(b=>b.addEventListener('click',()=>go(b.dataset.v)));
+$('#meChip').addEventListener('click',()=>go('me'));
+$('#notifBell').addEventListener('click',()=>go('notifications'));
+
+function renderHeader(){
+  $('#meChip').innerHTML = user ? avatar(user.name,user.avatar,'sm') : '<span class="txt">تسجيل</span>';
+  $('#composerAv').innerHTML = avatar(myName()||'؟', user&&user.avatar);
+  $('#regBanner').innerHTML = user ? '' :
+    `<div class="banner rv"><span>👋</span><span>سجّل في المجتمع لتظهر باسمك وتصلك الإشعارات الفورية وترى من يشبهك.</span><button id="bnReg">سجّل الآن</button></div>`;
+  const b=$('#bnReg'); if(b) b.onclick=()=>go('me');
+  renderNotifPermBanner();
+}
+
+function renderNotifPermBanner(){
+  const box = $('#notifPermBanner');
+  if(!box) return;
+  const perm = getNotifPermission();
+  if(!isRegistered() || perm === 'granted' || perm === 'unsupported'){
+    box.innerHTML = '';
+    return;
+  }
+  if(perm === 'denied'){
+    box.innerHTML = `<div class="banner rv"><span>🔕</span><span>إشعارات المتصفح محظورة حالياً. يمكنك تفعيلها من إعدادات المتصفح لتصلك المنشورات الجديدة.</span></div>`;
+    return;
+  }
+  box.innerHTML = `<div class="banner rv"><span>🔔</span><span>حسابك مسجّل! فعّل إشعارات المتصفح لتصلك تنبيهات فورية على الموبايل والحاسوب عند نشر أي شخص.</span><button id="enableNotifBtn">تفعيل الإشعارات</button></div>`;
+  const eb = $('#enableNotifBtn');
+  if(eb) eb.onclick = requestBrowserNotifPermission;
+}
+
+/* ============================================================
+   التسجيل / الحساب
+   ============================================================ */
+function formHTML(u){
+  const role=u?u.role:'student';
+  const today=new Date().toISOString().slice(0,10);
+  return `<form id="regForm" class="card form rv" data-role="${role}" novalidate>
+    <h3>${u?'تعديل بياناتي':'🎓 التسجيل في المجتمع'}</h3>
+    <div class="seg2" id="roleSeg">
+      <button type="button" data-r="student" class="${role==='student'?'on':''}">🎒 طالب</button>
+      <button type="button" data-r="teacher" class="${role==='teacher'?'on':''}">👨‍🏫 أستاذ</button>
+    </div>
+    <div class="field" data-f="name"><label>الاسم الكامل</label><input name="name" maxlength="60" autocomplete="name" value="${esc(u?u.name:myName())}"></div>
+    <div class="field only-student" data-f="birth"><label>تاريخ الولادة</label><input type="date" name="birth" max="${today}" value="${esc(u?u.birth:'')}"></div>
+    <div class="field" data-f="school"><label>المدرسة</label><input name="school" maxlength="80" value="${esc(u?u.school:'')}"></div>
+    <div class="field only-student" data-f="stage"><label>المرحلة</label><select name="stage">${STAGES.map(s=>`<option ${u&&u.stage===s?'selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="field only-teacher" data-f="subject"><label>المادة التي تدرّسها (التخصص)</label><input name="subject" maxlength="40" placeholder="مثال: الرياضيات، الفيزياء..." value="${esc(u?u.subject:'')}"></div>
+    <div class="field" data-f="governorate"><label>المحافظة</label><select name="governorate">${GOVS.map(g=>`<option ${u&&u.governorate===g?'selected':''}>${g}</option>`).join('')}</select></div>
+    <div class="field" data-f="avatar"><label>رابط الصورة الشخصية (اختياري)</label>
+      <div class="avrow"><span id="avPrev">${avatar(u?u.name:myName()||'؟',u&&u.avatar)}</span><input name="avatar" type="url" inputmode="url" placeholder="https://..." value="${esc(u?u.avatar:'')}"></div>
+      <small>إن لم تضع صورة سيظهر أول حرف من اسمك بدلاً منها.</small></div>
+    <button class="btn primary" type="submit">${u?'حفظ التعديلات':'تسجيل'}</button>
+    ${u?'<button type="button" class="btn ghost" id="cancelEdit">إلغاء</button>':''}
+  </form>`;
+}
+
+function renderMe(){
+  const box=$('#meBox');
+  if(user && !editing){
+    const rows = user.role==='teacher'
+      ? [['الصفة','أستاذ'],['التخصص / المادة',user.subject||'—'],['المدرسة',user.school],['المحافظة',user.governorate]]
+      : [['الصفة','طالب'],['المرحلة',user.stage],['المدرسة',user.school],['المحافظة',user.governorate],['تاريخ الولادة',user.birth||'—']];
+    const perm = getNotifPermission();
+    const permLabel = perm==='granted'?'مفعّلة على المتصفح ✅':perm==='denied'?'محظورة من المتصفح':'غير مفعّلة بعد';
+    rows.push(['إشعارات النشر', permLabel]);
+
+    box.innerHTML=`<div class="card profile rv">
+      ${avatar(user.name,user.avatar,'xl')}
+      <h3>${esc(user.name)}</h3>
+      <div class="plist">${rows.map(r=>`<div><span>${r[0]}</span><span>${esc(r[1])}</span></div>`).join('')}</div>
+      ${perm!=='granted'?'<button class="btn primary" style="margin-top:12px" id="meEnableNotif">🔔 تفعيل إشعارات المتصفح</button>':''}
+      <button class="btn ghost" id="meTestNotif">🧪 تجربة إشعار فوري</button>
+      <button class="btn ghost" id="editMe">✏️ تعديل بياناتي</button>
+      <button class="btn danger" id="logout">تسجيل الخروج من هذا الجهاز</button>
+    </div>`;
+    const en = $('#meEnableNotif'); if(en) en.onclick = requestBrowserNotifPermission;
+    $('#meTestNotif').onclick = sendTestNotification;
+    $('#editMe').onclick=()=>{ editing=true; renderMe(); };
+    $('#logout').onclick=()=>{
+      if(!confirm('سيتم حذف بياناتك من هذا الجهاز فقط. هل تريد المتابعة؟')) return;
+      LS.del('mns_user'); user=null; editing=false; renderHeader(); renderMe(); renderFeed(); renderSimilar(); renderNotifications(); updateStatsView(); toast('تم تسجيل الخروج');
+    };
+    return;
+  }
+  box.innerHTML=formHTML(user);
+  bindForm();
+}
+
+function bindForm(){
+  const f=$('#regForm');
+  $$('#roleSeg button').forEach(b=>b.onclick=()=>{
+    $$('#roleSeg button').forEach(x=>x.classList.toggle('on',x===b));
+    f.dataset.role=b.dataset.r;
+  });
+  const prev=()=>{ $('#avPrev').innerHTML=avatar(f.name.value||'؟',f.avatar.value); };
+  f.name.addEventListener('input',prev); f.avatar.addEventListener('change',prev); f.avatar.addEventListener('blur',prev);
+  const c=$('#cancelEdit'); if(c) c.onclick=()=>{ editing=false; renderMe(); };
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    $$('.field.err',f).forEach(x=>x.classList.remove('err'));
+    const role=f.dataset.role;
+    const v=k=>String(f[k]?f[k].value:'').trim();
+    const bad=[];
+    if(v('name').length<2) bad.push('name');
+    if(v('school').length<2) bad.push('school');
+    if(role==='student'&&!v('birth')) bad.push('birth');
+    if(v('avatar')&&!safeUrl(v('avatar'))) bad.push('avatar');
+    if(bad.length){
+      bad.forEach(k=>$(`[data-f="${k}"]`,f).classList.add('err'));
+      toast(bad.includes('avatar')?'رابط الصورة غير صحيح':'يرجى إكمال الحقول المطلوبة','bad'); return;
+    }
+    const now=new Date().toISOString();
+    user={
+      id:CID, role, name:v('name'), birth:role==='student'?v('birth'):'', school:v('school'),
+      stage:role==='student'?v('stage'):'', subject:role==='teacher'?v('subject'):'',
+      governorate:v('governorate'), avatar:v('avatar')?safeUrl(v('avatar')):'',
+      createdAt:(user&&user.createdAt)||now, updatedAt:now, synced:false,
+    };
+    LS.set('mns_user',user); LS.set('mns_guest_name',user.name);
+    if(!seenPostIds){
+      seenPostIds = posts.map(p=>p.id);
+      LS.set('mns_seen_posts', seenPostIds);
+    }
+    editing=false; renderHeader(); renderMe(); renderFeed(); buildCommunityDirectory(); renderSimilar(); renderNotifications(); updateStatsView();
+    toast('تم حفظ بياناتك ✅','ok');
+    syncUser();
+    checkEntryNotificationPrompt();
+  });
+}
+async function syncUser(){
+  if(!user||user.synced) return;
+  try{
+    const {synced,...payload}=user;
+    await api({action:'register',user:payload});
+    user.synced=true; LS.set('mns_user',user);
+  }catch(e){
+    if(e.message==='no-url') console.warn('لم يُضبط APPS_SCRIPT_URL بعد');
+  }
+}
+
+/* ============================================================
+   تطبيع ودمج بيانات المجتمع (المستخدمين، المنشورات، النجوم)
+   ============================================================ */
+function normalizeUserRow(r){
+  const name = pick(r, ['name','Name','fullName','الاسم']);
+  if(!name) return null;
+  const roleRaw = pick(r, ['role','Role','الصفة']).toLowerCase();
+  const role = /teacher|أستاذ|استاذ|مدرس/.test(roleRaw) ? 'teacher' : /student|طالب/.test(roleRaw) ? 'student' : '';
+  return {
+    id: pick(r, ['id','ID','userId','clientId','authorId']),
+    name,
+    role,
+    birth: pick(r, ['birth','Birth','تاريخ الولادة']),
+    school: pick(r, ['school','School','المدرسة']),
+    stage: pick(r, ['stage','Stage','المرحلة']),
+    subject: pick(r, ['subject','Subject','specialty','المادة','التخصص']),
+    governorate: pick(r, ['governorate','Governorate','province','المحافظة']),
+    avatar: pick(r, ['avatar','Avatar','photo','image','الصورة']),
+    createdAt: pick(r, ['createdAt','CreatedAt','date']),
+  };
+}
+
+function parseStarsSheet(rows){
+  const map = {};
+  if(!Array.isArray(rows)) return map;
+  const myUid = (user && user.id) || '';
+  for(const r of rows){
+    const postId = pick(r, ['postId','PostId','post_id','id','post']);
+    if(!postId) continue;
+    const clientId = pick(r, ['clientId','ClientId','client_id','userId','user','authorId']);
+    const onRaw = pick(r, ['on','On','active','status','state','starred']).toLowerCase();
+    const isOff = /^(false|0|no|off|removed)$/.test(onRaw);
+    if(!map[postId]) map[postId] = { clients: new Set(), rowCount: 0, myStarred: null };
+    if(clientId){
+      if(isOff) map[postId].clients.delete(clientId);
+      else map[postId].clients.add(clientId);
+      if(clientId === CID || (myUid && clientId === myUid)) map[postId].myStarred = !isOff;
+    }else if(!isOff){
+      map[postId].rowCount++;
+    }
+  }
+  return map;
+}
+
+function resolvePostStars(postId, sheetRowStars){
+  const sheetInfo = starsMap[postId];
+  const starsSheetCount = sheetInfo ? Math.max(sheetInfo.clients.size, sheetInfo.rowCount) : 0;
+
+  // مزامنة حالة النجمة الخاصة بهذا الجهاز مع ورقة Stars إن لم تكن معدّلة محلياً للتو
+  const cached = starCache[postId];
+  const recentlyToggled = cached && (Date.now() - cached.ts < 15 * 60 * 1000);
+
+  if(!recentlyToggled && sheetInfo && sheetInfo.myStarred !== null){
+    if(sheetInfo.myStarred) starred[postId] = 1;
+    else delete starred[postId];
+    LS.set('mns_starred', starred);
+  }
+
+  let count = Math.max(sheetRowStars || 0, starsSheetCount);
+
+  if(recentlyToggled && cached){
+    if(cached.starred){
+      count = Math.max(count, cached.count || 1);
+    }else{
+      count = Math.min(count, cached.count);
+    }
+  }
+
+  // تصحيح أساسي: أي منشور وضع عليه المستخدم نجمة لا يمكن أن يختفي رقمه أو يصبح 0 عند التحديث
+  if(starred[postId]){
+    const remembered = (cached && cached.count) ? cached.count : 1;
+    count = Math.max(count, remembered, 1);
+  }
+
+  return Math.max(0, count);
+}
+
+function normalizePost(r){
+  const id = pick(r, ['id','ID','postId']);
+  const rawStars = parseInt(toLatinDigits(pick(r, ['stars','Stars','starCount','stars_count','النجوم','عدد النجوم'])), 10) || 0;
+  const authorId = pick(r, ['authorId','AuthorId','clientId','userId']);
+  const name = pick(r, ['name','Name','authorName','الاسم']);
+  const matchedUser = usersList.find(u => (authorId && u.id === authorId) || (name && norm(u.name) === norm(name)));
+
+  return {
+    id,
+    createdAt: pick(r, ['createdAt','CreatedAt','date','timestamp']),
+    authorId,
+    name: name || (matchedUser ? matchedUser.name : ''),
+    role: pick(r, ['role','Role','الصفة']) || (matchedUser ? matchedUser.role : ''),
+    school: pick(r, ['school','School','المدرسة']) || (matchedUser ? matchedUser.school : ''),
+    governorate: pick(r, ['governorate','Governorate','المحافظة']) || (matchedUser ? matchedUser.governorate : ''),
+    subject: pick(r, ['subject','Subject','المادة','التخصص']) || (matchedUser ? matchedUser.subject : ''),
+    stage: pick(r, ['stage','Stage','المرحلة']) || (matchedUser ? matchedUser.stage : ''),
+    avatar: pick(r, ['avatar','Avatar','الصورة']) || (matchedUser ? matchedUser.avatar : ''),
+    type: pick(r, ['type','Type','category','النوع']) || TYPES[0].k,
+    text: pick(r, ['text','Text','content','body','المحتوى','النص']),
+    contactType: pick(r, ['contactType','ContactType']),
+    contactValue: pick(r, ['contactValue','ContactValue']),
+    stars: resolvePostStars(id, rawStars),
+  };
+}
+
+function buildCommunityDirectory(){
+  const map = new Map();
+  const keyFor = (id, name) => id ? 'id:' + id : 'nm:' + norm(name);
+
+  const ensureEntry = (raw) => {
+    const nm = (raw.name || '').trim();
+    if(!nm) return null;
+    const byNameKey = 'nm:' + norm(nm);
+    let existing = (raw.id && map.get('id:' + raw.id)) || map.get(byNameKey);
+    if(!existing){
+      existing = {
+        id: raw.id || '',
+        name: nm,
+        role: raw.role || '',
+        school: raw.school || '',
+        stage: raw.stage || '',
+        subject: raw.subject || '',
+        governorate: raw.governorate || '',
+        avatar: raw.avatar || '',
+        postsCount: 0,
+        totalStars: 0,
+        postTypes: {},
+        topics: new Set(),
+        latestPost: null,
+      };
+      if(raw.id) map.set('id:' + raw.id, existing);
+      map.set(byNameKey, existing);
+    }else{
+      if(!existing.id && raw.id){ existing.id = raw.id; map.set('id:' + raw.id, existing); }
+      if(!existing.role && raw.role) existing.role = raw.role;
+      if(!existing.school && raw.school) existing.school = raw.school;
+      if(!existing.stage && raw.stage) existing.stage = raw.stage;
+      if(!existing.subject && raw.subject) existing.subject = raw.subject;
+      if(!existing.governorate && raw.governorate) existing.governorate = raw.governorate;
+      if(!existing.avatar && raw.avatar) existing.avatar = raw.avatar;
+    }
+    return existing;
+  };
+
+  usersList.forEach(u => ensureEntry(u));
+  if(user && user.name) ensureEntry(user);
+
+  posts.forEach(p => {
+    const person = ensureEntry({
+      id: p.authorId,
+      name: p.name,
+      role: p.role,
+      school: p.school,
+      stage: p.stage,
+      subject: p.subject,
+      governorate: p.governorate,
+      avatar: p.avatar,
+    });
+    if(!person) return;
+    person.postsCount++;
+    person.totalStars += (p.stars || 0);
+    person.postTypes[p.type] = (person.postTypes[p.type] || 0) + 1;
+    extractTopics(p.text + ' ' + p.type).forEach(t => person.topics.add(t));
+    if(!person.latestPost || Date.parse(p.createdAt) > Date.parse(person.latestPost.createdAt)){
+      person.latestPost = p;
+    }
+  });
+
+  // إزالة التكرار الناتج عن الربط المزدوج بالمفتاحين
+  communityPeople = Array.from(new Set(map.values())).sort((a,b) => (b.postsCount - a.postsCount) || (b.totalStars - a.totalStars));
+  renderCommunitySummary();
+}
+
+function renderCommunitySummary(){
+  const box = $('#communitySummary');
+  if(!box) return;
+  const totalStars = posts.reduce((acc,p)=>acc+(p.stars||0), 0);
+  box.innerHTML = `
+    <div class="sum-box"><b>${communityPeople.length}</b><span>عضو في المجتمع</span></div>
+    <div class="sum-box"><b>${posts.length}</b><span>منشور متاح</span></div>
+    <div class="sum-box"><b>${totalStars}</b><span>إجمالي النجوم</span></div>
+  `;
+}
+
+/* ============================================================
+   جلب البيانات والمراقبة الفورية للإشعارات
+   ============================================================ */
+async function loadPosts(manual=false, silent=false){
+  const feed=$('#feed');
+  if(!posts.length && !silent){
+    feed.innerHTML=[1,2,3].map(()=>`<div class="card post"><div style="display:flex;gap:10px;align-items:center"><div class="sk" style="width:44px;height:44px;border-radius:50%"></div><div style="flex:1"><div class="sk" style="height:14px;width:40%;margin-bottom:8px"></div><div class="sk" style="height:10px;width:25%"></div></div></div><div class="sk" style="height:12px;margin-top:16px"></div><div class="sk" style="height:12px;margin-top:8px;width:80%"></div></div>`).join('');
+  }
+  const btn=$('#refFeed'); if(btn && !silent) btn.classList.add('spin');
+  const rSearchBtn=$('#refSearch'); if(rSearchBtn && !silent) rSearchBtn.classList.add('spin');
+  const rSimBtn=$('#refSimilar'); if(rSimBtn && !silent) rSimBtn.classList.add('spin');
+
+  try{
+    const [postsRes, usersRes, starsRes] = await Promise.allSettled([
+      fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.POSTS_SHEET_NAME),
+      fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.USERS_SHEET_NAME),
+      fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.STARS_SHEET_NAME),
+    ]);
+
+    let rawPosts = postsRes.status === 'fulfilled' ? postsRes.value : null;
+
+    // خطة احتياطية: جلب من رابط Apps Script إذا تعذر gviz
+    if(!rawPosts){
+      const remote = await fetchAppsScriptGet({ action: 'community' });
+      if(remote){
+        if(Array.isArray(remote.posts)) rawPosts = remote.posts;
+        if(Array.isArray(remote.users) && usersRes.status !== 'fulfilled'){
+          usersList = remote.users.map(normalizeUserRow).filter(Boolean);
+        }
+        if(Array.isArray(remote.stars) && starsRes.status !== 'fulfilled'){
+          starsMap = parseStarsSheet(remote.stars);
+        }
+      }
+    }
+
+    if(!rawPosts) throw new Error('posts-fetch-failed');
+
+    if(usersRes.status === 'fulfilled'){
+      usersList = usersRes.value.map(normalizeUserRow).filter(Boolean);
+    }
+    if(starsRes.status === 'fulfilled'){
+      starsMap = parseStarsSheet(starsRes.value);
+    }
+
+    const fetchedPosts = rawPosts
+      .filter(r => pick(r,['id','ID']) && pick(r,['text','Text','content','body']))
+      .map(normalizePost);
+
+    fetchedPosts.sort((a,b)=>Date.parse(b.createdAt)-Date.parse(a.createdAt));
+
+    // دمج منشورات هذا الجهاز غير الظاهرة في الشيت بعد مع الحفاظ على نجومها
+    const ids=new Set(fetchedPosts.map(p=>p.id));
+    mine=mine.filter(m=>!ids.has(m.post.id)&&Date.now()-Date.parse(m.post.createdAt)<2*86400000);
+    LS.set('mns_mine',mine);
+    mine.forEach(m=>{
+      m.post.stars = resolvePostStars(m.post.id, m.post.stars || 0);
+      fetchedPosts.unshift(m.post);
+    });
+
+    // فحص المنشورات الجديدة وإرسال إشعارات المتصفح إذا كان المستخدم مسجلاً في localStorage
+    await handleIncomingPostsForNotifications(fetchedPosts);
+
+    posts = fetchedPosts;
+    buildCommunityDirectory();
+    retryUnsent();
+    renderFeed();
+    if($('#view-search').classList.contains('active')) renderSearch();
+    if($('#view-similar').classList.contains('active')) renderSimilar();
+    if($('#view-notifications').classList.contains('active')) renderNotifications();
+    if(manual) toast('تم تحديث بيانات المجتمع والمنشورات ✅','ok');
+  }catch(e){
+    if(!posts.length && !silent){
+      mine.forEach(m=>{
+        m.post.stars = resolvePostStars(m.post.id, m.post.stars || 0);
+        posts.push(m.post);
+      });
+      if(posts.length){
+        buildCommunityDirectory();
+        renderFeed();
+      }else{
+        feed.innerHTML=`<div class="empty"><div class="big">📡</div>تعذر جلب المنشورات.<br><small>تأكد أن الشيت مشارك بصلاحية «أي شخص لديه الرابط – عارض» وأن ورقة <b>${esc(CONFIG.POSTS_SHEET_NAME)}</b> موجودة.</small><br><button class="btn ghost" id="retryFeed">إعادة المحاولة</button></div>`;
+        const r=$('#retryFeed'); if(r) r.onclick=()=>loadPosts(true);
+      }
+    }else if(manual){
+      toast('تعذر التحديث','bad');
+    }
+  }finally{
+    if(btn) btn.classList.remove('spin');
+    if(rSearchBtn) rSearchBtn.classList.remove('spin');
+    if(rSimBtn) rSimBtn.classList.remove('spin');
+  }
+}
+
+async function handleIncomingPostsForNotifications(latestPosts){
+  if(!latestPosts.length) return;
+  const currentIds = latestPosts.map(p => p.id);
+
+  // أول مرة يفتح فيها المستخدم الموقع: نحفظ المنشورات الحالية كمرجع ولا نغرق المتصفح بإشعارات قديمة
+  if(!Array.isArray(seenPostIds)){
+    seenPostIds = currentIds.slice(0, 300);
+    LS.set('mns_seen_posts', seenPostIds);
+    return;
+  }
+
+  const seenSet = new Set(seenPostIds);
+  const newPosts = latestPosts.filter(p => !seenSet.has(p.id));
+  if(!newPosts.length) return;
+
+  seenPostIds = Array.from(new Set([...currentIds, ...seenPostIds])).slice(0, 500);
+  LS.set('mns_seen_posts', seenPostIds);
+
+  // التحقق من localStorage: يجب أن يكون الشخص مسجلاً معلوماته على الموقع
+  if(!isRegistered()) return;
+
+  const myNorm = norm(user.name);
+  const othersPosts = newPosts.filter(p => p.authorId !== CID && norm(p.name) !== myNorm);
+  if(!othersPosts.length) return;
+
+  // فرز من الأقدم للأحدث لإضافتها بالترتيب الصحيح
+  const ordered = [...othersPosts].sort((a,b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
+  for(const p of ordered){
+    if(notifications.some(n => n.postId === p.id)) continue;
+    const notif = {
+      id: 'n_' + p.id,
+      postId: p.id,
+      authorName: p.name || 'مشارك',
+      authorRole: p.role || '',
+      authorSpec: p.role === 'teacher' ? (p.subject || '') : (p.stage || ''),
+      school: p.school || '',
+      governorate: p.governorate || '',
+      authorAvatar: p.avatar || '',
+      postType: p.type || TYPES[0].k,
+      postText: p.text || '',
+      createdAt: p.createdAt || new Date().toISOString(),
+      read: false,
+    };
+    notifications.unshift(notif);
+    await dispatchBrowserNotification(notif);
+  }
+
+  notifications = notifications.slice(0, 100);
+  LS.set('mns_notifications', notifications);
+  updateNotifBadges();
+  renderNotifications();
+  const latest = ordered[ordered.length - 1];
+  toast(`🔔 منشور جديد من ${latest.name} (${latest.type})`, 'ok');
+}
+
+async function pollUnreadNotificationsOnly(){
+  if(!isRegistered()) return;
+  try{
+    const rawPosts = await fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.POSTS_SHEET_NAME);
+    if(!Array.isArray(rawPosts) || !rawPosts.length) return;
+    const incoming = rawPosts
+      .filter(r => pick(r,['id','ID']) && pick(r,['text','Text','content','body']))
+      .map(r => {
+        const authorId = pick(r, ['authorId','AuthorId','clientId','userId']);
+        const name = pick(r, ['name','Name','authorName','الاسم']);
+        const matchedUser = usersList.find(u => (authorId && u.id === authorId) || (name && norm(u.name) === norm(name)));
+        return {
+          id: pick(r, ['id','ID','postId']),
+          createdAt: pick(r, ['createdAt','CreatedAt','date','timestamp']),
+          authorId,
+          name: name || (matchedUser ? matchedUser.name : ''),
+          role: pick(r, ['role','Role','الصفة']) || (matchedUser ? matchedUser.role : ''),
+          school: pick(r, ['school','School','المدرسة']) || (matchedUser ? matchedUser.school : ''),
+          governorate: pick(r, ['governorate','Governorate','المحافظة']) || (matchedUser ? matchedUser.governorate : ''),
+          subject: pick(r, ['subject','Subject','المادة','التخصص']) || (matchedUser ? matchedUser.subject : ''),
+          stage: pick(r, ['stage','Stage','المرحلة']) || (matchedUser ? matchedUser.stage : ''),
+          avatar: pick(r, ['avatar','Avatar','الصورة']) || (matchedUser ? matchedUser.avatar : ''),
+          type: pick(r, ['type','Type','category','النوع']) || TYPES[0].k,
+          text: pick(r, ['text','Text','content','body','المحتوى','النص']),
+        };
+      });
+    await handleIncomingPostsForNotifications(incoming);
+  }catch(e){
+    // تجاهل أخطاء الشبكة العابرة في الفحص الدوري للإشعارات
+  }
+}
+
+function startLivePolling(){
+  if(pollTimer) clearInterval(pollTimer);
+  // إيقاف تحديث الصفحة/المنشورات الدوري؛ فقط تحديث قائمة الإشعارات غير المقروءة كل 5 دقائق
+  pollTimer = setInterval(()=>{
+    pollUnreadNotificationsOnly();
+  }, CONFIG.NOTIF_POLL_INTERVAL_MS);
+}
+
+async function retryUnsent(){
+  for(const m of mine){
+    if(m.synced) continue;
+    try{ await api({action:'post',post:m.post}); m.synced=true; LS.set('mns_mine',mine); }catch(e){ break; }
+  }
+}
+
+/* ============================================================
+   عرض المنشورات وإصلاح النجمة
+   ============================================================ */
+function contactHTML(p){
+  const v=normalizeContact(p.contactType,p.contactValue);
+  if(!v) return '';
+  if(p.contactType==='telegram') return `<a class="contact tg" href="https://t.me/${encodeURIComponent(v)}" target="_blank" rel="noopener noreferrer">${ICON.tg}<span>@${esc(v)}</span></a>`;
+  return `<a class="contact wa" href="https://wa.me/${v}" target="_blank" rel="noopener noreferrer">${ICON.wa}<span>+${esc(v)}</span></a>`;
+}
+function postHTML(p,i){
+  const t=TYPES.find(x=>x.k===p.type)||TYPES[0];
+  const on=!!starred[p.id];
+  const count = Math.max(0, Number(p.stars) || 0);
+  const long=p.text.length>260||p.text.split('\n').length>5;
+  const spec = p.role==='teacher' ? (p.subject ? 'تخصص: '+p.subject : '') : (p.stage || '');
+  const sub=[spec,p.school,p.governorate,timeAgo(p.createdAt)].filter(Boolean).map(esc).join(' • ');
+  const role=p.role==='teacher'?'<span class="role teacher">أستاذ</span>':p.role==='student'?'<span class="role student">طالب</span>':'';
+  return `<article class="card post rv" data-id="${esc(p.id)}" style="--d:${Math.min(i,8)*45}ms">
+    <div class="post-h">${avatar(p.name,p.avatar)}
+      <div class="who"><div class="nm">${esc(p.name)} ${role}</div><div class="sub">${sub}</div></div></div>
+    <div class="tbadge" style="--c:${t.c}">${t.i} ${esc(t.k)}</div>
+    <div class="ptxt ${long?'clamp':''}">${esc(p.text)}</div>
+    ${long?'<button class="more">عرض المزيد</button>':''}
+    <div class="post-f">${contactHTML(p)}
+      <button class="star ${on?'on':''}" aria-pressed="${on}" aria-label="نجمة">${ICON.star}<span class="n">${count}</span></button></div>
+  </article>`;
+}
+function renderChips(){
+  const all=[{k:'',i:'✨',c:'#c9a227',n:'الكل'}].concat(TYPES.map(t=>({...t,n:t.k})));
+  $('#typeChips').innerHTML=all.map(t=>`<button class="chip ${filterType===t.k?'on':''}" data-k="${esc(t.k)}" style="--c:${t.c}">${t.i} ${esc(t.n)}</button>`).join('')
+    +`<button class="icon-btn" id="refFeed" aria-label="تحديث" style="flex:none"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>`;
+  $$('#typeChips .chip').forEach(c=>c.onclick=()=>{ filterType=c.dataset.k; renderChips(); renderFeed(); });
+  $('#refFeed').onclick=()=>loadPosts(true);
+}
+function renderFeed(){
+  const list=filterType?posts.filter(p=>p.type===filterType):posts;
+  $('#feed').innerHTML=list.length?list.map(postHTML).join(''):
+    `<div class="empty"><div class="big">💭</div>لا توجد منشورات ${filterType?'في هذا القسم ':''}بعد.<br>كن أول من يطرح مشكلة!<br><button class="btn primary" id="emptyNew">منشور جديد</button></div>`;
+  const e=$('#emptyNew'); if(e) e.onclick=openSheet;
+}
+
+function bindPostContainerEvents(container){
+  container.addEventListener('click',e=>{
+    const art=e.target.closest('.post'); if(!art) return;
+    if(e.target.closest('.more')){
+      const tx=$('.ptxt',art), b=e.target.closest('.more');
+      const c=tx.classList.toggle('clamp'); b.textContent=c?'عرض المزيد':'عرض أقل'; return;
+    }
+    const sb=e.target.closest('.star');
+    if(sb) toggleStar(art.dataset.id,sb);
+  });
+}
+bindPostContainerEvents($('#feed'));
+bindPostContainerEvents($('#searchResults'));
+
+async function toggleStar(id,btn){
+  const p=posts.find(x=>x.id===id); if(!p) return;
+  const on=!starred[id];
+  const nextCount = Math.max(on ? 1 : 0, (Number(p.stars)||0) + (on ? 1 : -1));
+
+  const syncAllCards = (postId, isOn, count) => {
+    $$(`.post[data-id="${CSS.escape(postId)}"] .star`).forEach(el => {
+      el.classList.toggle('on', isOn);
+      el.setAttribute('aria-pressed', isOn);
+      const numEl = $('.n', el);
+      if(numEl) numEl.textContent = count;
+    });
+  };
+
+  const apply=(state, count)=>{
+    if(state) starred[id]=1; else delete starred[id];
+    LS.set('mns_starred',starred);
+
+    starCache[id] = { count, starred: state, ts: Date.now() };
+    LS.set('mns_star_cache', starCache);
+
+    p.stars = count;
+    // تحديث المنشور في mns_mine إن وجد
+    const mItem = mine.find(m => m.post.id === id);
+    if(mItem){ mItem.post.stars = count; LS.set('mns_mine', mine); }
+
+    syncAllCards(id, state, count);
+  };
+
+  const prevCount = p.stars;
+  const prevState = !!starred[id];
+  apply(on, nextCount);
+  btn.classList.remove('pop'); void btn.offsetWidth; if(on) btn.classList.add('pop');
+
+  try{
+    await api({action:'star',postId:id,clientId:CID,on});
+  }catch(e){
+    if(e.message === 'no-url'){
+      toast('حُفظت النجمة محلياً (لم يُضبط رابط Apps Script بعد)','');
+    }else{
+      // نحفظ النجمة محلياً إذا كان السيرفر مشغولاً أو لا يستجيب مؤقتاً بدلاً من خسارتها، أو نبلغ المستخدم
+      toast('حُفظت النجمة محلياً — تعذر المزامنة الفورية مع الشيت','bad');
+      // نحتفظ بالحالة المحلية حتى لا تختفي النجمة؛ إلا إذا أردنا التراجع فقط عند خطأ صلاحيات صريح
+      void prevCount; void prevState;
+    }
+  }
+}
+
+/* ============================================================
+   قائمة البحث (أشخاص ومنشورات)
+   ============================================================ */
+function initSearchFilters(){
+  const govSel = $('#searchGovFilter');
+  if(govSel && govSel.options.length <= 1){
+    GOVS.forEach(g => {
+      const opt = document.createElement('option');
+      opt.value = g; opt.textContent = g;
+      govSel.appendChild(opt);
+    });
+  }
+}
+
+function personCardHTML(person, i, extraBadgeHtml='', reasonsText=''){
+  const roleLabel = person.role === 'teacher'
+    ? '<span class="role teacher">أستاذ</span>'
+    : person.role === 'student'
+    ? '<span class="role student">طالب</span>'
+    : '';
+  const spec = person.role === 'teacher'
+    ? (person.subject ? `التخصص: ${person.subject}` : 'أستاذ')
+    : (person.stage ? `المرحلة: ${person.stage}` : '');
+  const metaParts = [spec, person.school, person.governorate].filter(Boolean).map(esc);
+  const postsStat = person.postsCount > 0 ? `${person.postsCount} منشور` : 'عضو مسجل';
+  const latest = person.latestPost;
+  const contactHtml = latest ? contactHTML(latest) : '';
+
+  return `<article class="card person-card rv" style="--d:${Math.min(i,8)*40}ms">
+    <div class="person-top">
+      ${avatar(person.name, person.avatar, 'lg')}
+      <div class="person-info">
+        <div class="person-name">${esc(person.name)} ${roleLabel}</div>
+        <div class="person-meta">${metaParts.length ? metaParts.join(' · ') : 'عضو في المجتمع'} · ${postsStat}</div>
+      </div>
+      ${extraBadgeHtml}
+    </div>
+    ${reasonsText ? `<div class="reasons">${esc(reasonsText)}</div>` : ''}
+    ${latest ? `<div class="latest-quote">آخر منشور (${esc(latest.type)}): ${esc(latest.text)}</div>` : ''}
+    <div class="person-foot">
+      ${contactHtml}
+      ${person.postsCount > 0 ? `<button class="btn navy sm view-person-posts" style="margin-inline-start:auto" data-pid="${esc(person.id)}" data-pname="${esc(person.name)}">عرض المنشورات (${person.postsCount})</button>` : '<span style="font-size:12px;color:var(--tx3);margin-inline-start:auto">لم ينشر بعد</span>'}
+    </div>
+  </article>`;
+}
+
+function renderSearch(){
+  initSearchFilters();
+  const box = $('#searchResults');
+  const clearBtn = $('#clearAuthorFilter');
+  if(clearBtn) clearBtn.hidden = !(searchAuthorId || searchAuthorName);
+
+  const q = norm(searchQuery);
+  const govNorm = norm(searchGov);
+
+  let matchedPeople = communityPeople.filter(p => {
+    if(searchRole && p.role !== searchRole) return false;
+    if(govNorm && norm(p.governorate) !== govNorm) return false;
+    if(searchAuthorName && norm(p.name) !== norm(searchAuthorName)) return false;
+    if(!q) return true;
+    const hay = norm([p.name, p.subject, p.stage, p.school, p.governorate, p.role==='teacher'?'استاذ':'طالب'].join(' '));
+    return hay.includes(q);
+  });
+
+  let matchedPosts = posts.filter(p => {
+    if(searchRole && p.role !== searchRole) return false;
+    if(govNorm && norm(p.governorate) !== govNorm) return false;
+    if(searchAuthorId || searchAuthorName){
+      const byId = searchAuthorId && p.authorId === searchAuthorId;
+      const byName = searchAuthorName && norm(p.name) === norm(searchAuthorName);
+      if(!byId && !byName) return false;
+    }
+    if(!q) return true;
+    const hay = norm([p.name, p.text, p.type, p.subject, p.stage, p.school, p.governorate].join(' '));
+    return hay.includes(q);
+  });
+
+  let html = '';
+  if(searchAuthorName){
+    html += `<div class="banner"><span>👤</span><span>تعرض نتائج ومنشورات: <b>${esc(searchAuthorName)}</b></span><button id="bannerClearAuthor">عرض الكل</button></div>`;
+  }
+
+  if(searchMode === 'all' || searchMode === 'people'){
+    const pSlice = searchMode === 'all' ? matchedPeople.slice(0, 8) : matchedPeople;
+    if(pSlice.length){
+      html += `<div class="sec-head" style="margin-top:4px"><h2 style="font-size:16px">👥 الأشخاص (${matchedPeople.length})</h2></div>`;
+      html += pSlice.map((p,i)=>personCardHTML(p,i)).join('');
+    }
+  }
+
+  if(searchMode === 'all' || searchMode === 'posts'){
+    const postSlice = searchMode === 'all' ? matchedPosts.slice(0, 20) : matchedPosts;
+    if(postSlice.length){
+      html += `<div class="sec-head" style="margin-top:12px"><h2 style="font-size:16px">📝 المنشورات (${matchedPosts.length})</h2></div>`;
+      html += postSlice.map((p,i)=>postHTML(p,i)).join('');
+    }
+  }
+
+  if((searchMode==='people' && !matchedPeople.length) || (searchMode==='posts' && !matchedPosts.length) || (searchMode==='all' && !matchedPeople.length && !matchedPosts.length)){
+    html += `<div class="empty"><div class="big">🔍</div>لم نعثر على نتائج مطابقة.<br><small>جرّب البحث باسم آخر، أو تخصص، أو محافظة، أو كلمة من المنشور.</small></div>`;
+  }
+
+  box.innerHTML = html;
+  const bc = $('#bannerClearAuthor');
+  if(bc) bc.onclick = clearSearchAuthorFilter;
+}
+
+function clearSearchAuthorFilter(){
+  searchAuthorId = '';
+  searchAuthorName = '';
+  renderSearch();
+}
+
+$('#searchResults').addEventListener('click', e => {
+  const btn = e.target.closest('.view-person-posts');
+  if(!btn) return;
+  searchAuthorId = btn.dataset.pid || '';
+  searchAuthorName = btn.dataset.pname || '';
+  searchMode = 'posts';
+  $$('#searchModeTabs button').forEach(b => b.classList.toggle('on', b.dataset.m === 'posts'));
+  renderSearch();
+  window.scrollTo({ top: $('.hero-bg').offsetHeight, behavior: 'smooth' });
+});
+
+let searchDebounce;
+$('#searchQ').addEventListener('input', e => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(()=>{ searchQuery = e.target.value.trim(); renderSearch(); }, 160);
+});
+$('#searchModeTabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  searchMode = b.dataset.m;
+  $$('#searchModeTabs button').forEach(x => x.classList.toggle('on', x === b));
+  renderSearch();
+});
+$('#searchRoleFilter').addEventListener('change', e => { searchRole = e.target.value; renderSearch(); });
+$('#searchGovFilter').addEventListener('change', e => { searchGov = e.target.value; renderSearch(); });
+$('#clearAuthorFilter').addEventListener('click', clearSearchAuthorFilter);
+$('#refSearch').addEventListener('click', ()=>loadPosts(true));
+
+/* ============================================================
+   قائمة أشخاص يشبهونني (التخصص + موضوع المنشورات)
+   ============================================================ */
+function computeSimilarUsers(){
+  if(!isRegistered()) return [];
+  const myNormName = norm(user.name);
+  const mySubject = norm(user.subject || '');
+  const myStage = norm(user.stage || '');
+  const myGov = norm(user.governorate || '');
+  const mySchool = norm(user.school || '');
+
+  // جمع موضوعات ونوعيات منشورات المستخدم الحالي (التي نشرها + التي وضع عليها نجمة)
+  const myTypes = new Set();
+  const myTopics = new Set();
+  if(mySubject) extractTopics(user.subject).forEach(t => myTopics.add(t));
+  if(myStage) extractTopics(user.stage).forEach(t => myTopics.add(t));
+
+  posts.forEach(p => {
+    const isMine = (p.authorId && p.authorId === CID) || norm(p.name) === myNormName;
+    if(isMine || starred[p.id]){
+      if(p.type) myTypes.add(p.type);
+      extractTopics(p.text + ' ' + p.type).forEach(t => myTopics.add(t));
+    }
+  });
+
+  const results = [];
+  for(const other of communityPeople){
+    if((other.id && other.id === CID) || norm(other.name) === myNormName) continue;
+
+    let score = 0;
+    const reasons = [];
+
+    // 1. الاعتماد على التخصص / المرحلة
+    const otherSubj = norm(other.subject || '');
+    const otherStage = norm(other.stage || '');
+
+    if(user.role === 'teacher'){
+      if(other.role === 'teacher' && mySubject && otherSubj){
+        const sim = similarity(mySubject, otherSubj);
+        if(sim >= 0.72){
+          score += 48;
+          reasons.push(`نفس التخصص (${other.subject})`);
+        }else{
+          // تحقق من تداخل مجموعات التخصص
+          const myT = extractTopics(mySubject);
+          const otT = extractTopics(otherSubj);
+          let domainHit = false;
+          myT.forEach(t => { if(t.startsWith('domain:') && otT.has(t)) domainHit = true; });
+          if(domainHit){
+            score += 40;
+            reasons.push(`تخصص قريب (${other.subject})`);
+          }
+        }
+      }else if(other.role === 'student' && mySubject){
+        // طالب ينشر في نفس تخصص الأستاذ
+        const mySubjTokens = extractTopics(mySubject);
+        let topicMatch = false;
+        mySubjTokens.forEach(t => { if(other.topics.has(t)) topicMatch = true; });
+        if(topicMatch){
+          score += 32;
+          reasons.push(`منشوراته ضمن تخصصك (${user.subject})`);
+        }
+      }
+    }else{
+      // طالب
+      if(other.role === 'student' && myStage && otherStage){
+        if(myStage === otherStage){
+          score += 42;
+          reasons.push(`نفس المرحلة (${other.stage})`);
+        }else{
+          const idx1 = STAGES.findIndex(s => norm(s) === myStage);
+          const idx2 = STAGES.findIndex(s => norm(s) === otherStage);
+          if(idx1 >= 0 && idx2 >= 0 && Math.abs(idx1 - idx2) === 1){
+            score += 20;
+            reasons.push(`مرحلة قريبة (${other.stage})`);
+          }
+        }
+      }else if(other.role === 'teacher' && otherSubj){
+        const otTokens = extractTopics(otherSubj);
+        let hits = 0;
+        otTokens.forEach(t => { if(myTopics.has(t)) hits++; });
+        if(hits > 0){
+          score += 34;
+          reasons.push(`أستاذ يدرّس مادة تهمك (${other.subject})`);
+        }
+      }
+    }
+
+    // 2. الاعتماد على موضوع المنشورات (النوع + الكلمات المفتاحية)
+    const sharedTypes = Object.keys(other.postTypes || {}).filter(t => myTypes.has(t));
+    if(sharedTypes.length){
+      score += Math.min(24, sharedTypes.length * 10);
+      reasons.push(`مواضيع منشورات مشتركة: ${sharedTypes.slice(0,2).join('، ')}`);
+    }
+
+    const sharedKeywords = [];
+    const sharedDomains = [];
+    other.topics.forEach(t => {
+      if(myTopics.has(t)){
+        if(t.startsWith('domain:')) sharedDomains.push(t.replace('domain:',''));
+        else sharedKeywords.push(t);
+      }
+    });
+    if(sharedDomains.length || sharedKeywords.length){
+      const kwScore = Math.min(26, sharedDomains.length * 12 + sharedKeywords.length * 5);
+      score += kwScore;
+      const labels = [...new Set([...sharedDomains, ...sharedKeywords])].slice(0, 3);
+      reasons.push(`اهتمامات متقاربة في النشر: ${labels.join('، ')}`);
+    }
+
+    // 3. تقارب إضافي بالمدرسة والمحافظة والصفة
+    if(mySchool && other.school && similarity(mySchool, other.school) >= 0.85){
+      score += 12;
+      reasons.push(`نفس المدرسة (${other.school})`);
+    }else if(myGov && other.governorate && myGov === norm(other.governorate)){
+      score += 8;
+      reasons.push(`نفس المحافظة (${other.governorate})`);
+    }
+    if(user.role && other.role === user.role && reasons.length === 0){
+      score += 6;
+    }
+
+    if(score >= 12 && reasons.length){
+      results.push({
+        person: other,
+        pct: Math.min(99, Math.round(score)),
+        reasonsText: reasons.join(' · '),
+      });
+    }
+  }
+
+  results.sort((a,b) => b.pct - a.pct || b.person.postsCount - a.person.postsCount);
+  return results;
+}
+
+function renderSimilar(){
+  const box = $('#similarBox');
+  if(!box) return;
+  if(!isRegistered()){
+    box.innerHTML = `<div class="card empty rv">
+      <div class="big">🤝</div>
+      <h3 style="margin-bottom:6px;color:var(--oxford-blue)">اكتشف الأشخاص الذين يشبهونك</h3>
+      <p style="font-size:14px;color:var(--tx2);max-width:420px;margin:0 auto">سجّل تخصصك أو مرحلتك الدراسية في «حسابي» لنقترح عليك الطلاب والأساتذة المتقاربين معك في التخصص وموضوع المنشورات.</p>
+      <button class="btn primary" id="simGoReg">تسجيل بياناتي الآن</button>
+    </div>`;
+    const btn = $('#simGoReg'); if(btn) btn.onclick = () => go('me');
+    return;
+  }
+
+  const matches = computeSimilarUsers();
+  const specLabel = user.role === 'teacher' ? (user.subject || 'غير محدد') : (user.stage || 'غير محدد');
+  let html = `<div class="banner rv"><span>🎯</span><span>الترشيح يعتمد على تخصصك (<b>${esc(specLabel)}</b>) ومواضيع منشوراتك ونجومك.</span></div>`;
+
+  if(!matches.length){
+    html += `<div class="card empty rv"><div class="big">🌱</div>لا يوجد تطابق كافٍ حالياً.<br><small>كلما زاد عدد المشاركين أو نشرت مواضيع جديدة ستظهر هنا قائمة بالأشخاص الأقرب لك.</small></div>`;
+  }else{
+    html += matches.map((m, i) => personCardHTML(
+      m.person,
+      i,
+      `<div class="match-score"><b>${m.pct}%</b><span>تشابه</span></div>`,
+      m.reasonsText
+    )).join('');
+  }
+
+  box.innerHTML = html;
+}
+
+$('#similarBox').addEventListener('click', e => {
+  const btn = e.target.closest('.view-person-posts');
+  if(!btn) return;
+  searchAuthorId = btn.dataset.pid || '';
+  searchAuthorName = btn.dataset.pname || '';
+  searchMode = 'posts';
+  $$('#searchModeTabs button').forEach(b => b.classList.toggle('on', b.dataset.m === 'posts'));
+  go('search');
+});
+$('#refSimilar').addEventListener('click', ()=>loadPosts(true));
+
+/* ============================================================
+   قائمة الإشعارات غير المقروءة
+   ============================================================ */
+function renderNotifSettings(){
+  const card = $('#notifSettingsCard');
+  if(!card) return;
+  const reg = isRegistered();
+  const perm = getNotifPermission();
+
+  let statusMsg = '';
+  let actionBtn = '';
+  if(!reg){
+    statusMsg = 'سجّل بياناتك في الموقع (تُحفظ في localStorage) لتفعيل استقبال إشعارات المتصفح الفورية عند نشر أي عضو.';
+    actionBtn = '<button class="btn primary sm" id="nsGoReg">تسجيل الآن</button>';
+  }else if(perm === 'granted'){
+    statusMsg = `مسجّل باسم <b>${esc(user.name)}</b> — إشعارات المتصفح مفعّلة للموبايل والحاسوب ✅`;
+    actionBtn = '<button class="btn ghost sm" id="nsTest">🧪 تجربة إشعار</button>';
+  }else if(perm === 'denied'){
+    statusMsg = 'إشعارات المتصفح محظورة في إعدادات المتصفح حالياً، لكن الإشعارات الجديدة تُحفظ هنا في القائمة.';
+    actionBtn = '<button class="btn ghost sm" id="nsTest">🧪 تجربة إشعار</button>';
+  }else if(perm === 'unsupported'){
+    statusMsg = 'المتصفح لا يدعم إشعارات النظام، ولكن ستصلك جميع الإشعارات داخل هذه القائمة.';
+    actionBtn = '<button class="btn ghost sm" id="nsTest">🧪 تجربة إشعار</button>';
+  }else{
+    statusMsg = `مسجّل باسم <b>${esc(user.name)}</b> — اضغط تفعيل لتصلك إشعارات المتصفح على الموبايل والحاسوب لحظة النشر.`;
+    actionBtn = '<button class="btn primary sm" id="nsEnable">🔔 تفعيل إشعارات المتصفح</button><button class="btn ghost sm" id="nsTest">🧪 تجربة</button>';
+  }
+
+  card.innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <div style="flex:1;min-width:220px;font-size:13.5px;color:var(--oxford-blue);line-height:1.6">${statusMsg}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${actionBtn}</div>
+  </div>`;
+
+  const gr = $('#nsGoReg'); if(gr) gr.onclick = ()=>go('me');
+  const en = $('#nsEnable'); if(en) en.onclick = requestBrowserNotifPermission;
+  const ts = $('#nsTest'); if(ts) ts.onclick = sendTestNotification;
+}
+
+function renderNotifications(){
+  renderNotifSettings();
+  const box = $('#notificationsList');
+  if(!box) return;
+  const list = notifFilter === 'unread' ? notifications.filter(n => !n.read) : notifications;
+
+  if(!list.length){
+    box.innerHTML = `<div class="card empty rv"><div class="big">${notifFilter==='unread'?'✅':'🔔'}</div>${notifFilter==='unread'?'لا توجد إشعارات غير مقروءة حالياً.':'لا توجد إشعارات بعد.'}<br><small>عند نشر أي شخص على الموقع وأنت مسجّل، سيصلك إشعار فوري هنا وعلى متصفحك.</small></div>`;
+    return;
+  }
+
+  box.innerHTML = list.map((n, i) => {
+    const tInfo = TYPES.find(x => x.k === n.postType) || TYPES[0];
+    const role = n.authorRole === 'teacher' ? '<span class="role teacher">أستاذ</span>' : n.authorRole === 'student' ? '<span class="role student">طالب</span>' : '';
+    const sub = [n.authorSpec, n.school, n.governorate].filter(Boolean).map(esc).join(' • ');
+    return `<article class="card notif-card rv ${n.read ? '' : 'unread'}" data-nid="${esc(n.id)}" data-pid="${esc(n.postId)}" style="--d:${Math.min(i,8)*35}ms">
+      ${n.read ? '' : '<span class="notif-dot" aria-label="غير مقروء"></span>'}
+      ${avatar(n.authorName, n.authorAvatar)}
+      <div class="notif-body">
+        <div class="notif-title">${esc(n.authorName)} ${role} <span style="font-size:12px;color:${tInfo.c};font-weight:700">${tInfo.i} ${esc(n.postType)}</span></div>
+        ${sub ? `<div class="notif-sub">${sub}</div>` : ''}
+        <div class="notif-txt">${esc(n.postText)}</div>
+        <div class="notif-actions">
+          <span class="notif-time">${timeAgo(n.createdAt)}${n.isTest ? ' • إشعار تجريبي' : ''}</span>
+          <div style="display:flex;gap:6px">
+            ${n.read ? '' : `<button class="btn ghost sm mark-read-btn" data-nid="${esc(n.id)}">تحديد كمقروء</button>`}
+            <button class="btn primary sm open-notif-post" data-nid="${esc(n.id)}" data-pid="${esc(n.postId)}">عرض المنشور</button>
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+$('#notifFilterTabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  notifFilter = b.dataset.f;
+  $$('#notifFilterTabs button').forEach(x => x.classList.toggle('on', x === b));
+  renderNotifications();
+});
+$('#markAllReadBtn').addEventListener('click', markAllNotificationsRead);
+$('#notificationsList').addEventListener('click', e => {
+  const mr = e.target.closest('.mark-read-btn');
+  if(mr){ e.stopPropagation(); markNotificationRead(mr.dataset.nid); return; }
+  const card = e.target.closest('.notif-card');
+  if(!card) return;
+  markNotificationRead(card.dataset.nid);
+  jumpToPost(card.dataset.pid);
+});
+
+/* ===== نافذة منشور جديد ===== */
+let pType=TYPES[0].k, pContact='';
+function openSheet(){
+  $('#pName').value=myName();
+  $('#pTypes').innerHTML=TYPES.map(t=>`<button type="button" class="chip ${t.k===pType?'on':''}" data-k="${esc(t.k)}" style="--c:${t.c}">${t.i} ${esc(t.k)}</button>`).join('');
+  $$('#pTypes .chip').forEach(c=>c.onclick=()=>{ pType=c.dataset.k; $$('#pTypes .chip').forEach(x=>x.classList.toggle('on',x===c)); });
+  $('#sBack').classList.add('open'); $('#sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSheet(){
+  $('#sBack').classList.remove('open'); $('#sheet').classList.remove('open');
+  document.body.style.overflow='';
+}
+$('#fab').onclick=openSheet; $('#composerCard').onclick=openSheet; $('#sBack').onclick=closeSheet;
+$('#pText').addEventListener('input',e=>{ $('#pCount').textContent=e.target.value.length; });
+$$('#cSeg button').forEach(b=>b.onclick=()=>{
+  pContact=b.dataset.c;
+  $$('#cSeg button').forEach(x=>x.classList.toggle('on',x===b));
+  const inp=$('#pContact'), h=$('#cHint');
+  inp.hidden=!pContact; h.hidden=!pContact;
+  inp.value='';
+  if(pContact==='telegram'){ inp.placeholder='@username'; inp.inputMode='text'; h.textContent='اكتب معرفك في تلجرام (5 أحرف على الأقل).'; }
+  if(pContact==='whatsapp'){ inp.placeholder='07xxxxxxxxx'; inp.inputMode='tel'; h.textContent='اكتب رقمك، ويُحوَّل تلقائياً لصيغة دولية (العراق +964).'; }
+});
+
+$('#pSend').onclick=async()=>{
+  const btn=$('#pSend');
+  const name=$('#pName').value.trim(), text=$('#pText').value.trim();
+  $$('#sheet .field.err').forEach(x=>x.classList.remove('err'));
+  const bad=[];
+  if(name.length<2) bad.push('#fName');
+  if(text.length<5) bad.push('#fText');
+  let cv='';
+  if(pContact){ cv=normalizeContact(pContact,$('#pContact').value); if(!cv) bad.push('#fContact'); }
+  if(bad.length){ bad.forEach(s=>$(s).classList.add('err')); toast(bad.includes('#fContact')?'معرف التواصل غير صحيح':'أكمل الاسم ونص المنشور','bad'); return; }
+  LS.set('mns_guest_name',name);
+  const post={
+    id:'p_'+Date.now().toString(36)+rnd(), createdAt:new Date().toISOString(), authorId:CID, name,
+    role:user?user.role:'', school:user?user.school:'', governorate:user?user.governorate:'',
+    subject:user?user.subject:'', stage:user?user.stage:'', avatar:user?user.avatar:'',
+    type:pType, text, contactType:cv?pContact:'', contactValue:cv, stars:0,
+  };
+  btn.disabled=true; btn.innerHTML='<span class="ld"></span> جارٍ النشر...';
+  const entry={post,synced:false};
+  mine.push(entry); LS.set('mns_mine',mine);
+  if(Array.isArray(seenPostIds)){ seenPostIds.unshift(post.id); LS.set('mns_seen_posts', seenPostIds); }
+  posts.unshift(post); buildCommunityDirectory(); renderFeed(); renderHeader();
+  try{
+    await api({action:'post',post});
+    entry.synced=true; LS.set('mns_mine',mine);
+    toast('تم نشر منشورك ✅','ok');
+  }catch(e){
+    toast(e.message==='no-url'?'حُفظ محلياً — اربط Apps Script ليُرسل للشيت':'حُفظ محلياً وسيُعاد إرساله لاحقاً','bad');
+  }
+  btn.disabled=false; btn.textContent='نشر';
+  $('#pText').value=''; $('#pCount').textContent='0';
+  closeSheet(); window.scrollTo({top:0,behavior:'smooth'});
+};
+
+/* ============================================================
+   الإحصائيات
+   ============================================================ */
+async function loadStats(){
+  statsLoading=true;
+  const list=$('#statList'), btn=$('#refStats'); btn.classList.add('spin');
+  list.innerHTML=[1,2,3,4].map(()=>`<div class="card rec"><div class="sk" style="width:58px;height:58px;border-radius:50%"></div><div style="flex:1"><div class="sk" style="height:14px;width:50%;margin-bottom:10px"></div><div class="sk" style="height:10px;width:75%"></div></div></div>`).join('');
+  const res=await Promise.allSettled(CONFIG.STATS_SHEETS.map(n=>fetchSheet(CONFIG.STATS_SHEET_ID,n).then(rows=>buildRecords(n,rows))));
+  const ok=res.filter(r=>r.status==='fulfilled');
+  statsLoading=false; btn.classList.remove('spin');
+  if(!ok.length){
+    list.innerHTML=`<div class="empty"><div class="big">📡</div>تعذر جلب الإحصائيات.<br><small>تأكد أن الشيت مشارك بصلاحية «أي شخص لديه الرابط – عارض».</small><br><button class="btn ghost" id="retryStats">إعادة المحاولة</button></div>`;
+    $('#retryStats').onclick=loadStats; return;
+  }
+  statsRows=dedupeRecords(ok.flatMap(r=>r.value));
+  statsRows.forEach((r,i)=>r.gidx=i);
+  statsRows.sort((a,b)=>(b.ts-a.ts)||(b.gidx-a.gidx));
+  updateStatsView(true);
+}
+function matchLevel(rec){
+  const me=myName(); if(!me||!rec.name) return null;
+  const s=similarity(me,rec.name);
+  return s>=0.999?'exact':s>=0.82?'close':null;
+}
+function updateStatsView(){
+  if(!statsRows) return;
+  $('#mineRow').hidden=!myName();
+  if(!myName()){ onlyMine=false; $('#onlyMine').checked=false; }
+  statsRows.forEach(r=>{ r.match=matchLevel(r); });
+  let rows=statsRows.filter(r=>statsTab==='all'||r.cat===statsTab);
+  const q=norm(statsQ);
+  if(q) rows=rows.filter(r=>norm(r.name).includes(q)||norm(r.course).includes(q)||norm(r.region).includes(q)||(r.cert||'').toLowerCase().includes(statsQ.toLowerCase()));
+  if(onlyMine) rows=rows.filter(r=>r.match);
+
+  const base=statsRows.filter(r=>statsTab==='all'||r.cat===statsTab);
+  const scored=base.filter(r=>r.pct!=null);
+  const uniq=new Set(base.map(r=>norm(r.name)).filter(Boolean)).size;
+  const avg=scored.length?scored.reduce((a,r)=>a+r.pct,0)/scored.length:0;
+  const top=scored.length?Math.max(...scored.map(r=>r.pct)):0;
+  $('#tiles').innerHTML=[
+    ['المشاركات',base.length,0,'','#0b1f3a','#1d4278'],
+    ['المشاركون',uniq,0,'','#c9a227','#a8861b'],
+    ['متوسط الدرجات',avg,1,'%','#0b1f3a','#1d4278'],
+    ['أعلى درجة',top,0,'%','#c9a227','#a8861b'],
+  ].map((t,i)=>`<div class="tile rv" style="--c1:${t[4]};--c2:${t[5]};--d:${i*70}ms"><div class="v" data-to="${t[1]}" data-dec="${t[2]}" data-suf="${t[3]}">0</div><div class="l">${t[0]}</div></div>`).join('');
+  $$('#tiles .v').forEach(el=>countUp(el,+el.dataset.to,+el.dataset.dec,el.dataset.suf));
+
+  let top3='';
+  const best=[...scored].sort((a,b)=>b.pct-a.pct||b.ts-a.ts).slice(0,3);
+  if(best.length) top3+=`<div class="card top3 rv"><h4>🏆 الأعلى درجة</h4>${best.map((r,i)=>`<div class="pod"><span class="md">${['🥇','🥈','🥉'][i]}</span><span class="n">${esc(r.name||'—')}</span><span class="s">${esc(r.scoreLabel)}</span></div>`).join('')}</div>`;
+  if(statsTab==='all'){
+    const cnt={games:0,courses:0,monthly:0,other:0}; statsRows.forEach(r=>cnt[r.cat]++);
+    const mx=Math.max(1,...Object.values(cnt));
+    top3+=`<div class="card bars rv"><h4>📊 توزيع المشاركات</h4>${Object.entries(cnt).filter(([,v])=>v>0).map(([k,v])=>`<div class="bar"><span class="t">${CAT_LABEL[k]}</span><span class="tr"><span class="f" style="--w:${v/mx*100}%;display:block"></span></span><span class="c">${v}</span></div>`).join('')}</div>`;
+  }
+  const meRows=statsRows.filter(r=>r.match==='exact');
+  if(myName()&&meRows.length){
+    const sc=meRows.filter(r=>r.pct!=null);
+    top3=`<div class="banner rv"><span>⭐</span><span>لديك <b>${meRows.length}</b> مشاركة${sc.length?` • متوسطك <b>${(sc.reduce((a,r)=>a+r.pct,0)/sc.length).toFixed(1)}%</b>`:''}</span></div>`+top3;
+  }
+  $('#statTop').innerHTML=top3;
+
+  const shown=rows.slice(0,statsShown);
+  $('#statList').innerHTML=shown.length?shown.map((r,i)=>recHTML(r,i)).join(''):`<div class="empty"><div class="big">🔍</div>لا توجد نتائج مطابقة.</div>`;
+  $('#statMore').hidden=rows.length<=statsShown;
+  $('#statMore').textContent=`عرض المزيد (${rows.length-statsShown})`;
+}
+function recHTML(r,i){
+  const pct=r.pct==null?null:Math.round(r.pct);
+  const rc=pct==null?'#86868b':pct>=85?'#06762f':pct>=60?'#c9a227':'#d33333';
+  const lbl=/^\d+(\.\d+)?$/.test(r.scoreLabel||'')?r.scoreLabel+'%':(r.scoreLabel||'—');
+  const ring=`<div class="ring" style="--p:${pct??0};--rc:${rc}"><svg viewBox="0 0 56 56"><circle class="bgc" cx="28" cy="28" r="22"/>${pct==null?'':'<circle class="fg" cx="28" cy="28" r="22"/>'}</svg><b>${esc(lbl)}</b></div>`;
+  const badge=r.match==='exact'?'<span class="me-b">أنت ✓</span>':r.match==='close'?'<span class="me-b close">تطابق قريب مع اسمك</span>':'';
+  const gr=gradeOf(r.pct);
+  const st=gr?`<span class="st ${gr.k}">${gr.i} ${gr.t}</span>`:r.status==='pass'?'<span class="st pass">✓ ناجح</span>':'';
+  const place=[r.country,r.region].filter(Boolean).join(' • ');
+  const meta=[
+    `<span class="mt cat">${CAT_LABEL[r.cat]}</span>`,
+    r.type?`<span class="mt">📝 ${esc(r.type)}</span>`:'',
+    r.course?`<span class="mt">🎓 ${esc(r.course)}</span>`:'',
+    r.courseNo?`<span class="mt">رقم الكورس: ${esc(r.courseNo)}</span>`:'',
+    r.date?`<span class="mt">📅 ${esc(r.date)}</span>`:'',
+    place?`<span class="mt">📍 ${esc(place)}</span>`:'',
+    r.cert?`<span class="mt cert">${esc(r.cert)}</span>`:'',
+    ...r.extras.map(([k,v])=>`<span class="mt">${esc(k)}: ${esc(v)}</span>`),
+  ].join('');
+  return `<div class="card rec rv ${r.match==='exact'?'me':''}" style="--d:${Math.min(i,10)*40}ms">${ring}<div class="bd"><div class="nm">${esc(r.name||'—')} ${st} ${badge}</div><div class="meta">${meta}</div></div></div>`;
+}
+$('#statTabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  statsTab=b.dataset.c; statsShown=20;
+  $$('#statTabs button').forEach(x=>x.classList.toggle('on',x===b));
+  updateStatsView();
+});
+let qT; $('#statQ').addEventListener('input',e=>{ clearTimeout(qT); qT=setTimeout(()=>{ statsQ=e.target.value.trim(); statsShown=20; updateStatsView(); },180); });
+$('#onlyMine').addEventListener('change',e=>{ onlyMine=e.target.checked; statsShown=20; updateStatsView(); });
+$('#statMore').onclick=()=>{ statsShown+=20; updateStatsView(); };
+$('#refStats').onclick=()=>{ if(!statsLoading) loadStats(); };
+
+/* ============================================================
+   البدء
+   ============================================================ */
+async function init(){
+  $('#year').textContent=new Date().getFullYear();
+  initServiceWorker();
+  await syncNotifPermissionState();
+  renderHeader();
+  renderChips();
+  updateNotifBadges();
+  initSearchFilters();
+  loadPosts();
+  startLivePolling();
+  syncUser();
+  const nEnable=$('#notifModalEnable'), nLater=$('#notifModalLater'), nBack=$('#notifModalBack');
+  if(nEnable) nEnable.onclick = requestBrowserNotifPermission;
+  if(nLater) nLater.onclick = closeNotifModal;
+  if(nBack) nBack.onclick = closeNotifModal;
+  checkEntryNotificationPrompt();
+  const params = new URLSearchParams(location.search);
+  const targetPost = params.get('post');
+  const h=(location.hash||'').slice(1);
+  if(['feed','search','similar','notifications','stats','me'].includes(h)) go(h);
+  else $('#fab').classList.add('show');
+  if(targetPost) setTimeout(()=>jumpToPost(targetPost), 900);
+}
+init();
+</script>
+</body>
+</html>
