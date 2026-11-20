@@ -10,6 +10,7 @@
   <meta name="author" content="الأستاذ مصطفى رحيم فندي">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://m-mns.vercel.app/">
+
   <!-- Open Graph -->
   <meta property="og:title" content="طالب | منصة تعليمية مدرسية">
   <meta property="og:description" content="منصة تعليمية مدرسية غير حكومية.">
@@ -36,7 +37,7 @@
   <link href="fonts.css" rel="stylesheet">
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="webfonts/fontawesome-free-6.5.2-web/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -45,7 +46,7 @@
     "@type": "EducationalOrganization",
     "name": "طالب",
     "alternateName": "منصة طالب التعليمية",
-    "url": "https://m-mns.vercel.app",
+    "url": "https://talib.edu/",
     "logo": "logo.jfif",
     "description": "منصة تعليمية مدرسية غير حكومية.",
     "founder": {
@@ -323,6 +324,58 @@
       .social-btn { padding: 9px 16px; font-size: 14px; }
       .social-btn i { font-size: 16px; }
     }
+
+    /* ===== عدّاد الزيارات ===== */
+    .visits {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 8px 18px 8px 10px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(201,162,39,0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+      color: rgba(255,255,255,0.85);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .visits.show {
+      display: inline-flex;
+      animation: visitsIn .6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+    }
+    .visits-ic {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(201,162,39,0.18);
+      color: var(--oxford-gold);
+      font-size: 14px;
+    }
+    .visits-lbl { white-space: nowrap; }
+    .visits-num {
+      direction: ltr;
+      min-width: 1.5ch;
+      color: var(--oxford-gold);
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .visits.loading .visits-num { opacity: .55; animation: visitsPulse 1s ease-in-out infinite; }
+    @keyframes visitsIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes visitsPulse { 50% { opacity: .25; } }
+    @media (prefers-reduced-motion: reduce) {
+      .visits.show, .visits.loading .visits-num { animation: none; }
+    }
   </style>
 </head>
 
@@ -361,6 +414,12 @@
         </a>
       </div>
 
+      <!-- عدّاد الزيارات (القيمة تُقرأ من Google Sheet) -->
+      <div class="visits" id="visitsBox" role="status" aria-live="polite">
+        <span class="visits-ic"><i class="fa-solid fa-eye"></i></span>
+        <span class="visits-lbl">عدد الزيارات</span>
+        <b class="visits-num" id="visitsNum">···</b>
+      </div>
 
     </div>
   </header>
@@ -390,8 +449,10 @@
         <p style="color: #4c4c4d;" class="leading-relaxed max-w-xl mx-auto">
           منصة <strong>طالب</strong> منصة تعليمية مجانية غير حكومية، تأسست بإشراف
           <strong>   الأستاذ مصطفى رحيم فندي </strong>تهدف الى مساعدة الطلاب في الدراسة عبر احدث الطرق التعليمية </p>
+      </div>
+    </section>
 
-
+  </main>
 
   <!-- الحقوق -->
   <footer class="bg-[#081729] text-gray-900 py-6 text-center text-sm px-4">
@@ -413,6 +474,237 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- عدّاد الزيارات -->
+  <script>
+  /* ============================================================
+     عدّاد الزيارات — مبني على منطق visits-check المُتحقَّق منه
+     ============================================================ */
+  (function () {
+    'use strict';
+    var VISITS = {
+      SHEET_ID:   '1wWDvSJ1Qo31zvdN_qmGyFsLmrvSOmnq_E2CdVSbj9LE',
+      SHEET_NAME: 'Summary',
+      SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzphFJSBFS9yObZHeIrExPM7fpLECNWf6bdBOq8R5BM3ybxvVyTDMHRHppJ8dEFPBn5/exec'
+    };
+
+    var isSet = function (v) { return !!v && !/^PUT_/.test(v); };
+    var box = document.getElementById('visitsBox');
+    var numEl = document.getElementById('visitsNum');
+    if (!box || !numEl || !isSet(VISITS.SHEET_ID)) {
+      console.warn('[Visits] Missing visitsBox/visitsNum or SHEET_ID');
+      return;
+    }
+
+    /* ---------- تخزين آمن ---------- */
+    function lsGet(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function lsSet(k, v){ try { localStorage.setItem(k, v); } catch (e) {} }
+
+    function visitorId() {
+      var v = lsGet('mns_vid');
+      if (!v || !/^[A-Za-z0-9_-]{8,40}$/.test(v)) {
+        v = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+        lsSet('mns_vid', v);
+      }
+      return v;
+    }
+    function deviceType() {
+      var ua = navigator.userAgent || '';
+      if (/iPad|Tablet/i.test(ua)) return 'tablet';
+      if (/Mobi|Android|iPhone/i.test(ua)) return 'mobile';
+      return 'desktop';
+    }
+    function refHost() {
+      try { var h = new URL(document.referrer).hostname; return h === location.hostname ? '' : h; }
+      catch (e) { return ''; }
+    }
+
+    /* ---------- عرض الرقم مع حركة عدّ ---------- */
+    var fmt = function (n) { return new Intl.NumberFormat('en-US').format(n); };
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var cur = 0, anim = 0, hasValue = false;
+    function render(n) {
+      hasValue = true;
+      box.classList.remove('loading');
+      var id = ++anim, from = cur;
+      if (reduce || from === n) { cur = n; numEl.textContent = fmt(n); return; }
+      var t0 = performance.now(), dur = Math.min(1400, 500 + Math.abs(n - from) * 3);
+      requestAnimationFrame(function step(t) {
+        if (id !== anim) return;
+        var p = Math.min(1, Math.max(0, (t - t0) / dur)), e = 1 - Math.pow(1 - p, 3);
+        cur = Math.round(from + (n - from) * e);
+        numEl.textContent = fmt(cur);
+        if (p < 1) requestAnimationFrame(step);
+      });
+    }
+
+    /* ---------- قراءة المجموع من رابط الـ Sheet (Google Visualization) ---------- */
+    function readTotal() {
+      console.log('[Visits] 1. Reading total from Google Sheet...');
+      return new Promise(function (resolve, reject) {
+        var cb = '__mnsVisits' + Math.random().toString(36).slice(2, 8);
+        var s = document.createElement('script');
+        var done = false;
+        var tm = setTimeout(function () { fail('sheet: لا استجابة من رابط الـ Sheet خلال 10 ثوانٍ'); }, 10000);
+        function clean() {
+          clearTimeout(tm);
+          try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+          if (s.parentNode) s.parentNode.removeChild(s);
+        }
+        function fail(msg) { if (done) return; done = true; clean(); reject(new Error(msg)); }
+        window[cb] = function (res) {
+          if (done) return;
+          done = true; clean();
+          try {
+            if (!res || res.status !== 'ok') {
+              var er = res && res.errors && res.errors[0];
+              throw new Error('sheet: ' + (er ? (er.detailed_message || er.message || er.reason) : 'رد غير متوقع'));
+            }
+            var rows = (res.table && res.table.rows) || [];
+            var row = null, i;
+            for (i = 0; i < rows.length; i++) {
+              var c = rows[i].c;
+              if (c && c[0] && /total/i.test(String(c[0].v == null ? '' : c[0].v))) { row = rows[i]; break; }
+            }
+            if (!row) row = rows[0];
+            var raw = row && row.c && row.c[1] ? row.c[1].v : null;
+            var v = typeof raw === 'number' ? raw : parseFloat(raw);
+            if (!isFinite(v)) throw new Error('sheet: لم أجد رقم المجموع في الورقة ' + VISITS.SHEET_NAME);
+            var total = Math.max(0, Math.round(v));
+            console.log('[Visits] 1. Sheet read OK. Total =', total);
+            resolve(total);
+          } catch (e) { reject(e); }
+        };
+        s.onerror = function () { fail('sheet: تعذّر تحميل رابط الـ Sheet (غير مشارك للعامة أو محجوب)'); };
+        s.onload = function () { fail('sheet: الاستجابة ليست بيانات — الملف غير مشارك للعامة أو اسم الورقة خطأ'); };
+        s.async = true;
+        s.src = 'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(VISITS.SHEET_ID) +
+                '/gviz/tq?tqx=out:json;responseHandler:' + cb +
+                '&sheet=' + encodeURIComponent(VISITS.SHEET_NAME) +
+                '&range=A1:B5&headers=1&_=' + Date.now();
+        document.head.appendChild(s);
+      });
+    }
+
+    /* ---------- نفس منطق callScript من visits-check لتسجيل الزيارة ---------- */
+    function callScript(opts) {
+      return fetch(VISITS.SCRIPT_URL, opts).then(function (r) {
+        return r.text().then(function (t) {
+          return { status: r.status, text: t };
+        });
+      });
+    }
+
+    function sendHit() {
+      var payload = {
+        action: 'hit',
+        vid: visitorId(),
+        page: location.pathname || '/',
+        dev: deviceType(),
+        ref: refHost()
+      };
+      var bodyStr = JSON.stringify(payload);
+      console.log('[Visits] 2. Sending POST hit to Apps Script...', payload);
+
+      return callScript({
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        redirect: 'follow',
+        body: bodyStr
+      }).then(function (r) {
+        console.log('[Visits] 2. Script raw response (' + r.status + '):', r.text);
+        var j = null;
+        try { j = JSON.parse(r.text); } catch (e) {}
+        if (!j) throw new Error('الرد ليس JSON: ' + r.text.slice(0, 200));
+        return j;
+      }).catch(function (err) {
+        console.warn('[Visits] 2. Standard POST failed (' + (err && err.message) + '), trying no-cors fallback...', err);
+        return fetch(VISITS.SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: bodyStr,
+          keepalive: true
+        }).then(function () {
+          console.log('[Visits] 2. Fallback no-cors POST sent.');
+          return { ok: true, opaque: true };
+        });
+      });
+    }
+
+    var isBot = /bot|crawl|spider|slurp|headless|preview|facebookexternalhit/i.test(navigator.userAgent || '');
+    var DEBUG = /[?&]vdebug=1/.test(location.search);
+    var hitTotal = null;
+
+    function run() {
+      console.log('[Visits] Starting visit tracker...', { sheetId: VISITS.SHEET_ID, scriptUrl: VISITS.SCRIPT_URL, isBot: isBot });
+      box.classList.add('show', 'loading');
+      var cached = parseInt(lsGet('mns_v_last'), 10) || 0;
+      var problems = [];
+
+      // 1) إرسال الزيارة إلى Apps Script عند فتح الموقع
+      var hitP = Promise.resolve();
+      if (!isBot && isSet(VISITS.SCRIPT_URL)) {
+        hitP = sendHit().then(function (r) {
+          if (r && r.ok) {
+            if (r.opaque) {
+              setTimeout(function () {
+                readTotal().then(function (n) {
+                  render(n); lsSet('mns_v_last', String(n));
+                }, function () {});
+              }, 1200);
+            } else {
+              console.log('[Visits] 2. Hit result:', r.counted ? 'NEW visit recorded!' : 'Already counted within 30m cooldown for this visitor.', r);
+              if (isFinite(r.total)) {
+                hitTotal = r.total;
+                render(r.total);
+                lsSet('mns_v_last', String(r.total));
+              }
+            }
+          } else {
+            var msg = 'script: ' + ((r && r.error) || 'رد غير متوقع من السكربت');
+            console.error('[Visits]', msg, r);
+            problems.push(msg);
+          }
+        }, function (e) {
+          var msg = 'script: تعذّر الوصول للسكربت (' + (e && e.message) + ')';
+          console.error('[Visits]', msg, e);
+          problems.push(msg);
+        });
+      } else {
+        console.log('[Visits] 2. Hit skipped (isBot=' + isBot + ')');
+      }
+
+      // 2) قراءة المجموع من الـ Sheet
+      var readP = readTotal().then(function (n) {
+        if (hitTotal !== null) return;
+        render(n); lsSet('mns_v_last', String(n));
+      }, function (e) {
+        console.error('[Visits] Sheet read failed:', e);
+        problems.push(e && e.message);
+        if (cached && !hasValue) render(cached);
+      });
+
+      Promise.all([hitP, readP]).then(function () {
+        console.log('[Visits] Done.', { hasValue: hasValue, hitTotal: hitTotal, problems: problems });
+        if (DEBUG && problems.length) {
+          box.classList.add('show'); box.classList.remove('loading');
+          box.style.cssText = 'border-radius:16px;max-width:92%;white-space:normal;text-align:right';
+          box.querySelector('.visits-lbl').style.whiteSpace = 'normal';
+          box.querySelector('.visits-lbl').textContent = problems.join('  |  ');
+          if (!hasValue) numEl.textContent = '';
+        } else if (!hasValue) {
+          box.classList.remove('show');
+        }
+      });
+    }
+
+    if (document.visibilityState === 'visible') run();
+    else document.addEventListener('visibilitychange', function f() {
+      if (document.visibilityState === 'visible') { document.removeEventListener('visibilitychange', f); run(); }
+    });
+  })();
   </script>
 
 </body>
