@@ -220,14 +220,24 @@ svg{display:block}
 .form[data-role=student] .only-teacher,.form[data-role=teacher] .only-student{display:none}
 .counter{font-size:12px;color:var(--tx3);text-align:left;margin-top:4px}
 
-/* ===== الملف الشخصي ===== */
+/* ===== الملف الشخصي والاسترجاع بالمعرّف ===== */
 .profile{text-align:center}
 .profile .av{margin:6px auto 10px;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--oxford-gold)}
 .profile h3{font-size:20px;font-weight:800;color:var(--oxford-blue)}
-.plist{margin:16px 0 4px;text-align:right;display:grid;gap:8px}
+.id-box{margin:14px 0 4px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,rgba(11,31,58,.05),rgba(201,162,39,.12));border:1px solid rgba(201,162,39,.4);text-align:right}
+.id-box-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.id-box-lbl{font-size:12.5px;font-weight:700;color:var(--tx2)}
+.id-code{display:inline-block;direction:ltr;unicode-bidi:isolate;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px;font-weight:800;color:var(--oxford-blue);background:#fff;padding:4px 10px;border-radius:10px;border:1px solid rgba(11,31,58,.12);letter-spacing:.02em;user-select:all}
+.id-hint{display:block;margin-top:6px;font-size:12px;color:var(--tx2);line-height:1.5}
+.plist{margin:12px 0 4px;text-align:right;display:grid;gap:8px}
 .plist div{display:flex;justify-content:space-between;gap:10px;padding:11px 14px;border-radius:14px;background:#faf8f3;border:1px solid rgba(11,31,58,.05);font-size:14px}
 .plist span:first-child{color:var(--tx3)}
 .plist span:last-child{font-weight:700;color:var(--oxford-blue);text-align:left}
+.auth-switch{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:9999px;background:#fff;border:1px solid var(--line);margin-bottom:14px;box-shadow:0 2px 10px rgba(11,31,58,.05)}
+.auth-switch button{padding:11px 10px;border-radius:9999px;font-weight:700;font-size:13.5px;color:var(--oxford-blue);transition:.22s;min-height:44px}
+.auth-switch button.on{background:var(--oxford-blue);color:#fff;box-shadow:0 4px 12px rgba(11,31,58,.25)}
+.id-input{direction:ltr;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;letter-spacing:.03em}
+.err-msg{display:block;margin-top:6px;font-size:12.5px;font-weight:600;color:var(--red)}
 
 /* ===== النافذة السفلية ===== */
 .sheet-back{position:fixed;inset:0;z-index:60;background:rgba(11,31,58,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:.28s}
@@ -504,7 +514,7 @@ const CONFIG = {
   STARS_SHEET_NAME: 'Stars',
   STATS_SHEET_ID: '1oIpqZCXPOcG6GIzlJfuOr4_P7Sncum7cD4sKyJ2DCSY',
   STATS_SHEETS: ['Sheet1', 'HOOK_Certificates', 'HOOK_Certificates_Log'],
-  NOTIF_POLL_INTERVAL_MS: 5 * 60 * 1000,
+  NOTIF_POLL_INTERVAL_MS: 20 * 1000,
 };
 
 const GOVS = ['بغداد','نينوى','البصرة','صلاح الدين','دهوك','أربيل','السليمانية','ديالى','واسط','ميسان','ذي قار','المثنى','بابل','كربلاء','النجف','الأنبار','القادسية','كركوك'];
@@ -876,7 +886,7 @@ function jsonpSheet(id,sheet){
 }
 async function fetchSheet(id,sheet){
   try{
-    const r=await fetch(gvizUrl(id,sheet,'out:csv'));
+    const r=await fetch(gvizUrl(id,sheet,'out:csv'), { cache: 'no-store' });
     if(!r.ok) throw new Error('http');
     const t=await r.text();
     if(/^\s*</.test(t)) throw new Error('html');
@@ -909,15 +919,22 @@ let searchAuthorId = '';
 let searchAuthorName = '';
 let statsRows = null, statsTab='all', statsQ='', onlyMine=false, statsShown=20, statsLoading=false;
 let editing=false;
+let authMode='new'; // 'new' | 'recover'
 let swReg = null;
 let pollTimer = null;
+let pollInFlight = false;
 const myName = ()=> (user&&user.name) || LS.get('mns_guest_name','') || '';
 const isRegistered = ()=> {
   try{
     const raw = localStorage.getItem('mns_user');
     if(!raw) return false;
     const parsed = JSON.parse(raw);
-    return !!(parsed && typeof parsed === 'object' && String(parsed.name || '').trim().length >= 2);
+    if(parsed && typeof parsed === 'object' && String(parsed.name || '').trim().length >= 2){
+      user = parsed;
+      if(parsed.id && parsed.id !== CID){ CID = parsed.id; LS.set('mns_cid', CID); }
+      return true;
+    }
+    return false;
   }catch(e){
     return !!(user && user.name && user.id);
   }
@@ -997,17 +1014,50 @@ async function syncNotifPermissionState(){
   return getNotifPermission();
 }
 
+function syncStateToServiceWorker(){
+  try{
+    const target = (swReg && swReg.active) || (navigator.serviceWorker && navigator.serviceWorker.controller);
+    if(target && typeof target.postMessage === 'function'){
+      target.postMessage({
+        type: 'SYNC_STATE',
+        state: {
+          registered: isRegistered(),
+          userId: (user && user.id) || CID,
+          userName: (user && user.name) || '',
+          sheetId: CONFIG.COMMUNITY_SHEET_ID,
+          postSheet: CONFIG.POSTS_SHEET_NAME,
+        }
+      });
+    }
+  }catch(e){}
+}
+
 async function initServiceWorker(){
-  if(!('serviceWorker' in navigator)) return;
+  if(!('serviceWorker' in navigator)) return null;
   try{
     swReg = await navigator.serviceWorker.register('./sw.js');
-    navigator.serviceWorker.addEventListener('message', ev => {
-      if(ev.data && ev.data.type === 'OPEN_POST' && ev.data.postId){
-        jumpToPost(ev.data.postId);
-      }
-    });
+    if(!window.__swMsgBound){
+      window.__swMsgBound = true;
+      navigator.serviceWorker.addEventListener('message', ev => {
+        if(ev.data && ev.data.type === 'OPEN_POST' && ev.data.postId){
+          jumpToPost(ev.data.postId);
+        }else if(ev.data && ev.data.type === 'TRIGGER_POLL'){
+          pollUnreadNotificationsOnly();
+        }
+      });
+    }
+    const readyReg = await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise(resolve => setTimeout(()=>resolve(swReg), 1800))
+    ]).catch(()=>swReg);
+    if(readyReg) swReg = readyReg;
+    syncStateToServiceWorker();
+    if(swReg && 'periodicSync' in swReg){
+      try{ await swReg.periodicSync.register('talib-posts-sync', { minInterval: 5 * 60 * 1000 }); }catch(e){}
+    }
+    return swReg;
   }catch(e){
-    // يعمل الإشعار عبر Notification API القياسي كبديل إن لم يتوفر sw.js
+    return null;
   }
 }
 
@@ -1137,35 +1187,40 @@ async function dispatchBrowserNotification(notif){
   const snippet = (notif.postText || '').slice(0, 140) + ((notif.postText || '').length > 140 ? '...' : '');
   const body = `${tInfo.i} ${notif.postType}${details ? ' (' + details + ')' : ''}\n${snippet}`;
   const icon = safeUrl(notif.authorAvatar) || DEFAULT_CREST_SVG;
+  const targetUrl = './community.html?post=' + encodeURIComponent(notif.postId || '') + '#feed';
 
   const options = {
     body,
     icon,
-    badge: DEFAULT_CREST_SVG,
     tag: 'talib-post-' + notif.postId,
     renotify: true,
     dir: 'rtl',
     lang: 'ar',
     vibrate: [150, 70, 150],
-    data: { postId: notif.postId, url: '#feed' }
+    data: { postId: notif.postId, url: targetUrl }
   };
 
   try{
     if(navigator.vibrate) navigator.vibrate([120, 60, 120]);
   }catch(e){}
 
-  // المحاولة 1: عبر Service Worker النشط (ضروري للموبايل)
+  // المحاولة 1: عبر Service Worker النشط (ضروري للموبايل Android/iOS PWA)
   try{
     if('serviceWorker' in navigator){
       let reg = swReg && swReg.active ? swReg : null;
       if(!reg){
+        await navigator.serviceWorker.register('./sw.js').catch(()=>null);
         reg = await Promise.race([
           navigator.serviceWorker.ready,
-          new Promise((_, rej) => setTimeout(()=>rej(new Error('sw-timeout')), 900))
+          new Promise((_, rej) => setTimeout(()=>rej(new Error('sw-timeout')), 3500))
         ]).catch(()=>null);
       }
-      if(reg && reg.active && typeof reg.showNotification === 'function'){
+      if(reg && typeof reg.showNotification === 'function'){
         await reg.showNotification(title, options);
+        return true;
+      }
+      if(navigator.serviceWorker.controller){
+        navigator.serviceWorker.controller.postMessage({ type: 'SHOW_NOTIFICATION', title, options });
         return true;
       }
     }
@@ -1304,11 +1359,11 @@ $('#meChip').addEventListener('click',()=>go('me'));
 $('#notifBell').addEventListener('click',()=>go('notifications'));
 
 function renderHeader(){
-  $('#meChip').innerHTML = user ? avatar(user.name,user.avatar,'sm') : '<span class="txt">تسجيل</span>';
+  $('#meChip').innerHTML = user ? avatar(user.name,user.avatar,'sm') : '<span class="txt">تسجيل / دخول</span>';
   $('#composerAv').innerHTML = avatar(myName()||'؟', user&&user.avatar);
   $('#regBanner').innerHTML = user ? '' :
-    `<div class="banner rv"><span>👋</span><span>سجّل في المجتمع لتظهر باسمك وتصلك الإشعارات الفورية وترى من يشبهك.</span><button id="bnReg">سجّل الآن</button></div>`;
-  const b=$('#bnReg'); if(b) b.onclick=()=>go('me');
+    `<div class="banner rv"><span>👋</span><span>سجّل حساباً جديداً أو استرجع حسابك عبر الـ ID لتصلك الإشعارات الفورية وترى من يشبهك.</span><button id="bnReg">حسابي / ID</button></div>`;
+  const b=$('#bnReg'); if(b) b.onclick=()=>{ authMode='recover'; go('me'); };
   renderNotifPermBanner();
 }
 
@@ -1332,11 +1387,29 @@ function renderNotifPermBanner(){
 /* ============================================================
    التسجيل / الحساب
    ============================================================ */
+function recoverFormHTML(){
+  return `<form id="recoverForm" class="card form rv" novalidate>
+    <h3>🔑 التسجيل بحساب موجود (عبر ID)</h3>
+    <p style="font-size:13.5px;color:var(--tx2);line-height:1.7;margin-bottom:14px">
+      إذا كان لديك حساب مسجّل مسبقاً، أدخل <b>معرّف الحساب (ID)</b> الخاص بك لاسترجاع بياناتك وإشعاراتك ونجومك فوراً على هذا الجهاز.
+    </p>
+    <div class="field" id="fRecoverId">
+      <label>معرّف الحساب (ID)</label>
+      <input id="recoverIdInput" name="recoverId" class="id-input" dir="ltr" autocomplete="off" spellcheck="false" placeholder="cmwnba46tvplpmf">
+      <small>يظهر هذا المعرّف داخل صفحة «حسابي» عند التسجيل، مثال: <code dir="ltr">cmwnba46tvplpmf</code></small>
+      <span class="err-msg" id="recoverErr" hidden></span>
+    </div>
+    <button class="btn primary" id="recoverSubmit" type="submit">🔑 استرجاع الحساب والدخول</button>
+    <button class="btn ghost" id="switchToNewBtn" type="button">ليس لديّ ID — إنشاء حساب جديد</button>
+  </form>`;
+}
+
 function formHTML(u){
   const role=u?u.role:'student';
   const today=new Date().toISOString().slice(0,10);
   return `<form id="regForm" class="card form rv" data-role="${role}" novalidate>
     <h3>${u?'تعديل بياناتي':'🎓 التسجيل في المجتمع'}</h3>
+    ${u ? '' : '<p style="font-size:13px;color:var(--tx2);margin-bottom:12px">أدخل بياناتك لإنشاء حساب جديد، وسيتم إصدار <b>ID خاص بحسابك</b> يتيح لك استرجاعه في أي وقت.</p>'}
     <div class="seg2" id="roleSeg">
       <button type="button" data-r="student" class="${role==='student'?'on':''}">🎒 طالب</button>
       <button type="button" data-r="teacher" class="${role==='teacher'?'on':''}">👨‍🏫 أستاذ</button>
@@ -1350,17 +1423,160 @@ function formHTML(u){
     <div class="field" data-f="avatar"><label>رابط الصورة الشخصية (اختياري)</label>
       <div class="avrow"><span id="avPrev">${avatar(u?u.name:myName()||'؟',u&&u.avatar)}</span><input name="avatar" type="url" inputmode="url" placeholder="https://..." value="${esc(u?u.avatar:'')}"></div>
       <small>إن لم تضع صورة سيظهر أول حرف من اسمك بدلاً منها.</small></div>
-    <button class="btn primary" type="submit">${u?'حفظ التعديلات':'تسجيل'}</button>
-    ${u?'<button type="button" class="btn ghost" id="cancelEdit">إلغاء</button>':''}
+    <button class="btn primary" type="submit">${u?'حفظ التعديلات':'تسجيل وإنشاء ID'}</button>
+    ${u?'<button type="button" class="btn ghost" id="cancelEdit">إلغاء</button>':'<button type="button" class="btn ghost" id="switchToRecoverBtn">🔑 لديّ حساب مسبق (الدخول بـ ID)</button>'}
   </form>`;
+}
+
+async function copyAccountId(idVal){
+  const text = String(idVal || '').trim();
+  if(!text) return;
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(text);
+    }else{
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+    }
+    toast('تم نسخ معرّف الحساب (ID) ✅','ok');
+  }catch(e){
+    toast('المعرّف: ' + text);
+  }
+}
+
+async function recoverAccountById(rawId){
+  const targetId = String(rawId || '').trim();
+  const errEl = $('#recoverErr');
+  const fBox = $('#fRecoverId');
+  const btn = $('#recoverSubmit');
+  if(fBox) fBox.classList.remove('err');
+  if(errEl){ errEl.hidden = true; errEl.textContent = ''; }
+
+  if(targetId.length < 4){
+    if(fBox) fBox.classList.add('err');
+    if(errEl){ errEl.hidden = false; errEl.textContent = 'يرجى إدخال معرّف ID صحيح (مثل: cmwnba46tvplpmf).'; }
+    toast('أدخل معرّف ID صحيحاً','bad');
+    return;
+  }
+
+  if(btn){ btn.disabled = true; btn.innerHTML = '<span class="ld"></span> جارٍ البحث عن الحساب...'; }
+
+  try{
+    // جلب أحدث بيانات المستخدمين والمنشورات مباشرة لضمان العثور على أي ID مسجل حديثاً
+    const [usersRes, postsRes, starsRes] = await Promise.allSettled([
+      fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.USERS_SHEET_NAME),
+      fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.POSTS_SHEET_NAME),
+      fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.STARS_SHEET_NAME),
+    ]);
+
+    if(usersRes.status === 'fulfilled' && Array.isArray(usersRes.value)){
+      usersList = usersRes.value.map(normalizeUserRow).filter(Boolean);
+    }
+    if(starsRes.status === 'fulfilled'){
+      starsMap = parseStarsSheet(starsRes.value);
+    }
+
+    const qLower = targetId.toLowerCase();
+    let found = usersList.find(u => u.id && u.id.trim().toLowerCase() === qLower);
+
+    // خطة احتياطية: البحث في المنشورات إذا لم يكن السطر ظاهراً في Users
+    if(!found && postsRes.status === 'fulfilled' && Array.isArray(postsRes.value)){
+      const postMatch = postsRes.value.find(r => pick(r, ['authorId','AuthorId','clientId','userId']).trim().toLowerCase() === qLower);
+      if(postMatch){
+        found = {
+          id: pick(postMatch, ['authorId','AuthorId','clientId','userId']),
+          name: pick(postMatch, ['name','Name','authorName','الاسم']),
+          role: pick(postMatch, ['role','Role','الصفة']) || 'student',
+          school: pick(postMatch, ['school','School','المدرسة']),
+          stage: pick(postMatch, ['stage','Stage','المرحلة']),
+          subject: pick(postMatch, ['subject','Subject','المادة','التخصص']),
+          governorate: pick(postMatch, ['governorate','Governorate','المحافظة']) || GOVS[0],
+          avatar: pick(postMatch, ['avatar','Avatar','الصورة']),
+          birth: '',
+          createdAt: pick(postMatch, ['createdAt','CreatedAt','date']),
+        };
+      }
+    }
+
+    if(!found){
+      if(fBox) fBox.classList.add('err');
+      if(errEl){ errEl.hidden = false; errEl.textContent = 'لم يتم العثور على حساب بهذا الـ ID في قاعدة البيانات. تأكد من الحروف وحاول مرة أخرى.'; }
+      toast('لم يُعثر على حساب بهذا المعرّف','bad');
+      return;
+    }
+
+    // اعتماد معرّف الحساب المسترجع كـ CID رسمي لهذا الجهاز
+    CID = found.id;
+    LS.set('mns_cid', CID);
+
+    user = {
+      id: found.id,
+      role: found.role || 'student',
+      name: found.name,
+      birth: found.birth || '',
+      school: found.school || '',
+      stage: found.stage || '',
+      subject: found.subject || '',
+      governorate: found.governorate || GOVS[0],
+      avatar: found.avatar ? safeUrl(found.avatar) : '',
+      createdAt: found.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      synced: true,
+    };
+    LS.set('mns_user', user);
+    LS.set('mns_guest_name', user.name);
+
+    // إعادة حساب النجوم بناءً على المعرّف المسترجع
+    if(starsRes.status === 'fulfilled'){
+      starsMap = parseStarsSheet(starsRes.value);
+    }
+    if(postsRes.status === 'fulfilled' && Array.isArray(postsRes.value)){
+      const freshPosts = postsRes.value
+        .filter(r => pick(r,['id','ID']) && pick(r,['text','Text','content','body']))
+        .map(normalizePost);
+      freshPosts.sort((a,b)=>Date.parse(b.createdAt)-Date.parse(a.createdAt));
+      posts = freshPosts;
+    }else{
+      posts.forEach(p => { p.stars = resolvePostStars(p.id, p.stars); });
+    }
+
+    if(!Array.isArray(seenPostIds)){
+      seenPostIds = posts.map(p => p.id);
+      LS.set('mns_seen_posts', seenPostIds);
+    }
+
+    editing = false;
+    syncStateToServiceWorker();
+    buildCommunityDirectory();
+    renderHeader();
+    renderMe();
+    renderFeed();
+    renderSimilar();
+    renderNotifications();
+    updateStatsView();
+    toast(`مرحباً بعودتك يا ${user.name}! تم استرجاع الحساب ✅`, 'ok');
+    checkEntryNotificationPrompt();
+  }catch(e){
+    toast('تعذر الاتصال بالخادم لاسترجاع الحساب، حاول مجدداً','bad');
+  }finally{
+    if(btn){ btn.disabled = false; btn.textContent = '🔑 استرجاع الحساب والدخول'; }
+  }
 }
 
 function renderMe(){
   const box=$('#meBox');
   if(user && !editing){
+    const accountId = user.id || CID;
+    if(!user.id){ user.id = accountId; LS.set('mns_user', user); }
     const rows = user.role==='teacher'
-      ? [['الصفة','أستاذ'],['التخصص / المادة',user.subject||'—'],['المدرسة',user.school],['المحافظة',user.governorate]]
-      : [['الصفة','طالب'],['المرحلة',user.stage],['المدرسة',user.school],['المحافظة',user.governorate],['تاريخ الولادة',user.birth||'—']];
+      ? [['الصفة','أستاذ'],['التخصص / المادة',user.subject||'—'],['المدرسة',user.school||'—'],['المحافظة',user.governorate||'—']]
+      : [['الصفة','طالب'],['المرحلة',user.stage||'—'],['المدرسة',user.school||'—'],['المحافظة',user.governorate||'—'],['تاريخ الولادة',user.birth||'—']];
     const perm = getNotifPermission();
     const permLabel = perm==='granted'?'مفعّلة على المتصفح ✅':perm==='denied'?'محظورة من المتصفح':'غير مفعّلة بعد';
     rows.push(['إشعارات النشر', permLabel]);
@@ -1368,27 +1584,87 @@ function renderMe(){
     box.innerHTML=`<div class="card profile rv">
       ${avatar(user.name,user.avatar,'xl')}
       <h3>${esc(user.name)}</h3>
+      <div class="id-box">
+        <div class="id-box-top">
+          <div>
+            <div class="id-box-lbl">معرّف حسابك (ID)</div>
+            <code class="id-code" id="myAccountId">${esc(accountId)}</code>
+          </div>
+          <button type="button" class="btn navy sm" id="copyIdBtn">📋 نسخ ID</button>
+        </div>
+        <span class="id-hint">احتفظ بهذا الـ ID؛ يمكنك استخدامه لاسترجاع حسابك من أي جهاز أو متصفح آخر.</span>
+      </div>
       <div class="plist">${rows.map(r=>`<div><span>${r[0]}</span><span>${esc(r[1])}</span></div>`).join('')}</div>
       ${perm!=='granted'?'<button class="btn primary" style="margin-top:12px" id="meEnableNotif">🔔 تفعيل إشعارات المتصفح</button>':''}
       <button class="btn ghost" id="meTestNotif">🧪 تجربة إشعار فوري</button>
       <button class="btn ghost" id="editMe">✏️ تعديل بياناتي</button>
+      <button class="btn ghost" id="switchAccountBtn">🔑 تسجيل الدخول بحساب آخر (ID)</button>
       <button class="btn danger" id="logout">تسجيل الخروج من هذا الجهاز</button>
     </div>`;
+    $('#copyIdBtn').onclick = () => copyAccountId(accountId);
     const en = $('#meEnableNotif'); if(en) en.onclick = requestBrowserNotifPermission;
     $('#meTestNotif').onclick = sendTestNotification;
     $('#editMe').onclick=()=>{ editing=true; renderMe(); };
+    $('#switchAccountBtn').onclick=()=>{
+      LS.del('mns_user');
+      user=null;
+      editing=false;
+      authMode='recover';
+      syncStateToServiceWorker();
+      renderHeader();
+      renderMe();
+      renderFeed();
+      renderSimilar();
+      renderNotifications();
+      updateStatsView();
+    };
     $('#logout').onclick=()=>{
-      if(!confirm('سيتم حذف بياناتك من هذا الجهاز فقط. هل تريد المتابعة؟')) return;
-      LS.del('mns_user'); user=null; editing=false; renderHeader(); renderMe(); renderFeed(); renderSimilar(); renderNotifications(); updateStatsView(); toast('تم تسجيل الخروج');
+      if(!confirm('سيتم حذف بياناتك من هذا الجهاز فقط (يمكنك استرجاعها لاحقاً عبر ID حسابك). هل تريد المتابعة؟')) return;
+      LS.del('mns_user');
+      CID='c'+Date.now().toString(36)+rnd();
+      LS.set('mns_cid', CID);
+      user=null; editing=false; authMode='new';
+      syncStateToServiceWorker();
+      renderHeader(); renderMe(); renderFeed(); renderSimilar(); renderNotifications(); updateStatsView();
+      toast('تم تسجيل الخروج');
     };
     return;
   }
+
+  if(!user){
+    box.innerHTML = `<div class="auth-switch rv">
+      <button type="button" data-am="new" class="${authMode==='new'?'on':''}">🎓 حساب جديد</button>
+      <button type="button" data-am="recover" class="${authMode==='recover'?'on':''}">🔑 لديّ حساب (ID)</button>
+    </div>` + (authMode==='recover' ? recoverFormHTML() : formHTML(null));
+
+    $$('.auth-switch button', box).forEach(b => b.onclick = () => {
+      authMode = b.dataset.am;
+      renderMe();
+    });
+    if(authMode === 'recover') bindRecoverForm();
+    else bindForm();
+    return;
+  }
+
   box.innerHTML=formHTML(user);
   bindForm();
 }
 
+function bindRecoverForm(){
+  const rf = $('#recoverForm');
+  if(!rf) return;
+  const sw = $('#switchToNewBtn');
+  if(sw) sw.onclick = () => { authMode = 'new'; renderMe(); };
+  rf.addEventListener('submit', e => {
+    e.preventDefault();
+    recoverAccountById($('#recoverIdInput').value);
+  });
+}
+
 function bindForm(){
   const f=$('#regForm');
+  const sr = $('#switchToRecoverBtn');
+  if(sr) sr.onclick = () => { authMode = 'recover'; renderMe(); };
   $$('#roleSeg button').forEach(b=>b.onclick=()=>{
     $$('#roleSeg button').forEach(x=>x.classList.toggle('on',x===b));
     f.dataset.role=b.dataset.r;
@@ -1410,9 +1686,13 @@ function bindForm(){
       bad.forEach(k=>$(`[data-f="${k}"]`,f).classList.add('err'));
       toast(bad.includes('avatar')?'رابط الصورة غير صحيح':'يرجى إكمال الحقول المطلوبة','bad'); return;
     }
+    if(!user){
+      CID = 'c' + Date.now().toString(36) + rnd();
+      LS.set('mns_cid', CID);
+    }
     const now=new Date().toISOString();
     user={
-      id:CID, role, name:v('name'), birth:role==='student'?v('birth'):'', school:v('school'),
+      id:(user&&user.id)||CID, role, name:v('name'), birth:role==='student'?v('birth'):'', school:v('school'),
       stage:role==='student'?v('stage'):'', subject:role==='teacher'?v('subject'):'',
       governorate:v('governorate'), avatar:v('avatar')?safeUrl(v('avatar')):'',
       createdAt:(user&&user.createdAt)||now, updatedAt:now, synced:false,
@@ -1422,8 +1702,9 @@ function bindForm(){
       seenPostIds = posts.map(p=>p.id);
       LS.set('mns_seen_posts', seenPostIds);
     }
-    editing=false; renderHeader(); renderMe(); renderFeed(); buildCommunityDirectory(); renderSimilar(); renderNotifications(); updateStatsView();
-    toast('تم حفظ بياناتك ✅','ok');
+    editing=false; syncStateToServiceWorker();
+    renderHeader(); renderMe(); renderFeed(); buildCommunityDirectory(); renderSimilar(); renderNotifications(); updateStatsView();
+    toast('تم حفظ بياناتك ✅ — ID حسابك: ' + user.id,'ok');
     syncUser();
     checkEntryNotificationPrompt();
   });
@@ -1735,8 +2016,14 @@ async function handleIncomingPostsForNotifications(latestPosts){
   // التحقق من localStorage: يجب أن يكون الشخص مسجلاً معلوماته على الموقع
   if(!isRegistered()) return;
 
+  const myUid = (user && user.id) || CID;
   const myNorm = norm(user.name);
-  const othersPosts = newPosts.filter(p => p.authorId !== CID && norm(p.name) !== myNorm);
+  const othersPosts = newPosts.filter(p => {
+    if(p.authorId){
+      return p.authorId !== myUid && p.authorId !== CID;
+    }
+    return norm(p.name) !== myNorm;
+  });
   if(!othersPosts.length) return;
 
   // فرز من الأقدم للأحدث لإضافتها بالترتيب الصحيح
@@ -1770,18 +2057,21 @@ async function handleIncomingPostsForNotifications(latestPosts){
 }
 
 async function pollUnreadNotificationsOnly(){
-  if(!isRegistered()) return;
+  if(!isRegistered() || pollInFlight) return;
+  pollInFlight = true;
   try{
     const rawPosts = await fetchSheet(CONFIG.COMMUNITY_SHEET_ID, CONFIG.POSTS_SHEET_NAME);
     if(!Array.isArray(rawPosts) || !rawPosts.length) return;
     const incoming = rawPosts
       .filter(r => pick(r,['id','ID']) && pick(r,['text','Text','content','body']))
       .map(r => {
+        const id = pick(r, ['id','ID','postId']);
+        const rawStars = parseInt(toLatinDigits(pick(r, ['stars','Stars','starCount','stars_count','النجوم','عدد النجوم'])), 10) || 0;
         const authorId = pick(r, ['authorId','AuthorId','clientId','userId']);
         const name = pick(r, ['name','Name','authorName','الاسم']);
         const matchedUser = usersList.find(u => (authorId && u.id === authorId) || (name && norm(u.name) === norm(name)));
         return {
-          id: pick(r, ['id','ID','postId']),
+          id,
           createdAt: pick(r, ['createdAt','CreatedAt','date','timestamp']),
           authorId,
           name: name || (matchedUser ? matchedUser.name : ''),
@@ -1793,20 +2083,55 @@ async function pollUnreadNotificationsOnly(){
           avatar: pick(r, ['avatar','Avatar','الصورة']) || (matchedUser ? matchedUser.avatar : ''),
           type: pick(r, ['type','Type','category','النوع']) || TYPES[0].k,
           text: pick(r, ['text','Text','content','body','المحتوى','النص']),
+          contactType: pick(r, ['contactType','ContactType']),
+          contactValue: pick(r, ['contactValue','ContactValue']),
+          stars: resolvePostStars(id, rawStars),
         };
       });
+
+    // دمج أي منشور جديد داخل مصفوفة posts بالذاكرة حتى يفتح مباشرة عند الضغط على الإشعار (دون إعادة رسم #feed)
+    const existingIds = new Set(posts.map(p => p.id));
+    const newlyAdded = incoming.filter(p => !existingIds.has(p.id));
+    if(newlyAdded.length){
+      posts = [...newlyAdded, ...posts].sort((a,b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+      buildCommunityDirectory();
+    }
+
     await handleIncomingPostsForNotifications(incoming);
   }catch(e){
     // تجاهل أخطاء الشبكة العابرة في الفحص الدوري للإشعارات
+  }finally{
+    pollInFlight = false;
   }
 }
 
 function startLivePolling(){
   if(pollTimer) clearInterval(pollTimer);
-  // إيقاف تحديث الصفحة/المنشورات الدوري؛ فقط تحديث قائمة الإشعارات غير المقروءة كل 5 دقائق
+  // فحص دوري خفيف لقائمة الإشعارات غير المقروءة فقط دون إعادة تحميل الصفحة أو تحديث شاشة المنشورات
   pollTimer = setInterval(()=>{
     pollUnreadNotificationsOnly();
   }, CONFIG.NOTIF_POLL_INTERVAL_MS);
+
+  if(!window.__notifEventsBound){
+    window.__notifEventsBound = true;
+    document.addEventListener('visibilitychange', () => {
+      if(!document.hidden) pollUnreadNotificationsOnly();
+    });
+    window.addEventListener('focus', () => pollUnreadNotificationsOnly());
+    window.addEventListener('online', () => pollUnreadNotificationsOnly());
+    window.addEventListener('storage', (ev) => {
+      if(ev.key === 'mns_user' || ev.key === 'mns_cid'){
+        user = LS.get('mns_user', null);
+        CID = LS.get('mns_cid', CID);
+        renderHeader();
+        if($('#view-me').classList.contains('active')) renderMe();
+      }else if(ev.key === 'mns_notifications'){
+        notifications = LS.get('mns_notifications', []);
+        updateNotifBadges();
+        renderNotifications();
+      }
+    });
+  }
 }
 
 async function retryUnsent(){
@@ -2488,7 +2813,7 @@ $('#refStats').onclick=()=>{ if(!statsLoading) loadStats(); };
    ============================================================ */
 async function init(){
   $('#year').textContent=new Date().getFullYear();
-  initServiceWorker();
+  await initServiceWorker();
   await syncNotifPermissionState();
   renderHeader();
   renderChips();
