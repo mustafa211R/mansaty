@@ -5,79 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0b1f3a">
   <title>طالب | منصة تعليمية مدرسية</title>
-  <meta name="description" content="طالب - منصة تعليمية مدرسية غير حكومية ذات حضور وهيبة، بإشراف الأستاذ مصطفى رحيم فندي. كورسات، دروس، كتب، ملازم، اختبارات، والمجتمع.">
-  <meta name="keywords" content="طالب, منصة تعليمية, مدرسة, تعليم, الأستاذ مصطفى رحيم فندي, منصة دراسية, مناهج عراقية">
+  <meta name="description" content="طالب - منصة تعليمية مدرسية بإشراف الأستاذ مصطفى رحيم فندي. المجتمع، الكورسات، المختبر، ألعاب العقل، الاختبارات، والمكتبة.">
   <meta name="author" content="الأستاذ مصطفى رحيم فندي">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://m-mns.vercel.app/">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="طالب | منصة تعليمية مدرسية">
-  <meta property="og:description" content="منصة تعليمية مدرسية غير حكومية ذات حضور وهيبة.">
+  <meta property="og:description" content="منصة تعليمية مدرسية شاملة وسهلة الاستخدام على الهاتف والحاسوب.">
   <meta property="og:image" content="logo.jfif">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ar_AR">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="طالب | منصة تعليمية مدرسية">
-  <meta name="twitter:description" content="منصة تعليمية مدرسية غير حكومية ذات حضور وهيبة.">
-  <meta name="twitter:image" content="logo.jfif">
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="logo.png">
-
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Local Styles (optional when hosted) -->
-  <link href="package/dist/tailwind.css" rel="stylesheet">
-  <link href="fonts.css" rel="stylesheet">
-
-  <!-- Lucide Icons -->
-  <script src="lucide.min.js" defer></script>
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": "طالب",
-    "alternateName": "منصة طالب التعليمية",
-    "url": "https://m-mns.vercel.app/",
-    "logo": "logo.jfif",
-    "description": "منصة تعليمية مدرسية غير حكومية.",
-    "founder": {
-      "@type": "Person",
-      "name": "الأستاذ مصطفى رحيم فندي"
-    }
-  }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --oxford-blue: #0b1f3a;
-      --oxford-blue-deep: #081729;
-      --oxford-gold: #c9a227;
-      --oxford-gold-dark: #b8911f;
-      --oxford-cream: #f6f3ec;
+      --navy: #0b1f3a;
+      --navy-dark: #071528;
+      --gold: #c9a227;
+      --gold-dark: #a88212;
+      --cream: #f6f3ec;
+      --card: #ffffff;
       --tx: #1d1d1f;
-      --tx2: #6e6e73;
-      --tx3: #86868b;
+      --tx2: #636369;
       --line: rgba(11, 31, 58, 0.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     html, body {
-      background: var(--oxford-cream);
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Noto Kufi Arabic', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--cream);
       color: var(--tx);
-      font-size: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Noto Kufi Arabic', 'Segoe UI', Arial, sans-serif;
+      font-size: 15px;
       line-height: 1.5;
-      letter-spacing: -0.01em;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       overflow-x: hidden;
@@ -86,41 +50,33 @@
     body {
       display: flex;
       flex-direction: column;
-      padding-bottom: calc(82px + env(safe-area-inset-bottom));
-    }
-
-    h1, h2, h3, h4 {
-      font-weight: 700;
-      letter-spacing: -0.022em;
-      color: var(--oxford-blue);
+      padding-bottom: calc(78px + env(safe-area-inset-bottom));
     }
 
     a { color: inherit; text-decoration: none; }
     button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
     svg { display: block; }
 
-    /* ===== الشريط العلوي المتكيف للموبايل ===== */
+    /* ===== الشريط العلوي المبسط ===== */
     .topbar {
       position: sticky;
       top: 0;
       z-index: 40;
-      background: rgba(11, 31, 58, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(201, 162, 39, 0.28);
-      padding-top: env(safe-area-inset-top);
+      background: var(--navy);
       color: #fff;
+      border-bottom: 2px solid rgba(201, 162, 39, 0.4);
+      padding-top: env(safe-area-inset-top);
     }
 
     .topbar-in {
-      max-width: 1040px;
+      max-width: 960px;
       margin: 0 auto;
-      height: 54px;
+      height: 56px;
       padding: 0 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .menu-btn {
@@ -131,273 +87,201 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(201, 162, 39, 0.4);
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.1);
       color: #fff;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 700;
-      transition: transform 0.15s ease, background 0.2s ease;
+      transition: background 0.18s ease, transform 0.15s ease;
     }
     .menu-btn:active { transform: scale(0.96); }
-    .menu-btn:hover { background: rgba(201, 162, 39, 0.2); }
-    .menu-btn svg { width: 20px; height: 20px; stroke: var(--oxford-gold); fill: none; stroke-width: 2.2; }
+    .menu-btn svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 2.2; }
 
-    .brand-mini {
+    .brand {
       display: flex;
       align-items: center;
       gap: 9px;
       font-weight: 800;
-      font-size: 16px;
+      font-size: 16.5px;
       color: #fff;
-      white-space: nowrap;
-    }
-    .brand-mini-logo {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: #fff;
-      border: 1.5px solid var(--oxford-gold);
-      object-fit: contain;
-      padding: 2px;
-    }
-    .brand-mini-fallback {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #fff, #f2e8cc);
-      border: 1.5px solid var(--oxford-gold);
-      color: var(--oxford-blue);
-      font-weight: 800;
-      font-size: 14px;
-      display: grid;
-      place-items: center;
     }
 
-    .top-community-btn {
+    .brand-logo, .brand-fb {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1.5px solid var(--gold);
+      object-fit: contain;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    .brand-fb {
+      display: grid;
+      place-items: center;
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .top-lab-btn {
       min-height: 40px;
-      padding: 0 14px;
+      padding: 0 13px;
       border-radius: 9999px;
-      background: var(--oxford-gold);
-      color: var(--oxford-blue);
+      background: var(--gold);
+      color: var(--navy);
       font-size: 12.5px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       white-space: nowrap;
-      transition: transform 0.15s ease, background 0.2s ease;
+      transition: transform 0.15s ease;
     }
-    .top-community-btn:active { transform: scale(0.96); }
-    .top-community-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+    .top-lab-btn:active { transform: scale(0.96); }
+    .top-lab-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
-    /* ===== الهيرو ===== */
-    .hero-bg {
-      background:
-        linear-gradient(rgba(11, 31, 58, 0.89), rgba(11, 31, 58, 0.96)),
-        url('logo.jfif') center/cover no-repeat;
+    /* ===== ترحيب موجز وبسيط ===== */
+    .welcome {
+      background: linear-gradient(135deg, var(--navy), #132f55);
       color: #fff;
-    }
-
-    .hero-in {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 22px 16px 26px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 16px 14px 18px;
       text-align: center;
     }
 
-    .crest {
-      width: 78px;
-      height: 78px;
-      object-fit: contain;
-      border-radius: 50%;
-      background: #fff;
-      padding: 7px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.38);
-      border: 2px solid var(--oxford-gold);
-      margin-bottom: 12px;
-    }
-    .crest-fallback {
-      width: 78px;
-      height: 78px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #fff, #f2e8cc);
-      border: 2px solid var(--oxford-gold);
-      color: var(--oxford-blue);
-      font-weight: 800;
-      font-size: 28px;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.38);
-      margin-bottom: 12px;
+    .welcome-in {
+      max-width: 960px;
+      margin: 0 auto;
     }
 
-    .hero-title {
+    .welcome h1 {
+      font-size: 20px;
+      font-weight: 800;
       color: #fff;
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
+      margin-bottom: 4px;
     }
 
-    .gold-line {
-      height: 3px;
-      width: 120px;
-      margin: 10px auto;
-      background: linear-gradient(90deg, transparent, var(--oxford-gold), transparent);
-    }
-
-    .hero-subtitle {
-      color: rgba(255, 255, 255, 0.84);
-      font-size: 14px;
-      max-width: 440px;
+    .welcome p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.82);
     }
 
     /* ===== المحتوى الرئيسي ===== */
     .main-wrap {
       flex: 1;
       width: 100%;
-      max-width: 1040px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 18px 14px 22px;
+      padding: 16px 14px 20px;
     }
 
-    .section-head {
+    .sec-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      margin: 4px 2px 12px;
+      margin-bottom: 10px;
+      padding: 0 2px;
     }
-    .section-head h2 {
-      font-size: 16.5px;
+
+    .sec-head h2 {
+      font-size: 15px;
       font-weight: 800;
-      color: var(--oxford-blue);
+      color: var(--navy);
     }
-    .section-head button {
+
+    .sec-head button {
       font-size: 12.5px;
       font-weight: 700;
-      color: var(--oxford-gold-dark);
+      color: var(--gold-dark);
       min-height: 36px;
-      padding: 4px 8px;
+      padding: 4px 6px;
     }
 
-    .cards-grid {
+    /* شبكة بسيطة من عمودين على الهاتف وثلاثة على الحاسوب */
+    .grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
-    /* البطاقات */
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 15px 16px;
-      border: 1px solid rgba(11, 31, 58, 0.07);
-      box-shadow: 0 4px 14px rgba(11, 31, 58, 0.05);
-      transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+    .tile {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 12px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      position: relative;
-      overflow: hidden;
-      min-height: 74px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      min-height: 112px;
+      box-shadow: 0 2px 10px rgba(11, 31, 58, 0.04);
+      transition: transform 0.16s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(11, 31, 58, 0.1);
+
+    .tile:hover {
+      border-color: rgba(201, 162, 39, 0.5);
+      box-shadow: 0 8px 20px rgba(11, 31, 58, 0.08);
+    }
+    .tile:active { transform: scale(0.97); }
+
+    .tile.featured {
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: center;
+      min-height: 76px;
+      padding: 14px 15px;
+      background: linear-gradient(135deg, #ffffff, #fcf8ec);
       border-color: rgba(201, 162, 39, 0.35);
     }
-    .card:active { transform: scale(0.985); }
 
-    .card-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-      flex: 1;
-    }
-
-    .card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .tile-ic {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
       flex-shrink: 0;
     }
-    .card-icon svg {
-      width: 23px;
-      height: 23px;
-      stroke-width: 2;
-      fill: none;
-      stroke: currentColor;
-    }
-    .card-icon.navy { background: rgba(11, 31, 58, 0.08); color: var(--oxford-blue); }
-    .card-icon.gold { background: rgba(201, 162, 39, 0.14); color: var(--oxford-gold-dark); }
+    .tile-ic svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .tile-ic.navy { background: rgba(11, 31, 58, 0.08); color: var(--navy); }
+    .tile-ic.gold { background: rgba(201, 162, 39, 0.16); color: var(--gold-dark); }
 
-    .card-body { min-width: 0; flex: 1; }
-    .card-title {
-      font-weight: 700;
-      font-size: 15.5px;
-      color: var(--oxford-blue);
-      margin-bottom: 2px;
+    .tile-txt { min-width: 0; flex: 1; }
+    .tile-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--navy);
       line-height: 1.35;
+      margin-bottom: 2px;
     }
-    .card-desc {
-      font-size: 12.5px;
+    .tile-desc {
+      font-size: 11.5px;
       color: var(--tx2);
-      line-height: 1.45;
+      line-height: 1.4;
     }
 
-    .card-chevron {
-      width: 19px;
-      height: 19px;
-      color: var(--tx3);
-      flex-shrink: 0;
-      stroke: currentColor;
+    .tile-arrow {
+      width: 18px;
+      height: 18px;
+      stroke: var(--gold-dark);
       fill: none;
       stroke-width: 2.2;
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
-    .card:hover .card-chevron {
-      color: var(--oxford-gold-dark);
-      transform: translateX(-3px);
+      flex-shrink: 0;
     }
 
-    .animate-card {
-      opacity: 0;
-      animation: slideUp 0.45s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-    }
-    .delay-1 { animation-delay: 0.03s; }
-    .delay-2 { animation-delay: 0.08s; }
-    .delay-3 { animation-delay: 0.13s; }
-    .delay-4 { animation-delay: 0.18s; }
-    .delay-5 { animation-delay: 0.23s; }
-    .delay-6 { animation-delay: 0.28s; }
-    .delay-7 { animation-delay: 0.33s; }
-    .delay-8 { animation-delay: 0.38s; }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: none; }
-    }
-
-    /* ===== القائمة الجانبية (Drawer) لباقي التبويبات ===== */
+    /* ===== القائمة الجانبية (باقي التبويبات) ===== */
     .drawer-back {
       position: fixed;
       inset: 0;
       z-index: 70;
-      background: rgba(11, 31, 58, 0.6);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(11, 31, 58, 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.22s ease;
     }
     .drawer-back.open { opacity: 1; pointer-events: auto; }
 
@@ -407,11 +291,11 @@
       bottom: 0;
       right: 0;
       z-index: 71;
-      width: min(86vw, 340px);
+      width: min(84vw, 320px);
       background: #fff;
-      box-shadow: -12px 0 36px rgba(11, 31, 58, 0.3);
+      box-shadow: -10px 0 30px rgba(11, 31, 58, 0.28);
       transform: translateX(104%);
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
       display: flex;
       flex-direction: column;
       padding-top: env(safe-area-inset-top);
@@ -420,50 +304,24 @@
     .drawer.open { transform: translateX(0); }
 
     .drawer-head {
-      background: var(--oxford-blue);
+      background: var(--navy);
       color: #fff;
-      padding: 18px 16px;
+      padding: 15px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      border-bottom: 2px solid var(--oxford-gold);
+      border-bottom: 2px solid var(--gold);
     }
-    .drawer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-    .drawer-brand img, .drawer-brand-fb {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #fff;
-      border: 1.5px solid var(--oxford-gold);
-      object-fit: contain;
-      padding: 3px;
-      flex-shrink: 0;
-    }
-    .drawer-brand-fb {
-      display: grid;
-      place-items: center;
-      color: var(--oxford-blue);
-      font-weight: 800;
-      font-size: 16px;
-    }
-    .drawer-brand-txt strong { display: block; font-size: 15px; font-weight: 800; color: #fff; }
-    .drawer-brand-txt span { display: block; font-size: 11.5px; color: rgba(255, 255, 255, 0.75); }
+    .drawer-head strong { font-size: 15px; font-weight: 800; }
 
     .drawer-close {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.12);
       color: #fff;
       display: grid;
       place-items: center;
-      flex-shrink: 0;
     }
     .drawer-close svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
@@ -473,79 +331,56 @@
       padding: 14px 12px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
-    .drawer-group-title {
-      font-size: 12px;
+    .drawer-label {
+      font-size: 11.5px;
       font-weight: 800;
-      color: var(--tx3);
-      padding: 0 8px 6px;
+      color: var(--tx2);
+      padding: 0 6px 5px;
       border-bottom: 1px solid var(--line);
       margin-bottom: 6px;
     }
 
-    .drawer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .drawer-list { display: flex; flex-direction: column; gap: 6px; }
 
-    .drawer-link {
+    .drawer-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       padding: 10px 12px;
-      min-height: 52px;
-      border-radius: 14px;
+      min-height: 48px;
+      border-radius: 12px;
       background: #faf8f3;
       border: 1px solid rgba(11, 31, 58, 0.06);
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--navy);
     }
-    .drawer-link:hover, .drawer-link:active {
-      background: #f2ece0;
-      border-color: rgba(201, 162, 39, 0.45);
-    }
-    .drawer-link:active { transform: scale(0.985); }
+    .drawer-item:active { transform: scale(0.98); background: #f2ece0; }
+    .drawer-item svg { width: 19px; height: 19px; stroke: var(--gold-dark); fill: none; stroke-width: 2; flex-shrink: 0; }
 
-    .drawer-link-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-    }
-    .drawer-link-icon.navy { background: rgba(11, 31, 58, 0.09); color: var(--oxford-blue); }
-    .drawer-link-icon.gold { background: rgba(201, 162, 39, 0.16); color: var(--oxford-gold-dark); }
-    .drawer-link-icon svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 2; }
-
-    .drawer-link-text { flex: 1; min-width: 0; }
-    .drawer-link-text strong { display: block; font-size: 14px; font-weight: 700; color: var(--oxford-blue); }
-    .drawer-link-text span { display: block; font-size: 11.5px; color: var(--tx2); }
-
-    /* ===== الشريط السفلي الثابت للهاتف (4 تبويبات رئيسية) ===== */
+    /* ===== الشريط السفلي الثابت (4 تبويبات رئيسية) ===== */
     .bottom-bar {
       position: fixed;
       left: 0;
       right: 0;
       bottom: 0;
       z-index: 45;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-top: 1px solid rgba(11, 31, 58, 0.1);
-      box-shadow: 0 -6px 24px rgba(11, 31, 58, 0.08);
       padding-bottom: env(safe-area-inset-bottom);
     }
 
     .bottom-in {
-      max-width: 760px;
+      max-width: 720px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      align-items: stretch;
-      height: 64px;
+      height: 62px;
     }
 
     .tab-item {
@@ -553,72 +388,50 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 3px;
       min-height: 48px;
-      padding: 6px 4px;
-      color: var(--oxford-blue);
+      color: var(--navy);
       font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
       position: relative;
-      transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
     }
-    .tab-item svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      transition: transform 0.2s ease, stroke 0.2s ease;
-    }
-    .tab-item:active { transform: scale(0.94); }
-    .tab-item.primary-tab {
-      color: var(--oxford-gold-dark);
-    }
-    .tab-item.primary-tab::before {
+    .tab-item svg { width: 21px; height: 21px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .tab-item.active { color: var(--gold-dark); }
+    .tab-item.active::before {
       content: '';
       position: absolute;
       top: 0;
       width: 28px;
       height: 3px;
       border-radius: 0 0 4px 4px;
-      background: var(--oxford-gold);
+      background: var(--gold);
     }
-    .tab-item:hover {
-      background: rgba(201, 162, 39, 0.08);
-      color: var(--oxford-gold-dark);
-    }
+    .tab-item:active { transform: scale(0.94); }
 
     /* ===== الفوتر ===== */
     .foot {
-      background: var(--oxford-blue-deep);
-      color: #d1d5db;
       text-align: center;
-      font-size: 13.5px;
-      padding: 20px 16px;
-      margin-top: 8px;
-    }
-    .foot small {
-      display: block;
-      margin-top: 4px;
-      font-size: 11.5px;
-      color: #9ca3af;
+      font-size: 12px;
+      color: var(--tx2);
+      padding: 12px 16px 18px;
     }
 
     @media (min-width: 640px) {
-      .hero-title { font-size: 36px; }
-      .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .tile.featured { grid-column: span 3; }
+      .welcome h1 { font-size: 24px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- الشريط العلوي المتجاوب -->
+  <!-- الشريط العلوي -->
   <header class="topbar">
     <div class="topbar-in">
       <button type="button" class="menu-btn" id="openDrawerBtn" aria-label="فتح القائمة الجانبية" aria-expanded="false">
@@ -626,179 +439,154 @@
         <span>القائمة</span>
       </button>
 
-      <div class="brand-mini">
-        <img src="logo.jfif" alt="شعار منصة طالب" class="brand-mini-logo" onerror="this.hidden=true;document.getElementById('miniLogoFb').hidden=false;">
+      <div class="brand">
+        <img src="logo.jfif" alt="شعار منصة طالب" class="brand-logo" onerror="this.hidden=true;document.getElementById('miniLogoFb').hidden=false;">
+        <span id="miniLogoFb" class="brand-fb" hidden>ط</span>
         <span>منصة طالب</span>
       </div>
 
-      <a href="community/community.html" class="top-community-btn">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <span>المجتمع</span>
+      <a href="lab/" class="top-lab-btn">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.4a2 2 0 0 1-.4 1.2L4.6 17a2 2 0 0 0 1.6 3.2h11.6a2 2 0 0 0 1.6-3.2L14.4 9.6a2 2 0 0 1-.4-1.2V3"/><path d="M7.5 14h9"/></svg>
+        <span>المختبر</span>
       </a>
     </div>
   </header>
 
-  <!-- الهيرو -->
-  <section class="hero-bg">
-    <div class="hero-in">
-      <img src="logo.jfif" alt="شعار منصة طالب" class="crest" onerror="this.hidden=true;document.getElementById('heroCrestFb').hidden=false;">
-      <h1 class="hero-title">منصة طالب</h1>
-      <div class="gold-line"></div>
-      <p class="hero-subtitle">أقسام منصة طالب التعليمية — تجربة سريعة ومهيّأة للهاتف والحاسوب</p>
+  <!-- ترحيب موجز -->
+  <section class="welcome">
+    <div class="welcome-in">
+      <h1>أقسام منصة طالب</h1>
+      <p>اختر القسم المطلوب مباشرة أو افتح القائمة الجانبية لباقي الأدوات</p>
     </div>
   </section>
 
-  <!-- المحتوى الرئيسي -->
+  <!-- الشبكة المبسطة لجميع الأقسام -->
   <main class="main-wrap">
 
-    <!-- الأقسام الأساسية الموجودة أيضاً في الشريط السفلي -->
-    <div class="section-head">
-      <h2>الأقسام الرئيسية</h2>
-      <button type="button" id="quickMoreBtn">باقي الأقسام ☰</button>
+    <div class="sec-head">
+      <h2>التعلّم والمختبر</h2>
+      <button type="button" id="quickMoreBtn">كل التبويبات ☰</button>
     </div>
 
-    <div class="cards-grid">
-      <!-- المجتمع -->
-      <a href="community/community.html" class="card animate-card delay-1">
-        <div class="card-left">
-          <div class="card-icon gold">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">المجتمع</h3>
-            <p class="card-desc">اطرح سؤالك وتواصل مع الطلاب والأساتذة</p>
-          </div>
+    <div class="grid">
+      <!-- حقل المختبر الجديد (يذهب إلى مجلد lab) -->
+      <a href="lab/" class="tile featured">
+        <div class="tile-ic gold">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.4a2 2 0 0 1-.4 1.2L4.6 17a2 2 0 0 0 1.6 3.2h11.6a2 2 0 0 0 1.6-3.2L14.4 9.6a2 2 0 0 1-.4-1.2V3"/><path d="M7.5 14h9"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">المختبر</div>
+          <div class="tile-desc">تجارب علمية وتطبيقات تفاعلية</div>
+        </div>
+        <svg class="tile-arrow" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </a>
+
+      <!-- المجتمع -->
+      <a href="community/community.html" class="tile">
+        <div class="tile-ic gold">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="tile-txt">
+          <div class="tile-title">المجتمع</div>
+          <div class="tile-desc">أسئلة وتفاعل الطلاب والأساتذة</div>
+        </div>
       </a>
 
       <!-- الكورسات -->
-      <a href="course/list.html" class="card animate-card delay-2">
-        <div class="card-left">
-          <div class="card-icon navy">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">الكورسات</h3>
-            <p class="card-desc">دراسة وامتحان وشهادات إنجاز</p>
-          </div>
+      <a href="course/list.html" class="tile">
+        <div class="tile-ic navy">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">الكورسات</div>
+          <div class="tile-desc">دروس وامتحانات وشهادات</div>
+        </div>
       </a>
 
       <!-- ألعاب العقل -->
-      <a href="brain/index.html" class="card animate-card delay-3">
-        <div class="card-left">
-          <div class="card-icon gold">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">ألعاب العقل</h3>
-            <p class="card-desc">ألعاب ذهنية ممتعة لتنشيط العقل</p>
-          </div>
+      <a href="brain/index.html" class="tile">
+        <div class="tile-ic gold">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">ألعاب العقل</div>
+          <div class="tile-desc">تحديات ذهنية لتنشيط التركيز</div>
+        </div>
       </a>
 
       <!-- اختبر نفسك -->
-      <a href="challenges/index.html" class="card animate-card delay-4">
-        <div class="card-left">
-          <div class="card-icon navy">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">اختبر نفسك</h3>
-            <p class="card-desc">قيّم مستواك واختبر معلوماتك</p>
-          </div>
+      <a href="challenges/index.html" class="tile">
+        <div class="tile-ic navy">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">اختبر نفسك</div>
+          <div class="tile-desc">قيّم مستواك واختبر معلوماتك</div>
+        </div>
       </a>
     </div>
 
-    <!-- باقي الأقسام (تشخيص AZ وقسم المشاهدة والكتب والملازم) -->
-    <div class="section-head">
-      <h2>التشخيص والمشاهدة والمكتبة</h2>
+    <div class="sec-head">
+      <h2>المشاهدة والمكتبة والتشخيص</h2>
     </div>
 
-    <div class="cards-grid">
+    <div class="grid">
       <!-- قسم المشاهدة -->
-      <a href="you_tube/home.html" class="card animate-card delay-5">
-        <div class="card-left">
-          <div class="card-icon gold">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3v6Z"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">قسم المشاهدة</h3>
-            <p class="card-desc">فيديوهات تعليمية للمناهج الدراسية</p>
-          </div>
+      <a href="you_tube/home.html" class="tile">
+        <div class="tile-ic gold">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3v6Z"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">قسم المشاهدة</div>
+          <div class="tile-desc">شروحات فيديو للمناهج</div>
+        </div>
       </a>
 
       <!-- الكتب والملازم -->
-      <a href="books/home.html" class="card animate-card delay-6">
-        <div class="card-left">
-          <div class="card-icon navy">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">الكتب والملازم</h3>
-            <p class="card-desc">ملخصات وملازم وأسئلة وزارية</p>
-          </div>
+      <a href="books/home.html" class="tile">
+        <div class="tile-ic navy">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">الكتب والملازم</div>
+          <div class="tile-desc">ملخصات وأسئلة وزارية</div>
+        </div>
       </a>
 
-      <!-- نموذج AZ لتحليل شخصية الطالب -->
-      <a href="az/index.html" class="card animate-card delay-7">
-        <div class="card-left">
-          <div class="card-icon gold">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">نموذج AZ لتحليل شخصية الطالب</h3>
-            <p class="card-desc">اكتشف نمط شخصيتك وخصائصك الدراسية</p>
-          </div>
+      <!-- نموذج تشخيص AZ (الطالب) -->
+      <a href="az/index.html" class="tile">
+        <div class="tile-ic gold">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">تشخيص AZ (الطالب)</div>
+          <div class="tile-desc">تحليل الشخصية الدراسية</div>
+        </div>
       </a>
 
-      <!-- نموذج AZ لتحليل شخصية الأستاذ -->
-      <a href="az-teacher/teachers/index.html" class="card animate-card delay-8">
-        <div class="card-left">
-          <div class="card-icon navy">
-            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">نموذج AZ لتحليل شخصية الأستاذ</h3>
-            <p class="card-desc">اكتشف نمط شخصيتك وأسلوبك التدريسي</p>
-          </div>
+      <!-- نموذج تشخيص AZ (الأستاذ) -->
+      <a href="az-teacher/teachers/index.html" class="tile">
+        <div class="tile-ic navy">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
         </div>
-        <svg class="card-chevron" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div class="tile-txt">
+          <div class="tile-title">تشخيص AZ (الأستاذ)</div>
+          <div class="tile-desc">تحليل الأسلوب التدريسي</div>
+        </div>
       </a>
     </div>
 
   </main>
 
-  <!-- الحقوق -->
   <footer class="foot">
-    <div class="gold-line"></div>
-    <p>© <span id="year"></span> منصة طالب — جميع الحقوق محفوظة</p>
-    <small>تأسيس: الأستاذ مصطفى رحيم فندي</small>
+    © <span id="year"></span> منصة طالب — تأسيس الأستاذ مصطفى رحيم فندي
   </footer>
 
-  <!-- القائمة الجانبية (باقي التبويبات والأقسام) -->
+  <!-- القائمة الجانبية لباقي التبويبات -->
   <div class="drawer-back" id="drawerBack"></div>
   <aside class="drawer" id="sideDrawer" role="dialog" aria-label="القائمة الجانبية" aria-hidden="true">
     <div class="drawer-head">
-      <div class="drawer-brand">
-        <img src="logo.jfif" alt="شعار منصة طالب" onerror="this.hidden=true;document.getElementById('drawerLogoFb').hidden=false;">
-        <span id="drawerLogoFb" class="drawer-brand-fb" hidden>ط</span>
-        <div class="drawer-brand-txt">
-          <strong>منصة طالب</strong>
-          <span>الأقسام والتشخيص</span>
-        </div>
-      </div>
+      <strong>باقي التبويبات والأقسام</strong>
       <button type="button" class="drawer-close" id="closeDrawerBtn" aria-label="إغلاق القائمة">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
@@ -806,101 +594,65 @@
 
     <div class="drawer-body">
       <div>
-        <div class="drawer-group-title">التشخيص والمشاهدة والمكتبة</div>
-        <div class="drawer-links">
-          <a href="az/index.html" class="drawer-link">
-            <span class="drawer-link-icon gold">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>نموذج تشخيص AZ (الطالب)</strong>
-              <span>تحليل الشخصية والخصائص الدراسية</span>
-            </span>
+        <div class="drawer-label">المختبر والمشاهدة والمكتبة</div>
+        <div class="drawer-list">
+          <a href="lab/" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.4a2 2 0 0 1-.4 1.2L4.6 17a2 2 0 0 0 1.6 3.2h11.6a2 2 0 0 0 1.6-3.2L14.4 9.6a2 2 0 0 1-.4-1.2V3"/><path d="M7.5 14h9"/></svg>
+            <span>المختبر</span>
           </a>
-
-          <a href="az-teacher/teachers/index.html" class="drawer-link">
-            <span class="drawer-link-icon navy">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>نموذج تشخيص AZ (الأستاذ)</strong>
-              <span>تحليل الشخصية والأسلوب التدريسي</span>
-            </span>
+          <a href="you_tube/home.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+            <span>قسم المشاهدة</span>
           </a>
-
-          <a href="you_tube/home.html" class="drawer-link">
-            <span class="drawer-link-icon gold">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3v6Z"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>قسم المشاهدة</strong>
-              <span>فيديوهات تعليمية للمناهج الدراسية</span>
-            </span>
-          </a>
-
-          <a href="books/home.html" class="drawer-link">
-            <span class="drawer-link-icon navy">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>الكتب والملازم</strong>
-              <span>ملخصات وملازم وأسئلة وزارية</span>
-            </span>
+          <a href="books/home.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>الكتب والملازم</span>
           </a>
         </div>
       </div>
 
       <div>
-        <div class="drawer-group-title">التبويبات السريعة</div>
-        <div class="drawer-links">
-          <a href="community/community.html" class="drawer-link">
-            <span class="drawer-link-icon gold">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>المجتمع</strong>
-              <span>منشورات وتفاعل الطلاب والأساتذة</span>
-            </span>
+        <div class="drawer-label">نماذج تشخيص AZ</div>
+        <div class="drawer-list">
+          <a href="az/index.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <span>نموذج تشخيص AZ (الطالب)</span>
           </a>
-
-          <a href="course/list.html" class="drawer-link">
-            <span class="drawer-link-icon navy">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>الكورسات</strong>
-              <span>دراسة وامتحان وشهادات إنجاز</span>
-            </span>
+          <a href="az-teacher/teachers/index.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            <span>نموذج تشخيص AZ (الأستاذ)</span>
           </a>
+        </div>
+      </div>
 
-          <a href="brain/index.html" class="drawer-link">
-            <span class="drawer-link-icon gold">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>ألعاب العقل</strong>
-              <span>ألعاب ذهنية وتنشيط الذكاء</span>
-            </span>
+      <div>
+        <div class="drawer-label">الأقسام الرئيسية</div>
+        <div class="drawer-list">
+          <a href="community/community.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span>المجتمع</span>
           </a>
-
-          <a href="challenges/index.html" class="drawer-link">
-            <span class="drawer-link-icon navy">
-              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
-            </span>
-            <span class="drawer-link-text">
-              <strong>اختبر نفسك</strong>
-              <span>قيّم مستواك واختبر معلوماتك</span>
-            </span>
+          <a href="course/list.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>
+            <span>الكورسات</span>
+          </a>
+          <a href="brain/index.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44"/></svg>
+            <span>ألعاب العقل</span>
+          </a>
+          <a href="challenges/index.html" class="drawer-item">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+            <span>اختبر نفسك</span>
           </a>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- الشريط السفلي الثابت (المجتمع - الكورسات - ألعاب العقل - اختبر نفسك) -->
+  <!-- الشريط السفلي الثابت للهاتف -->
   <nav class="bottom-bar" aria-label="التنقل السريع">
     <div class="bottom-in">
-      <a href="community/community.html" class="tab-item primary-tab">
+      <a href="community/community.html" class="tab-item active">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <span>المجتمع</span>
       </a>
@@ -924,9 +676,6 @@
 
   <script>
     'use strict';
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-      window.lucide.createIcons();
-    }
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const drawer = document.getElementById('sideDrawer');
