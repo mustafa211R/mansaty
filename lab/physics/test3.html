@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#0d1620">
+    <title>مختبر الفيزياء الافتراضي — الثاني المتوسط</title>
+ <link href="cairo.css" rel="stylesheet">
+  <script src="node_modules/chart.js/dist/chart.umd.js"></script> 
+     <style>   
+        :root {
+            --bg: #e9eef4;
+            --pn: #fff;
+            --ln: #d3dbe4;
+            --tx: #16202a;
+            --mu: #586a7a;
+            --bt: #e4ebf2;
+            --bh: #d2dde9;
+            --in: #f1f5f9;
+            --ac: #9a5b00;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media(prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0d1620;
+                --pn: #111b26;
+                --ln: #2a3b4c;
+                --tx: #e3ecf3;
+                --mu: #9fb4c7;
+                --bt: #22364a;
+                --bh: #2d4b68;
+                --in: #0a1119;
+                --ac: #ffc94d
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0d1620;
+            --pn: #111b26;
+            --ln: #2a3b4c;
+            --tx: #e3ecf3;
+            --mu: #9fb4c7;
+            --bt: #22364a;
+            --bh: #2d4b68;
+            --in: #0a1119;
+            --ac: #ffc94d
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            background: var(--bg);
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Cairo, sans-serif;
+            background: var(--bg);
+            color: var(--tx);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        header {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--pn);
+            border-bottom: 1px solid var(--ln);
+            flex-wrap: wrap
+        }
+
+        header h1 {
+            font-size: 17px;
+            margin: 0 8px 0 0;
+            color: var(--ac)
+        }
+
+        #tools {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        button,
+        select,
+        input,
+        textarea {
+            font: inherit
+        }
+
+        button,
+        select {
+            background: var(--bt);
+            color: var(--tx);
+            border: 1px solid var(--ln);
+            border-radius: 8px;
+            padding: 5px 11px;
+            cursor: pointer;
+            touch-action: manipulation
+        }
+
+        button:hover {
+            background: var(--bh)
+        }
+
+        button.on {
+            background: #1c8a4e;
+            border-color: #2fbf74;
+            color: #fff
+        }
+
+        #nav {
+            display: none
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+            position: relative
+        }
+
+        #pal {
+            width: 150px;
+            overflow: auto;
+            padding: 8px;
+            background: var(--pn);
+            border-left: 1px solid var(--ln)
+        }
+
+        .pi {
+            background: var(--in);
+            border: 2px solid var(--ln);
+            border-radius: 8px;
+            margin-bottom: 7px;
+            padding: 3px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer
+        }
+
+        .pi.sel {
+            border-color: #4ea8ff
+        }
+
+        .pi svg {
+            width: 100%;
+            height: 52px;
+            display: block
+        }
+
+        #stg {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative
+        }
+
+        #sv {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            background: var(--bg)
+        }
+
+        #vt {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 5;
+            display: flex;
+            gap: 6px
+        }
+
+        #acts {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 6px 8px;
+            background: var(--pn);
+            border-top: 1px solid var(--ln);
+            min-height: 46px;
+            align-items: center
+        }
+
+        #hcard {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 60px;
+            z-index: 6;
+            background: var(--pn);
+            border: 1px solid var(--ln);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 6px 24px #0006;
+            display: none;
+            font-size: 14px;
+            line-height: 1.7
+        }
+
+        #hcard.show {
+            display: block
+        }
+
+        #side {
+            width: 390px;
+            overflow: auto;
+            padding: 10px;
+            background: var(--pn);
+            border-right: 1px solid var(--ln)
+        }
+
+        #side h3 {
+            margin: 4px 0 8px;
+            font-size: 15px;
+            color: var(--ac)
+        }
+
+        .rd {
+            margin: 8px 0;
+            padding: 8px;
+            background: var(--in);
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.75
+        }
+
+        .rd ol,
+        .rd ul {
+            margin: 4px 0;
+            padding-right: 20px
+        }
+
+        .fm {
+            direction: ltr;
+            text-align: left;
+            font-size: 13px;
+            color: var(--mu)
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--mu);
+            margin-top: 8px
+        }
+
+        #side input[type=number],
+        #side input[type=text],
+        #side select,
+        #side textarea {
+            width: 100%;
+            background: var(--in);
+            color: var(--tx);
+            border: 1px solid var(--ln);
+            border-radius: 6px;
+            padding: 4px 6px
+        }
+
+        input[type=range] {
+            width: 100%
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 6px
+        }
+
+        th,
+        td {
+            padding: 4px;
+            border-bottom: 1px solid var(--ln);
+            text-align: center
+        }
+
+        #tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px
+        }
+
+        #tabs button {
+            flex: 1;
+            padding: 5px 2px;
+            font-size: 13px
+        }
+
+        .sec {
+            display: none
+        }
+
+        body[data-tab=e] .sec[data-s=e],
+        body[data-tab=m] .sec[data-s=m],
+        body[data-tab=c] .sec[data-s=c],
+        body[data-tab=t] .sec[data-s=t] {
+            display: block
+        }
+
+        .hs {
+            animation: pl 1.6s infinite
+        }
+
+        @keyframes pl {
+            50% {
+                opacity: .6
+            }
+        }
+
+        #md {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: #000b;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: calc(env(safe-area-inset-top, 0px) + 8px) 8px 8px
+        }
+
+        #md.show {
+            display: flex
+        }
+
+        #md .box {
+            background: var(--pn);
+            border: 1px solid var(--ln);
+            border-radius: 14px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        #md .hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--ln)
+        }
+
+        #mdb {
+            padding: 12px;
+            overflow: auto
+        }
+
+        .paper {
+            background: #fff;
+            color: #111;
+            padding: 18px;
+            border-radius: 8px;
+            line-height: 1.8;
+            font-size: 14px
+        }
+
+        .paper h2 {
+            margin: 0 0 4px;
+            color: #0b3d6b
+        }
+
+        .paper h3 {
+            margin: 12px 0 4px;
+            color: #0b3d6b;
+            border-bottom: 2px solid #0b3d6b
+        }
+
+        .paper table {
+            font-size: 12.5px
+        }
+
+        .paper th,
+        .paper td {
+            border: 1px solid #aab;
+            color: #111
+        }
+
+        .paper th {
+            background: #e6eefb
+        }
+
+        @media print {
+            body>*:not(#md) {
+                display: none !important
+            }
+
+            html,
+            body {
+                height: auto;
+                overflow: visible;
+                background: #fff
+            }
+
+            #md {
+                position: static;
+                display: block;
+                background: none;
+                padding: 0
+            }
+
+            #md .box {
+                border: 0;
+                max-height: none;
+                overflow: visible
+            }
+
+            #md .hd,
+            .noprint {
+                display: none !important
+            }
+
+            #mdb {
+                padding: 0;
+                overflow: visible
+            }
+        }
+
+        @media(pointer:coarse) {
+
+            button,
+            select {
+                min-height: 40px
+            }
+        }
+
+        @media(max-width:899px) {
+            header {
+                padding: 6px 10px
+            }
+
+            header h1 {
+                font-size: 15px
+            }
+
+            #st {
+                order: 9;
+                width: 100%;
+                font-size: 12px;
+                color: var(--mu)
+            }
+
+            #tools {
+                display: none;
+                position: fixed;
+                top: calc(env(safe-area-inset-top, 0px) + 52px);
+                left: 8px;
+                right: 8px;
+                z-index: 50;
+                background: var(--pn);
+                border: 1px solid var(--ln);
+                border-radius: 14px;
+                padding: 10px;
+                box-shadow: 0 8px 30px #0008;
+                grid-template-columns: 1fr 1fr
+            }
+
+            body.s-menu #tools {
+                display: grid
+            }
+
+            #tools select,
+            #tools button {
+                width: 100%
+            }
+
+            #pal,
+            #side {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+                width: auto;
+                border: 0;
+                border-top: 1px solid var(--ln);
+                z-index: 30;
+                transform: translateY(130%);
+                visibility: hidden;
+                transition: transform .2s, visibility .2s;
+                box-shadow: 0 -6px 24px #0007
+            }
+
+            #pal {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 8px
+            }
+
+            .pi {
+                flex: 0 0 96px;
+                margin: 0
+            }
+
+            #side {
+                max-height: 60%;
+                border-radius: 16px 16px 0 0
+            }
+
+            body.s-pal #pal,
+            body.s-side #side {
+                transform: none;
+                visibility: visible
+            }
+
+            #nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 40;
+                background: var(--pn);
+                border-top: 1px solid var(--ln);
+                padding-bottom: env(safe-area-inset-bottom, 0px)
+            }
+
+            #nav button {
+                flex: 1;
+                height: 58px;
+                border: 0;
+                border-radius: 0;
+                background: none;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                line-height: 1.2
+            }
+
+            #nav button span {
+                font-size: 11px;
+                color: var(--mu)
+            }
+
+            #nav button.act span {
+                color: var(--ac);
+                font-weight: 700
+            }
+
+            #hcard {
+                bottom: calc(120px + env(safe-area-inset-bottom, 0px))
+            }
+
+            #acts {
+                margin-bottom: calc(58px + env(safe-area-inset-bottom, 0px))
+            }
+        }
+    </style>
+</head>
+
+<body data-tab="e">
+    <header>
+
+        
+        <h1>🏃 مختبر فيزياء الثاني المتوسط</h1><button id="run" class="on">⏸ إيقاف</button><button id="rst">↺
+          
+          <button id="home"> الرئيسية</button>
+
+
+          
+<script>
+document.getElementById('home').onclick = () => {
+  location.href = 'index.html';
+};
+</script>
+
+
+            إعادة</button><span id="st"></span>
+
+            
+        <div id="tools"><select id="ex"></select><select id="ev"></select><select id="sp">
+                <option value=".5">بطيء ×0.5</option>
+                <option value="1" selected>عادي ×1</option>
+                <option value="5">سريع ×5</option>
+                <option value="20">أسرع ×20</option>
+            </select><button id="rp">📄 تقرير التجربة</button></div>
+    </header>
+    <main>
+        <div id="pal"></div>
+        <div id="stg">
+            <div id="vt"><button data-v="exp" class="on">🔬 التجربة</button><button data-v="env">🌍 البيئة</button>
+            </div><svg id="sv" viewBox="0 0 800 480"></svg>
+            <div id="hcard"></div>
+            <div id="acts"></div>
+        </div>
+        <div id="side">
+            <div id="tabs"><button data-t="e">📖 الشرح</button><button data-t="m">📏 القياسات</button><button
+                    data-t="c">🎛 التحكم</button><button data-t="t">🧮 الثوابت</button></div>
+            <div class="sec" data-s="e" id="s-e"></div>
+            <div class="sec" data-s="m">
+                <h3>القراءات الحية</h3>
+                <div id="rdg"></div><button id="rc">📌 سجّل القراءة</button> <button id="rcx">🗑 مسح الجدول</button>
+                <div id="rows"></div><label>الاستنتاج وملاحظاتك</label><textarea id="nt" rows="3"
+                    placeholder="اكتب ما لاحظته واستنتجته…"></textarea>
+            </div>
+            <div class="sec" data-s="c" id="s-c"></div>
+            <div class="sec" data-s="t">
+                <div class="rd">عدّل الثوابت الفيزيائية (الجاذبية، معاملات الانكسار، سرعة الصوت) وسترى أثرها فوراً في
+                    التجارب.</div>
+                <div id="mt"></div>
+            </div>
+        </div>
+    </main>
+    <nav id="nav"><button data-n="pal">🧰<span>الأدوات</span></button><button data-n="side">📖<span>الشرح
+                والتحكم</span></button><button data-n="menu">⚙️<span>التجارب</span></button></nav>
+    <div id="md">
+        <div class="box">
+            <div class="hd"><b id="mdt"></b><button id="mdx">✕ إغلاق</button></div>
+            <div id="mdb"></div>
+        </div>
+    </div>
+    <script>
+        const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+        const cl = (x, a, b) => Math.max(a, Math.min(b, x)), lerp = (a, b, t) => a + (b - a) * t, f1 = (x, d = 1) => (+x).toFixed(d);
+        const hx = c => [1, 3, 5].map(i => parseInt(c.substr(i, 2), 16)), mix = (a, b, t) => { const x = hx(a), y = hx(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join('') };
+        const hcol = t => { t = cl(t, 0, 1); return t < .5 ? mix('#3b82f6', '#ffd84a', t * 2) : mix('#ffd84a', '#ef4444', (t - .5) * 2) };
+        const R = (x, y, w, h, f, e = '') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${e}/>`, Cc = (x, y, r, f, e = '') => `<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" ${e}/>`, Ln = (a, b, c, d, s = '#345', w = 2, e = '') => `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${s}" stroke-width="${w}" ${e}/>`, Tx = (x, y, t, z = 13, f = '#223', a = 'middle', e = '') => `<text x="${x}" y="${y}" font-size="${z}" fill="${f}" text-anchor="${a}" ${e}>${t}</text>`;
+        const PLN = { earth: { n: 'الأرض', g: 9.8, col: '#4f9de0' }, moon: { n: 'القمر', g: 1.62, col: '#b8b8b8' }, mars: { n: 'المريخ', g: 3.71, col: '#d9744a' }, jup: { n: 'المشتري', g: 24.8, col: '#d9b08a' } };
+        const MED = { air: { n: 'هواء', x: 1.0003, col: '#e8f4ff' }, water: { n: 'ماء', x: 1.33, col: '#4ea8ff' }, oil: { n: 'زيت', x: 1.47, col: '#e8c13a' }, glass: { n: 'زجاج', x: 1.52, col: '#9fd0d8' }, diamond: { n: 'ألماس', x: 2.42, col: '#cfe9ff' } };
+        const SND = { air: { n: 'هواء', x: 343 }, water: { n: 'ماء', x: 1480 }, wood: { n: 'خشب', x: 3850 }, iron: { n: 'حديد', x: 5120 } };
+        const CT = [['تسارع الجاذبية g (m/s²)', PLN, 'g'], ['معامل الانكسار n', MED, 'x'], ['سرعة الصوت (m/s)', SND, 'x']];
+        const opt = o => () => Object.entries(o).map(([k, v]) => [k, v.n]);
+        function kid(x, y, s, o) {
+            const c = Object.assign({ sh: '#3b82f6', pt: '#44506a', hr: '#3b2314', sk: '#f2c9a0', f: 1, a1: 15, a2: -15, l1: 8, l2: -8, al: 1 }, o || {});
+            const lb = (x0, y0, a, l, w, col, hc) => { const r = a * Math.PI / 180, x1 = x0 + Math.sin(r) * l, y1 = y0 + Math.cos(r) * l; return Ln(x0, y0, x1, y1, col, w, 'stroke-linecap="round"') + Cc(x1, y1, w / 2 + 1, hc) };
+            return `<g opacity="${c.al}" transform="translate(${x} ${y}) scale(${s * c.f} ${s})">` + lb(-3, -44, c.l2, 42, 9, c.pt, '#222') + lb(0, -80, c.a2, 32, 7, c.sh, c.sk) + R(-12, -86, 24, 44, c.sh, 'rx="9"') + lb(3, -44, c.l1, 42, 9, c.pt, '#222') + lb(0, -80, c.a1, 32, 7, c.sh, c.sk) + Cc(0, -102, 15, c.sk, 'stroke="#c9996a" stroke-width="1"') + `<path d="M-15 -103Q-16 -121 0 -121Q16 -121 15 -103Q8 -110 -3 -108Q-10 -108 -15 -103Z" fill="${c.hr}"/>` + Cc(5, -102, 2, '#222') + Cc(11, -102, 2, '#222') + `<path d="M5 -95Q9 -91 13 -95" fill="none" stroke="#a0522d" stroke-width="2" stroke-linecap="round"/></g>`
+        }
+        const arr = (x1, y1, x2, y2, c = '#e5484d', w = 4) => { const a = Math.atan2(y2 - y1, x2 - x1), h = 10; return Ln(x1, y1, x2, y2, c, w) + `<polygon points="${x2},${y2} ${x2 - h * Math.cos(a - .4)},${y2 - h * Math.sin(a - .4)} ${x2 - h * Math.cos(a + .4)},${y2 - h * Math.sin(a + .4)}" fill="${c}"/>` };
+        const sw = (x, y, t) => Cc(x, y, 24, '#fff', 'stroke="#456" stroke-width="3"') + R(x - 4, y - 32, 8, 8, '#456') + Ln(x, y, x + Math.sin(t * .10472) * 18, y - Math.cos(t * .10472) * 18, '#e5484d', 2) + Tx(x, y + 42, f1(t, 2) + ' s', 13, '#c22');
+        const sb = (x, y, F, mx = 10) => { const p = x + 10 + cl(F / mx, 0, 1) * 65; return R(x, y - 11, 86, 22, '#eef2f7', 'stroke="#456" stroke-width="2" rx="6"') + Ln(x + 10, y, x + 75, y, '#9ab', 1) + Ln(p, y - 10, p, y + 10, '#e5484d', 3) + Tx(x + 43, y + 26, f1(F) + ' N', 12, '#c22') };
+        const say = (x, y, t, w = 180) => R(x, y, w, 32, '#fff', 'rx="12" stroke="#456" stroke-width="2"') + Tx(x + w / 2, y + 21, t, 13, '#223');
+        const ICO = { stopwatch: '<circle cx="30" cy="34" r="20" fill="#fff" stroke="#345" stroke-width="3"/><rect x="26" y="8" width="8" height="7" fill="#345"/><path d="M30 34V22M30 34L40 38" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/>', ruler: '<rect x="4" y="22" width="52" height="16" fill="#f4d35e" stroke="#a67c00"/><path d="M10 22v7M16 22v5M22 22v7M28 22v5M34 22v7M40 22v5M46 22v7M52 22v5" stroke="#333"/>', flag: '<rect x="14" y="6" width="3" height="48" fill="#789"/><path d="M17 8H48L40 18L48 28H17Z" fill="#e5484d" stroke="#822" stroke-width="2"/>', car: '<rect x="6" y="26" width="48" height="18" rx="8" fill="#f59e0b" stroke="#7a4a00" stroke-width="2"/><path d="M16 26L22 14H38L46 26Z" fill="#bfe6ff" stroke="#7a4a00" stroke-width="2"/><circle cx="18" cy="46" r="7" fill="#333"/><circle cx="42" cy="46" r="7" fill="#333"/><circle cx="27" cy="21" r="2" fill="#222"/><circle cx="34" cy="21" r="2" fill="#222"/>', spring: '<rect x="6" y="22" width="48" height="16" rx="6" fill="#eef2f7" stroke="#456" stroke-width="2"/><path d="M12 30H48" stroke="#9ab"/><path d="M30 20V40" stroke="#e5484d" stroke-width="3"/><path d="M0 30H6M54 30H60" stroke="#456" stroke-width="3"/>', box: '<rect x="10" y="16" width="40" height="34" rx="3" fill="#c98b4a" stroke="#6b4a22" stroke-width="2"/><path d="M10 28H50" stroke="#6b4a22"/>', coin: '<circle cx="30" cy="30" r="18" fill="#f5c542" stroke="#8a6a00" stroke-width="3"/><text x="30" y="37" font-size="20" text-anchor="middle" fill="#8a6a00" font-weight="700">1</text>', card: '<rect x="8" y="20" width="44" height="22" rx="3" fill="#fff" stroke="#456" stroke-width="2"/><path d="M14 28H40M14 34H34" stroke="#9ab"/>', cup: '<path d="M16 14L20 50H40L44 14Z" fill="#dff1ff" stroke="#456" stroke-width="3"/>', balloon: '<ellipse cx="30" cy="22" rx="16" ry="18" fill="#ff6b8a" stroke="#a02" stroke-width="2"/><path d="M30 40l-4 8h8z" fill="#ff6b8a"/><circle cx="25" cy="20" r="2" fill="#222"/><circle cx="35" cy="20" r="2" fill="#222"/><path d="M26 27Q30 31 34 27" stroke="#222" fill="none" stroke-width="2"/>', scale: '<rect x="8" y="36" width="44" height="14" rx="5" fill="#8aa0b8" stroke="#456" stroke-width="2"/><rect x="18" y="40" width="24" height="6" fill="#143"/><path d="M14 36Q30 14 46 36" fill="none" stroke="#456" stroke-width="2"/>', planet: '<circle cx="30" cy="30" r="16" fill="#d9744a" stroke="#7a3a1a" stroke-width="2"/><ellipse cx="30" cy="30" rx="26" ry="6" fill="none" stroke="#9ab" stroke-width="2"/>', stairs: '<path d="M6 52H18V42H30V32H42V22H54V52Z" fill="#c98b4a" stroke="#6b4a22" stroke-width="2"/>', dumbbell: '<rect x="6" y="20" width="8" height="20" rx="2" fill="#333"/><rect x="46" y="20" width="8" height="20" rx="2" fill="#333"/><rect x="14" y="28" width="32" height="4" fill="#999"/>', pendulum: '<path d="M10 6H50" stroke="#456" stroke-width="4"/><path d="M30 6L42 40" stroke="#456" stroke-width="2"/><circle cx="43" cy="44" r="9" fill="#e5484d" stroke="#822" stroke-width="2"/><circle cx="41" cy="42" r="1.6" fill="#222"/><circle cx="46" cy="42" r="1.6" fill="#222"/>', lever: '<rect x="4" y="22" width="52" height="6" rx="2" fill="#f4d35e" stroke="#a67c00" stroke-width="2" transform="rotate(-8 30 25)"/><path d="M30 28L20 50H40Z" fill="#789" stroke="#456" stroke-width="2"/><rect x="6" y="30" width="10" height="10" fill="#c98b4a"/>', pulley: '<circle cx="30" cy="22" r="12" fill="#cfd6dc" stroke="#456" stroke-width="3"/><circle cx="30" cy="22" r="3" fill="#456"/><path d="M18 22V50M42 22V40" stroke="#a67c00" stroke-width="3"/><rect x="36" y="40" width="12" height="12" fill="#c98b4a"/>', ramp: '<path d="M6 50L54 50L54 20Z" fill="#c98b4a" stroke="#6b4a22" stroke-width="2"/><rect x="26" y="26" width="10" height="10" fill="#e5484d" transform="rotate(-32 31 31)"/>', rope: '<path d="M4 34Q18 18 30 34T56 34" fill="none" stroke="#a67c00" stroke-width="5" stroke-linecap="round"/>', fork: '<path d="M24 6V30Q24 36 30 36Q36 36 36 30V6" fill="none" stroke="#9aa4ad" stroke-width="5" stroke-linecap="round"/><path d="M30 36V54" stroke="#9aa4ad" stroke-width="5"/>', mirror: '<rect x="14" y="8" width="32" height="42" rx="6" fill="#bfe6ff" stroke="#8a6a3a" stroke-width="4"/><path d="M20 18L30 12M20 26L38 14" stroke="#fff" stroke-width="3"/>', torch: '<rect x="10" y="24" width="30" height="12" rx="4" fill="#4b6cb7" stroke="#223" stroke-width="2"/><path d="M40 22L56 14V46L40 38Z" fill="#ffd84a" stroke="#a80" stroke-width="2"/>', glass: '<path d="M16 8L20 52H40L44 8Z" fill="#dff1ff" stroke="#456" stroke-width="3"/><path d="M18 26H42L40 52H20Z" fill="#4ea8ff" opacity=".6"/>', pencil: '<path d="M10 52L12 40L44 8L52 16L20 48Z" fill="#f4d35e" stroke="#a67c00" stroke-width="2"/><path d="M10 52L12 40L20 48Z" fill="#555"/>', protractor: '<path d="M6 44A24 24 0 0 1 54 44Z" fill="#dff1ff" stroke="#456" stroke-width="2"/><path d="M30 44L30 24M30 44L16 30" stroke="#e5484d" stroke-width="2"/>', graph: '<rect x="8" y="8" width="44" height="44" fill="#fff" stroke="#456" stroke-width="2"/><path d="M12 46L24 32L34 36L48 14" fill="none" stroke="#e5484d" stroke-width="3"/>' };
+        ICO.kid = kid(30, 56, .45, {}); ICO.kid2 = kid(30, 56, .45, { sh: '#ec4899', hr: '#222', a1: 120, a2: -20 });
+        const ico = k => `<svg viewBox="0 0 60 60">${ICO[k]}</svg>`;
+        const ENV = {
+            play: {
+                n: '🏫 ملعب المدرسة', d: () => R(0, 0, 800, 480, '#bfe3ff') + Cc(700, 70, 40, '#ffd84a') + R(0, 300, 800, 180, '#6fbf5a') + R(560, 150, 200, 150, '#f1d9a7', 'stroke="#a07" stroke-width="3"') + `<polygon points="550,150 660,90 770,150" fill="#c0504a"/>` + R(640, 220, 40, 80, '#7a5230') + Ln(60, 330, 60, 420, '#7a5230', 6) + Ln(180, 330, 180, 420, '#7a5230', 6) + Ln(60, 330, 180, 330, '#7a5230', 6) + Ln(120, 330, 120, 380, '#456', 2) + R(105, 380, 30, 8, '#e5484d') + kid(300, 440, .8, { sh: '#ef4444', a1: 60, a2: -60, l1: 30, l2: -30 }) + kid(420, 440, .8, { sh: '#22a35a', hr: '#222', f: -1 }) + kid(250, 400, .6, { sh: '#f59e0b' }),
+                hs: [[300, 350, '🏃', 'العدّاء في الساحة', 'عند الركض نقيس المسافة بالشريط والزمن بساعة التوقيت، والسرعة المتوسطة = المسافة ÷ الزمن.', 'speed'], [120, 340, '🛝', 'الأرجوحة (البندول)', 'الأرجوحة بندول بسيط: تتحول طاقتها الكامنة عند أعلى نقطة إلى حركية عند الأسفل، وزمنها يعتمد على طول الحبل لا على وزن الطفل.', 'pend'], [470, 380, '🪢', 'شدّ الحبل', 'قوتان متعاكستان تُطرحان: المحصلة = الفرق بينهما، والفريق الأقوى يسحب الحبل نحوه.', 'resul'], [440, 300, '⚖', 'المرجوحة (عتلة)', 'المرجوحة عتلة من النوع الأول: نقطة الارتكاز في المنتصف بين الحمل والجهد.', 'lever']]
+            },
+            lab: {
+                n: '🔬 مختبر المدرسة', d: () => R(0, 0, 800, 480, '#dbe6f0') + R(0, 395, 800, 85, '#9b7b55') + R(60, 50, 260, 120, '#2f5d46', 'stroke="#8a6a3a" stroke-width="6"') + Tx(190, 100, 'v = d ÷ t', 28, '#fff') + Tx(190, 140, 'F = m × a', 24, '#ffd84a') + kid(620, 430, .9, { sh: '#fff', hr: '#777', a1: 100, a2: -10 }) + R(420, 330, 230, 12, '#8a5a2b') + Tx(535, 320, '👩‍🏫', 30),
+                hs: [[250, 370, '🪙', 'بطاقة وعملة', 'عند سحب البطاقة بسرعة تبقى العملة في مكانها وتسقط في الكأس: هذا هو القصور الذاتي (قانون نيوتن الأول).', 'inert'], [360, 370, '🚙', 'سيارة اللعبة والميزان النابضي', 'كلما زادت القوة زاد التعجيل، وكلما زادت الكتلة قلّ التعجيل (قانون نيوتن الثاني: F = m × a).', 'n2'], [480, 370, '🎵', 'الشوكة الرنانة', 'الشوكة تهتز فتولّد موجات صوتية تنتقل في الهواء، ويحدد ترددها حدّة الصوت.', 'wave'], [560, 370, '📏', 'المسطرة والأثقال', 'نستعمل المسطرة عتلةً لنحقق أنواع العتلات الثلاثة ونجد شرط التوازن F × ذراع الجهد = W × ذراع الحمل.', 'lever']]
+            },
+            street: {
+                n: '🛣 الشارع', d: () => R(0, 0, 800, 480, '#a9d2f2') + R(0, 330, 800, 150, '#555a62') + R(0, 400, 800, 6, '#ddd') + R(30, 110, 120, 220, '#c9b79c') + R(180, 170, 110, 160, '#b9a58a') + R(600, 90, 150, 240, '#c9b79c') + R(0, 320, 800, 12, '#777') + kid(520, 325, .7, { sh: '#ef4444' }),
+                hs: [[400, 370, '🚗', 'سيارة تتحرك على الطريق', 'نرسم مخطط المسافة–الزمن والسرعة–الزمن لحركة السيارة: الميل في مخطط المسافة هو السرعة.', 'graph'], [250, 300, '🚌', 'الحافلة تنطلق فجأة', 'عندما تنطلق الحافلة فجأة يميل الركاب للخلف لأن أجسامهم تميل للبقاء ساكنة (القصور الذاتي).', 'inert'], [560, 200, '📣', 'منبّه السيارة', 'الصوت موجة تنتقل في الهواء بسرعة نحو 343 m/s، وتُسمع بعد لحظة من إطلاقها.', 'wave'], [130, 60, '✈', 'الطائرة النفاثة', 'المحرك النفاث يدفع الغاز للخلف (الفعل) فتندفع الطائرة للأمام (رد الفعل): قانون نيوتن الثالث.', 'n3']]
+            },
+            home: {
+                n: '🏠 البيت', d: () => R(0, 0, 800, 480, '#f6e7cf') + R(0, 390, 800, 90, '#b08a5a') + R(80, 60, 150, 200, '#bfe6ff', 'stroke="#8a6a3a" stroke-width="6"') + R(560, 100, 170, 240, '#c98b4a', 'stroke="#6b4a22" stroke-width="4"') + kid(400, 440, .9, { sh: '#a855f7', hr: '#222', a1: 70, a2: -20 }) + Tx(645, 230, '🪞', 70),
+                hs: [[645, 230, '🪞', 'المرآة المستوية', 'صورتك في المرآة تبعد عنها بقدر بعدك، وزاوية السقوط = زاوية الانعكاس.', 'refl'], [160, 170, '🥤', 'القلم في كأس الماء', 'يبدو القلم مكسوراً عند سطح الماء لأن الضوء ينكسر عند انتقاله من الماء إلى الهواء.', 'refr'], [400, 330, '⚖', 'ميزان الحمّام', 'الميزان يقيس وزنك (قوة الجاذبية عليك W = m × g) وهو يختلف على القمر عنه على الأرض.', 'wt'], [300, 200, '🎈', 'بالون الاحتفال', 'عند إفلات بالون منفوخ يندفع الهواء للخلف فيندفع البالون للأمام: الفعل ورد الفعل.', 'n3']]
+            },
+            park: {
+                n: '🎡 الحديقة والملاهي', d: () => R(0, 0, 800, 480, '#c9ecff') + R(0, 320, 800, 160, '#6fbf5a') + `<polygon points="120,420 360,420 360,200" fill="#e0a458" stroke="#8a5a2b" stroke-width="4"/>` + R(560, 60, 14, 300, '#789') + R(560, 60, 160, 12, '#789') + Cc(655, 250, 22, '#cfd6dc', 'stroke="#456" stroke-width="4"') + kid(560, 440, .75, { sh: '#f59e0b', a1: 150, a2: 150 }) + kid(300, 330, .6, { sh: '#22a35a', f: -1, a1: 80 }),
+                hs: [[240, 320, '🛝', 'الزحليقة (سطح مائل)', 'السطح المائل يقلل القوة اللازمة لرفع الحمل لكنه يزيد المسافة، والشغل يبقى نفسه تقريباً.', 'mach'], [650, 250, '🏗', 'رافعة وبكرة', 'البكرة المتحركة تقلل القوة إلى النصف لكنها تضاعف طول الحبل المسحوب.', 'mach'], [450, 400, '🏋', 'رفع الأثقال', 'عند رفع ثقل نبذل شغلاً W = F × d، والقدرة = الشغل ÷ الزمن.', 'work'], [130, 370, '🚲', 'دراجة تنطلق', 'للدراجة تعجيل عند الانطلاق: المحصلة الأكبر تعطي تعجيلاً أكبر.', 'n2']]
+            }
+        };
+        const CH = { 1: 'الفصل الأول: الحركة والقوة', 2: 'الفصل الثاني: قوانين الحركة', 3: 'الفصل الثالث: الشغل والقدرة والطاقة', 4: 'الفصل الرابع: الصوت والضوء (الموجات)' };
+        let X, P = {}, S = {}, run = true, envK = 'play', view = 'exp', rows = {}, notes = {}, spd = 1, hot = null, tool = null, fr = 0;
+        const beep = () => { try { const a = new (window.AudioContext || window.webkitAudioContext)(), o = a.createOscillator(), g = a.createGain(); o.frequency.value = +P.fs; g.gain.value = .04 + .012 * P.A; o.connect(g); g.connect(a.destination); o.start(); setTimeout(() => { o.stop(); a.close() }, 900) } catch (e) { } };
+        const carS = (x, y, col) => R(x - 45, y - 30, 90, 26, col, 'rx="10" stroke="#222" stroke-width="2"') + `<path d="M${x - 25} ${y - 30}L${x - 14} ${y - 52}H${x + 16}L${x + 30} ${y - 30}Z" fill="#bfe6ff" stroke="#222" stroke-width="2"/>` + Cc(x - 30, y - 3, 11, '#333') + Cc(x + 30, y - 3, 11, '#333') + Cc(x - 30, y - 3, 4, '#aaa') + Cc(x + 30, y - 3, 4, '#aaa') + Cc(x - 4, y - 40, 2.2, '#222') + Cc(x + 8, y - 40, 2.2, '#222') + `<path d="M${x - 1} ${y - 34}Q${x + 4} ${y - 30} ${x + 9} ${y - 34}" fill="none" stroke="#222" stroke-width="2"/>`;
+        const sbl = (x, y, F, mx) => { const p = x + 10 + cl(F / mx, 0, 1) * 65; return R(x, y - 10, 86, 20, '#eef2f7', 'stroke="#456" stroke-width="2" rx="6"') + Ln(p, y - 9, p, y + 9, '#e5484d', 3) + Tx(x + 43, y - 14, f1(F) + ' N', 12, '#c22') };
+        const CLS = ['', 'النوع الأول: الارتكاز بين الحمل والجهد (مقص، مرجوحة)', 'النوع الثاني: الحمل بين الارتكاز والجهد (عربة يد، كسارة جوز)', 'النوع الثالث: الجهد بين الارتكاز والحمل (ملقط، صنارة)'];
+        const EX = [
+            {
+                id: 'speed', ch: 1, n: 'الانطلاق والسرعة (ساعة التوقيت والمسطرة)',
+                goal: 'حساب الانطلاق (السرعة المتوسطة) لعدّاء بقياس المسافة بالمسطرة والزمن بساعة التوقيت، والتمييز بين الحركة المنتظمة وغير المنتظمة.',
+                why: 'السرعة تخبرنا بمدى سرعة تحرك الأجسام (رياضي، سيارة، طائرة)، ونستعملها لتقدير زمن الوصول وفي سباقات الركض.',
+                steps: ['اضبط المسافة (تُقاس بالمسطرة/الشريط) وسرعة العدّاء.', 'اضغط «ابدأ الجري» وراقب ساعة التوقيت من لحظة الانطلاق.', 'سجّل زمن كل ربع من المسافة وزمن الوصول.', 'احسب السرعة المتوسطة v = d ÷ t.', 'قارن أزمنة الأرباع في الحركة المنتظمة وغير المنتظمة (استعمل السرعة ×5 لتسريع الزمن).'],
+                meas: ['d المسافة (m)', 't الزمن (s)', 'v السرعة المتوسطة (m/s)', 'أزمنة الأرباع'], law: 'v = d / t   (الانطلاق = المسافة ÷ الزمن)   ،   d = v × t',
+                concl: 'في الحركة المنتظمة يقطع الجسم مسافات متساوية في أزمنة متساوية فتتساوى أزمنة الأرباع، أما في غير المنتظمة فتتغير السرعة وتختلف الأزمنة.',
+                tools: [['ساعة توقيت', 'stopwatch', 'تقيس الزمن بالثانية.', 'شغّلها عند الانطلاق وأوقفها عند الوصول.'], ['مسطرة/شريط قياس', 'ruler', 'تقيس المسافة بالمتر.', 'مدّه بين البداية والنهاية.'], ['علم الانطلاق', 'flag', 'يحدد البداية والنهاية.', 'ضعه عند الصفر وعند المسافة المطلوبة.'], ['العدّاء', 'kid', 'الجسم المتحرك.', 'غيّر سرعته من «التحكم».']],
+                params: [{ k: 'D', l: 'المسافة', u: 'm', min: 10, max: 100, step: 5, v: 50 }, { k: 'v', l: 'سرعة العدّاء المتوسطة', u: 'm/s', min: 1, max: 10, step: .5, v: 5 }, { k: 'ty', l: 'نوع الحركة', o: [[0, 'منتظمة (سرعة ثابتة)'], [1, 'غير منتظمة (تتغير)']], v: 0 }],
+                acts: [['🏃 ابدأ الجري', () => { X.init(); S.go = 1 }], ['↺ أعد', () => X.init()]],
+                init() { S.x = 0; S.t = 0; S.go = 0; S.ph = 0; S.sp = [null, null, null, null] },
+                vel() { return +P.ty == 1 ? P.v * (1 + .6 * Math.sin(S.t * 1.3)) : +P.v },
+                tick(dt, sd) { if (!S.go) return; const n = Math.ceil(sd / .05), h = sd / n; for (let i = 0; i < n && S.go; i++) { S.t += h; const v = this.vel(); S.x += v * h; S.ph += v * h;[1, 2, 3, 4].forEach((q, j) => { if (S.sp[j] == null && S.x >= P.D * q / 4) S.sp[j] = S.t }); if (S.x >= P.D) { S.x = +P.D; S.go = 0 } } },
+                draw() {
+                    const D = +P.D, sc = 620 / D, x0 = 80; let s = R(40, 405, 720, 14, '#8a6a3a') + R(40, 395, 720, 10, '#c9a066');
+                    for (let i = 0; i <= 10; i++) { const x = x0 + i * D / 10 * sc; s += Ln(x, 395, x, i % 5 ? 403 : 411, '#333', 1.5) + Tx(x, 432, f1(i * D / 10, 0), 11, '#333') }
+                    s += Tx(60, 452, 'المسطرة (m)', 11, '#456', 'start') + Tx(x0, 372, '🚩 البداية', 12) + Tx(x0 + D * sc, 372, '🏁 النهاية', 12);
+                    [0, 1, 2, 3].forEach(j => { if (S.sp[j] != null) s += Tx(x0 + D * (j + 1) / 4 * sc, 352, f1(S.sp[j], 2) + ' s', 11, '#c22') });
+                    const w = S.go ? Math.sin(S.ph * 7) : 0; s += kid(x0 + S.x * sc, 392, .85, { sh: '#ef4444', a1: 70 * w, a2: -70 * w, l1: -40 * w, l2: 40 * w });
+                    return s + sw(100, 110, S.t) + say(150, 70, S.go ? 'أجري بأقصى سرعة! 🏃' : (S.x >= D ? 'وصلت! t = ' + f1(S.t, 2) + ' s' : 'اضغط «ابدأ الجري»')) + Tx(560, 110, 'v = d ÷ t', 26, '#9a5b00') + (S.t > 0 ? Tx(560, 145, 'v = ' + D + ' ÷ ' + f1(S.t, 2) + ' = ' + f1(S.x / S.t, 2) + ' m/s', 15, '#0a7a3a') : '')
+                },
+                read() { return [['المسافة d', P.D + ' m'], ['الزمن t', f1(S.t, 2) + ' s'], ['السرعة المتوسطة v = d/t', S.t > 0 ? f1(S.x / S.t, 2) + ' m/s' : '—'], ['السرعة اللحظية', S.go ? f1(this.vel(), 2) + ' m/s' : '0'], ['أزمنة الأرباع', S.sp.map(x => x == null ? '—' : f1(x, 2)).join(' | ')]] }, rh: ['d (m)', 't (s)', 'v (m/s)', 'الحركة'], rec() { return [[P.D, f1(S.t, 2), S.t > 0 ? f1(S.x / S.t, 2) : '—', +P.ty ? 'غير منتظمة' : 'منتظمة']] }
+            },
+            {
+                id: 'graph', ch: 1, n: 'رسم المخطط البياني والتعجيل',
+                goal: 'رسم مخططي (المسافة–الزمن) و(السرعة–الزمن) لحركة سيارة وقراءة السرعة والتعجيل منهما.',
+                why: 'المخططات البيانية تلخّص الحركة بصرياً: ميل مخطط المسافة هو السرعة، وميل مخطط السرعة هو التعجيل.',
+                steps: ['اختر نوع الحركة (منتظمة، متعجلة، متباطئة، غير منتظمة).', 'راقب رسم المخططين أثناء حركة السيارة.', 'في السرعة المنتظمة: خط مستقيم مائل في مخطط المسافة وأفقي في مخطط السرعة.', 'في التعجيل المنتظم: منحنى في المسافة وخط مستقيم مائل في السرعة.', 'احسب التعجيل a = (v₂ − v₁) ÷ t.'],
+                meas: ['x المسافة (m)', 'v السرعة (m/s)', 'a التعجيل (m/s²)'], law: 'a = (v₂ − v₁) / t   ،   v = d / t',
+                concl: 'ميل مخطط (السرعة–الزمن) يساوي التعجيل، وحين تكون السرعة ثابتة يكون التعجيل صفراً.',
+                tools: [['سيارة', 'car', 'الجسم المتحرك.', 'اختر نوع حركتها.'], ['مخطط بياني', 'graph', 'يرسم العلاقة بين الكميات.', 'اقرأ الميل والقيم.'], ['ساعة توقيت', 'stopwatch', 'تقيس الزمن.', 'تتابع زمن الرسم.']],
+                params: [{ k: 'md', l: 'نوع الحركة', o: [[0, 'سرعة منتظمة'], [1, 'تعجيل منتظم من السكون'], [2, 'تباطؤ حتى التوقف'], [3, 'غير منتظمة (تسير وتتوقف)']], v: 1 }, { k: 'v0', l: 'السرعة الابتدائية / المنتظمة', u: 'm/s', min: 0, max: 20, step: 1, v: 5 }, { k: 'a', l: 'التعجيل', u: 'm/s²', min: .5, max: 5, step: .5, v: 2 }],
+                acts: [['↺ أعد الحركة', () => X.init()]],
+                vel(t) { const m = +P.md, v0 = +P.v0, a = +P.a; return m == 0 ? v0 : m == 1 ? a * t : m == 2 ? Math.max(0, v0 - a * t) : (t < 3 ? v0 : t < 5 ? 0 : t < 8 ? v0 * 1.5 : 0) },
+                init() { S.t = 0; S.x = 0; S.ac = 0; S.h = [[0, 0, this.vel(0)]] },
+                tick(dt, sd) { if (S.t >= 12) return; const n = Math.ceil(sd / .05), h = sd / n; for (let i = 0; i < n && S.t < 12; i++) { S.t += h; S.x += this.vel(S.t) * h; S.ac += h; if (S.ac >= .2) { S.ac = 0; S.h.push([S.t, S.x, this.vel(S.t)]) } } },
+                draw() {
+                    const h = S.h, mx = Math.max(10, ...h.map(p => p[1])) * 1.1, mv = Math.max(5, ...h.map(p => p[2])) * 1.2;
+                    const gr = (x, y, w, hh, lbl, k, m, col) => {
+                        let g = R(x, y, w, hh, '#fff', 'stroke="#456" stroke-width="2"'); for (let i = 1; i < 4; i++)g += Ln(x, y + hh * i / 4, x + w, y + hh * i / 4, '#dde', 1); for (let i = 1; i < 6; i++)g += Ln(x + w * i / 6, y, x + w * i / 6, y + hh, '#dde', 1); const l = h[h.length - 1];
+                        return g + `<polyline fill="none" stroke="${col}" stroke-width="3" points="${h.map(p => (x + p[0] / 12 * w).toFixed(1) + ',' + (y + hh - p[k] / m * hh).toFixed(1)).join(' ')}"/>` + Cc(x + l[0] / 12 * w, y + hh - l[k] / m * hh, 5, col) + Tx(x + w / 2, y - 8, lbl, 13, '#223') + Tx(x + w / 2, y + hh + 16, 'الزمن t (0 → 12 s)', 11, '#456') + Tx(x - 6, y + 8, f1(m, 0), 10, '#456', 'end') + Tx(x - 6, y + hh, '0', 10, '#456', 'end')
+                    };
+                    let s = R(0, 170, 800, 45, '#555a62'); for (let i = -1; i < 14; i++) { const x = (((i * 60 - S.x * 6) % 780) + 780) % 780; s += R(x, 190, 30, 5, '#fff') }
+                    const cx = 170; s += R(cx - 70, 125, 140, 40, '#f59e0b', 'rx="14" stroke="#7a4a00" stroke-width="3"') + `<path d="M${cx - 40} 125L${cx - 22} 95H${cx + 25}L${cx + 45} 125Z" fill="#bfe6ff" stroke="#7a4a00" stroke-width="3"/>` + Cc(cx - 2, 112, 13, '#f2c9a0') + Cc(cx + 2, 110, 2, '#222') + Cc(cx + 9, 110, 2, '#222') + Cc(cx - 40, 168, 15, '#333') + Cc(cx + 40, 168, 15, '#333') + Cc(cx - 40, 168, 6, '#aaa') + Cc(cx + 40, 168, 6, '#aaa');
+                    const v = this.vel(S.t); if (v > 0) for (let i = 0; i < 3; i++)s += Ln(cx - 80 - i * 14, 135 + i * 10, cx - 80 - i * 14 - Math.min(40, v * 3), 135 + i * 10, '#789', 3);
+                    return s + say(330, 80, 'السرعة الآن: ' + f1(v, 1) + ' m/s', 210) + gr(70, 270, 300, 140, 'مخطط المسافة–الزمن (x بالمتر)', 1, mx, '#c22') + gr(450, 270, 300, 140, 'مخطط السرعة–الزمن (v م/ث)', 2, mv, '#27c') + Tx(400, 455, 't = ' + f1(S.t, 1) + ' s   ،   x = ' + f1(S.x, 1) + ' m', 14, '#456')
+                },
+                read() { const v = this.vel(S.t), a = (v - this.vel(Math.max(0, S.t - .2))) / .2; return [['الزمن t', f1(S.t, 1) + ' s'], ['المسافة x', f1(S.x, 1) + ' m'], ['السرعة v', f1(v, 1) + ' m/s'], ['التعجيل a', f1(S.t > .2 ? a : 0, 1) + ' m/s²'], ['السرعة المتوسطة', S.t > 0 ? f1(S.x / S.t, 1) + ' m/s' : '—']] }, rh: ['t (s)', 'x (m)', 'v (m/s)'], rec() { return [[f1(S.t, 1), f1(S.x, 1), f1(this.vel(S.t), 1)]] }
+            },
+            {
+                id: 'resul', ch: 1, n: 'محصلة قوتين بالميزان النابضي',
+                goal: 'إيجاد محصلة قوتين تؤثران في جسم في اتجاه واحد وفي اتجاهين متعاكسين بالميزان النابضي.',
+                why: 'نادراً ما تؤثر قوة واحدة في جسم؛ المحصلة تحدد اتجاه حركته: كما في شدّ الحبل وسحب الأحمال.',
+                steps: ['اختر الوضع: قوتان في اتجاه واحد أو في اتجاهين متعاكسين.', 'اضبط قوة كل طفل وسجّل قراءة الميزانين.', 'احسب المحصلة: الجمع في الاتجاه الواحد والطرح في المتعاكسين.', 'اضغط «أفلت الصندوق» وراقب حركته مع المحصلة.'],
+                meas: ['F₁ و F₂ (N) من الميزانين', 'المحصلة R (N) واتجاهها'], law: 'اتجاه واحد: R = F₁ + F₂   ،   اتجاهان متعاكسان: R = F₂ − F₁ نحو الأكبر',
+                concl: 'المحصلة قوة واحدة تكافئ تأثير القوتين معاً، وإذا تساوتا في اتجاهين متعاكسين كانت المحصلة صفراً ولم يتحرك الجسم.',
+                tools: [['ميزان نابضي', 'spring', 'يقيس القوة بالنيوتن.', 'صله بالحبل قبل الشد.'], ['صندوق', 'box', 'الجسم المسحوب.', 'غيّر كتلته.'], ['حبل', 'rope', 'ينقل القوة.', 'اشدّه بالاتجاه المطلوب.'], ['طفل يسحب', 'kid', 'مصدر القوة.', 'غيّر قوته من «التحكم».']],
+                params: [{ k: 'F1', l: 'قوة الطفل الأول F₁', u: 'N', min: 0, max: 10, step: .5, v: 4 }, { k: 'F2', l: 'قوة الطفل الثاني F₂', u: 'N', min: 0, max: 10, step: .5, v: 3 }, { k: 'md', l: 'الوضع', o: [[0, 'في اتجاه واحد'], [1, 'في اتجاهين متعاكسين']], v: 0 }, { k: 'm', l: 'كتلة الصندوق', u: 'kg', min: 1, max: 5, step: .5, v: 2 }],
+                acts: [['🔓 أفلت الصندوق', () => S.free = !S.free, 'free'], ['↺ أعد', () => X.init()]],
+                init() { S.x = 0; S.v = 0; S.free = false }, net() { return +P.md == 0 ? +P.F1 + +P.F2 : P.F2 - P.F1 },
+                tick(dt, sd) { if (!S.free) return; const a = this.net() / P.m, n = Math.ceil(sd / .05), h = sd / n; for (let i = 0; i < n; i++) { S.v += a * h; S.x += S.v * h; if (Math.abs(S.x) > 2) { S.x = Math.sign(S.x) * 2; S.v = 0 } } },
+                draw() {
+                    const n = this.net(), bx = 400 + S.x * 100, m0 = +P.md == 0, F1 = +P.F1, F2 = +P.F2; let s = R(30, 390, 740, 12, '#8a6a3a') + R(bx - 45, 320, 90, 70, '#c98b4a', 'rx="6" stroke="#6b4a22" stroke-width="3"') + Tx(bx, 362, P.m + ' kg', 16, '#fff');
+                    if (m0) s += Ln(bx + 45, 335, bx + 270, 335, '#a67c00', 4) + sbl(bx + 70, 335, F1, 10) + kid(bx + 310, 392, .85, { f: -1, a1: 95, a2: 85, l1: 20, l2: -5, sh: '#ef4444' }) + Ln(bx + 45, 370, bx + 360, 370, '#a67c00', 4) + sbl(bx + 70, 370, F2, 10) + kid(bx + 400, 392, .85, { f: -1, a1: 95, a2: 85, l1: 20, l2: -5, sh: '#22a35a' }) + arr(bx, 300, bx + F1 * 14, 300, '#e5484d') + arr(bx, 278, bx + F2 * 14, 278, '#27c');
+                    else s += Ln(bx - 45, 350, bx - 250, 350, '#a67c00', 4) + sbl(bx - 170, 350, F1, 10) + kid(bx - 290, 392, .85, { a1: 95, a2: 85, l1: -20, l2: 5, sh: '#ef4444' }) + Ln(bx + 45, 350, bx + 250, 350, '#a67c00', 4) + sbl(bx + 84, 350, F2, 10) + kid(bx + 290, 392, .85, { f: -1, a1: 95, a2: 85, l1: 20, l2: -5, sh: '#22a35a' }) + arr(bx, 300, bx - F1 * 14, 300, '#e5484d') + arr(bx, 278, bx + F2 * 14, 278, '#27c');
+                    s += n ? arr(bx, 250, bx + n * 14, 250, '#0a7a3a', 6) : Tx(bx, 255, 'المحصلة = 0', 14, '#0a7a3a');
+                    return s + Tx(400, 60, 'F₁ = ' + F1 + ' N   ،   F₂ = ' + F2 + ' N   ←   المحصلة R = ' + f1(Math.abs(n), 1) + ' N ' + (n > 0 ? 'نحو اليمين' : n < 0 ? 'نحو اليسار' : '(متوازنة)'), 15, '#9a5b00') + say(30, 90, m0 ? 'نشدّ معاً في الاتجاه نفسه!' : 'كل واحد يشدّ للجهة المعاكسة!', 230)
+                },
+                read() { const n = this.net(); return [['F₁', P.F1 + ' N'], ['F₂', P.F2 + ' N'], ['المحصلة R', f1(Math.abs(n), 1) + ' N'], ['الاتجاه', n > 0 ? 'نحو اليمين' : n < 0 ? 'نحو اليسار' : 'لا حركة'], ['التعجيل a = R/m', f1(Math.abs(n) / P.m, 2) + ' m/s²']] }, rh: ['F₁', 'F₂', 'الوضع', 'R (N)'], rec() { return [[P.F1, P.F2, +P.md ? 'متعاكسان' : 'اتجاه واحد', f1(Math.abs(this.net()), 1)]] }
+            },
+            {
+                id: 'inert', ch: 2, n: 'قانون نيوتن الأول: القصور الذاتي',
+                goal: 'توضيح القصور الذاتي بتجربة البطاقة والعملة والكأس: ميل الجسم للبقاء ساكناً ما لم تؤثر فيه قوة.',
+                why: 'يفسّر لماذا نندفع للأمام عند الفرملة، وللخلف عند انطلاق الحافلة فجأة، ولماذا نربط حزام الأمان.',
+                steps: ['ضع بطاقة فوق الكأس وعملة فوق البطاقة.', 'اضبط سرعة ضرب البطاقة وخشونتها (معامل الاحتكاك).', 'اضغط «اضرب البطاقة» وراقب العملة.', 'جرّب ضربة سريعة ثم بطيئة وقارن النتيجتين.'],
+                meas: ['سرعة البطاقة (m/s)', 'سرعة العملة الناتجة', 'هل سقطت في الكأس؟'], law: 'الجسم الساكن يبقى ساكناً والمتحرك يبقى متحركاً بسرعة ثابتة ما لم تؤثر فيه قوة محصلة',
+                concl: 'عند الضربة السريعة لا يجد الاحتكاك وقتاً كافياً ليحرّك العملة فتسقط عمودياً في الكأس بسبب قصورها الذاتي.',
+                tools: [['بطاقة', 'card', 'سطح تنزلق عليه العملة.', 'اضربها أفقياً بإصبعك.'], ['عملة', 'coin', 'الجسم المختبَر.', 'ضعها في منتصف البطاقة.'], ['كأس', 'cup', 'يستقبل العملة.', 'ضعه تحت البطاقة تماماً.'], ['الطالب', 'kid', 'يضرب البطاقة.', 'غيّر سرعة ضربته.']],
+                params: [{ k: 'v', l: 'سرعة ضرب البطاقة', u: 'm/s', min: .2, max: 5, step: .1, v: 3 }, { k: 'mu', l: 'معامل الاحتكاك بين العملة والبطاقة', min: .1, max: .8, step: .05, v: .3 }, { k: 'obj', l: 'الجسم', o: [[0, 'عملة'], [1, 'كرة معدنية']], v: 0 }],
+                acts: [['👆 اضرب البطاقة', () => X.go()], ['↺ أعد', () => X.init()]],
+                init() { S.ph = 0; S.t = 0; S.vc = 0; S.d = 0; S.into = false },
+                go() { if (S.ph) return; const v = +P.v, tc = .05 / v; S.vc = P.mu * 9.8 * tc; const o1 = 45 * Math.min(1, S.vc / v); S.d = o1 + S.vc * .3 * 1000; S.into = Math.abs(S.d) < 28; S.ph = 1; S.t = 0 },
+                tick(dt) { if (S.ph) S.t += dt },
+                draw() {
+                    const cx = 410, v = +P.v, pv = 100 + v * 200, off = S.ph ? Math.min(S.t * pv, 420) : 0, tl = 45 / pv; let coinX = cx, coinY = 316;
+                    if (S.ph) { if (S.t < tl) coinX = cx + off * Math.min(1, S.vc / v); else { const o1 = 45 * Math.min(1, S.vc / v), tau = Math.min(1, (S.t - tl) / .5); coinX = cx + o1 + (S.d - o1) * tau; coinY = 316 + 78 * tau * tau } }
+                    let s = R(0, 400, 800, 80, '#b08a5a') + R(cx - 45 + off, 322, 90, 6, '#fff', 'stroke="#456" stroke-width="2"');
+                    s += +P.obj ? Cc(coinX, coinY - 4, 10, '#b8c0c8', 'stroke="#456" stroke-width="2"') : `<ellipse cx="${coinX}" cy="${coinY}" rx="14" ry="5" fill="#f5c542" stroke="#8a6a00" stroke-width="2"/>`;
+                    s += `<path d="M${cx - 32} 335L${cx - 26} 400H${cx + 26}L${cx + 32} 335Z" fill="#bfe6ff" fill-opacity=".45" stroke="#456" stroke-width="3"/>` + kid(335, 400, .85, { a1: 88, a2: 60, sh: '#3b82f6' }) + Tx(cx, 432, 'كأس', 13, '#fff');
+                    const msg = !S.ph ? 'اضغط «اضرب البطاقة»' : S.t < .9 ? '...' : (S.into ? '✅ سقطت في الكأس: القصور الذاتي أبقاها في مكانها' : '❌ جُرّت مع البطاقة: الضربة بطيئة فتحرّكها الاحتكاك');
+                    return s + say(30, 70, 'سرعة الضربة ' + f1(v, 1) + ' m/s  ،  μ = ' + P.mu, 300) + Tx(400, 230, msg, 16, S.into ? '#0a7a3a' : '#9a5b00') + Tx(400, 260, S.ph ? 'سرعة العملة المكتسبة = ' + f1(S.vc, 3) + ' m/s' : 'ضربة أسرع ← زمن تماس أقل ← حركة أقل للعملة', 13, '#456')
+                },
+                read() { return [['سرعة البطاقة', P.v + ' m/s'], ['معامل الاحتكاك μ', P.mu], ['سرعة العملة بعد الضربة', S.ph ? f1(S.vc, 3) + ' m/s' : '—'], ['الإزاحة الأفقية للعملة', S.ph ? f1(S.d, 0) + ' px (≈' + f1(S.d / 10, 1) + ' cm)' : '—'], ['النتيجة', S.ph ? (S.into ? 'سقطت في الكأس ✅' : 'خرجت عن الكأس ❌') : '—']] }, rh: ['سرعة الضربة', 'μ', 'النتيجة'], rec() { return [[P.v, P.mu, S.ph ? (S.into ? 'سقطت في الكأس' : 'لم تسقط') : '—']] }
+            },
+            {
+                id: 'n2', ch: 2, n: 'قانون نيوتن الثاني (سيارة لعبة وميزان نابضي)',
+                goal: 'تحقيق العلاقة بين القوة والكتلة والتعجيل بسحب سيارة لعبة بميزان نابضي.',
+                why: 'يفسّر لماذا تتسارع السيارة الصغيرة أسرع من الشاحنة بالقوة نفسها، ولماذا يلزم محرك أقوى لتسريع جسم أثقل.',
+                steps: ['اختر كتلة السيارة وقوة السحب من الميزان النابضي.', 'اضغط «اسحب» وراقب الزمن t لقطع مسافة 3 m.', 'احسب التعجيل التجريبي a = 2d ÷ t² وقارنه بـ F ÷ m.', 'غيّر القوة مع ثبات الكتلة، ثم غيّر الكتلة مع ثبات القوة، وسجّل النتائج.'],
+                meas: ['F القوة (N)', 'm الكتلة (kg)', 't زمن قطع 3 m (s)', 'a التعجيل (m/s²)'], law: 'F = m × a   ←   a = F / m   (القوة المحصلة = الكتلة × التعجيل)',
+                concl: 'التعجيل يتناسب طردياً مع القوة المحصلة وعكسياً مع الكتلة.',
+                tools: [['سيارة لعبة', 'car', 'الجسم المراد تعجيله.', 'غيّر كتلتها بوضع أثقال.'], ['ميزان نابضي', 'spring', 'يقيس قوة السحب.', 'حافظ على قراءة ثابتة.'], ['ساعة توقيت', 'stopwatch', 'تقيس زمن الحركة.', 'شغّلها مع بدء السحب.'], ['طفل يسحب', 'kid', 'مصدر القوة.', 'يسحب بقوة الميزان.']],
+                params: [{ k: 'm', l: 'كتلة السيارة m', u: 'kg', min: .2, max: 3, step: .1, v: 1 }, { k: 'F', l: 'قوة السحب F', u: 'N', min: .1, max: 6, step: .1, v: 2 }, { k: 'f', l: 'قوة الاحتكاك', u: 'N', min: 0, max: 1, step: .05, v: .2 }],
+                acts: [['▶ اسحب السيارة', () => { X.init(); S.go = 1 }], ['↺ أعد', () => X.init()]],
+                init() { S.x = 0; S.v = 0; S.t = 0; S.go = 0; S.t3 = null }, acc() { return Math.max(0, P.F - P.f) / P.m },
+                tick(dt, sd) { if (!S.go) return; const a = this.acc(), n = Math.ceil(sd / .05), h = sd / n; for (let i = 0; i < n && S.go; i++) { S.t += h; S.v += a * h; S.x += S.v * h; if (S.x >= 3) { S.x = 3; S.go = 0; S.t3 = S.t } } },
+                draw() {
+                    const cxp = 130 + S.x * 150; let s = R(0, 400, 800, 80, '#b08a5a') + R(90, 402, 460, 4, '#fff') + Ln(130, 395, 130, 420, '#e5484d', 3) + Ln(580, 395, 580, 420, '#22a35a', 3) + Tx(130, 438, '0 m', 12, '#fff') + Tx(580, 438, '3 m', 12, '#fff');
+                    s += carS(cxp, 392, '#f59e0b') + Ln(cxp + 45, 372, cxp + 170, 350, '#a67c00', 3) + sbl(cxp + 120, 352, P.F, 6) + kid(cxp + 240, 392, .85, { f: -1, a1: 100, a2: 70, l1: 25, l2: -8, sh: '#ec4899', hr: '#222' });
+                    return s + sw(90, 110, S.t) + say(150, 70, 'a = F ÷ m = ' + f1(Math.max(0, P.F - P.f), 2) + ' ÷ ' + P.m + ' = ' + f1(this.acc(), 2) + ' m/s²', 300) + (S.t3 != null ? Tx(400, 150, 'قطعت 3 m في ' + f1(S.t3, 2) + ' s ← a = 2d/t² = ' + f1(6 / (S.t3 * S.t3), 2) + ' m/s²', 14, '#0a7a3a') : '')
+                },
+                read() { return [['F', P.F + ' N'], ['m', P.m + ' kg'], ['الاحتكاك', P.f + ' N'], ['المحصلة F−f', f1(Math.max(0, P.F - P.f), 2) + ' N'], ['a = F/m', f1(this.acc(), 2) + ' m/s²'], ['t لقطع 3 m', S.t3 != null ? f1(S.t3, 2) + ' s' : '—'], ['a التجريبي', S.t3 != null ? f1(6 / (S.t3 * S.t3), 2) + ' m/s²' : '—']] }, rh: ['F (N)', 'm (kg)', 'a (m/s²)'], rec() { return [[P.F, P.m, f1(this.acc(), 2)]] }
+            },
+            {
+                id: 'n3', ch: 2, n: 'قانون نيوتن الثالث (بالون الهواء)',
+                goal: 'توضيح الفعل ورد الفعل بإطلاق بالون منفوخ يتحرك على خيط.',
+                why: 'يفسّر دفع الصاروخ والطائرة النفاثة والسباحة: الجسم يدفع شيئاً للخلف فيدفعه الشيء للأمام.',
+                steps: ['انفخ البالون بكمية هواء محددة وعلّقه بماصة على الخيط.', 'اضغط «أطلق» وراقب خروج الهواء للخلف وحركة البالون للأمام.', 'غيّر حجم الهواء وقطر الفوهة وقارن المسافة والسرعة.', 'لاحظ سهم الفعل (الهواء للخلف) وسهم رد الفعل (البالون للأمام).'],
+                meas: ['حجم الهواء (mL)', 'قطر الفوهة (mm)', 'أقصى سرعة (m/s)', 'المسافة (m)'], law: 'لكل فعل رد فعل مساوٍ له في المقدار ومعاكس في الاتجاه   (F₁₂ = − F₂₁)',
+                concl: 'البالون يدفع الهواء للخلف (الفعل) والهواء يدفع البالون للأمام (رد الفعل) فتتحرك الكتلتان في اتجاهين متعاكسين.',
+                tools: [['بالون', 'balloon', 'مخزن الهواء.', 'انفخه ثم أمسك فوهته.'], ['خيط وماصة', 'rope', 'يوجّه حركة البالون.', 'شدّه بين طفلين.'], ['طفلان', 'kid', 'يمسكان الخيط.', 'يثبّتانه أفقياً.']],
+                params: [{ k: 'V0', l: 'حجم الهواء', u: 'mL', min: 50, max: 500, step: 10, v: 300 }, { k: 'dn', l: 'قطر فوهة البالون', u: 'mm', min: 2, max: 10, step: .5, v: 5 }, { k: 'm', l: 'كتلة البالون والماصة', u: 'g', min: 5, max: 50, step: 1, v: 15 }],
+                acts: [['🎈 أطلق البالون', () => { X.init(); S.go = 1 }], ['↺ أعد', () => X.init()]],
+                init() { S.x = 0; S.v = 0; S.vm = 0; S.go = 0; S.V = +P.V0; S.jet = [] },
+                thrust() { return S.V > 0 ? .004 * P.dn * P.dn * Math.sqrt(S.V / P.V0) * Math.pow(P.V0 / 300, .3) : 0 },
+                tick(dt, sd) {
+                    const n = Math.ceil(sd / .05), h = sd / n; if (S.go) { for (let i = 0; i < n; i++) { const F = this.thrust(); S.V = Math.max(0, S.V - P.V0 * Math.pow(P.dn / 5, 2) * .4 * Math.sqrt(Math.max(.02, S.V / P.V0)) * h); if (S.V < P.V0 * .03) S.V = 0; S.v += (F - .03 * S.v) / (P.m / 1000) * h; S.x += S.v * h; S.vm = Math.max(S.vm, S.v); if (S.x >= 3.8) { S.x = 3.8; S.v = 0; S.go = 0 } } if (S.V == 0 && S.v < .01) S.go = 0 } else if (S.v > 0) { S.v = Math.max(0, S.v - .5 * dt); S.x = Math.min(3.8, S.x + S.v * dt) }
+                    if (S.go && this.thrust() > 0 && Math.random() < .9) S.jet.push({ x: 0, y: (Math.random() - .5) * 6, l: 0 }); S.jet.forEach(j => { j.l += dt; j.x -= dt * 220 }); S.jet = S.jet.filter(j => j.l < .6)
+                },
+                draw() {
+                    const bx = 110 + S.x * 160, r = 14 + 26 * Math.cbrt(S.V / 500), by = 262 + r, nx = bx - r * 1.25, F = this.thrust(); let s = R(0, 335, 800, 145, '#8bc778') + Ln(60, 252, 740, 252, '#a67c00', 3) + kid(55, 335, .9, { a1: 85, a2: 70, sh: '#3b82f6' }) + kid(745, 335, .9, { f: -1, a1: 85, a2: 70, sh: '#ec4899', hr: '#222' });
+                    S.jet.forEach(j => { s += Cc(nx + j.x, by + j.y, 5 * (1 - j.l / .6) + 1, '#bfe6ff', 'opacity=".8"') });
+                    s += R(bx - r, 246, 2 * r, 8, '#e8c13a', 'rx="3"') + `<ellipse cx="${bx}" cy="${by}" rx="${r * 1.25}" ry="${r}" fill="#ff6b8a" stroke="#a02" stroke-width="2"/>` + Cc(bx + r * .3, by - r * .2, 2.5, '#222') + Cc(bx + r * .7, by - r * .2, 2.5, '#222') + `<path d="M${bx + r * .25} ${by + r * .2}Q${bx + r * .5} ${by + r * .45} ${bx + r * .75} ${by + r * .2}" fill="none" stroke="#222" stroke-width="2"/>`;
+                    if (F > 0) s += arr(nx - 6, by + r + 26, nx - 6 - Math.min(90, F * 500), by + r + 26, '#e5484d', 5) + Tx(nx - 6 - Math.min(90, F * 500) / 2, by + r + 50, 'الفعل: الهواء للخلف', 12, '#c22') + arr(bx, by + r + 70, bx + Math.min(90, F * 500), by + r + 70, '#27c', 5) + Tx(bx + Math.min(90, F * 500) / 2, by + r + 92, 'رد الفعل: البالون للأمام', 12, '#27c');
+                    return s + say(250, 40, 'الفعل = رد الفعل  (F = −F)', 300) + Tx(400, 160, 'الدفع الآن: ' + f1(F * 1000, 0) + ' mN   ،   السرعة: ' + f1(S.v, 2) + ' m/s', 14, '#9a5b00')
+                },
+                read() { return [['حجم الهواء المتبقي', f1(S.V, 0) + ' mL'], ['قوة الدفع', f1(this.thrust() * 1000, 0) + ' mN'], ['السرعة', f1(S.v, 2) + ' m/s'], ['أقصى سرعة', f1(S.vm, 2) + ' m/s'], ['المسافة', f1(S.x, 2) + ' m']] }, rh: ['الهواء (mL)', 'الفوهة (mm)', 'أقصى سرعة', 'المسافة (m)'], rec() { return [[P.V0, P.dn, f1(S.vm, 2), f1(S.x, 2)]] }
+            },
+            {
+                id: 'wt', ch: 2, n: 'الجاذبية والوزن (الكتلة ≠ الوزن)',
+                goal: 'التفريق بين الكتلة (ثابتة) والوزن (قوة الجاذبية) ومقارنة الوزن على الأرض والقمر والمريخ والمشتري.',
+                why: 'يفسّر قفز رواد الفضاء عالياً على القمر وخفة أجسامهم هناك، ويبيّن أن ميزان الحمّام يقيس قوة وليس مقدار المادة.',
+                steps: ['اختر كتلة الجسم بالكيلوغرام ثم اختر الكوكب.', 'سجّل وزنه من الميزان النابضي W = m × g.', 'غيّر الكوكب وراقب أن الكتلة ثابتة بينما الوزن يتغير.', 'قارن ارتفاع قفزة الطفل على كل كوكب.'],
+                meas: ['m الكتلة (kg)', 'g تسارع الجاذبية (m/s²)', 'W الوزن (N)'], law: 'W = m × g   (الوزن = الكتلة × تسارع الجاذبية)',
+                concl: 'الكتلة لا تتغير بتغير المكان أما الوزن فيتناسب مع الجاذبية، فهو أقل على القمر وأكبر على المشتري.',
+                tools: [['ميزان نابضي', 'spring', 'يقيس الوزن بالنيوتن.', 'علّق الجسم فيه رأسياً.'], ['ميزان حمّام', 'scale', 'يقيس وزن الشخص.', 'قف عليه ساكناً.'], ['كوكب', 'planet', 'يحدد الجاذبية.', 'اختره من «التحكم».'], ['رائد فضاء', 'kid2', 'يقفز ويُقاس وزنه.', 'لاحظ ارتفاع قفزته.']],
+                params: [{ k: 'm', l: 'كتلة الجسم m', u: 'kg', min: .1, max: 100, step: .1, v: 40 }, { k: 'pl', l: 'الكوكب', o: opt(PLN), v: 'earth' }],
+                init() { S.t = 0 }, tick(dt, sd) { S.t += dt },
+                draw() {
+                    const p = PLN[P.pl], g = p.g, W = P.m * g, earth = P.pl == 'earth'; let s = R(0, 0, 800, 480, earth ? '#bfe3ff' : '#10162a'); if (!earth) for (let i = 0; i < 30; i++)s += Cc((i * 97) % 780 + 10, (i * 53) % 250 + 10, 1.5, '#fff');
+                    s += R(0, 360, 800, 120, p.col) + R(150, 352, 120, 14, '#8aa0b8', 'rx="6"') + R(170, 356, 80, 6, '#143');
+                    const j = Math.max(0, Math.sin(S.t * 2.2)) * Math.min(150, 45 * 9.8 / g); s += kid(210, 352 - j, .95, { sh: earth ? '#a855f7' : '#e5e7eb', a1: 150, a2: 150, hr: '#222' }); if (!earth) s += Cc(210, 352 - j - 97, 22, '#bfe6ff', 'fill-opacity=".3" stroke="#fff" stroke-width="3"');
+                    s += Tx(210, 395, f1(W, 0) + ' N', 16, '#7dffa6', 'middle', 'font-family="monospace" font-weight="700"') + Tx(210, 60, 'الكوكب: ' + p.n, 22, '#fff'.replace('#fff', earth ? '#234' : '#fff')) + Tx(210, 88, 'g = ' + g + ' m/s²', 15, earth ? '#456' : '#cfe') + Tx(210, 440, 'الكتلة m = ' + P.m + ' kg (ثابتة)', 14, earth ? '#234' : '#fff');
+                    const st = Math.min(140, 160 * (1 - Math.exp(-W / 400))); s += Ln(400, 70, 400, 100, '#789', 3) + R(385, 100, 30, 24, '#eef2f7', 'stroke="#456" stroke-width="2" rx="4"') + `<polyline fill="none" stroke="#456" stroke-width="3" points="${Array.from({ length: 12 }, (_, i) => (400 + (i % 2 ? 8 : -8)) + ',' + (124 + i * (st / 12 + 1.5))).join(' ')}"/>` + R(380, 130 + st + 4, 40, 32 + Math.cbrt(P.m) * 4, '#c98b4a', 'rx="4" stroke="#6b4a22" stroke-width="2"') + Tx(400, 152 + st + Math.cbrt(P.m) * 3, P.m, 14, '#fff') + Tx(400, 215 + st, 'W = ' + f1(W, 1) + ' N', 14, earth ? '#c22' : '#ffb4b4');
+                    let y = 100; Object.values(PLN).forEach(q => { const w = P.m * q.g; s += R(540, y, Math.min(220, w / Math.max(1, P.m * 24.8) * 220), 22, q.col, 'rx="4" opacity=".9"') + Tx(536, y + 16, q.n, 12, earth ? '#234' : '#fff', 'end') + Tx(546, y + 16, f1(w, 0) + ' N', 11, '#222', 'start'); y += 34 });
+                    return s + Tx(650, 86, 'وزنك على كل كوكب', 13, earth ? '#234' : '#fff')
+                },
+                read() { const g = PLN[P.pl].g; return [['الكتلة m', P.m + ' kg (لا تتغير)'], ['الكوكب', PLN[P.pl].n], ['g', g + ' m/s²'], ['الوزن W = m×g', f1(P.m * g, 1) + ' N'], ['الوزن على الأرض', f1(P.m * PLN.earth.g, 1) + ' N'], ['النسبة إلى الأرض', f1(g / PLN.earth.g, 2) + ' ×']] }, rh: ['الكوكب', 'm (kg)', 'g', 'W (N)'], rec() { const g = PLN[P.pl].g; return [[PLN[P.pl].n, P.m, g, f1(P.m * g, 1)]] }
+            },
+            {
+                id: 'work', ch: 3, n: 'الشغل والقدرة (صعود السلم ورفع الأثقال)',
+                goal: 'حساب الشغل المنجز والقدرة المبذولة عند صعود سلم أو رفع ثقل.',
+                why: 'القدرة تقيس سرعة إنجاز الشغل: من يصعد السلم أسرع يبذل قدرة أكبر رغم أن الشغل نفسه.',
+                steps: ['اختر النشاط: صعود سلم أو رفع ثقل.', 'اضبط الكتلة والارتفاع (عدد الدرجات) والزمن.', 'احسب الوزن F = m×g ثم الشغل W = F × h.', 'احسب القدرة P = W ÷ t.', 'كرّر بزمن أقصر وقارن القدرتين.'],
+                meas: ['m الكتلة (kg)', 'h الارتفاع (m)', 't الزمن (s)', 'W الشغل (J)', 'P القدرة (W)'], law: 'الشغل W = F × d = m·g·h   ،   القدرة P = W / t   (واط = جول/ثانية)',
+                concl: 'الشغل يعتمد على القوة والمسافة، والقدرة تعتمد أيضاً على الزمن: كلما قلّ الزمن زادت القدرة لنفس الشغل.',
+                tools: [['درج', 'stairs', 'نرتفع عليه ويُقاس ارتفاعه.', 'كل درجة 18 cm.'], ['ثقل', 'dumbbell', 'جسم يُرفع ضد الجاذبية.', 'قِس كتلته.'], ['ساعة توقيت', 'stopwatch', 'تقيس زمن الصعود.', 'شغّلها عند البدء.'], ['الطالب', 'kid', 'يبذل الشغل.', 'غيّر كتلته.']],
+                params: [{ k: 'md', l: 'النشاط', o: [[0, 'صعود سلم'], [1, 'رفع ثقل']], v: 0 }, { k: 'm', l: 'الكتلة المرفوعة m', u: 'kg', min: 5, max: 90, step: 1, v: 45 }, { k: 'n', l: 'عدد الدرجات', min: 5, max: 30, step: 1, v: 15 }, { k: 'hl', l: 'ارتفاع الرفع', u: 'm', min: .3, max: 2, step: .1, v: 1 }, { k: 't', l: 'الزمن t', u: 's', min: 2, max: 30, step: 1, v: 10 }],
+                acts: [['▶ ابدأ', () => { X.init(); S.go = 1 }], ['↺ أعد', () => X.init()]],
+                init() { S.t = 0; S.go = 0 }, H() { return +P.md ? +P.hl : P.n * .18 },
+                tick(dt, sd) { if (S.go) { S.t += sd; if (S.t >= P.t) { S.t = +P.t; S.go = 0 } } },
+                draw() {
+                    const p = S.t / P.t, H = this.H(), g = PLN.earth.g; let s = R(0, 400, 800, 80, '#b08a5a');
+                    if (!+P.md) {
+                        const n = +P.n, sw1 = 500 / n, hh = Math.min(300, H * 70) / n; let pts = '150,400 '; for (let i = 0; i < n; i++) { s += R(150 + i * sw1, 400 - (i + 1) * hh, sw1 + 1, (i + 1) * hh, '#c98b4a', 'stroke="#6b4a22" stroke-width="1"') }
+                        const x = 150 + p * 500, y = 400 - p * n * hh - n * 0, k = S.go ? Math.sin(p * n * Math.PI) : 0; s += kid(x, 400 - Math.ceil(p * n + .001) * hh + (p >= 1 ? 0 : 0), .8, { sh: '#22a35a', a1: 30 * k, a2: -30 * k, l1: 50 * k, l2: -30 * k }) + Ln(700, 400, 700, 400 - Math.min(300, H * 70), '#e5484d', 2, 'stroke-dasharray="4"') + Tx(730, 400 - Math.min(300, H * 70) / 2, 'h = ' + f1(H, 2) + ' m', 13, '#c22')
+                    }
+                    else { const bh = Math.min(200, H * 100), by = 330 - p * bh; s += kid(400, 400, .95, { sh: '#22a35a', a1: 170 - p * 0, a2: 170, l1: 3, l2: -3 }) + R(330, by - 7, 140, 6, '#333') + R(318, by - 18, 12, 28, '#333') + R(470, by - 18, 12, 28, '#333') + Ln(560, 330, 560, 330 - bh, '#e5484d', 2, 'stroke-dasharray="4"') + Tx(600, 330 - bh / 2, 'h = ' + f1(H, 2) + ' m', 13, '#c22') }
+                    const F = P.m * g, Wk = F * H; return s + sw(90, 110, S.t) + say(150, 70, 'W = F × h = ' + f1(F, 0) + ' × ' + f1(H, 2) + ' = ' + f1(Wk, 0) + ' J', 270) + Tx(550, 110, 'P = W ÷ t = ' + f1(Wk / P.t, 1) + ' W', 20, '#0a7a3a')
+                },
+                read() { const F = P.m * PLN.earth.g, H = this.H(), W = F * H; return [['الكتلة m', P.m + ' kg'], ['القوة F = m·g', f1(F, 1) + ' N'], ['الارتفاع h', f1(H, 2) + ' m'], ['الشغل W = F·h', f1(W, 0) + ' J'], ['الزمن t', P.t + ' s'], ['القدرة P = W/t', f1(W / P.t, 1) + ' W'], ['بالحصان', f1(W / P.t / 746, 3) + ' hp']] }, rh: ['m (kg)', 'h (m)', 't (s)', 'W (J)', 'P (W)'], rec() { const W = P.m * 9.8 * this.H(); return [[P.m, f1(this.H(), 2), P.t, f1(W, 0), f1(W / P.t, 1)]] }
+            },
+            {
+                id: 'pend', ch: 3, n: 'تحول الطاقة في البندول البسيط',
+                goal: 'دراسة تحول الطاقة الكامنة إلى حركية في البندول البسيط وقياس زمنه الدوري.',
+                why: 'تفسّر حركة الأرجوحة وساعات البندول: الطاقة تتحول بين الكامنة والحركية والمجموع ثابت (قانون حفظ الطاقة) في غياب مقاومة الهواء.',
+                steps: ['اضبط طول الخيط وكتلة الكرة وزاوية الإطلاق.', 'اترك الكرة وراقب أعمدة الطاقة: الكامنة والحركية والكلية.', 'قِس الزمن الدوري T وقارنه بالقانون.', 'غيّر الطول ثم الكتلة وسجّل ما يتغير وما لا يتغير.', 'فعّل مقاومة الهواء ولاحظ نقصان الطاقة الكلية.'],
+                meas: ['L الطول (m)', 'T الزمن الدوري (s)', 'الطاقة الكامنة والحركية (J)'], law: 'PE = m·g·h   ،   KE = ½·m·v²   ،   T = 2π√(L/g)   ،   E = PE + KE = ثابتة',
+                concl: 'عند أعلى نقطة الطاقة كامنة كلها وعند أسفل نقطة حركية كلها، والمجموع ثابت. الزمن الدوري لا يعتمد على الكتلة.',
+                tools: [['بندول', 'pendulum', 'كرة معلقة بخيط.', 'اسحبها بزاوية صغيرة.'], ['ساعة توقيت', 'stopwatch', 'تقيس الزمن الدوري.', 'قِس زمن 10 ذبذبات.'], ['مسطرة', 'ruler', 'تقيس طول الخيط.', 'من نقطة التعليق لمركز الكرة.'], ['منقلة', 'protractor', 'تقيس زاوية الإطلاق.', 'عند نقطة التعليق.']],
+                params: [{ k: 'L', l: 'طول الخيط L', u: 'm', min: .2, max: 2, step: .05, v: 1 }, { k: 'm', l: 'كتلة الكرة', u: 'kg', min: .05, max: 1, step: .05, v: .2 }, { k: 'th0', l: 'زاوية الإطلاق', u: '°', min: 5, max: 80, step: 1, v: 30 }, { k: 'pl', l: 'المكان', o: opt(PLN), v: 'earth' }, { k: 'air', l: 'مقاومة الهواء', b: 1, v: false }],
+                acts: [['↺ أعد إطلاق البندول', () => X.init()]],
+                init() { S.th = P.th0 * Math.PI / 180; S.w = 0; S.t = 0; S.cr = []; S.T = null },
+                tick(dt, sd) { const g = PLN[P.pl].g, n = Math.ceil(sd / .01), h = sd / n; for (let i = 0; i < n; i++) { const al = -(g / P.L) * Math.sin(S.th) - (P.air ? .25 : 0) * S.w; S.w += al * h; const pv = S.th; S.th += S.w * h; S.t += h; if (pv < 0 && S.th >= 0 && S.w > 0) { S.cr.push(S.t); if (S.cr.length > 1) S.T = S.cr[S.cr.length - 1] - S.cr[S.cr.length - 2] } } },
+                draw() {
+                    const L = P.L, g = PLN[P.pl].g, Lp = L * 190, px = 300, py = 70, bx = px + Lp * Math.sin(S.th), by = py + Lp * Math.cos(S.th), r = 10 + P.m * 16; let s = R(0, 430, 800, 50, '#b08a5a') + R(200, 55, 200, 16, '#789') + Ln(px, py, bx, by, '#456', 3) + Cc(bx, by, r, '#e5484d', 'stroke="#822" stroke-width="3"') + Cc(bx - r * .3, by - r * .15, 2, '#222') + Cc(bx + r * .3, by - r * .15, 2, '#222') + `<path d="M${bx - r * .3} ${by + r * .3}Q${bx} ${by + r * .6} ${bx + r * .3} ${by + r * .3}" fill="none" stroke="#222" stroke-width="2"/>` + Ln(px, py, px, py + Lp, '#9ab', 1, 'stroke-dasharray="4"');
+                    s += kid(110, 430, .85, { sh: '#3b82f6', a1: 120, a2: -10 }) + sw(110, 150, S.t);
+                    const h = L * (1 - Math.cos(S.th)), h0 = L * (1 - Math.cos(P.th0 * Math.PI / 180)), E0 = P.m * g * h0 + 1e-9, PE = P.m * g * h, KE = .5 * P.m * Math.pow(L * S.w, 2), bh = 190, x0 = 560;
+                    s += R(x0 - 20, 90, 230, 250, '#fff', 'stroke="#abc" rx="10" opacity=".9"') + Tx(x0 + 95, 112, 'الطاقة (J)', 14, '#9a5b00');
+                    [['كامنة', PE, '#27c'], ['حركية', KE, '#e5484d'], ['كلية', PE + KE, '#0a7a3a']].forEach(([n, e, c], i) => { const hh = Math.min(bh, e / E0 * bh), x = x0 + i * 70; s += R(x, 320 - hh, 50, hh, c, 'rx="4"') + Tx(x + 25, 336, n, 12, '#223') + Tx(x + 25, 314 - hh, f1(e, 3), 11, '#223') });
+                    return s + Tx(400, 455, 'T = 2π√(L/g) = ' + f1(2 * Math.PI * Math.sqrt(L / g), 2) + ' s  ' + (S.T ? '   |   المقيس: ' + f1(S.T, 2) + ' s' : ''), 14, '#fff')
+                },
+                read() { const g = PLN[P.pl].g, L = P.L, h = L * (1 - Math.cos(S.th)), PE = P.m * g * h, KE = .5 * P.m * Math.pow(L * S.w, 2); return [['L', P.L + ' m'], ['g', g + ' m/s²'], ['T النظري', f1(2 * Math.PI * Math.sqrt(L / g), 2) + ' s'], ['T المقيس', S.T ? f1(S.T, 2) + ' s' : '—'], ['الزاوية الآن', f1(S.th * 180 / Math.PI, 0) + '°'], ['PE', f1(PE, 3) + ' J'], ['KE', f1(KE, 3) + ' J'], ['PE+KE', f1(PE + KE, 3) + ' J']] }, rh: ['L (m)', 'm (kg)', 'θ₀', 'T نظري', 'T مقيس'], rec() { const g = PLN[P.pl].g; return [[P.L, P.m, P.th0, f1(2 * Math.PI * Math.sqrt(P.L / g), 2), S.T ? f1(S.T, 2) : '—']] }
+            },
+            {
+                id: 'lever', ch: 3, n: 'أنواع العتلات الثلاثة (مسطرة وأثقال)',
+                goal: 'تحقيق العتلات من النوع الأول والثاني والثالث باستخدام مسطرة وأثقال، وإيجاد شرط التوازن.',
+                why: 'العتلات حولنا: المقص والمرجوحة وعربة اليد وكسارة الجوز والملقط. تساعدنا على رفع أحمال كبيرة بجهد أصغر أو على تحريك الأشياء بدقة.',
+                steps: ['اختر نوع العتلة وضع الحمل وذراعه.', 'حرّك قوة الجهد وراقب ميل المسطرة.', 'اضبط الجهد حتى تتوازن العتلة (استعن بقيمة الجهد المتوازن).', 'احسب الفائدة الآلية MA = ذراع الجهد ÷ ذراع الحمل.', 'كرّر لكل نوع وقارن موضع نقطة الارتكاز.'],
+                meas: ['W الحمل (N)', 'F الجهد (N)', 'ذراع الحمل وذراع الجهد (cm)'], law: 'شرط التوازن: F × ذراع الجهد = W × ذراع الحمل   ،   MA = ذراع الجهد / ذراع الحمل',
+                concl: 'العتلة تتوازن عند تساوي العزمين. النوع الأول والثاني قد يوفران جهداً، والنوع الثالث يوفر مسافة وسرعة لا قوة.',
+                tools: [['مسطرة (عتلة)', 'lever', 'قضيب يدور حول نقطة ارتكاز.', 'ثبّتها على المرتكز.'], ['أثقال', 'box', 'الحمل المراد تحريكه.', 'علّقها على بعد معلوم.'], ['نقطة ارتكاز', 'ramp', 'نقطة الدوران.', 'تغيّر موضعها نوع العتلة.'], ['طالب', 'kid', 'يؤثر بالجهد.', 'اضبط قوته.']],
+                params: [{ k: 'cls', l: 'نوع العتلة', o: [[1, 'النوع الأول'], [2, 'النوع الثاني'], [3, 'النوع الثالث']], v: 1 }, { k: 'W', l: 'الحمل W', u: 'N', min: 1, max: 10, step: .5, v: 4 }, { k: 'Lr', l: 'ذراع الحمل', u: 'cm', min: 5, max: 45, step: 1, v: 20 }, { k: 'Le', l: 'ذراع الجهد', u: 'cm', min: 5, max: 45, step: 1, v: 40 }, { k: 'F', l: 'الجهد F', u: 'N', min: 0, max: 30, step: .5, v: 2 }],
+                arms() { let Lr = +P.Lr, Le = +P.Le; const c = +P.cls; if (c == 2) Le = Math.max(Le, Lr + 2); if (c == 3) Lr = Math.max(Lr, Le + 2); return [Lr, Le] },
+                draw() {
+                    const c = +P.cls, W = +P.W, F = +P.F, [Lr, Le] = this.arms(), Te = F * Le, Tl = W * Lr, df = (Te - Tl) / (Te + Tl + 1e-9), ang = cl(df * 30, -14, 14) * (c == 1 ? 1 : -1), fx = c == 1 ? 400 : 130, fy = 250, k = 6, lx = c == 1 ? fx - Lr * k : fx + Lr * k, ex = fx + Le * k, rl = c == 1 ? fx - 300 : fx - 20, rr = c == 1 ? fx + 300 : fx + Math.max(Lr, Le) * k + 60;
+                    let s = R(40, fy + 110, 720, 10, '#8a6a3a') + `<path d="M${fx} ${fy + 6}L${fx - 28} ${fy + 110}H${fx + 28}Z" fill="#789" stroke="#456" stroke-width="3"/>` + `<g transform="rotate(${ang} ${fx} ${fy})">` + R(rl, fy - 8, rr - rl, 12, '#f4d35e', 'stroke="#a67c00" stroke-width="2" rx="3"');
+                    for (let i = 0; i <= 20; i++) { const x = rl + i * (rr - rl) / 20; s += Ln(x, fy - 8, x, fy - 3, '#a67c00', 1) }
+                    s += Ln(lx, fy + 4, lx, fy + 34, '#555', 2) + R(lx - 17, fy + 34, 34, 32, '#c98b4a', 'rx="4" stroke="#6b4a22" stroke-width="2"') + Tx(lx, fy + 56, W + ' N', 12, '#fff') + (c == 1 ? arr(ex, fy - 70, ex, fy - 12, '#e5484d', 5) + Tx(ex, fy - 78, 'F = ' + f1(F), 13, '#c22') : arr(ex, fy + 70, ex, fy + 8, '#e5484d', 5) + Tx(ex, fy + 88, 'F = ' + f1(F), 13, '#c22')) + '</g>';
+                    s += kid(rr + 55, fy + 110, .85, { f: -1, a1: c == 1 ? 110 : 70, sh: '#ec4899', hr: '#222' });
+                    const bal = Math.abs(df) < .02; return s + Tx(400, 50, CLS[c], 15, '#fff') + Tx(400, 80, 'F_متوازن = W × ذراع الحمل ÷ ذراع الجهد = ' + f1(W * Lr / Le, 2) + ' N', 13, '#ffd84a') + Tx(400, 110, bal ? '✅ العتلة متوازنة' : (df > 0 ? 'الجهد أكبر من اللازم' : 'الجهد أقل من اللازم'), 15, bal ? '#7dffa6' : '#ffb4b4') + Tx(fx, fy + 138, 'ذراع الحمل = ' + Lr + ' cm   ،   ذراع الجهد = ' + Le + ' cm', 12, '#fff')
+                },
+                read() { const [Lr, Le] = this.arms(); return [['النوع', CLS[+P.cls]], ['الحمل W', P.W + ' N'], ['ذراع الحمل', Lr + ' cm'], ['ذراع الجهد', Le + ' cm'], ['عزم الجهد F×Le', f1(P.F * Le, 1)], ['عزم الحمل W×Lr', f1(P.W * Lr, 1)], ['الجهد المتوازن', f1(P.W * Lr / Le, 2) + ' N'], ['الفائدة الآلية MA', f1(Le / Lr, 2)]] }, rh: ['النوع', 'W', 'Lr', 'Le', 'F متوازن', 'MA'], rec() { const [Lr, Le] = this.arms(); return [[P.cls, P.W, Lr, Le, f1(P.W * Lr / Le, 2), f1(Le / Lr, 2)]] }
+            },
+            {
+                id: 'mach', ch: 3, n: 'الآلات البسيطة: السطح المائل والبكرة',
+                goal: 'دراسة القوة اللازمة لرفع حمل بالسطح المائل والبكرة الثابتة والمتحركة وحساب الفائدة الآلية.',
+                why: 'الآلات البسيطة تقلل الجهد أو تغير اتجاهه: الزحليقة والمنحدرات والرافعات وبكرات الآبار.',
+                steps: ['اختر الآلة: سطح مائل أو بكرة ثابتة أو بكرة متحركة.', 'اضبط كتلة الحمل والارتفاع (وطول السطح المائل).', 'اضغط «اسحب/ادفع» وسجّل قراءة الميزان F.', 'احسب الفائدة الآلية MA = W ÷ F.', 'قارن الشغل المبذول بالشغل المنجز.'],
+                meas: ['W وزن الحمل (N)', 'F القوة المبذولة (N)', 'MA الفائدة الآلية'], law: 'MA = W / F   ،   السطح المائل (مثالي): F = W·h/L   ،   البكرة المتحركة: F = W/2',
+                concl: 'الآلات البسيطة لا توفر شغلاً: ما نوفره في القوة نخسره في المسافة.',
+                tools: [['سطح مائل', 'ramp', 'يقلل القوة بزيادة المسافة.', 'كلما قلّ ميله قلّت القوة.'], ['بكرة', 'pulley', 'تغيّر اتجاه القوة أو تقللها.', 'مرّر الحبل فوقها.'], ['ميزان نابضي', 'spring', 'يقيس القوة.', 'صله بالحبل.'], ['طفل', 'kid', 'يبذل القوة.', 'يسحب أو يدفع.']],
+                params: [{ k: 'md', l: 'الآلة', o: [[0, 'سطح مائل'], [1, 'بكرة ثابتة'], [2, 'بكرة متحركة']], v: 0 }, { k: 'm', l: 'كتلة الحمل', u: 'kg', min: 1, max: 20, step: 1, v: 10 }, { k: 'h', l: 'ارتفاع الرفع', u: 'm', min: .2, max: 1, step: .05, v: .5 }, { k: 'Ls', l: 'طول السطح المائل', u: 'm', min: 1, max: 3, step: .1, v: 2 }, { k: 'mu', l: 'احتكاك السطح', min: 0, max: .5, step: .05, v: .1 }],
+                acts: [['⬆ اسحب / ادفع', () => { S.go = 1; S.p = 0 }], ['↺ أعد', () => { S.go = 0; S.p = 0 }]],
+                init() { S.p = 0; S.go = 0 }, tick(dt, sd) { if (S.go) S.p = Math.min(1, S.p + sd * .22) },
+                calc() { const W = P.m * 9.8, md = +P.md, h = +P.h, L = Math.max(+P.Ls, h + .1); let F = W, d = h; if (md == 0) { const sn = h / L, cs = Math.sqrt(1 - sn * sn); F = W * sn + P.mu * W * cs; d = L } if (md == 2) { F = W / 2; d = 2 * h } return { W, F, d, L, h, MA: W / F, Win: F * d, Wout: W * h } },
+                draw() {
+                    const c = this.calc(), p = S.p, md = +P.md; let s = R(0, 420, 800, 60, '#b08a5a');
+                    if (md == 0) {
+                        const sc = 150, dx = Math.sqrt(c.L * c.L - c.h * c.h) * sc, dy = c.h * sc, x0 = 120, y0 = 420, hy = Math.hypot(dx, dy), ux = dx / hy, uy = -dy / hy, t = p * hy, bx = x0 + ux * t - uy * 20 * -1 * 0, by = y0 + uy * t, ang = Math.atan2(uy, ux) * 180 / Math.PI;
+                        s += `<polygon points="${x0},${y0} ${x0 + dx},${y0} ${x0 + dx},${y0 - dy}" fill="#e0a458" stroke="#8a5a2b" stroke-width="4"/>` + `<g transform="translate(${bx} ${by}) rotate(${ang})"><rect x="-22" y="-44" width="44" height="40" rx="4" fill="#c98b4a" stroke="#6b4a22" stroke-width="3"/><text x="0" y="-18" font-size="13" text-anchor="middle" fill="#fff">${P.m}kg</text></g>` + kid(bx - ux * 60 - 10, by - uy * 60, .6, { a1: 80, l1: 25, l2: -10, sh: '#ec4899', hr: '#222' }) + arr(bx + ux * 30, by + uy * 30 - 30, bx + ux * 30 + ux * 60, by + uy * 30 - 30 + uy * 60, '#e5484d', 5) + Tx(400, 150, 'h = ' + f1(c.h, 2) + ' m   ،   L = ' + f1(c.L, 2) + ' m   ،   MA ≈ ' + f1(c.MA, 2), 15, '#9a5b00')
+                    }
+                    else {
+                        const hh = c.h * 160, fx = md == 1 ? 400 : 440; s += R(250, 60, 330, 14, '#789') + Cc(fx, 100, 24, '#cfd6dc', 'stroke="#456" stroke-width="4"') + Cc(fx, 100, 5, '#456');
+                        if (md == 1) { const ly = 380 - p * hh, ry = 250 + p * hh; s += Ln(fx - 24, 100, fx - 24, ly, '#a67c00', 4) + R(fx - 24 - 30, ly, 60, 50, '#c98b4a', 'rx="4" stroke="#6b4a22" stroke-width="3"') + Tx(fx - 24, ly + 30, P.m + 'kg', 13, '#fff') + Ln(fx + 24, 100, fx + 24, ry, '#a67c00', 4) + sbl(fx + 24 - 43, ry + 14, c.F, Math.max(10, c.F * 1.4)) + kid(fx + 90, 420, .9, { f: -1, a1: 150, a2: 150, sh: '#ec4899', hr: '#222' }) }
+                        else { const ly = 300 - p * hh; s += Ln(fx - 60, 74, fx - 60, ly, '#a67c00', 4) + Cc(fx - 60, ly, 20, '#cfd6dc', 'stroke="#456" stroke-width="4"') + Ln(fx - 40, ly, fx - 24, 100, '#a67c00', 4) + R(fx - 90, ly + 20, 60, 50, '#c98b4a', 'rx="4" stroke="#6b4a22" stroke-width="3"') + Tx(fx - 60, ly + 50, P.m + 'kg', 13, '#fff') + Ln(fx + 24, 100, fx + 24, 200 + p * 2 * hh * 0.5 + 100 * 0, '#a67c00', 4) + sbl(fx + 24 - 43, 300 + p * hh, c.F, Math.max(10, c.F * 1.4)) + kid(fx + 90, 420, .9, { f: -1, a1: 150, a2: 150, sh: '#ec4899', hr: '#222' }) }
+                    }
+                    return s + say(30, 20, ['السطح المائل: قوة أقل ومسافة أكبر', 'البكرة الثابتة: تغيّر اتجاه القوة فقط', 'البكرة المتحركة: القوة نصف الوزن'][md], 330)
+                },
+                read() { const c = this.calc(); return [['وزن الحمل W', f1(c.W, 1) + ' N'], ['القوة المبذولة F', f1(c.F, 1) + ' N'], ['الفائدة الآلية MA = W/F', f1(c.MA, 2)], ['مسافة الجهد', f1(c.d, 2) + ' m'], ['الشغل المبذول F·d', f1(c.Win, 1) + ' J'], ['الشغل المنجز W·h', f1(c.Wout, 1) + ' J']] }, rh: ['الآلة', 'W (N)', 'F (N)', 'MA'], rec() { const c = this.calc(); return [[['سطح مائل', 'بكرة ثابتة', 'بكرة متحركة'][+P.md], f1(c.W, 1), f1(c.F, 1), f1(c.MA, 2)]] }
+            },
+            {
+                id: 'wave', ch: 4, n: 'الموجات والصوت (الحبل والشوكة الرنانة)',
+                goal: 'توليد موجات على حبل أو بشوكة رنانة ودراسة التردد وطول الموجة والسرعة.',
+                why: 'الموجات تنقل الطاقة دون نقل المادة: الصوت، موجات البحر، الموجات الزلزالية. ونسمع الأصوات لأنها موجات تنتقل في الهواء.',
+                steps: ['اختر حبلاً أو شوكة رنانة.', 'في الحبل: حرّك طرفه بتردد معين وقِس طول الموجة λ من القمة إلى القمة.', 'احسب سرعة الموجة v = f × λ.', 'في الشوكة: غيّر التردد وراقب تغيّر الصوت من غليظ إلى حاد، وغيّر الوسط وقارن السرعة.', 'غيّر السعة ولاحظ علو الصوت.'],
+                meas: ['f التردد (Hz)', 'T الزمن الدوري (s)', 'λ طول الموجة (m)', 'v السرعة (m/s)', 'A السعة'], law: 'v = f × λ   ،   T = 1 / f   ،   الصوت: v = f × λ أيضاً',
+                concl: 'الجسيمات تهتز في مكانها والموجة هي التي تنتقل. الصوت الأعلى تردداً أحدّ، والأكبر سعة أعلى.',
+                tools: [['حبل', 'rope', 'يحمل الموجة المستعرضة.', 'حرّك طرفه صعوداً وهبوطاً.'], ['شوكة رنانة', 'fork', 'تهتز بتردد ثابت.', 'اضربها بمطرقة مطاطية.'], ['طفل', 'kid', 'يولّد الاهتزاز.', 'يحرّك الحبل.'], ['ساعة توقيت', 'stopwatch', 'تقيس الزمن الدوري.', 'عدّ الاهتزازات في ثواني.']],
+                params: [{ k: 'md', l: 'الوضع', o: [[0, 'حبل (موجة مستعرضة)'], [1, 'شوكة رنانة (صوت)']], v: 0 }, { k: 'fr', l: 'تردد الحبل', u: 'Hz', min: .5, max: 4, step: .1, v: 1.5 }, { k: 'vr', l: 'سرعة الموجة في الحبل', u: 'm/s', min: 1, max: 4, step: .1, v: 2 }, { k: 'fs', l: 'تردد الشوكة', u: 'Hz', min: 100, max: 1000, step: 10, v: 440 }, { k: 'md2', l: 'الوسط (للصوت)', o: opt(SND), v: 'air' }, { k: 'A', l: 'السعة', min: 1, max: 10, step: 1, v: 5 }],
+                acts: [['🔊 اسمع الصوت', () => beep()]],
+                init() { S.t = 0 }, tick(dt, sd) { S.t += sd },
+                draw() {
+                    const A = +P.A, m = +P.md; let s = R(0, 0, 800, 480, '#f1f5fa');
+                    if (m == 0) {
+                        const f = +P.fr, v = +P.vr, lam = v / f, lp = Math.min(620, lam * 80), w = 6.283 * f, k = 6.283 / lp, x0 = 140, ay = 250; let pts = []; for (let x = 0; x <= 620; x += 4)pts.push((x0 + x) + ',' + (ay + A * 8 * Math.sin(w * S.t - k * x)).toFixed(1));
+                        s += Ln(x0, ay, 760, ay, '#cdd6e0', 1, 'stroke-dasharray="5"') + `<polyline fill="none" stroke="#a67c00" stroke-width="5" stroke-linecap="round" points="${pts.join(' ')}"/>` + kid(90, 330, .95, { sh: '#3b82f6', a1: 110 + 25 * Math.sin(w * S.t), a2: 70 });
+                        const yy = ay + A * 8 * Math.sin(w * S.t - k * 300); s += Cc(x0 + 300, yy, 8, '#e5484d') + Ln(x0 + 300, ay - A * 8 - 14, x0 + 300, ay + A * 8 + 14, '#e5484d', 2, 'stroke-dasharray="3"') + Tx(x0 + 300, ay - A * 8 - 22, '↕ اهتزاز الجسيم', 12, '#c22') + arr(x0 + 380, ay + A * 8 + 50, x0 + 520, ay + A * 8 + 50, '#27c', 3) + Tx(x0 + 450, ay + A * 8 + 70, 'اتجاه انتشار الموجة', 12, '#27c') + Ln(x0, 380, x0 + lp, 380, '#0a7a3a', 3) + Tx(x0 + lp / 2, 402, 'λ = ' + f1(lam, 2) + ' m', 14, '#0a7a3a') + Tx(400, 70, 'v = f × λ = ' + f1(f, 1) + ' × ' + f1(lam, 2) + ' = ' + f1(v, 1) + ' m/s', 20, '#9a5b00')
+                    }
+                    else {
+                        const f = +P.fs, v = SND[P.md2].x, lam = v / f, lp = cl(lam * 120, 30, 420), w = 6.283 * f / 100, k = 6.283 / lp, py = cl(f, 100, 1000);
+                        const pr = A * .8 * Math.sin(w * S.t * 8); s += R(60, 330, 20, 70, '#8a6a3a') + `<path d="M${70 - 12 - pr} 230V318M${70 + 12 + pr} 230V318" stroke="#9aa4ad" stroke-width="9" stroke-linecap="round"/><path d="M70 318V340" stroke="#9aa4ad" stroke-width="9"/>` + kid(30, 400, .8, { sh: '#22a35a', a1: 140, a2: 30, hr: '#222' }) + Tx(70, 215, '🎵 شوكة ' + f + ' Hz', 14, '#456');
+                        for (let r = 0; r < 4; r++)for (let i = 0; i < 46; i++) { const x0 = 200 + i * 12, xx = x0 + A * 2.2 * Math.sin(w * S.t * 8 - k * (x0 - 200)); s += Cc(xx, 260 + r * 26, 3.2, '#27c', 'opacity=".85"') }
+                        s += Ln(200, 400, 200 + lp, 400, '#0a7a3a', 3) + Tx(200 + lp / 2, 422, 'λ = ' + f1(lam, 2) + ' m (بمقياس مكبَّر)', 13, '#0a7a3a') + Tx(480, 70, 'الوسط: ' + SND[P.md2].n + '   v = ' + v + ' m/s   ،   λ = v ÷ f', 16, '#9a5b00') + Tx(480, 100, 'الصوت ' + (f < 300 ? 'غليظ (تردد منخفض)' : f < 600 ? 'متوسط' : 'حاد (تردد عالٍ)') + ' — العلو ' + (A < 4 ? 'خافت' : A < 8 ? 'متوسط' : 'عالٍ'), 14, '#456')
+                    }
+                    return s
+                },
+                read() { if (+P.md == 0) { const f = +P.fr, v = +P.vr; return [['التردد f', f + ' Hz'], ['الزمن الدوري T = 1/f', f1(1 / f, 2) + ' s'], ['السرعة v', v + ' m/s'], ['طول الموجة λ = v/f', f1(v / f, 2) + ' m'], ['السعة', P.A]] } const f = +P.fs, v = SND[P.md2].x; return [['التردد f', f + ' Hz'], ['T', f1(1000 / f, 2) + ' ms'], ['الوسط', SND[P.md2].n], ['السرعة v', v + ' m/s'], ['λ = v/f', f1(v / f, 2) + ' m'], ['حدّة الصوت', f < 300 ? 'غليظ' : f < 600 ? 'متوسط' : 'حاد']] }, rh: ['الوضع', 'f (Hz)', 'v (m/s)', 'λ (m)'], rec() { if (+P.md == 0) return [['حبل', P.fr, P.vr, f1(P.vr / P.fr, 2)]]; const v = SND[P.md2].x; return [['شوكة/' + SND[P.md2].n, P.fs, v, f1(v / P.fs, 2)]] }
+            },
+            {
+                id: 'refl', ch: 4, n: 'انعكاس الضوء في المرآة المستوية',
+                goal: 'تحقيق قانوني الانعكاس بمرآة مستوية وإصابة هدف بالشعاع المنعكس.',
+                why: 'نرى أنفسنا في المرايا، وتُستعمل المرايا في السيارات والمنظار الدوراني (البيريسكوب) وغرف الطبيب.',
+                steps: ['وجّه الشعاع بزاوية سقوط معينة (تقاس من العمود المقام).', 'لاحظ الشعاع المنعكس وقِس زاوية الانعكاس.', 'أدِر المرآة قليلاً ولاحظ أن الشعاع المنعكس يدور ضعف الزاوية.', 'حاول إصابة النجمة بتعديل الزاوية.', 'في وضع «صورتك» قارن بعدك وبعد صورتك عن المرآة.'],
+                meas: ['θi زاوية السقوط', 'θr زاوية الانعكاس', 'بُعد الجسم وبُعد الصورة'], law: 'القانون الأول: زاوية السقوط = زاوية الانعكاس   ،   الثاني: الشعاعان والعمود في مستوى واحد',
+                concl: 'زاوية السقوط تساوي زاوية الانعكاس، وصورة الجسم في المرآة المستوية معتدلة ومعكوسة جانبياً وتبعد بقدر بعد الجسم.',
+                tools: [['مرآة مستوية', 'mirror', 'تعكس الضوء.', 'ضعها عمودية أو أفقية.'], ['مصباح يدوي', 'torch', 'مصدر شعاع ضوئي.', 'وجّهه بزاوية.'], ['منقلة', 'protractor', 'تقيس الزوايا.', 'ضع مركزها عند نقطة السقوط.'], ['طالبة', 'kid2', 'تنظر في المرآة.', 'قِس بعدها عنها.']],
+                params: [{ k: 'vw', l: 'العرض', o: [[0, 'الأشعة'], [1, 'صورتك في المرآة']], v: 0 }, { k: 'ti', l: 'زاوية السقوط θi', u: '°', min: 0, max: 80, step: 1, v: 40 }, { k: 'al', l: 'ميل المرآة', u: '°', min: -20, max: 20, step: 1, v: 0 }, { k: 'dist', l: 'بعدك عن المرآة', u: 'cm', min: 50, max: 200, step: 5, v: 120 }],
+                init() { S.t = 0 }, tick(dt, sd) { S.t += dt },
+                ray() { const ti = P.ti * Math.PI / 180, al = P.al * Math.PI / 180, d = [Math.sin(ti), Math.cos(ti)], n = [Math.sin(al), -Math.cos(al)], dn = d[0] * n[0] + d[1] * n[1], r = [d[0] - 2 * dn * n[0], d[1] - 2 * dn * n[1]]; return { d, n, r, th: Math.acos(Math.min(1, -dn)) * 180 / Math.PI } },
+                hit() { const q = this.ray(), O = [400, 300], T = [620, 130], t = cl(((T[0] - O[0]) * q.r[0] + (T[1] - O[1]) * q.r[1]), 0, 400), px = O[0] + q.r[0] * t, py = O[1] + q.r[1] * t; return Math.hypot(T[0] - px, T[1] - py) < 22 },
+                draw() {
+                    if (+P.vw == 1) {
+                        const mx = 520, dp = P.dist * 1.2, ox = mx - dp, ix = mx + dp; let s = R(0, 0, 800, 480, '#f6e7cf') + R(mx - 6, 70, 12, 340, '#bfe6ff', 'stroke="#8a6a3a" stroke-width="4"') + R(0, 410, 800, 70, '#b08a5a');
+                        s += kid(ox, 400, .95, { sh: '#ec4899', hr: '#222', a1: 140 + 20 * Math.sin(S.t * 4), a2: -10 }) + kid(ix, 400, .95, { sh: '#ec4899', hr: '#222', f: -1, a1: 140 + 20 * Math.sin(S.t * 4), a2: -10, al: .45 }) + Ln(ox, 150, ix, 150, '#27c', 2, 'stroke-dasharray="6"') + Tx(ox + dp / 2, 140, 'بُعد الجسم = ' + P.dist + ' cm', 13, '#27c') + Tx(ix - dp / 2, 140, 'بُعد الصورة = ' + P.dist + ' cm', 13, '#27c') + Tx(ix, 70, 'الصورة الوهمية', 13, '#999') + Tx(ox, 70, 'أنتِ', 13, '#c22'); return s + Tx(400, 40, 'الصورة تبعد عن المرآة بقدر بعدك، وهي معتدلة ومعكوسة جانبياً', 15, '#9a5b00')
+                    }
+                    const q = this.ray(), O = [400, 300], S0 = [O[0] - 230 * q.d[0], O[1] - 230 * q.d[1]], E = [O[0] + 340 * q.r[0], O[1] + 340 * q.r[1]], hit = this.hit(), dg = Math.atan2(q.d[1], q.d[0]) * 180 / Math.PI;
+                    let s = R(0, 0, 800, 480, '#10162a') + `<path d="M${O[0] - 90} ${O[1] - 0}A90 90 0 0 1 ${O[0] + 90} ${O[1]}" fill="none" stroke="#7fa6cc" stroke-width="1.5" opacity=".6"/>` + `<g transform="rotate(${P.al} ${O[0]} ${O[1]})">` + R(250, 300, 300, 14, '#bfe6ff', 'stroke="#fff" stroke-width="2" rx="3"') + R(250, 314, 300, 6, '#8a6a3a') + '</g>'
+                        + Ln(O[0], O[1], O[0] + q.n[0] * 130, O[1] + q.n[1] * 130, '#fff', 2, 'stroke-dasharray="6"') + Tx(O[0] + q.n[0] * 145, O[1] + q.n[1] * 145, 'العمود', 12, '#fff') + Ln(S0[0], S0[1], O[0], O[1], '#ffd84a', 4) + Ln(O[0], O[1], E[0], E[1], '#ffd84a', 4, 'stroke-dasharray="1 0"')
+                        + `<g transform="translate(${S0[0]} ${S0[1]}) rotate(${dg})"><rect x="-60" y="-9" width="55" height="18" rx="4" fill="#4b6cb7" stroke="#fff" stroke-width="2"/><polygon points="-5,-14 10,-8 10,8 -5,14" fill="#ffd84a"/></g>` + kid(S0[0] - 70, S0[1] + 110, .75, { sh: '#ec4899', hr: '#222', a1: 110, a2: -10 })
+                        + Tx(620, 130, hit ? '🌟' : '⭐', hit ? 46 : 32) + Tx(O[0] - 80, O[1] - 100, 'θi = ' + f1(q.th, 1) + '°', 15, '#7dffa6') + Tx(O[0] + 90, O[1] - 100, 'θr = ' + f1(q.th, 1) + '°', 15, '#7dffa6') + Tx(400, 40, hit ? '🎯 أصبتَ الهدف! زاوية السقوط = زاوية الانعكاس' : 'وجّه الشعاع المنعكس نحو النجمة بتغيير الزاوية أو ميل المرآة', 15, hit ? '#7dffa6' : '#fff');
+                    return s
+                },
+                read() { if (+P.vw == 1) return [['بُعدك عن المرآة', P.dist + ' cm'], ['بُعد الصورة', '= ' + P.dist + ' cm'], ['المسافة بينك وبين صورتك', 2 * P.dist + ' cm']]; const q = this.ray(); return [['زاوية السقوط θi', f1(q.th, 1) + '°'], ['زاوية الانعكاس θr', f1(q.th, 1) + '°'], ['ميل المرآة', P.al + '°'], ['دوران الشعاع المنعكس عند ميل المرآة', '≈ 2 × ' + P.al + '° = ' + 2 * P.al + '°'], ['الهدف', this.hit() ? 'أصبته ✅' : 'لم تصبه']] }, rh: ['θi', 'ميل المرآة', 'θr', 'الهدف'], rec() { const q = this.ray(); return [[P.ti, P.al, f1(q.th, 1), this.hit() ? 'نعم' : 'لا']] }
+            },
+            {
+                id: 'refr', ch: 4, n: 'انكسار الضوء (القلم في كأس الماء)',
+                goal: 'رؤية انكسار الضوء عند انتقاله بين وسطين، وتفسير ظاهرة القلم المكسور في كأس الماء.',
+                why: 'يفسّر ظهور قاع المسبح أقرب مما هو، وعمل العدسات والنظارات والألياف الضوئية.',
+                steps: ['اختر الوسط (ماء، زيت، زجاج، ألماس) ووجّه الشعاع من الهواء إليه.', 'قارن زاوية السقوط θ₁ بزاوية الانكسار θ₂: ينحني الشعاع نحو العمود.', 'اعكس الاتجاه (من الوسط إلى الهواء) وزد الزاوية حتى يحدث الانعكاس الكلي.', 'انتقل إلى وضع «القلم في الكأس» وقارن الجزء المغمور بالجزء الظاهر.'],
+                meas: ['θ₁ زاوية السقوط', 'θ₂ زاوية الانكسار', 'n معامل الانكسار'], law: 'قانون سنيل: n₁ · sin θ₁ = n₂ · sin θ₂   ،   n = c / v',
+                concl: 'ينكسر الضوء لأن سرعته تتغير بين الوسطين؛ فينحني نحو العمود عند دخوله وسطاً أكثف ضوئياً (n أكبر).',
+                tools: [['كأس ماء', 'glass', 'وسط شفاف ينكسر فيه الضوء.', 'املأه بالماء.'], ['قلم', 'pencil', 'يُظهر الانكسار.', 'أمِله داخل الكأس.'], ['مصباح', 'torch', 'يعطي شعاعاً.', 'وجّهه إلى سطح الماء.'], ['طالب ينظر', 'kid', 'يشاهد القلم.', 'انظر من الجانب.']],
+                params: [{ k: 'vw', l: 'العرض', o: [[0, 'الأشعة'], [1, 'القلم في الكأس']], v: 0 }, { k: 'md', l: 'الوسط', o: opt(MED), v: 'water' }, { k: 'dir', l: 'اتجاه الضوء', o: [[0, 'من الهواء إلى الوسط'], [1, 'من الوسط إلى الهواء']], v: 0 }, { k: 't1', l: 'زاوية السقوط θ₁', u: '°', min: 0, max: 80, step: 1, v: 45 }],
+                init() { S.t = 0 }, tick(dt) { S.t += dt },
+                calc() { const n = MED[P.md].x, d = +P.dir, n1 = d ? n : 1.0003, n2 = d ? 1.0003 : n, t1 = P.t1 * Math.PI / 180, sn = n1 * Math.sin(t1) / n2; return { n, n1, n2, t1, sn, tir: sn > 1, t2: sn > 1 ? null : Math.asin(sn) * 180 / Math.PI, tc: n > 1.0003 ? Math.asin(1.0003 / n) * 180 / Math.PI : 90 } },
+                draw() {
+                    const c = this.calc(), n = c.n, M = MED[P.md], O = [400, 260]; let s = R(0, 0, 800, 480, '#cfe5f7');
+                    if (+P.vw == 1) {
+                        const wy = 250, gx = 300, gw = 200; s += R(0, 420, 800, 60, '#b08a5a') + R(gx, 150, gw, 260, '#e8f4ff', 'fill-opacity=".5" stroke="#456" stroke-width="4"') + R(gx + 3, wy, gw - 6, 157, M.col, 'opacity=".5"');
+                        const top = [470, 110], tip = [330, 380], lerpP = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t], tw = (wy - top[1]) / (tip[1] - top[1]), pw = lerpP(top, tip, tw), ap = [tip[0], wy + (tip[1] - wy) / n];
+                        s += Ln(pw[0], pw[1], tip[0], tip[1], '#999', 8, 'stroke-dasharray="4"') + Ln(top[0], top[1], pw[0], pw[1], '#f4d35e', 10, 'stroke-linecap="round"') + Ln(pw[0] - 8 * 0, pw[1], ap[0], ap[1], '#f4d35e', 10) + Cc(ap[0], ap[1], 5, '#555') + kid(130, 420, .95, { sh: '#3b82f6', a1: 60 }) + Ln(180, 330, gx, wy - 10, '#7fa6cc', 2, 'stroke-dasharray="5"') + Tx(400, 60, 'القلم يبدو مكسوراً عند سطح ' + M.n, 16, '#9a5b00') + Tx(400, 85, 'العمق الظاهري = العمق الحقيقي ÷ n = ÷ ' + f1(n, 2), 14, '#456') + Tx(gx + gw + 20, wy + 60, 'الجزء الحقيقي (منقّط)', 12, '#999', 'start'); return s
+                    }
+                    s += R(0, O[1], 800, 220, M.col, 'opacity=".45"') + Tx(60, O[1] + 30, c.tir ? '' : (+P.dir ? 'الهواء' : M.n), 14, '#234', 'start') + Tx(60, O[1] - 12, +P.dir ? M.n : 'الهواء', 14, '#234', 'start');
+                    const sg = +P.dir ? 1 : -1;
+                    // المصدر: في الوسط الأول
+                    const sy = +P.dir ? 1 : -1, S0 = [O[0] - 230 * Math.sin(c.t1), O[1] + sy * (-1) * (-230 * Math.cos(c.t1)) * (-1)];
+                    const src = [O[0] - 230 * Math.sin(c.t1), O[1] + (+P.dir ? 230 : -230) * Math.cos(c.t1)];
+                    s += Ln(O[0], 60, O[0], 460, '#fff', 2, 'stroke-dasharray="6"') + Ln(src[0], src[1], O[0], O[1], '#ffd84a', 4);
+                    if (c.tir) s += Ln(O[0], O[1], O[0] + 230 * Math.sin(c.t1), O[1] + (+P.dir ? 230 : -230) * Math.cos(c.t1), '#ffd84a', 4) + Tx(400, 40, 'انعكاس كلي داخلي! θ₁ أكبر من الزاوية الحرجة ' + f1(c.tc, 1) + '°', 16, '#c22');
+                    else { const t2 = c.t2 * Math.PI / 180; s += Ln(O[0], O[1], O[0] + 230 * Math.sin(t2), O[1] + (+P.dir ? -230 : 230) * Math.cos(t2), '#ffd84a', 4) + Tx(400, 40, 'θ₁ = ' + P.t1 + '°  →  θ₂ = ' + f1(c.t2, 1) + '°', 16, '#9a5b00') }
+                    s += kid(src[0] - 60, Math.min(450, src[1] + 95), .7, { sh: '#22a35a', hr: '#222', a1: 110 }); return s
+                },
+                read() { const c = this.calc(); return [['الوسط', MED[P.md].n + ' (n = ' + c.n + ')'], ['n₁', f1(c.n1, 2)], ['n₂', f1(c.n2, 2)], ['θ₁', P.t1 + '°'], ['θ₂', c.tir ? 'انعكاس كلي' : f1(c.t2, 1) + '°'], ['الزاوية الحرجة', c.n > 1.0003 ? f1(c.tc, 1) + '°' : '—'], ['سرعة الضوء في الوسط', f1(300000 / c.n, 0) + ' km/s']] }, rh: ['الوسط', 'θ₁', 'θ₂'], rec() { const c = this.calc(); return [[MED[P.md].n, P.t1, c.tir ? 'كلي' : f1(c.t2, 1)]] }
+            }
+        ];
+        /* ===== الواجهة ===== */
+        function load(id) { X = EX.find(e => e.id == id); P = {}; X.params.forEach(p => P[p.k] = p.v); S = {}; X.init && X.init(); rows[id] = rows[id] || []; tool = null; $('#ex').value = id; build() }
+        function build() { explain(); ctl(); acts(); pal(); mt(); recT(); $('#nt').value = notes[X.id] || '' }
+        function envLinks() { const o = []; Object.entries(ENV).forEach(([k, e]) => e.hs.forEach(h => { if (h[5] == X.id) o.push(`<button data-go="${k}">${h[2]} ${h[3]} — ${e.n}</button>`) })); return o.join(' ') }
+        function explain() {
+            let h = ''; if (tool != null) { const t = X.tools[tool]; h += `<div class="rd" style="border-right:4px solid #4ea8ff"><b>🧰 ${t[0]}</b><br>الفائدة: ${t[2]}<br>طريقة الاستعمال: ${t[3]}</div>` }
+            h += `<h3>${X.n}</h3><div class="rd"><b>${CH[X.ch]}</b></div><div class="rd"><b>🎯 الهدف:</b> ${X.goal}</div><div class="rd"><b>💡 الفائدة والغرض:</b> ${X.why}</div><div class="rd"><b>🧰 الأدوات:</b> ${X.tools.map(t => t[0]).join('، ')}</div><div class="rd"><b>📝 الطريقة:</b><ol>${X.steps.map(s => `<li>${s}</li>`).join('')}</ol></div><div class="rd"><b>📏 القياسات المطلوبة:</b><ul>${X.meas.map(s => `<li>${s}</li>`).join('')}</ul></div><div class="rd"><b>📐 القانون:</b><div class="fm">${X.law}</div></div><div class="rd"><b>✅ الاستنتاج:</b> ${X.concl}</div><div class="rd"><b>🌍 أين نراها في حياتنا؟</b><br>${envLinks() || '—'}</div>`; $('#s-e').innerHTML = h
+        }
+        function ctl() { let h = '<div class="rd">حرّك المنزلقات أو غيّر القوائم لتعديل التجربة وأدواتها.</div>'; X.params.forEach(p => { const v = P[p.k]; h += `<label>${p.l}${p.u ? ' (' + p.u + ')' : ''}</label>`; if (p.o) { const o = typeof p.o == 'function' ? p.o() : p.o; h += `<select data-k="${p.k}">${o.map(([a, b]) => `<option value="${a}" ${a == v ? 'selected' : ''}>${b}</option>`).join('')}</select>` } else h += `<input type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${v}" data-k="${p.k}"><input type="number" step="any" value="${v}" data-k="${p.k}">` }); $('#s-c').innerHTML = h }
+        function syncC() { $$('#s-c [data-k]').forEach(o => { if (o !== document.activeElement) o.value = P[o.dataset.k] }) }
+        $('#s-c').addEventListener('input', e => { const el = e.target, k = el.dataset.k; if (!k) return; let v = el.value; v = /^-?[\d.]+$/.test(v) ? +v : v; P[k] = v; X.chg && X.chg(k); $$('#s-c [data-k="' + k + '"]').forEach(o => { if (o !== el) o.value = v }); syncC() });
+        function acts() { $('#acts').innerHTML = (X.acts || []).map((a, i) => `<button data-a="${i}" class="${a[2] && S[a[2]] ? 'on' : ''}">${a[0]}</button>`).join('') || '<span style="font-size:12px;color:var(--mu)">استعمل «التحكم» لتعديل التجربة.</span>' }
+        $('#acts').addEventListener('click', e => { const i = e.target.dataset.a; if (i == null) return; X.acts[i][1](); acts() });
+        function pal() { $('#pal').innerHTML = X.tools.map((t, i) => `<div class="pi ${tool == i ? 'sel' : ''}" data-i="${i}">${ico(t[1])}${t[0]}</div>`).join('') }
+        $('#pal').addEventListener('click', e => { const d = e.target.closest('.pi'); if (!d) return; tool = +d.dataset.i; explain(); pal(); document.body.dataset.tab = 'e'; if (innerWidth < 900) { closeSheets(); document.body.classList.add('s-side'); $$('#nav button')[1].classList.add('act') } });
+        function mt() { $('#mt').innerHTML = CT.map(([t, o, f], ti) => `<label>${t}</label><table>` + Object.entries(o).map(([k, v]) => `<tr><td>${v.n}</td><td><input type="number" step="any" value="${v[f]}" data-t="${ti}" data-k="${k}"></td></tr>`).join('') + '</table>').join('') }
+        $('#mt').addEventListener('input', e => { const d = e.target.dataset, v = parseFloat(e.target.value); if (!(v > 0) || d.t == null) return; const o = CT[d.t]; o[1][d.k][o[2]] = v });
+        function recT() { const r = rows[X.id] || []; $('#rows').innerHTML = r.length ? `<table><tr>${X.rh.map(h => `<th>${h}</th>`).join('')}</tr>${r.map(x => `<tr>${x.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</table>` : '<div class="rd">لا قراءات مسجّلة بعد.</div>' }
+        $('#rc').onclick = () => { rows[X.id].push(...X.rec()); recT() }; $('#rcx').onclick = () => { rows[X.id] = []; recT() }; $('#nt').oninput = e => notes[X.id] = e.target.value;
+        function ui() { $('#rdg').innerHTML = '<table>' + X.read().map(([a, b]) => `<tr><td>${a}</td><td><b>${b}</b></td></tr>`).join('') + '</table>'; $('#st').textContent = (run ? '● يعمل' : '○ متوقف') + ' — ' + ENV[envK].n; syncC(); acts() }
+        function closeSheets() { document.body.classList.remove('s-pal', 's-side', 's-menu'); $$('#nav button').forEach(b => b.classList.remove('act')) }
+        $$('#nav [data-n]').forEach(b => b.onclick = () => { const k = 's-' + b.dataset.n, on = document.body.classList.contains(k); closeSheets(); if (!on) { document.body.classList.add(k); b.classList.add('act') } });
+        $$('#tabs [data-t]').forEach(b => b.onclick = () => document.body.dataset.tab = b.dataset.t);
+        $('#ex').innerHTML = [1, 2, 3, 4].map(c => `<optgroup label="${CH[c]}">` + EX.filter(e => e.ch == c).map(e => `<option value="${e.id}">${e.n}</option>`).join('') + '</optgroup>').join('');
+        $('#ex').onchange = e => { load(e.target.value); view = 'exp'; vt(); closeSheets() };
+        $('#ev').innerHTML = Object.entries(ENV).map(([k, e]) => `<option value="${k}">${e.n}</option>`).join(''); $('#ev').onchange = e => { envK = e.target.value; hot = null; $('#hcard').classList.remove('show'); closeSheets() };
+        $('#sp').onchange = e => spd = +e.target.value;
+        $('#run').onclick = () => { run = !run; $('#run').textContent = run ? '⏸ إيقاف' : '▶ تشغيل'; $('#run').classList.toggle('on', run) };
+        $('#rst').onclick = () => load(X.id);
+        function vt() { $$('#vt button').forEach(b => b.classList.toggle('on', b.dataset.v == view)); $('#hcard').classList.remove('show') }
+        $$('#vt button').forEach(b => b.onclick = () => { view = b.dataset.v; vt() });
+        $('#s-e').addEventListener('click', e => { const g = e.target.dataset.go; if (g) { envK = g; $('#ev').value = g; view = 'env'; vt(); closeSheets() } });
+        $('#sv').addEventListener('pointerdown', e => { const g = e.target.closest('[data-h]'); if (!g) return; const h = ENV[envK].hs[+g.dataset.h], ex = EX.find(x => x.id == h[5]); hot = h; $('#hcard').innerHTML = `<b>${h[2]} ${h[3]}</b><br>${h[4]}<br><button id="hg">🔬 جرّب: ${ex.n}</button> <button id="hx">✕</button>`; $('#hcard').classList.add('show') });
+        $('#hcard').addEventListener('click', e => { if (e.target.id == 'hx') $('#hcard').classList.remove('show'); if (e.target.id == 'hg' && hot) { load(hot[5]); view = 'exp'; vt(); closeSheets() } });
+        function modal(t, h) { $('#mdt').textContent = t; $('#mdb').innerHTML = h; $('#md').classList.add('show') } $('#mdx').onclick = () => $('#md').classList.remove('show');
+        $('#rp').onclick = () => { closeSheets(); const r = rows[X.id] || []; modal('📄 تقرير التجربة', `<div class="noprint"><button onclick="window.print()">🖨 طباعة / حفظ PDF</button> <span style="font-size:12px;color:var(--mu)">يمكنك تعديل النص داخل الورقة البيضاء قبل الطباعة.</span></div><div class="paper" contenteditable="true"><h2>${X.n}</h2><div>${CH[X.ch]} — الطالب: ............ الصف: ......... التاريخ: ${new Date().toLocaleDateString('ar-IQ')}</div><h3>الهدف</h3>${X.goal}<h3>الفائدة والغرض</h3>${X.why}<h3>الأدوات</h3>${X.tools.map(t => t[0] + ': ' + t[2]).join('<br>')}<h3>الطريقة</h3><ol>${X.steps.map(s => `<li>${s}</li>`).join('')}</ol><h3>القانون</h3><div dir="ltr">${X.law}</div><h3>القياسات والنتائج</h3>${r.length ? `<table><tr>${X.rh.map(h => `<th>${h}</th>`).join('')}</tr>${r.map(x => `<tr>${x.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</table>` : '<p>لم تُسجَّل قراءات.</p>'}<h3>القراءات الحالية</h3><table>${X.read().map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</table><h3>الاستنتاج</h3>${notes[X.id] || X.concl}</div>`) };
+        /* ===== الحلقة الرئيسية ===== */
+        let last = performance.now();
+        function loop(now) {
+            const dt = Math.min(.05, (now - last) / 1000 || .016); last = now; let s;
+            if (view == 'exp') { if (run && X.tick) X.tick(dt, dt * spd); s = ENV[envK].d() + R(10, 10, 780, 460, '#f6f9fc', 'rx="18" opacity=".92"') + X.draw() }
+            else s = ENV[envK].d() + ENV[envK].hs.map((h, i) => `<g class="hs" data-h="${i}" style="cursor:pointer"><circle cx="${h[0]}" cy="${h[1]}" r="26" fill="#fff" stroke="#f59e0b" stroke-width="4" opacity=".95"/><text x="${h[0]}" y="${h[1] + 10}" font-size="28" text-anchor="middle">${h[2]}</text></g>`).join('') + `<text x="400" y="30" font-size="16" fill="#234" text-anchor="middle" font-weight="700">${ENV[envK].n} — المس الأيقونات لتعرف أين تظهر الفيزياء حولنا</text>`;
+            $('#sv').innerHTML = s; if (fr++ % 10 == 0) ui(); requestAnimationFrame(loop)
+        }
+        load('speed'); requestAnimationFrame(loop);
+    </script>
+</body>
+
+</html>

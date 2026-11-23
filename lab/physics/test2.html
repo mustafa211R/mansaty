@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#0d1620">
+    <title>مختبر الفيزياء الافتراضي — الأول المتوسط</title>
+<title>مختبر الدوائر الكهربائية</title>
+  <link href="cairo.css" rel="stylesheet">
+  <script src="node_modules/chart.js/dist/chart.umd.js"></script>    <style>
+        :root {
+            --bg: #e9eef4;
+            --pn: #fff;
+            --ln: #d3dbe4;
+            --tx: #16202a;
+            --mu: #586a7a;
+            --bt: #e4ebf2;
+            --bh: #d2dde9;
+            --in: #f1f5f9;
+            --ac: #9a5b00;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        @media(prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0d1620;
+                --pn: #111b26;
+                --ln: #2a3b4c;
+                --tx: #e3ecf3;
+                --mu: #9fb4c7;
+                --bt: #22364a;
+                --bh: #2d4b68;
+                --in: #0a1119;
+                --ac: #ffc94d
+            }
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0d1620;
+            --pn: #111b26;
+            --ln: #2a3b4c;
+            --tx: #e3ecf3;
+            --mu: #9fb4c7;
+            --bt: #22364a;
+            --bh: #2d4b68;
+            --in: #0a1119;
+            --ac: #ffc94d
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            background: var(--bg);
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Cairo, sans-serif;
+            background: var(--bg);
+            color: var(--tx);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        header {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--pn);
+            border-bottom: 1px solid var(--ln);
+            flex-wrap: wrap
+        }
+
+        header h1 {
+            font-size: 17px;
+            margin: 0 8px 0 0;
+            color: var(--ac)
+        }
+
+        #tools {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        button,
+        select,
+        input,
+        textarea {
+            font: inherit
+        }
+
+        button,
+        select {
+            background: var(--bt);
+            color: var(--tx);
+            border: 1px solid var(--ln);
+            border-radius: 8px;
+            padding: 5px 11px;
+            cursor: pointer;
+            touch-action: manipulation
+        }
+
+        button:hover {
+            background: var(--bh)
+        }
+
+        button.on {
+            background: #1c8a4e;
+            border-color: #2fbf74;
+            color: #fff
+        }
+
+        #nav {
+            display: none
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+            position: relative
+        }
+
+        #pal {
+            width: 150px;
+            overflow: auto;
+            padding: 8px;
+            background: var(--pn);
+            border-left: 1px solid var(--ln)
+        }
+
+        .pi {
+            background: var(--in);
+            border: 2px solid var(--ln);
+            border-radius: 8px;
+            margin-bottom: 7px;
+            padding: 3px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer
+        }
+
+        .pi.sel {
+            border-color: #4ea8ff
+        }
+
+        .pi svg {
+            width: 100%;
+            height: 52px;
+            display: block
+        }
+
+        #stg {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative
+        }
+
+        #sv {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            background: var(--bg)
+        }
+
+        #vt {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 5;
+            display: flex;
+            gap: 6px
+        }
+
+        #acts {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 6px 8px;
+            background: var(--pn);
+            border-top: 1px solid var(--ln);
+            min-height: 46px;
+            align-items: center
+        }
+
+        #hcard {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 60px;
+            z-index: 6;
+            background: var(--pn);
+            border: 1px solid var(--ln);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 6px 24px #0006;
+            display: none;
+            font-size: 14px;
+            line-height: 1.7
+        }
+
+        #hcard.show {
+            display: block
+        }
+
+        #side {
+            width: 390px;
+            overflow: auto;
+            padding: 10px;
+            background: var(--pn);
+            border-right: 1px solid var(--ln)
+        }
+
+        #side h3 {
+            margin: 4px 0 8px;
+            font-size: 15px;
+            color: var(--ac)
+        }
+
+        .rd {
+            margin: 8px 0;
+            padding: 8px;
+            background: var(--in);
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.75
+        }
+
+        .rd ol,
+        .rd ul {
+            margin: 4px 0;
+            padding-right: 20px
+        }
+
+        .fm {
+            direction: ltr;
+            text-align: left;
+            font-size: 13px;
+            color: var(--mu)
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--mu);
+            margin-top: 8px
+        }
+
+        #side input[type=number],
+        #side input[type=text],
+        #side select,
+        #side textarea {
+            width: 100%;
+            background: var(--in);
+            color: var(--tx);
+            border: 1px solid var(--ln);
+            border-radius: 6px;
+            padding: 4px 6px
+        }
+
+        input[type=range] {
+            width: 100%
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 6px
+        }
+
+        th,
+        td {
+            padding: 4px;
+            border-bottom: 1px solid var(--ln);
+            text-align: center
+        }
+
+        #tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px
+        }
+
+        #tabs button {
+            flex: 1;
+            padding: 5px 2px;
+            font-size: 13px
+        }
+
+        .sec {
+            display: none
+        }
+
+        body[data-tab=e] .sec[data-s=e],
+        body[data-tab=m] .sec[data-s=m],
+        body[data-tab=c] .sec[data-s=c],
+        body[data-tab=t] .sec[data-s=t] {
+            display: block
+        }
+
+        .hs {
+            animation: pl 1.6s infinite
+        }
+
+        @keyframes pl {
+            50% {
+                opacity: .6
+            }
+        }
+
+        #md {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: #000b;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: calc(env(safe-area-inset-top, 0px) + 8px) 8px 8px
+        }
+
+        #md.show {
+            display: flex
+        }
+
+        #md .box {
+            background: var(--pn);
+            border: 1px solid var(--ln);
+            border-radius: 14px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        #md .hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--ln)
+        }
+
+        #mdb {
+            padding: 12px;
+            overflow: auto
+        }
+
+        .paper {
+            background: #fff;
+            color: #111;
+            padding: 18px;
+            border-radius: 8px;
+            line-height: 1.8;
+            font-size: 14px
+        }
+
+        .paper h2 {
+            margin: 0 0 4px;
+            color: #0b3d6b
+        }
+
+        .paper h3 {
+            margin: 12px 0 4px;
+            color: #0b3d6b;
+            border-bottom: 2px solid #0b3d6b
+        }
+
+        .paper table {
+            font-size: 12.5px
+        }
+
+        .paper th,
+        .paper td {
+            border: 1px solid #aab;
+            color: #111
+        }
+
+        .paper th {
+            background: #e6eefb
+        }
+
+        @media print {
+            body>*:not(#md) {
+                display: none !important
+            }
+
+            html,
+            body {
+                height: auto;
+                overflow: visible;
+                background: #fff
+            }
+
+            #md {
+                position: static;
+                display: block;
+                background: none;
+                padding: 0
+            }
+
+            #md .box {
+                border: 0;
+                max-height: none;
+                overflow: visible
+            }
+
+            #md .hd,
+            .noprint {
+                display: none !important
+            }
+
+            #mdb {
+                padding: 0;
+                overflow: visible
+            }
+        }
+
+        @media(pointer:coarse) {
+
+            button,
+            select {
+                min-height: 40px
+            }
+        }
+
+        @media(max-width:899px) {
+            header {
+                padding: 6px 10px
+            }
+
+            header h1 {
+                font-size: 15px
+            }
+
+            #st {
+                order: 9;
+                width: 100%;
+                font-size: 12px;
+                color: var(--mu)
+            }
+
+            #tools {
+                display: none;
+                position: fixed;
+                top: calc(env(safe-area-inset-top, 0px) + 52px);
+                left: 8px;
+                right: 8px;
+                z-index: 50;
+                background: var(--pn);
+                border: 1px solid var(--ln);
+                border-radius: 14px;
+                padding: 10px;
+                box-shadow: 0 8px 30px #0008;
+                grid-template-columns: 1fr 1fr
+            }
+
+            body.s-menu #tools {
+                display: grid
+            }
+
+            #tools select,
+            #tools button {
+                width: 100%
+            }
+
+            #pal,
+            #side {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+                width: auto;
+                border: 0;
+                border-top: 1px solid var(--ln);
+                z-index: 30;
+                transform: translateY(130%);
+                visibility: hidden;
+                transition: transform .2s, visibility .2s;
+                box-shadow: 0 -6px 24px #0007
+            }
+
+            #pal {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 8px
+            }
+
+            .pi {
+                flex: 0 0 96px;
+                margin: 0
+            }
+
+            #side {
+                max-height: 60%;
+                border-radius: 16px 16px 0 0
+            }
+
+            body.s-pal #pal,
+            body.s-side #side {
+                transform: none;
+                visibility: visible
+            }
+
+            #nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 40;
+                background: var(--pn);
+                border-top: 1px solid var(--ln);
+                padding-bottom: env(safe-area-inset-bottom, 0px)
+            }
+
+            #nav button {
+                flex: 1;
+                height: 58px;
+                border: 0;
+                border-radius: 0;
+                background: none;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                line-height: 1.2
+            }
+
+            #nav button span {
+                font-size: 11px;
+                color: var(--mu)
+            }
+
+            #nav button.act span {
+                color: var(--ac);
+                font-weight: 700
+            }
+
+            #hcard {
+                bottom: calc(120px + env(safe-area-inset-bottom, 0px))
+            }
+
+            #acts {
+                margin-bottom: calc(58px + env(safe-area-inset-bottom, 0px))
+            }
+        }
+    </style>
+</head>
+
+<body data-tab="e">
+    <header>
+        <h1>🔬 مختبر الفيزياء الاول متوسط</h1><button id="run" class="on">⏸ إيقاف</button><button id="rst">↺
+           
+           
+                     <button id="home"> الرئيسية</button>
+
+
+          
+<script>
+document.getElementById('home').onclick = () => {
+  location.href = 'index.html';
+};
+</script>
+            إعادة</button><span id="st"></span>
+        <div id="tools"><select id="ex"></select><select id="ev"></select><select id="sp">
+                <option value=".5">بطيء ×0.5</option>
+                <option value="1" selected>عادي ×1</option>
+                <option value="5">سريع ×5</option>
+                <option value="20">أسرع ×20</option>
+            </select><button id="rp">📄 تقرير التجربة</button></div>
+    </header>
+    <main>
+        <div id="pal"></div>
+        <div id="stg">
+            <div id="vt"><button data-v="exp" class="on">🔬 التجربة</button><button data-v="env">🌍 البيئة</button>
+            </div><svg id="sv" viewBox="0 0 800 480"></svg>
+            <div id="hcard"></div>
+            <div id="acts"></div>
+        </div>
+        <div id="side">
+            <div id="tabs"><button data-t="e">📖 الشرح</button><button data-t="m">📏 القياسات</button><button
+                    data-t="c">🎛 التحكم</button><button data-t="t">🧱 المواد</button></div>
+            <div class="sec" data-s="e" id="s-e"></div>
+            <div class="sec" data-s="m">
+                <h3>القراءات الحية</h3>
+                <div id="rdg"></div><button id="rc">📌 سجّل القراءة</button> <button id="rcx">🗑 مسح الجدول</button>
+                <div id="rows"></div><label>الاستنتاج وملاحظاتك</label><textarea id="nt" rows="3"
+                    placeholder="اكتب ما لاحظته واستنتجته…"></textarea>
+            </div>
+            <div class="sec" data-s="c" id="s-c"></div>
+            <div class="sec" data-s="t">
+                <div class="rd">عدّل كثافة أو توصيلية (k) أو معامل تمدد (α) أي مادة وسترى الأثر فوراً في التجارب. يمكنك
+                    أيضاً إضافة مادة جديدة.</div>
+                <div id="mt"></div><label>إضافة مادة جديدة (اسم + كثافة g/cm³)</label>
+                <div style="display:flex;gap:6px"><input type="text" id="mn" placeholder="اسم المادة"><input
+                        type="number" id="md2" step="any" value="3"></div><button id="ma" style="margin-top:6px">➕ أضف
+                    المادة</button>
+            </div>
+        </div>
+    </main>
+    <nav id="nav"><button data-n="pal">🧰<span>الأدوات</span></button><button data-n="side">📖<span>الشرح
+                والتحكم</span></button><button data-n="menu">⚙️<span>التجارب</span></button></nav>
+    <div id="md">
+        <div class="box">
+            <div class="hd"><b id="mdt"></b><button id="mdx">✕ إغلاق</button></div>
+            <div id="mdb"></div>
+        </div>
+    </div>
+    <script>
+        const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+        const cl = (x, a, b) => Math.max(a, Math.min(b, x)), lerp = (a, b, t) => a + (b - a) * t, f1 = (x, d = 1) => (+x).toFixed(d);
+        const hx = c => [1, 3, 5].map(i => parseInt(c.substr(i, 2), 16)), mix = (a, b, t) => { const x = hx(a), y = hx(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join('') };
+        const hcol = t => { t = cl(t, 0, 1); return t < .5 ? mix('#3b82f6', '#ffd84a', t * 2) : mix('#ffd84a', '#ef4444', (t - .5) * 2) };
+        const R = (x, y, w, h, f, e = '') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${e}/>`, Cc = (x, y, r, f, e = '') => `<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" ${e}/>`, Ln = (a, b, c, d, s = '#345', w = 2, e = '') => `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${s}" stroke-width="${w}" ${e}/>`, Tx = (x, y, t, z = 13, f = '#223', a = 'middle', e = '') => `<text x="${x}" y="${y}" font-size="${z}" fill="${f}" text-anchor="${a}" ${e}>${t}</text>`;
+        const MAT = { iron: { n: 'حديد', rho: 7.87, col: '#8c929a', k: 80, a: 12 }, copper: { n: 'نحاس', rho: 8.96, col: '#c7793a', k: 400, a: 17 }, alum: { n: 'ألومنيوم', rho: 2.7, col: '#c9d1d9', k: 237, a: 23 }, lead: { n: 'رصاص', rho: 11.34, col: '#5b6573', k: 35, a: 29 }, gold: { n: 'ذهب', rho: 19.3, col: '#e5b80b', k: 318, a: 14 }, glass: { n: 'زجاج', rho: 2.5, col: '#9fd0d8', k: 1, a: 9 }, stone: { n: 'حجر', rho: 2.6, col: '#8a8378', k: 2, a: 8 }, plastic: { n: 'بلاستيك', rho: .95, col: '#e0527a', k: .2, a: 100 }, wood: { n: 'خشب', rho: .6, col: '#a9743b', k: .15, a: 5 } };
+        const LIQ = { water: { n: 'ماء', rho: 1, col: '#4ea8ff', g: 'a', b: .2 }, oil: { n: 'زيت', rho: .92, col: '#e8c13a', g: 'o', b: .7 }, alcohol: { n: 'كحول', rho: .79, col: '#9be3b0', g: 'a', b: 1.1 }, glycerin: { n: 'غليسرين', rho: 1.26, col: '#d9a6e8', g: 'a', b: .5 }, milk: { n: 'حليب', rho: 1.03, col: '#f1ede2', g: 'a', b: .2 }, mercury: { n: 'زئبق', rho: 13.6, col: '#9aa4ad', g: 'h', b: .18 } };
+        const sel = o => () => Object.entries(o).map(([k, v]) => [k, v.n]);
+        const EL = [['H', 'هيدروجين', 1], ['He', 'هيليوم', 4], ['Li', 'ليثيوم', 7], ['Be', 'بيريليوم', 9], ['B', 'بورون', 11], ['C', 'كربون', 12], ['N', 'نيتروجين', 14], ['O', 'أكسجين', 16], ['F', 'فلور', 19], ['Ne', 'نيون', 20], ['Na', 'صوديوم', 23], ['Mg', 'مغنيسيوم', 24], ['Al', 'ألومنيوم', 27], ['Si', 'سيليكون', 28], ['P', 'فسفور', 31], ['S', 'كبريت', 32], ['Cl', 'كلور', 35], ['Ar', 'أرجون', 40], ['K', 'بوتاسيوم', 39], ['Ca', 'كالسيوم', 40]];
+        const ICO = { cyl: '<rect x="22" y="6" width="16" height="44" rx="2" fill="#dff1ff" stroke="#456" stroke-width="2"/><rect x="24" y="28" width="12" height="20" fill="#4ea8ff" opacity=".7"/><path d="M38 12h-5M38 20h-5M38 28h-5M38 36h-5" stroke="#456"/><rect x="16" y="50" width="28" height="4" fill="#789"/>', bal: '<rect x="8" y="40" width="44" height="14" rx="3" fill="#6b7a8c"/><rect x="14" y="44" width="22" height="7" fill="#143"/><rect x="12" y="32" width="36" height="5" fill="#aab"/><rect x="28" y="36" width="4" height="4" fill="#889"/>', ruler: '<rect x="4" y="22" width="52" height="16" fill="#f4d35e" stroke="#a67c00"/><path d="M10 22v7M16 22v5M22 22v7M28 22v5M34 22v7M40 22v5M46 22v7M52 22v5" stroke="#333"/>', stone: '<path d="M10 42L16 24L30 16L46 22L52 38L40 48L20 50Z" fill="#8a8378" stroke="#555" stroke-width="2"/>', beaker: '<path d="M16 10V48Q16 52 20 52H40Q44 52 44 48V10" fill="#dff1ff" stroke="#456" stroke-width="2"/><rect x="18" y="28" width="24" height="22" fill="#4ea8ff" opacity=".6"/>', burner: '<rect x="24" y="30" width="12" height="22" fill="#777"/><path d="M30 6Q42 20 34 30H26Q18 20 30 6Z" fill="#ff8a1f"/><path d="M30 16Q36 24 32 30H28Q24 24 30 16Z" fill="#ffd84a"/>', thermo: '<rect x="27" y="6" width="6" height="36" rx="3" fill="#fff" stroke="#456" stroke-width="2"/><circle cx="30" cy="46" r="7" fill="#e5484d" stroke="#456" stroke-width="2"/><rect x="29" y="18" width="2" height="26" fill="#e5484d"/>', rod: '<rect x="4" y="25" width="52" height="10" rx="2" fill="#c7793a"/><circle cx="14" cy="42" r="3" fill="#f4d35e"/><circle cx="30" cy="42" r="3" fill="#f4d35e"/><circle cx="46" cy="42" r="3" fill="#f4d35e"/>', ring: '<ellipse cx="30" cy="42" rx="20" ry="7" fill="none" stroke="#8c929a" stroke-width="5"/><circle cx="30" cy="16" r="10" fill="#c7793a" stroke="#555" stroke-width="2"/>', pin: '<rect x="29" y="8" width="2" height="30" fill="#888"/><circle cx="30" cy="42" r="7" fill="#f4d35e" stroke="#a67c00"/>', crystal: '<path d="M30 10L44 24L36 48H24L16 24Z" fill="#a31d6b" stroke="#600" stroke-width="2"/>', lamp: '<path d="M20 20Q30 -4 40 20Q42 30 34 38H26Q18 30 20 20Z" fill="#fff6a8" stroke="#a80"/><rect x="25" y="38" width="10" height="8" fill="#889"/><path d="M8 52l8-6M52 52l-8-6M30 58v-8" stroke="#fb0" stroke-width="2"/>', can: '<rect x="16" y="14" width="28" height="36" rx="3" fill="#222" stroke="#000"/><ellipse cx="30" cy="14" rx="14" ry="4" fill="#555"/>', flask: '<path d="M26 6H34V22L48 48Q50 54 44 54H16Q10 54 12 48L26 22Z" fill="#dff1ff" stroke="#456" stroke-width="2"/><path d="M18 42H42L46 50H14Z" fill="#4ea8ff" opacity=".6"/>', balloon: '<ellipse cx="30" cy="22" rx="16" ry="18" fill="#ff6b8a" stroke="#a02"/><path d="M30 40l-4 8h8z" fill="#ff6b8a"/><rect x="26" y="48" width="8" height="8" fill="#789"/>', parts: '<rect x="8" y="10" width="44" height="42" fill="#e8f1f8" stroke="#456" stroke-width="2"/><circle cx="20" cy="24" r="4" fill="#4ea8ff"/><circle cx="34" cy="20" r="4" fill="#4ea8ff"/><circle cx="42" cy="36" r="4" fill="#4ea8ff"/><circle cx="22" cy="42" r="4" fill="#4ea8ff"/>', atom: '<ellipse cx="30" cy="30" rx="24" ry="9" fill="none" stroke="#4ea8ff" stroke-width="2"/><ellipse cx="30" cy="30" rx="24" ry="9" fill="none" stroke="#4ea8ff" stroke-width="2" transform="rotate(60 30 30)"/><ellipse cx="30" cy="30" rx="24" ry="9" fill="none" stroke="#4ea8ff" stroke-width="2" transform="rotate(120 30 30)"/><circle cx="30" cy="30" r="5" fill="#e5484d"/>', box: '<path d="M8 22H40V50H8Z" fill="#8c929a" stroke="#333" stroke-width="2"/><path d="M8 22L18 12H50L40 22Z" fill="#aab" stroke="#333" stroke-width="2"/><path d="M40 22L50 12V40L40 50Z" fill="#6b7280" stroke="#333" stroke-width="2"/>', bath: '<rect x="8" y="26" width="44" height="26" rx="4" fill="#4ea8ff" opacity=".6" stroke="#456" stroke-width="2"/><path d="M16 8Q20 16 16 22M30 6Q34 14 30 22M44 8Q48 16 44 22" stroke="#e5484d" stroke-width="2" fill="none"/>' };
+        const ico = k => `<svg viewBox="0 0 60 60">${ICO[k]}</svg>`;
+        /* ===== البيئات ===== */
+        const ENV = {
+            lab: {
+                n: '🏫 المختبر المدرسي', d: () => R(0, 0, 800, 480, '#dbe6f0') + R(0, 395, 800, 85, '#9b7b55') + R(40, 60, 150, 110, '#bfe0f5', 'stroke="#789" stroke-width="5"') + Ln(115, 60, 115, 170, '#789', 4) + R(560, 50, 190, 120, '#fff', 'stroke="#456" stroke-width="3"') + Tx(655, 90, 'الجدول الدوري', 16, '#345') + Tx(655, 125, 'H He Li Be B C N O', 14, '#c33'),
+                hs: [[655, 115, '⚛', 'ملصق الجدول الدوري', 'كل مادة في الكون مبنية من ذرات. عدد البروتونات في الذرة هو العدد الذري الذي يحدد نوع العنصر.', 'atom'], [250, 365, '🧪', 'المخبار المدرج', 'نقيس به حجم السوائل، وبطريقة الإزاحة نقيس حجم الأجسام الصلبة غير المنتظمة.', 'disp'], [420, 365, '⚖', 'الميزان الحساس', 'نقيس به كتلة المادة ثم نحسب الكثافة ρ = m / V.', 'dsolid'], [580, 365, '🔥', 'موقد بنزن', 'نسخّن به المعادن والسوائل لندرس تمدد المواد وانتقال الحرارة.', 'cond']]
+            },
+            kitchen: {
+                n: '🍳 مطبخ المنزل', d: () => R(0, 0, 800, 480, '#f3e6d4') + R(0, 330, 800, 150, '#a88a6a') + R(60, 200, 200, 130, '#556', 'rx="6"') + R(300, 250, 140, 80, '#c8ccd2', 'rx="6"') + R(520, 60, 200, 150, '#e8d5b8', 'stroke="#a88" stroke-width="3"') + Tx(620, 140, 'رفوف المطبخ', 18, '#765'),
+                hs: [[110, 180, '🧊', 'مكعب الثلج', 'الثلج مادة صلبة: شكله وحجمه ثابتان لأن الجزيئات متقاربة ومرتبة. عند تسخينه يذوب فيصير سائلاً ثم يتبخر غازاً.', 'states'], [200, 170, '🍲', 'قدر الماء على الموقد', 'الماء الساخن في القاع يخفّ فيرتفع، والبارد الأثقل ينزل: هذا هو الحمل الحراري.', 'conv'], [370, 225, '🥄', 'ملعقة معدنية في الشاي', 'تسخن الملعقة كلها لأن المعدن موصل جيد للحرارة (انتقال بالتوصيل)، بينما مقبض الخشب يبقى بارداً.', 'cond'], [620, 300, '🫗', 'الزيت يطفو على الماء', 'الزيت أقل كثافة من الماء (0.92 مقابل 1 g/cm³) فيطفو فوقه.', 'dliq']]
+            },
+            garden: {
+                n: '🌳 حديقة البيت', d: () => R(0, 0, 800, 300, '#bfe3ff') + R(0, 300, 800, 180, '#6fbf5a') + Cc(110, 90, 50, '#ffd84a') + R(520, 170, 200, 130, '#e8c9a0', 'stroke="#865" stroke-width="3"') + `<polygon points="510,170 620,95 730,170" fill="#b0473a"/>` + R(150, 200, 26, 110, '#7a5230') + Cc(163, 180, 60, '#3f8f3a'),
+                hs: [[110, 90, '☀', 'الشمس', 'تصلنا حرارة الشمس بالإشعاع عبر الفراغ. الأسطح السوداء تمتص الإشعاع أكثر من البيضاء فتسخن أسرع.', 'rad'], [330, 360, '🪨', 'حجر من الحديقة', 'حجم الحجر غير منتظم فلا نقيسه بالمسطرة، بل بغمره في ماء المخبار: الحجم = ارتفاع الماء بعد − قبل.', 'disp'], [420, 230, '🎈', 'بالون في الشمس', 'الهواء داخل البالون يتمدد بالحرارة فيكبر البالون، وعند التبريد ينكمش.', 'expd'], [300, 60, '⚡', 'البرق', 'البرق غاز متأين شديد الحرارة، وهو مثال على الحالة الرابعة للمادة: البلازما.', 'states']]
+            },
+            street: {
+                n: '🛣 الشارع', d: () => R(0, 0, 800, 480, '#a9d2f2') + R(0, 330, 800, 150, '#555a62') + R(0, 400, 800, 6, '#ddd') + R(40, 120, 120, 210, '#c9b79c') + R(200, 160, 110, 170, '#b9a58a') + R(560, 100, 130, 230, '#c9b79c') + R(0, 320, 800, 12, '#777'),
+                hs: [[400, 350, '🛤', 'فواصل التمدد في السكك والجسور', 'يترك المهندسون فراغات صغيرة بين قطع الحديد لأن المعدن يتمدد في الصيف، ولو لم يجد مكاناً لانحنى.', 'ring'], [470, 150, '💡', 'لافتة النيون', 'داخل أنبوب النيون غاز يتأين بالكهرباء فيتحول إلى بلازما مضيئة.', 'states'], [250, 290, '🚗', 'إطار السيارة', 'يسخن هواء الإطار أثناء السير فيتمدد ويزداد ضغطه، لذلك نفحص الإطار وهو بارد.', 'expd'], [620, 300, '🛢', 'خزان وقود', 'الأسطح الداكنة تمتص إشعاع الشمس بسهولة فتسخن أكثر من الفاتحة.', 'rad']]
+            },
+            building: {
+                n: '🏢 العمارة والسطح', d: () => R(0, 0, 800, 480, '#cfe5f7') + R(230, 70, 340, 410, '#bfa98c') + Array.from({ length: 12 }, (_, i) => R(255 + (i % 4) * 80, 110 + ((i / 4) | 0) * 95, 50, 60, '#8fb8d8', 'stroke="#567" stroke-width="2"')).join('') + R(280, 40, 100, 30, '#2b2b2b') + Ln(0, 120, 230, 100, '#222', 3) + Ln(570, 100, 800, 120, '#222', 3),
+                hs: [[330, 55, '☀', 'خزان الماء الأسود على السطح', 'يُطلى الخزان بلون أسود ليمتص إشعاع الشمس ويسخن ماؤه.', 'rad'], [110, 100, '🔌', 'أسلاك الكهرباء', 'تتدلى الأسلاك صيفاً أكثر من الشتاء لأن المعدن يتمدد بالحرارة.', 'ring'], [400, 430, '🔥', 'المدفأة في الغرفة', 'الهواء الدافئ يرتفع والبارد ينزل فتتكوّن تيارات حمل تدفئ الغرفة كلها.', 'conv'], [650, 330, '🚰', 'خزان الماء', 'الماء أكثف من الزيت والمواد الخفيفة، ونحسب كتلة الماء في الخزان من حجمه وكثافته.', 'dliq']]
+            }
+        };
+        /* ===== مساعدات رسم ===== */
+        function cyl(x, cap, layers, top = 110, hgt = 290, w = 70) {
+            const yb = top + hgt, Y = v => yb - v / cap * hgt; let s = ''; layers.forEach(([a, b, c]) => { s += R(x - w / 2 + 3, Y(b), w - 6, Y(a) - Y(b), c, 'opacity=".78"') });
+            s += `<path d="M${x - w / 2} ${top}V${yb}Q${x - w / 2} ${yb + 8} ${x - w / 2 + 10} ${yb + 8}H${x + w / 2 - 10}Q${x + w / 2} ${yb + 8} ${x + w / 2} ${yb}V${top}" fill="none" stroke="#5a7a90" stroke-width="3"/>` + R(x - w / 2 - 8, yb + 8, w + 16, 8, '#7a8b99');
+            for (let i = 0; i <= 50; i++) { const v = i * cap / 50, m = i % 10 == 0; s += Ln(x + w / 2 - (m ? 16 : 8), Y(v), x + w / 2, Y(v), '#456', m ? 1.6 : 1); if (m && i) s += Tx(x + w / 2 + 18, Y(v) + 4, +(v).toFixed(0), 11, '#334', 'start') } return s
+        }
+        function iso(x, y, l, w, h, c, s) { const L = l * s, W = w * s * .5, H = h * s, D = w * s * .35; return `<polygon points="${x},${y} ${x + L},${y} ${x + L},${y - H} ${x},${y - H}" fill="${c}" stroke="#222"/><polygon points="${x},${y - H} ${x + L},${y - H} ${x + L + W},${y - H - D} ${x + W},${y - H - D}" fill="${mix(c, '#ffffff', .3)}" stroke="#222"/><polygon points="${x + L},${y} ${x + L},${y - H} ${x + L + W},${y - H - D} ${x + L + W},${y - D}" fill="${mix(c, '#000000', .3)}" stroke="#222"/>` }
+        const bal = (x, y, t, w = 110) => R(x - w / 2, y, w, 46, '#6b7a8c', 'rx="6"') + R(x - w / 2 + 10, y + 8, w - 20, 26, '#0f2a1a', 'rx="3"') + Tx(x, y + 27, t, 15, '#7dffa6', 'middle', 'font-family="monospace" font-weight="700"') + R(x - w / 2 + 6, y - 8, w - 12, 8, '#aab', 'rx="2"');
+        const therm = (x, y, h, t, mn, mx) => { const k = cl((t - mn) / (mx - mn), 0, 1); return R(x - 5, y, 10, h, '#fff', 'stroke="#456" stroke-width="2" rx="5"') + R(x - 3, y + h - h * k, 6, h * k, '#e5484d') + Cc(x, y + h + 8, 10, '#e5484d', 'stroke="#456" stroke-width="2"') + Tx(x + 16, y + h / 2, f1(t, 0) + '°', 13, '#c22', 'start') };
+        const CH = { 1: 'الفصل الأول: خواص المادة', 2: 'الفصل الثاني: الذرة والجدول الدوري', 3: 'الفصل الثالث: الحرارة وتأثيرها في المواد' };
+        let X, P = {}, S = {}, run = true, envK = 'lab', view = 'exp', rows = {}, notes = {}, spd = 1, hot = null, tool = null, fr = 0;
+        const PRS = [['صلبة', 'ثابت', 'ثابت', 'متقاربة جداً ومنتظمة', 'قوية جداً', 'لا تنضغط', 'الجليد، الحديد، الخشب'], ['سائلة', 'يتغير (شكل الإناء)', 'ثابت', 'متقاربة وغير منتظمة', 'متوسطة', 'تنضغط قليلاً جداً', 'الماء، الزيت، الحليب'], ['غازية', 'يتغير', 'يتغير (يملأ الإناء)', 'متباعدة جداً وعشوائية', 'ضعيفة جداً', 'تنضغط بسهولة', 'الهواء، بخار الماء'], ['بلازما', 'يتغير', 'يتغير', 'أيونات وإلكترونات حرة', 'كهرومغناطيسية', 'تنضغط', 'البرق، الشمس، مصباح النيون']];
+        const SNM = ['صلبة', 'سائلة', 'غازية', 'بلازما'];
+        const COLS = [[.95, 'أسود مطفأ'], [.6, 'رمادي'], [.25, 'أبيض'], [.08, 'فضي لامع']];
+        /* ===== التجارب ===== */
+        const EX = [
+            {
+                id: 'states', ch: 1, n: 'حالات المادة وخصائصها',
+                goal: 'التعرّف على حالات المادة الأربع (صلبة، سائلة، غازية، بلازما) وربط خواص كل حالة بترتيب الجزيئات وحركتها.',
+                why: 'يفسّر ما نراه يومياً: لماذا يحتفظ الحجر بشكله، ولماذا يأخذ الماء شكل الكأس، ولماذا ينتشر الغاز في الغرفة كلها.',
+                steps: ['اختر حالة المادة من قائمة «التحكم» وراقب ترتيب الجزيئات.', 'غيّر «الطاقة الحرارية» وراقب سرعة اهتزاز الجزيئات أو حركتها.', 'قارن الشكل والحجم وقوى الترابط في كل حالة من جدول القراءات.', 'سجّل ملاحظاتك لكل حالة.'],
+                meas: ['شكل المادة', 'حجمها', 'المسافة بين الجزيئات', 'حركة الجزيئات'], law: 'زيادة الطاقة الحرارية ← زيادة سرعة الجزيئات ← تغيّر الحالة: صلب ⇄ سائل ⇄ غاز ⇄ بلازما',
+                concl: 'في الصلب الجزيئات مرتبة وتهتز مكانها، وفي السائل تتحرك وتنزلق، وفي الغاز تتباعد وتتحرك بحرية، وفي البلازما تتأين.',
+                tools: [['صندوق الجزيئات', 'parts', 'يُظهر الجزيئات التي لا نراها بالعين المجردة.', 'اختر الحالة وراقب ترتيب الجزيئات وحركتها.'], ['مصدر حرارة', 'burner', 'يزوّد المادة بالطاقة الحرارية.', 'زد الطاقة الحرارية بالمنزلق.']],
+                params: [{ k: 'st', l: 'حالة المادة', o: [[0, 'صلبة'], [1, 'سائلة'], [2, 'غازية'], [3, 'بلازما']], v: 1 }, { k: 'e', l: 'الطاقة الحرارية', u: '%', min: 0, max: 100, step: 1, v: 40 }],
+                init() { S.t = 0; S.pt = Array.from({ length: 42 }, (_, i) => ({ x: 250 + Math.random() * 300, y: 100 + Math.random() * 290, vx: Math.random() - .5, vy: Math.random() - .5, hx: 400 + (i % 7 - 3) * 38, hy: 372 - ((i / 7) | 0) * 38, q: i % 2 })) },
+                tick(dt) { const e = P.e / 100, st = +P.st; S.t += dt; S.pt.forEach((p, i) => { if (st == 0) { const a = 1 + e * 6, k = Math.min(1, dt * 8); p.x += (p.hx + Math.sin(S.t * 9 + i) * a - p.x) * k; p.y += (p.hy + Math.cos(S.t * 8 + i * 2) * a - p.y) * k } else { const sp = [0, 25, 90, 160][st] * (.3 + e * 1.4), top = st == 1 ? 240 : 102; p.vx += (Math.random() - .5) * dt * sp * 8; p.vy += (Math.random() - .5) * dt * sp * 8; const m = Math.hypot(p.vx, p.vy) || 1; p.vx = p.vx / m * sp; p.vy = p.vy / m * sp; p.x += p.vx * dt; p.y += p.vy * dt; if (p.x < 262) { p.x = 262; p.vx = Math.abs(p.vx) } if (p.x > 538) { p.x = 538; p.vx = -Math.abs(p.vx) } if (p.y < top + 7) { p.y = top + 7; p.vy = Math.abs(p.vy) } if (p.y > 392) { p.y = 392; p.vy = -Math.abs(p.vy) } } }) },
+                draw() {
+                    const st = +P.st; let s = R(250, 92, 300, 308, st == 3 ? '#2a1038' : '#e8f1f8', 'stroke="#456" stroke-width="3" rx="6"'); if (st == 1) s += R(252, 240, 296, 158, '#4ea8ff', 'opacity=".25"');
+                    S.pt.forEach(p => { s += st == 3 ? Cc(p.x, p.y, p.q ? 7 : 4, p.q ? '#ff6b6b' : '#6ab8ff', 'opacity=".9"') + Cc(p.x, p.y, 11, p.q ? '#ff6b6b' : '#6ab8ff', 'opacity=".18"') : Cc(p.x, p.y, 7, st == 2 ? '#9ad0ff' : '#4ea8ff', 'stroke="#1e5a96" stroke-width="1.5"') });
+                    return s + Tx(130, 200, ['🧊', '💧', '🎈', '⚡'][st], 80) + Tx(130, 250, SNM[st], 20, '#9a5b00', 'middle', 'font-weight="700"') + Tx(130, 280, PRS[st][6], 12, '#456') + Tx(400, 70, 'نموذج جزيئي مكبَّر', 14, '#456') + (st == 3 ? Tx(600, 200, '🔴 أيونات موجبة', 13, '#c22', 'start') + Tx(600, 225, '🔵 إلكترونات حرة', 13, '#27c', 'start') : '')
+                },
+                read() { const p = PRS[+P.st]; return [['الحالة', p[0]], ['الشكل', p[1]], ['الحجم', p[2]], ['ترتيب الجزيئات', p[3]], ['قوى الترابط', p[4]], ['الانضغاط', p[5]], ['أمثلة', p[6]]] }, rh: ['الحالة', 'الطاقة الحرارية %'], rec() { return [[SNM[+P.st], P.e]] }
+            },
+            {
+                id: 'disp', ch: 1, n: 'قياس حجم جسم صلب غير منتظم (الإزاحة)',
+                goal: 'قياس حجم جسم صلب غير منتظم الشكل باستخدام المخبار المدرج والماء.',
+                why: 'لا تصلح المسطرة لقياس حجم حجر أو مفتاح لأن شكله غير منتظم. الجسم المغمور يُزيح من الماء حجماً مساوياً لحجمه، فنقيسه من ارتفاع الماء.',
+                steps: ['ضع كمية من الماء في المخبار واقرأ الحجم V₁ (العين عند مستوى سطح الماء).', 'اضغط «أنزل الجسم» ليُغمر بالكامل دون أن ينسكب الماء.', 'اقرأ الحجم الجديد V₂.', 'احسب حجم الجسم V = V₂ − V₁.', 'كرّر بجسم آخر أو بمخبار آخر وقارن.'],
+                meas: ['V₁ حجم الماء قبل الغمر (mL)', 'V₂ حجم الماء بعد الغمر (mL)', 'V حجم الجسم = V₂ − V₁ (cm³)'], law: 'V = V₂ − V₁   ،   1 mL = 1 cm³',
+                concl: 'الجسم المغمور يزيح حجماً من الماء يساوي حجمه، لذلك نجد حجمه من الفرق بين القراءتين.',
+                tools: [['مخبار مدرج', 'cyl', 'قياس أحجام السوائل بدقة.', 'اقرأ أسفل تقعّر سطح الماء والعين أفقية.'], ['جسم غير منتظم', 'stone', 'الجسم المراد قياس حجمه.', 'أنزله برفق بخيط حتى لا ينسكب الماء.'], ['ماء', 'beaker', 'سائل يزيحه الجسم.', 'يجب ألا يكون الجسم ذائباً فيه.']],
+                params: [{ k: 'cap', l: 'سعة المخبار', u: 'mL', o: [[100, '100'], [250, '250']], v: 100 }, { k: 'v1', l: 'حجم الماء الابتدائي V₁', u: 'mL', min: 10, max: 200, step: 1, v: 50 }, { k: 'mat', l: 'مادة الجسم', o: sel(MAT), v: 'stone' }, { k: 'vo', l: 'حجم الجسم الحقيقي', u: 'cm³', min: 2, max: 60, step: 1, v: 20 }],
+                acts: [['⬇ أنزل / ⬆ أخرج الجسم', () => S.d = 1 - S.d, 'd']], init() { S.pos = 0; S.d = 0 }, tick(dt) { S.pos += (S.d - S.pos) * Math.min(1, dt * 2.5) },
+                calc() { const cap = +P.cap, v1 = Math.min(P.v1, cap * .9), res = cap == 100 ? 1 : 2, V1 = Math.round(v1 / res) * res, V2 = Math.round(Math.min(v1 + P.vo, cap) / res) * res; return { cap, v1, res, V1, V2, V: V2 - V1, over: v1 + P.vo > cap } },
+                draw() {
+                    const c = this.calc(), tot = Math.min(c.cap, c.v1 + P.vo * cl((S.pos - .5) * 2, 0, 1)), yb = 400; let s = R(40, 400, 200, 14, '#9b7b55') + cyl(330, c.cap, [[0, tot, '#4ea8ff']]);
+                    const r = 8 + Math.cbrt(P.vo) * 3.4, px = lerp(120, 330, Math.min(1, S.pos * 2)), py = S.pos < .5 ? lerp(385 - r, 70, S.pos * 2) : lerp(70, yb - r - 6, (S.pos - .5) * 2), m = MAT[P.mat];
+                    s += Ln(330, 70, 330, py - r, '#789', 1.5, 'stroke-dasharray="3"') + `<polygon points="${[0, 1, 2, 3, 4, 5, 6].map(i => { const a = i / 7 * 6.283, k = [1, .8, 1.1, .85, 1, .75, 1.05][i]; return (px + Math.cos(a) * r * k).toFixed(1) + ',' + (py + Math.sin(a) * r * k).toFixed(1) }).join(' ')}" fill="${m.col}" stroke="#333" stroke-width="2"/>`;
+                    if (c.over) s += Tx(330, 95, '⚠ انسكب الماء! قلّل V₁ أو الحجم', 13, '#c22');
+                    const bx = 500; s += R(bx, 110, 270, 200, '#fff', 'stroke="#abc" rx="10" opacity=".85"') + Tx(bx + 135, 138, 'قراءات التجربة', 15, '#9a5b00', 'middle', 'font-weight="700"') + Tx(bx + 20, 172, 'V₁ = ' + c.V1 + ' mL', 16, '#223', 'start') + Tx(bx + 20, 202, 'V₂ = ' + (S.pos > .95 ? c.V2 : '؟') + ' mL', 16, '#223', 'start') + Tx(bx + 20, 238, 'V = V₂ − V₁ = ' + (S.pos > .95 ? c.V : '؟') + ' cm³', 16, '#0a7a3a', 'start', 'font-weight="700"') + Tx(bx + 20, 275, 'الحجم الحقيقي: ' + P.vo + ' cm³', 12, '#789', 'start');
+                    return s + Tx(120, 430, 'الجسم: ' + m.n, 13)
+                },
+                read() { const c = this.calc(); return [['V₁ (mL)', c.V1], ['V₂ (mL)', c.V2], ['V = V₂ − V₁ (cm³)', c.V], ['الحجم الحقيقي (cm³)', P.vo], ['الكتلة التقريبية (g)', f1(MAT[P.mat].rho * P.vo)], ['دقة التدريج (mL)', c.res]] }, rh: ['V₁', 'V₂', 'V (cm³)', 'المادة'], rec() { const c = this.calc(); return [[c.V1, c.V2, c.V, MAT[P.mat].n]] }
+            },
+            {
+                id: 'dliq', ch: 1, n: 'قياس كثافة سوائل مختلفة ومقارنتها',
+                goal: 'تعيين كثافة سوائل مختلفة (الماء والزيت وغيرها) ومقارنتها وملاحظة أيها يطفو.',
+                why: 'الكثافة صفة مميزة للمادة: بها نعرف نوع السائل ولماذا يطفو الزيت على الماء ولماذا تطفو السفن.',
+                steps: ['زِن المخبار الفارغ على الميزان وسجّل كتلته m₁ (تجدها في «التحكم»).', 'املأ المخبار بحجم V من السائل الأول وزِنه فتقرأ m₂.', 'احسب كتلة السائل m = m₂ − m₁ ثم الكثافة ρ = m / V.', 'كرّر مع السائل الثاني وقارن الكثافتين.', 'اضغط «اسكبهما معاً» لترى أي السائلين يطفو فوق الآخر.'],
+                meas: ['m₁ كتلة المخبار الفارغ (g)', 'm₂ كتلة المخبار مع السائل (g)', 'V حجم السائل (mL)', 'ρ الكثافة (g/cm³)'], law: 'ρ = m / V   حيث   m = m₂ − m₁',
+                concl: 'السائل الأقل كثافة يطفو فوق الأكثر كثافة إذا لم يمتزجا (كالزيت فوق الماء).',
+                tools: [['مخبار مدرج', 'cyl', 'قياس حجم السائل.', 'اقرأ أسفل التقعر.'], ['ميزان حساس', 'bal', 'قياس الكتلة بدقة 0.1 g.', 'صفّر الميزان قبل الوزن.'], ['سوائل مختلفة', 'beaker', 'ماء، زيت، كحول، غليسرين...', 'غيّر نوع السائل من «التحكم».']],
+                params: [{ k: 'la', l: 'السائل الأول', o: sel(LIQ), v: 'water' }, { k: 'lb', l: 'السائل الثاني', o: sel(LIQ), v: 'oil' }, { k: 'vol', l: 'حجم كل سائل V', u: 'mL', min: 10, max: 100, step: 5, v: 50 }, { k: 'tare', l: 'كتلة المخبار الفارغ m₁', u: 'g', min: 20, max: 150, step: 1, v: 60 }],
+                acts: [['🥛 اسكبهما معاً / أفرغ', () => S.mix = !S.mix, 'mix']], init() { S.mix = false },
+                draw() {
+                    const A = LIQ[P.la], B = LIQ[P.lb], V = +P.vol, mA = P.tare + A.rho * V, mB = P.tare + B.rho * V; let s = cyl(170, 100, [[0, V, A.col]], 110, 230) + R(105, 358, 130, 8, '#aab') + bal(170, 366, f1(mA) + ' g') + cyl(390, 100, [[0, V, B.col]], 110, 230) + R(325, 358, 130, 8, '#aab') + bal(390, 366, f1(mB) + ' g');
+                    let L = []; if (S.mix) { if (A.g == 'a' && B.g == 'a') L = [[0, 2 * V, mix(A.col, B.col, .5)]]; else { const d = A.rho >= B.rho ? [A, B] : [B, A]; L = [[0, V, d[0].col], [V, 2 * V, d[1].col]] } }
+                    return s + cyl(630, 200, L, 110, 230) + Tx(170, 100, A.n, 15, '#9a5b00', 'middle', 'font-weight="700"') + Tx(390, 100, B.n, 15, '#9a5b00', 'middle', 'font-weight="700"') + Tx(630, 100, S.mix ? (A.g == 'a' && B.g == 'a' ? 'تمتزج السوائل' : (A.rho >= B.rho ? B.n : A.n) + ' يطفو') : 'المخبار الثالث', 14, '#456')
+                },
+                read() { const A = LIQ[P.la], B = LIQ[P.lb], V = P.vol; return [['m₁ (g)', P.tare], ['V (mL)', V], ['m₂ ' + A.n + ' (g)', f1(P.tare + A.rho * V)], ['ρ ' + A.n, f1(A.rho, 2) + ' g/cm³'], ['m₂ ' + B.n + ' (g)', f1(P.tare + B.rho * V)], ['ρ ' + B.n, f1(B.rho, 2) + ' g/cm³'], ['الأكثف', A.rho == B.rho ? 'متساويان' : A.rho > B.rho ? A.n : B.n]] }, rh: ['السائل', 'm₂ (g)', 'V (mL)', 'ρ (g/cm³)'], rec() { const V = P.vol; return [P.la, P.lb].map(k => [LIQ[k].n, f1(P.tare + LIQ[k].rho * V), V, f1(LIQ[k].rho, 2)]) }
+            },
+            {
+                id: 'dsolid', ch: 1, n: 'تعيين كثافة جسم صلب منتظم',
+                goal: 'حساب كثافة جسم صلب منتظم (متوازي مستطيلات) بقياس أبعاده بالمسطرة وكتلته بالميزان.',
+                why: 'بمعرفة الكثافة نستدل على نوع المادة (حديد؟ ألومنيوم؟ خشب؟) ونعرف هل تطفو أو تغرق في الماء.',
+                steps: ['قس الطول والعرض والارتفاع بالمسطرة بالسنتيمتر.', 'احسب الحجم V = L × W × H.', 'زِن الجسم بالميزان واقرأ الكتلة m.', 'احسب الكثافة ρ = m / V وقارنها بجدول المواد.', 'اضغط «ضع في الماء» لترى هل يطفو أم يغوص.'],
+                meas: ['L الطول (cm)', 'W العرض (cm)', 'H الارتفاع (cm)', 'm الكتلة (g)', 'ρ الكثافة (g/cm³)'], law: 'V = L × W × H   ،   ρ = m / V   ،   يطفو في الماء إذا ρ < 1',
+                concl: 'كثافة المادة ثابتة مهما تغيّر حجم القطعة، فهي صفة مميزة تفرّق بين المواد.',
+                tools: [['مسطرة', 'ruler', 'قياس الأبعاد بدقة 1 mm.', 'ضع الصفر عند حافة الجسم.'], ['ميزان حساس', 'bal', 'قياس الكتلة.', 'ضع الجسم في منتصف الكفة.'], ['جسم منتظم', 'box', 'متوازي مستطيلات من مادة معلومة.', 'غيّر المادة والأبعاد من «التحكم».'], ['كأس ماء', 'beaker', 'اختبار الطفو والغوص.', 'أنزل الجسم برفق.']],
+                params: [{ k: 'mat', l: 'مادة الجسم', o: sel(MAT), v: 'iron' }, { k: 'L', l: 'الطول L', u: 'cm', min: 1, max: 10, step: .1, v: 5 }, { k: 'Wd', l: 'العرض W', u: 'cm', min: 1, max: 10, step: .1, v: 3 }, { k: 'H', l: 'الارتفاع H', u: 'cm', min: 1, max: 10, step: .1, v: 2 }],
+                acts: [['💧 ضع في الماء / أخرجه', () => S.w = !S.w, 'w']], init() { S.w = false },
+                calc() { const V = P.L * P.Wd * P.H, m = Math.round(MAT[P.mat].rho * V * 10) / 10, rho = m / V; let best = null, bd = 1e9; for (const k in MAT) { const d = Math.abs(MAT[k].rho - rho); if (d < bd) { bd = d; best = k } } return { V, m, rho, best } },
+                draw() {
+                    const c = this.calc(), m = MAT[P.mat]; let s = R(40, 400, 420, 12, '#9b7b55') + iso(80, 380, P.L, P.Wd, P.H, m.col, 15) + R(80, 394, 180, 10, '#f4d35e', 'stroke="#a67c00"');
+                    for (let i = 0; i <= 12; i++)s += Ln(80 + i * 15, 394, 80 + i * 15, i % 5 == 0 ? 404 : 399, '#333', 1); for (let i = 0; i <= 12; i += 2)s += Tx(80 + i * 15, 418, i, 10, '#333');
+                    s += Ln(80 + P.L * 15, 386, 80 + P.L * 15, 392, '#c22', 2) + Tx(80 + P.L * 7.5, 368 - P.H * 15, 'L = ' + f1(P.L) + ' cm', 12, '#c22') + Tx(70, 300, 'H = ' + f1(P.H) + ' cm', 12, '#27c', 'end') + Tx(80 + P.L * 15 + P.Wd * 8, 352, 'W = ' + f1(P.Wd) + ' cm', 12, '#0a7a3a', 'start');
+                    s += R(330, 330, 150, 12, '#aab') + iso(360, 330, P.L, P.Wd, P.H, m.col, Math.min(7, 60 / Math.max(P.L, P.H))) + bal(405, 342, f1(c.m) + ' g', 130);
+                    const wx = 640; s += R(wx - 80, 200, 160, 200, '#dff1ff', 'stroke="#456" stroke-width="3" opacity=".9"') + R(wx - 77, 250, 154, 147, '#4ea8ff', 'opacity=".5"');
+                    if (S.w) { const sc = Math.min(6, 50 / Math.max(P.L, P.H)), h = P.H * sc, by = c.rho >= 1 ? 395 : 250 + h * Math.min(1, c.rho); s += iso(wx - P.L * sc / 2, by, P.L, P.Wd, P.H, m.col, sc) + Tx(wx, 190, c.rho >= 1 ? 'يغوص (ρ ≥ 1)' : 'يطفو (ρ < 1)', 14, c.rho >= 1 ? '#c22' : '#0a7a3a', 'middle', 'font-weight="700"') } else s += Tx(wx, 190, 'كأس ماء', 14, '#456');
+                    return s
+                },
+                read() { const c = this.calc(); return [['L', f1(P.L) + ' cm'], ['W', f1(P.Wd) + ' cm'], ['H', f1(P.H) + ' cm'], ['V = L×W×H', f1(c.V) + ' cm³'], ['m (الميزان)', f1(c.m) + ' g'], ['ρ = m / V', f1(c.rho, 2) + ' g/cm³'], ['المادة المرجّحة', MAT[c.best].n], ['في الماء', c.rho >= 1 ? 'يغوص' : 'يطفو']] }, rh: ['المادة', 'V (cm³)', 'm (g)', 'ρ (g/cm³)'], rec() { const c = this.calc(); return [[MAT[P.mat].n, f1(c.V), f1(c.m), f1(c.rho, 2)]] }
+            },
+            {
+                id: 'atom', ch: 2, n: 'نمذجة تركيب الذرة وتوزيع الإلكترونات',
+                goal: 'بناء نموذج ذرة: عدد البروتونات والنيوترونات والإلكترونات وتوزيع الإلكترونات في المدارات.',
+                why: 'كل مادة مصنوعة من ذرات. معرفة مكوّناتها تفسّر الجدول الدوري والتوصيل الكهربائي والتفاعلات.',
+                steps: ['اختر عنصراً (مثل الكربون C) وراقب النواة والمدارات.', 'سجّل العدد الذري Z (عدد البروتونات) وعدد الكتلة A = Z + N.', 'غيّر عدد النيوترونات لترى «نظيراً» للعنصر نفسه.', 'غيّر عدد الإلكترونات لتكوّن أيوناً موجباً أو سالباً.', 'اكتب التوزيع الإلكتروني (مثل 2,4).'],
+                meas: ['العدد الذري Z', 'عدد النيوترونات N', 'عدد الكتلة A', 'الشحنة = Z − e', 'التوزيع الإلكتروني'], law: 'A = Z + N   ،   الشحنة = عدد البروتونات − عدد الإلكترونات   ،   سعة المدارات: 2, 8, 8, ...',
+                concl: 'الذرة المتعادلة فيها بروتونات تساوي إلكتروناتها. العدد الذري يحدد نوع العنصر، والإلكترونات تتوزع في مدارات بسعات محددة.',
+                tools: [['بروتون (+)', 'atom', 'جسيم موجب في النواة؛ عدده هو العدد الذري.', 'غيّر العنصر لتغيير عدده.'], ['نيوترون', 'box', 'جسيم متعادل في النواة.', 'غيّر N لتحصل على نظائر.'], ['إلكترون (−)', 'parts', 'جسيم سالب يدور في المدارات.', 'غيّر e لتكوين أيون.']],
+                params: [{ k: 'Z', l: 'العنصر (العدد الذري Z)', o: EL.map((e, i) => [i + 1, (i + 1) + ' - ' + e[1] + ' (' + e[0] + ')']), v: 6 }, { k: 'N', l: 'عدد النيوترونات N', min: 0, max: 25, step: 1, v: 6 }, { k: 'e', l: 'عدد الإلكترونات e', min: 0, max: 24, step: 1, v: 6 }],
+                chg(k) { if (k == 'Z') { P.N = EL[P.Z - 1][2] - P.Z; P.e = P.Z } }, init() { S.t = 0 }, tick(dt) { S.t += dt },
+                dist(e) { const o = []; for (const x of [2, 8, 8, 8, 8]) { const t = Math.min(e, x); if (t <= 0) break; o.push(t); e -= t } return o },
+                draw() {
+                    const Z = +P.Z, N = +P.N, e = +P.e, A = Z + N, d = this.dist(e), cx = 400, cy = 240; let s = '';[62, 100, 138, 176].forEach(r => { s += Cc(cx, cy, r, 'none', 'stroke="#9ab" stroke-width="1.5" stroke-dasharray="4"') });
+                    d.forEach((n, si) => { const r = [62, 100, 138, 176][si] || 176; for (let j = 0; j < n; j++) { const a = S.t * (1.4 / (si + 1)) + j * 6.2832 / n; s += Cc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 6, '#2f7de1', 'stroke="#fff" stroke-width="1.5"') + Tx(cx + Math.cos(a) * r, cy + Math.sin(a) * r + 4, '−', 10, '#fff') } });
+                    const q = []; let p = Z, n = N; while (p > 0 || n > 0) { if (p > 0) { q.push(1); p-- } if (n > 0) { q.push(0); n-- } }
+                    q.forEach((t, i) => { const r = 5.3 * Math.sqrt(i), a = i * 2.39996; s += Cc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 5.2, t ? '#e5484d' : '#9aa4ad', 'stroke="#222" stroke-width=".8"') });
+                    const E = EL[Z - 1], ch = Z - e; return s + Tx(90, 110, E[0], 64, '#9a5b00', 'middle', 'font-weight="700"') + Tx(90, 140, E[1], 18, '#345') + Tx(30, 185, '🔴 بروتونات (+): ' + Z, 13, '#c22', 'start') + Tx(30, 208, '⚪ نيوترونات: ' + N, 13, '#567', 'start') + Tx(30, 231, '🔵 إلكترونات (−): ' + e, 13, '#27c', 'start') + Tx(30, 270, 'Z = ' + Z + '   A = ' + A, 15, '#223', 'start', 'font-weight="700"') + Tx(30, 300, 'الشحنة: ' + (ch > 0 ? '+' + ch : ch), 15, ch ? '#c22' : '#0a7a3a', 'start', 'font-weight="700"') + Tx(30, 330, 'التوزيع: ' + (d.join(',') || '—'), 14, '#223', 'start')
+                },
+                read() { const Z = +P.Z, N = +P.N, e = +P.e, E = EL[Z - 1], ch = Z - e; return [['العنصر', E[1] + ' (' + E[0] + ')'], ['العدد الذري Z', Z], ['عدد النيوترونات N', N], ['عدد الكتلة A', Z + N], ['عدد الإلكترونات', e], ['الشحنة', ch ? (ch > 0 ? '+' + ch : ch) : '0 (متعادلة)'], ['النوع', ch > 0 ? 'أيون موجب' : ch < 0 ? 'أيون سالب' : 'ذرة متعادلة'], ['التوزيع الإلكتروني', this.dist(e).join(',') || '—'], ['نظير؟', N != E[2] - Z ? 'نعم (نظير للعنصر)' : 'الأكثر شيوعاً']] }, rh: ['العنصر', 'Z', 'N', 'A', 'e', 'التوزيع'], rec() { const Z = +P.Z; return [[EL[Z - 1][0], Z, P.N, Z + +P.N, P.e, this.dist(+P.e).join(',')]] }
+            },
+            {
+                id: 'ring', ch: 3, n: 'تجربة الحلقة والكرة (تمدد المعادن)',
+                goal: 'ملاحظة أن المعادن تتمدد بالتسخين: كرة تمرّ من حلقة وهي باردة ولا تمرّ إذا سُخّنت.',
+                why: 'تفسّر لماذا تُترك فواصل في السكك والجسور، ولماذا تتدلى أسلاك الكهرباء في الصيف.',
+                steps: ['قارن قطر الكرة d وقطر فتحة الحلقة D وهما باردتان (تمرّ الكرة).', 'سخّن الكرة ثم اضغط «أسقط الكرة»: هل تمر؟', 'برّد الكرة وسخّن الحلقة وأعد المحاولة: ماذا يحدث؟', 'غيّر المعدن وقارن مقدار التمدد.'],
+                meas: ['d قطر الكرة (mm)', 'D قطر فتحة الحلقة (mm)', 'درجتا الحرارة Tb و Tr', 'التمدد ΔL (mm)'], law: 'ΔL = α · L₀ · ΔT   (α معامل التمدد الطولي للمعدن)',
+                concl: 'عند التسخين تزداد سرعة اهتزاز الذرات فتتباعد قليلاً فيتمدد المعدن. وعند تسخين الحلقة تتسع فتحتها.',
+                tools: [['كرة معدنية', 'ring', 'جسم يتمدد بالحرارة.', 'سخّنها بالموقد ثم اختبر مرورها.'], ['حلقة معدنية', 'ring', 'فتحتها أكبر بقليل من الكرة الباردة.', 'سخّنها لتتسع.'], ['موقد', 'burner', 'مصدر الحرارة.', 'استعمل أزرار التسخين.']],
+                params: [{ k: 'mat', l: 'المعدن', o: () => ['iron', 'copper', 'alum', 'lead', 'gold'].map(k => [k, MAT[k].n]), v: 'alum' }, { k: 'gap', l: 'الفرق بين فتحة الحلقة وقطر الكرة (بارداً)', u: 'mm', min: .02, max: .2, step: .01, v: .05 }, { k: 'Tb', l: 'حرارة الكرة', u: '°C', min: 20, max: 500, step: 1, v: 20 }, { k: 'Tr', l: 'حرارة الحلقة', u: '°C', min: 20, max: 500, step: 1, v: 20 }],
+                acts: [['🔥 سخّن الكرة', () => S.hb = !S.hb, 'hb'], ['🔥 سخّن الحلقة', () => S.hr = !S.hr, 'hr'], ['❄ برّد الكل', () => { S.hb = S.hr = false; S.cl = !S.cl }, 'cl'], ['⬇ أسقط الكرة / أعدها', () => S.f = 1 - S.f, 'f']], init() { S.f = 0; S.y = 0 },
+                dims() { const a = MAT[P.mat].a * 1e-6, d = 20 * (1 + a * (P.Tb - 20)), D = (20 + +P.gap) * (1 + a * (P.Tr - 20)); return { d, D, pass: d < D } },
+                tick(dt) { if (S.hb) P.Tb = Math.min(500, P.Tb + 70 * dt); if (S.hr) P.Tr = Math.min(500, P.Tr + 70 * dt); if (S.cl) { P.Tb = Math.max(20, P.Tb - 120 * dt); P.Tr = Math.max(20, P.Tr - 120 * dt) } S.y = lerp(S.y, S.f ? 1 : 0, Math.min(1, dt * 3)) },
+                draw() {
+                    const q = this.dims(), m = MAT[P.mat], K = 250, rb = 30 + (q.d - 20) * K, rr = 30 + (q.D - 20) * K, ry = 300, by = lerp(120, q.pass ? 400 : ry - rb * .85, S.y);
+                    let s = R(120, 420, 520, 14, '#7b6a55') + R(150, 150, 10, 270, '#789') + R(150, 150, 240, 10, '#789') + Ln(390, 150, 390, ry - 6, '#789', 3) + `<ellipse cx="400" cy="${ry}" rx="${rr}" ry="${rr * .28}" fill="none" stroke="${mix(m.col, '#ff3a14', cl((P.Tr - 20) / 480, 0, 1))}" stroke-width="10"/>`;
+                    s += Cc(400, by, rb, mix(m.col, '#ff5a1f', cl((P.Tb - 20) / 480, 0, 1)), 'stroke="#333" stroke-width="2"') + Cc(400 - rb * .3, by - rb * .3, rb * .25, '#fff', 'opacity=".35"');
+                    if (S.hb) s += Tx(400, by + rb + 34, '🔥', 34); if (S.hr) s += Tx(400 + rr + 30, ry + 10, '🔥', 34);
+                    return s + R(520, 60, 260, 150, '#fff', 'stroke="#abc" rx="10" opacity=".88"') + Tx(535, 90, 'd (الكرة) = ' + f1(q.d, 3) + ' mm', 14, '#223', 'start') + Tx(535, 118, 'D (الحلقة) = ' + f1(q.D, 3) + ' mm', 14, '#223', 'start') + Tx(535, 146, 'الفرق = ' + f1(q.D - q.d, 3) + ' mm', 14, '#456', 'start') + Tx(535, 185, q.pass ? '✅ الكرة تمرّ من الحلقة' : '⛔ الكرة لا تمرّ (متمددة)', 15, q.pass ? '#0a7a3a' : '#c22', 'start', 'font-weight="700"')
+                },
+                read() { const q = this.dims(), a = MAT[P.mat].a; return [['المعدن', MAT[P.mat].n + ' (α = ' + a + '×10⁻⁶ /°C)'], ['حرارة الكرة', f1(P.Tb, 0) + ' °C'], ['d', f1(q.d, 3) + ' mm'], ['تمدد الكرة ΔL', f1(q.d - 20, 4) + ' mm'], ['حرارة الحلقة', f1(P.Tr, 0) + ' °C'], ['D', f1(q.D, 3) + ' mm'], ['النتيجة', q.pass ? 'تمرّ' : 'لا تمرّ']] }, rh: ['المعدن', 'Tb', 'Tr', 'd', 'D', 'تمرّ؟'], rec() { const q = this.dims(); return [[MAT[P.mat].n, f1(P.Tb, 0), f1(P.Tr, 0), f1(q.d, 3), f1(q.D, 3), q.pass ? 'نعم' : 'لا']] }
+            },
+            {
+                id: 'cond', ch: 3, n: 'انتقال الحرارة بالتوصيل في المعادن',
+                goal: 'مقارنة توصيل الحرارة في معادن مختلفة بملاحظة سقوط دبابيس مثبّتة بالشمع.',
+                why: 'نختار النحاس والألومنيوم لأواني الطبخ لأنها موصلة جيدة، والخشب والبلاستيك لمقابض الأواني لأنها عازلة.',
+                steps: ['ثبّت أربعة قضبان من مواد مختلفة وعلى كل قضيب دبابيس مثبتة بشمع على مسافات متساوية.', 'سخّن أطرافها معاً بلهب واحد (اضبط السرعة ×5 أو ×20 لتسريع الزمن).', 'سجّل زمن سقوط كل دبوس (ينصهر الشمع عند ~60°C).', 'رتّب المواد من الأسرع توصيلاً إلى الأبطأ.', 'غيّر المواد أو درجة اللهب وأعد التجربة.'],
+                meas: ['زمن سقوط كل دبوس (s)', 'ترتيب المواد حسب التوصيل'], law: 'الحرارة تنتقل بالتوصيل من الطرف الساخن إلى البارد؛ كلما زادت الموصلية k انتقلت أسرع',
+                concl: 'الفلزات موصلة جيدة للحرارة وأفضلها النحاس، والخشب والزجاج عازلان تقريباً.',
+                tools: [['قضبان معدنية', 'rod', 'مواد مختلفة لمقارنة التوصيل.', 'غيّر مادة كل قضيب.'], ['دبابيس بالشمع', 'pin', 'تسقط عندما يصل الشمع إلى حرارة انصهاره.', 'راقب ترتيب سقوطها.'], ['موقد', 'burner', 'يسخّن أطراف القضبان.', 'غيّر درجة اللهب.']],
+                params: [{ k: 'm0', l: 'القضيب 1', o: sel(MAT), v: 'copper' }, { k: 'm1', l: 'القضيب 2', o: sel(MAT), v: 'alum' }, { k: 'm2', l: 'القضيب 3', o: sel(MAT), v: 'iron' }, { k: 'm3', l: 'القضيب 4', o: sel(MAT), v: 'wood' }, { k: 'Tf', l: 'حرارة اللهب', u: '°C', min: 200, max: 800, step: 10, v: 500 }, { k: 'tw', l: 'حرارة انصهار الشمع', u: '°C', min: 40, max: 90, step: 1, v: 60 }],
+                IX: [3, 8, 13, 18], init() { S.t = 0; S.T = [0, 1, 2, 3].map(() => Array(24).fill(20)); S.dr = [0, 1, 2, 3].map(() => [null, null, null, null]) },
+                tick(dt, sd) { const n = Math.ceil(sd / .05), h = sd / n; for (let z = 0; z < n; z++) { S.t += h; for (let r = 0; r < 4; r++) { const D = .01 * MAT[P['m' + r]].k, T = S.T[r], o = T.slice(); T[0] = P.Tf; for (let i = 1; i < 24; i++) { const r2 = i == 23 ? o[22] : o[i + 1]; T[i] = o[i] + h * (D * (o[i - 1] - 2 * o[i] + r2) - .005 * (o[i] - 20)) } this.IX.forEach((ix, j) => { if (S.dr[r][j] == null && T[ix] > P.tw) S.dr[r][j] = S.t }) } } },
+                draw() {
+                    let s = Tx(110, 100, '🔥', 56) + R(150, 90, 14, 280, '#555');[0, 1, 2, 3].forEach(r => {
+                        const y = 100 + r * 80, m = MAT[P['m' + r]]; for (let i = 0; i < 24; i++)s += R(170 + i * 22, y, 22, 22, hcol((S.T[r][i] - 20) / (P.Tf - 20))); s += R(170, y, 528, 22, m.col, 'opacity=".28" stroke="#333" stroke-width="2"') + Tx(706, y + 16, m.n, 13, '#223', 'start', 'font-weight="700"');
+                        this.IX.forEach((ix, j) => { const x = 170 + ix * 22 + 11, d = S.dr[r][j], off = d == null ? 0 : Math.min(70, 300 * (S.t - d) ** 2); s += Ln(x, y + 22, x, y + 38 + off, '#777', 2) + Cc(x, y + 42 + off, 5, '#f4d35e', 'stroke="#a67c00"'); if (d != null) s += Tx(x, y - 4, f1(d, 1) + 's', 11, '#c22') })
+                    }); return s + Tx(400, 460, 'الزمن: ' + f1(S.t, 1) + ' s', 14, '#456')
+                },
+                read() { const o = [['الزمن (s)', f1(S.t, 1)]];[0, 1, 2, 3].forEach(r => o.push([MAT[P['m' + r]].n + ' (k=' + MAT[P['m' + r]].k + ')', S.dr[r].map(d => d == null ? '—' : f1(d, 1)).join(' | ')])); return o }, rh: ['المادة', 'k', 't₁', 't₂', 't₃', 't₄'], rec() { return [0, 1, 2, 3].map(r => [MAT[P['m' + r]].n, MAT[P['m' + r]].k, ...S.dr[r].map(d => d == null ? '—' : f1(d, 1))]) }
+            },
+            {
+                id: 'conv', ch: 3, n: 'الحمل الحراري في السوائل',
+                goal: 'ملاحظة تيارات الحمل في الماء عند تسخينه بإضافة بلورة ملونة.',
+                why: 'تفسّر تدفئة الغرف بالمدفأة وحركة الرياح والغليان في القدر.',
+                steps: ['اضغط «أسقط بلورة ملونة» وسخّن من أحد الجانبين.', 'راقب مسار اللون: يصعد من الجهة الساخنة وينزل من الجهة الباردة.', 'غيّر قدرة التسخين وموضع الموقد وقارن.', 'أوقف التسخين (القدرة = 0) ولاحظ بطء انتشار اللون.'],
+                meas: ['حرارة الماء (°C)', 'اتجاه التيارات', 'سرعة حركة اللون'], law: 'الماء الساخن أقل كثافة فيرتفع، والبارد أكثف فينزل ← تيارات حمل',
+                concl: 'الحمل الحراري انتقال للحرارة بحركة المادة نفسها في السوائل والغازات بسبب اختلاف الكثافة.',
+                tools: [['كأس ماء', 'beaker', 'وعاء السائل.', 'املأه بالماء.'], ['بلورة ملونة', 'crystal', 'تُظهر مسار التيارات.', 'أسقطها بالزر.'], ['موقد', 'burner', 'مصدر الحرارة.', 'غيّر القدرة.']],
+                params: [{ k: 'pw', l: 'قدرة التسخين', u: '%', min: 0, max: 100, step: 1, v: 60 }, { k: 'side', l: 'موضع الموقد', o: [[0, 'يسار'], [1, 'يمين']], v: 0 }],
+                acts: [['🟣 أسقط بلورة ملونة', () => { for (let i = 0; i < 60; i++)S.p.push({ x: .45 + Math.random() * .1, y: .03 + Math.random() * .05, q: 1, tm: 0 }) }], ['🧹 امسح اللون', () => S.p = S.p.filter(p => !p.q)]],
+                init() { S.Tw = 20; S.p = Array.from({ length: 90 }, () => ({ x: Math.random(), y: Math.random(), q: 0, tm: 0 })) },
+                tick(dt, sd) { const s = P.pw / 100 * .4, sd1 = +P.side, h0 = sd1 ? .85 : .15; S.Tw += (P.pw * .012 - .003 * (S.Tw - 20)) * sd; S.p.forEach(p => { const x = sd1 ? 1 - p.x : p.x, u = -Math.PI * Math.sin(Math.PI * x) * Math.cos(Math.PI * p.y), v = Math.PI * Math.cos(Math.PI * x) * Math.sin(Math.PI * p.y), sg = sd1 ? -1 : 1; p.x = cl(p.x + u * sg * s * sd * .25 + (Math.random() - .5) * .004, .01, .99); p.y = cl(p.y + v * s * sd * .25 + (Math.random() - .5) * .004, .01, .99); if (p.y < .2 && Math.abs(p.x - h0) < .25) p.tm = Math.min(1, p.tm + sd * P.pw * .004); else p.tm = Math.max(0, p.tm - sd * .05) }) },
+                draw() {
+                    const bx = 250, by = 380, W = 300, H = 250, tw = cl((S.Tw - 20) / 80, 0, 1), sd1 = +P.side; let s = R(bx, by - H, W, H, mix('#4ea8ff', '#ff9a8a', tw), 'opacity=".55"') + `<path d="M${bx} ${by - H - 20}V${by}H${bx + W}V${by - H - 20}" fill="none" stroke="#456" stroke-width="4"/>`;
+                    if (P.pw > 0) s += Tx(bx + (sd1 ? .85 : .15) * W, by + 48, '🔥', 20 + P.pw * .4);
+                    S.p.forEach(p => { s += Cc(bx + p.x * W, by - p.y * H, p.q ? 4 : 2.6, p.q ? '#a31d6b' : hcol(p.tm), 'opacity=".9"') });
+                    if (P.pw > 0) s += `<g stroke-width="4" fill="none" opacity=".6"><path d="M${bx + (sd1 ? .8 : .2) * W} ${by - 30}V${by - H + 40}" stroke="#e5484d"/><path d="M${bx + (sd1 ? .2 : .8) * W} ${by - H + 40}V${by - 30}" stroke="#3b82f6"/></g>` + Tx(bx + (sd1 ? .8 : .2) * W, by - H + 30, '⬆ ساخن', 12, '#c22') + Tx(bx + (sd1 ? .2 : .8) * W, by - H + 30, '⬇ بارد', 12, '#27c');
+                    return s + therm(660, 120, 200, S.Tw, 0, 100) + Tx(660, 100, 'حرارة الماء', 12, '#456')
+                },
+                read() { return [['حرارة الماء', f1(S.Tw, 1) + ' °C'], ['قدرة التسخين', P.pw + '%'], ['التيارات', P.pw > 0 ? 'نشطة: صعود فوق الموقد ونزول في الجهة الأخرى' : 'لا تيارات (انتشار بطيء)']] }, rh: ['القدرة %', 'حرارة الماء °C'], rec() { return [[P.pw, f1(S.Tw, 1)]] }
+            },
+            {
+                id: 'rad', ch: 3, n: 'انتقال الحرارة بالإشعاع',
+                goal: 'مقارنة امتصاص الإشعاع الحراري بين علبة سوداء وعلبة بيضاء أو فضية.',
+                why: 'يفسّر لماذا نرتدي الأبيض صيفاً، ولماذا تُطلى خزانات الماء على الأسطح بالأسود لتسخن بالشمس.',
+                steps: ['ضع علبتين متماثلتين (لونان مختلفان) على بعد واحد من المصباح.', 'شغّل المصباح وراقب درجتي حرارة الترمومترين مع الزمن (استعمل السرعة ×5).', 'غيّر لون إحدى العلبتين ثم المسافة وقدرة المصباح.', 'قارن منحنيي التسخين.'],
+                meas: ['حرارة كل علبة مع الزمن (°C)', 'الفرق بين العلبتين'], law: 'الأسطح الداكنة تمتص الإشعاع أكثر؛ الشدة تقل بزيادة المسافة (∝ 1/d²)',
+                concl: 'الإشعاع ينتقل دون وسط مادي، والأسود المطفأ أفضل امتصاصاً، والأبيض والفضي اللامع أكثر عكساً.',
+                tools: [['مصباح/شمس', 'lamp', 'مصدر الإشعاع.', 'غيّر قدرته وبعده.'], ['علبتان', 'can', 'ملونتان بلونين مختلفين.', 'غيّر لون كل منهما.'], ['ترمومتر', 'thermo', 'قياس الحرارة.', 'اقرأه مع الزمن.']],
+                params: [{ k: 'pw', l: 'قدرة المصباح', u: 'W', min: 100, max: 1000, step: 50, v: 500 }, { k: 'd', l: 'البعد عن المصباح', u: 'cm', min: 20, max: 100, step: 5, v: 40 }, { k: 'ca', l: 'لون العلبة العلوية', o: COLS, v: .95 }, { k: 'cb', l: 'لون العلبة السفلية', o: COLS, v: .25 }],
+                init() { S.t = 0; S.a = 20; S.b = 20; S.h = [[0, 20, 20]]; S.ac = 0 },
+                tick(dt, sd) { const g = 4 * P.pw / (P.d * P.d); S.a += (P.ca * g - .02 * (S.a - 20)) * sd; S.b += (P.cb * g - .02 * (S.b - 20)) * sd; S.t += sd; S.ac += sd; if (S.ac >= 2) { S.ac = 0; S.h.push([S.t, S.a, S.b]); if (S.h.length > 150) S.h.shift() } },
+                draw() {
+                    const cx = 170 + (P.d - 20) * 4.5, col = a => a > .9 ? '#1b1b1b' : a > .5 ? '#777' : a > .2 ? '#f5f5f5' : '#d4dbe2', I = cl(P.pw / 1000, .1, 1); let s = R(60, 415, 520, 10, '#9b7b55') + Tx(70, 175, '💡', 48) + `<polygon points="100,170 ${cx - 30},190 ${cx - 30},230" fill="#ffd84a" opacity="${I * .35}"/><polygon points="100,175 ${cx - 30},320 ${cx - 30},365" fill="#ffd84a" opacity="${I * .35}"/>`;
+                    [[200, S.a, P.ca], [330, S.b, P.cb]].forEach(([y, t, a]) => { s += R(cx - 26, y, 52, 70, col(a), 'stroke="#333" stroke-width="2" rx="4"') + `<ellipse cx="${cx}" cy="${y}" rx="26" ry="7" fill="${mix(col(a), '#ffffff', .3)}" stroke="#333"/>` + therm(cx + 44, y - 20, 80, t, 20, 80) });
+                    const gx = 590, gy = 60, gw = 190, gh = 150; s += R(gx, gy, gw, gh, '#fff', 'stroke="#abc" rx="8" opacity=".9"') + Tx(gx + gw / 2, gy + 16, 'الحرارة مع الزمن', 12, '#456'); const m = Math.max(40, ...S.h.map(p => Math.max(p[1], p[2]))), tm = Math.max(60, S.t);
+                    [1, 2].forEach(i => { s += `<polyline fill="none" stroke="${i == 1 ? '#c22' : '#27c'}" stroke-width="2" points="${S.h.map(p => (gx + 10 + p[0] / tm * (gw - 20)).toFixed(1) + ',' + (gy + gh - 10 - (p[i] - 20) / (m - 20) * (gh - 40)).toFixed(1)).join(' ')}"/>` });
+                    return s + Tx(gx + 8, gy + gh + 16, '🔴 العلوية  🔵 السفلية', 11, '#456', 'start') + Tx(400, 450, 'البعد: ' + P.d + ' cm', 13, '#456')
+                },
+                read() { return [['حرارة العلبة العلوية', f1(S.a, 1) + ' °C'], ['حرارة العلبة السفلية', f1(S.b, 1) + ' °C'], ['الفرق', f1(Math.abs(S.a - S.b), 1) + ' °C'], ['الشدة النسبية (P/d²)', f1(P.pw / (P.d * P.d), 3)], ['الزمن', f1(S.t, 0) + ' s']] }, rh: ['t (s)', 'علوية °C', 'سفلية °C', 'd (cm)'], rec() { return [[f1(S.t, 0), f1(S.a, 1), f1(S.b, 1), P.d]] }
+            },
+            {
+                id: 'expd', ch: 3, n: 'التمدد الحراري للسوائل والغازات',
+                goal: 'ملاحظة تمدد السوائل (كما في الترمومتر) وتمدد الغازات (بالون على دورق) عند التسخين.',
+                why: 'يفسّر عمل الترمومتر السائل، وانتفاخ الإطارات والبالونات في الحر، وسبب فحص ضغط الإطار وهو بارد.',
+                steps: ['اختر الوضع: سائل (دورق وأنبوب) أو غاز (دورق وبالون).', 'ارفع حرارة الحمام المائي وراقب الارتفاع في الأنبوب أو حجم البالون.', 'في وضع السائل غيّر نوع السائل وقارن تمدد الكحول بالماء والزئبق.', 'برّد الحمام وراقب النقصان.'],
+                meas: ['حرارة الحمام (°C)', 'ارتفاع السائل في الأنبوب (cm)', 'حجم البالون'], law: 'السوائل: ΔV = β · V · ΔT   ،   الغازات: V/T = ثابت (T بالكلفن)',
+                concl: 'السوائل تتمدد بالحرارة بمقادير تختلف حسب نوعها، والغازات تتمدد أكثر منها بكثير.',
+                tools: [['دورق', 'flask', 'يحوي السائل أو الهواء.', 'يُغمر في الحمام.'], ['حمام مائي', 'bath', 'يغيّر حرارة الدورق.', 'حرّك منزلق الحرارة.'], ['بالون', 'balloon', 'يُظهر تمدد الغاز.', 'يوضع على فوهة الدورق.']],
+                params: [{ k: 'mode', l: 'الوضع', o: [[0, 'تمدد سائل'], [1, 'تمدد غاز']], v: 0 }, { k: 'lq', l: 'السائل', o: () => ['alcohol', 'oil', 'water', 'glycerin', 'mercury'].map(k => [k, LIQ[k].n]), v: 'alcohol' }, { k: 'Tb', l: 'حرارة الحمام', u: '°C', min: 5, max: 90, step: 1, v: 20 }],
+                init() { S.Tc = 20 }, tick(dt, sd) { S.Tc += (P.Tb - S.Tc) * Math.min(1, dt * sd * .4 + dt * .4) },
+                rise() { return cl(50 * LIQ[P.lq].b * 1e-3 * (S.Tc - 20) / .4, -5, 10) },
+                draw() {
+                    const cx = 300, cy = 340, flask = (t) => `<path d="M${cx - 14} ${t}V${cy - 34}L${cx - 46} ${cy + 14}Q${cx - 52} ${cy + 52} ${cx} ${cy + 52}Q${cx + 52} ${cy + 52} ${cx + 46} ${cy + 14}L${cx + 14} ${cy - 34}V${t}`; let s = R(130, 270, 340, 150, hcol((S.Tc - 5) / 90), 'opacity=".4" stroke="#456" stroke-width="3"') + Tx(150, 300, 'حمام مائي', 12, '#456', 'start');
+                    if (+P.mode == 0) {
+                        const L = LIQ[P.lq], ry = this.rise(), ly = cl(240 - ry * 18 - 30, 60, 210); s += R(cx - 12, 60, 24, 150, '#f2f9ff', 'stroke="#456" stroke-width="2" opacity=".9"') + `<path d="${flask(215).slice(0)}Z" fill="${L.col}" opacity=".85"/>` + R(cx - 10, ly, 20, 210 - ly, L.col, 'opacity=".9"') + `<path d="${flask(210)}" fill="none" stroke="#456" stroke-width="3"/>`;
+                        for (let i = 0; i <= 10; i++)s += Ln(cx + 12, 240 - i * 18 - 30, cx + 22, 240 - i * 18 - 30, '#456', 1) + (i % 2 == 0 ? Tx(cx + 36, 240 - i * 18 - 26, i, 10, '#456') : '');
+                        s += Tx(560, 140, 'ارتفاع السائل عن مستواه الأصلي', 12, '#456', 'end') + Tx(560, 170, f1(ry, 2) + ' cm', 22, '#0a7a3a', 'end', 'font-weight="700"') + Tx(560, 200, L.n + ' (β = ' + L.b + '×10⁻³ /°C)', 13, '#456', 'end')
+                    }
+                    else { const ratio = (273 + S.Tc) / 293, Vb = Math.max(2, 5 + 250 * (ratio - 1)), r = 14 * Math.cbrt(3 * Vb / (4 * 3.1416)); s += `<path d="${flask(210)}" fill="#f2f9ff" stroke="#456" stroke-width="3"/>` + R(cx - 18, 205, 36, 14, '#9ab') + `<ellipse cx="${cx}" cy="${205 - r}" rx="${r}" ry="${r * 1.1}" fill="#ff6b8a" stroke="#a02" stroke-width="2" opacity=".92"/>` + Tx(560, 140, 'حجم الغاز النسبي V/V₀', 12, '#456', 'end') + Tx(560, 170, f1(ratio, 3), 22, '#0a7a3a', 'end', 'font-weight="700"') + Tx(560, 200, 'حجم البالون ≈ ' + f1(Vb, 0) + ' cm³', 13, '#456', 'end') }
+                    return s + therm(700, 230, 150, S.Tc, 0, 100) + Tx(700, 215, 'الحمام', 12, '#456')
+                },
+                read() { const o = [['حرارة الحمام', f1(S.Tc, 1) + ' °C'], ['ΔT', f1(S.Tc - 20, 1) + ' °C']]; if (+P.mode == 0) o.push(['ارتفاع السائل', f1(this.rise(), 2) + ' cm'], ['السائل', LIQ[P.lq].n]); else { const r = (273 + S.Tc) / 293; o.push(['V/V₀', f1(r, 3)], ['ΔV%', f1((r - 1) * 100, 1) + '%']) } return o }, rh: ['الوضع', 'T °C', 'النتيجة'], rec() { return [[+P.mode == 0 ? 'سائل: ' + LIQ[P.lq].n : 'غاز', f1(S.Tc, 1), +P.mode == 0 ? f1(this.rise(), 2) + ' cm' : 'V/V₀=' + f1((273 + S.Tc) / 293, 3)]] }
+            }
+        ];
+        /* ===== الواجهة ===== */
+        function load(id) { X = EX.find(e => e.id == id); P = {}; X.params.forEach(p => P[p.k] = p.v); S = {}; X.init && X.init(); rows[id] = rows[id] || []; tool = null; $('#ex').value = id; build() }
+        function build() { explain(); ctl(); acts(); pal(); mt(); recT(); $('#nt').value = notes[X.id] || '' }
+        function envLinks() { const o = []; Object.entries(ENV).forEach(([k, e]) => e.hs.forEach(h => { if (h[5] == X.id) o.push(`<button data-go="${k}">${h[2]} ${h[3]} — ${e.n}</button>`) })); return o.join(' ') }
+        function explain() {
+            let h = ''; if (tool != null) { const t = X.tools[tool]; h += `<div class="rd" style="border-right:4px solid #4ea8ff"><b>🧰 ${t[0]}</b><br>الفائدة: ${t[2]}<br>طريقة الاستعمال: ${t[3]}</div>` }
+            h += `<h3>${X.n}</h3><div class="rd"><b>${CH[X.ch]}</b></div><div class="rd"><b>🎯 الهدف:</b> ${X.goal}</div><div class="rd"><b>💡 الفائدة والغرض:</b> ${X.why}</div><div class="rd"><b>🧰 الأدوات:</b> ${X.tools.map(t => t[0]).join('، ')}</div><div class="rd"><b>📝 الطريقة:</b><ol>${X.steps.map(s => `<li>${s}</li>`).join('')}</ol></div><div class="rd"><b>📏 القياسات المطلوبة:</b><ul>${X.meas.map(s => `<li>${s}</li>`).join('')}</ul></div><div class="rd"><b>📐 القانون:</b><div class="fm">${X.law}</div></div><div class="rd"><b>✅ الاستنتاج:</b> ${X.concl}</div><div class="rd"><b>🌍 أين نراها في حياتنا؟</b><br>${envLinks() || '—'}</div>`; $('#s-e').innerHTML = h
+        }
+        function ctl() { let h = '<div class="rd">حرّك المنزلقات أو غيّر القوائم لتعديل التجربة وأدواتها.</div>'; X.params.forEach(p => { const v = P[p.k]; h += `<label>${p.l}${p.u ? ' (' + p.u + ')' : ''}</label>`; if (p.o) { const o = typeof p.o == 'function' ? p.o() : p.o; h += `<select data-k="${p.k}">${o.map(([a, b]) => `<option value="${a}" ${a == v ? 'selected' : ''}>${b}</option>`).join('')}</select>` } else h += `<input type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${v}" data-k="${p.k}"><input type="number" step="any" value="${v}" data-k="${p.k}">` }); $('#s-c').innerHTML = h }
+        function syncC() { $$('#s-c [data-k]').forEach(o => { if (o !== document.activeElement) o.value = P[o.dataset.k] }) }
+        $('#s-c').addEventListener('input', e => { const el = e.target, k = el.dataset.k; if (!k) return; let v = el.value; v = /^-?[\d.]+$/.test(v) ? +v : v; P[k] = v; X.chg && X.chg(k); $$('#s-c [data-k="' + k + '"]').forEach(o => { if (o !== el) o.value = v }); syncC() });
+        function acts() { $('#acts').innerHTML = (X.acts || []).map((a, i) => `<button data-a="${i}" class="${a[2] && S[a[2]] ? 'on' : ''}">${a[0]}</button>`).join('') || '<span style="font-size:12px;color:var(--mu)">استعمل «التحكم» لتعديل التجربة.</span>' }
+        $('#acts').addEventListener('click', e => { const i = e.target.dataset.a; if (i == null) return; X.acts[i][1](); acts() });
+        function pal() { $('#pal').innerHTML = X.tools.map((t, i) => `<div class="pi ${tool == i ? 'sel' : ''}" data-i="${i}">${ico(t[1])}${t[0]}</div>`).join('') }
+        $('#pal').addEventListener('click', e => { const d = e.target.closest('.pi'); if (!d) return; tool = +d.dataset.i; explain(); pal(); document.body.dataset.tab = 'e'; if (innerWidth < 900) { closeSheets(); document.body.classList.add('s-side'); $$('#nav button')[1].classList.add('act') } });
+        function mt() { $('#mt').innerHTML = '<table><tr><th>المادة</th><th>ρ g/cm³</th><th>k</th><th>α</th></tr>' + Object.entries(MAT).map(([k, m]) => `<tr><td>${m.n}</td>${['rho', 'k', 'a'].map(f => `<td><input type="number" step="any" value="${m[f]}" data-m="${k}" data-f="${f}"></td>`).join('')}</tr>`).join('') + '</table><label>السوائل (الكثافة)</label><table>' + Object.entries(LIQ).map(([k, m]) => `<tr><td>${m.n}</td><td><input type="number" step="any" value="${m.rho}" data-l="${k}"></td></tr>`).join('') + '</table>' }
+        $('#mt').addEventListener('input', e => { const d = e.target.dataset, v = parseFloat(e.target.value); if (!(v > 0)) return; if (d.m) MAT[d.m][d.f] = v; if (d.l) LIQ[d.l].rho = v });
+        $('#ma').onclick = () => { const n = $('#mn').value.trim(), r = parseFloat($('#md2').value); if (!n || !(r > 0)) return; const k = 'c' + Date.now(); MAT[k] = { n, rho: r, col: '#' + Math.floor(Math.random() * 0x666666 + 0x555555).toString(16).padStart(6, '5'), k: 1, a: 10 }; $('#mn').value = ''; mt(); ctl() };
+        function recT() { const r = rows[X.id] || []; $('#rows').innerHTML = r.length ? `<table><tr>${X.rh.map(h => `<th>${h}</th>`).join('')}</tr>${r.map(x => `<tr>${x.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</table>` : '<div class="rd">لا قراءات مسجّلة بعد.</div>' }
+        $('#rc').onclick = () => { rows[X.id].push(...X.rec()); recT() }; $('#rcx').onclick = () => { rows[X.id] = []; recT() }; $('#nt').oninput = e => notes[X.id] = e.target.value;
+        function ui() { $('#rdg').innerHTML = '<table>' + X.read().map(([a, b]) => `<tr><td>${a}</td><td><b>${b}</b></td></tr>`).join('') + '</table>'; $('#st').textContent = (run ? '● يعمل' : '○ متوقف') + ' — ' + ENV[envK].n; syncC(); acts() }
+        function closeSheets() { document.body.classList.remove('s-pal', 's-side', 's-menu'); $$('#nav button').forEach(b => b.classList.remove('act')) }
+        $$('#nav [data-n]').forEach(b => b.onclick = () => { const k = 's-' + b.dataset.n, on = document.body.classList.contains(k); closeSheets(); if (!on) { document.body.classList.add(k); b.classList.add('act') } });
+        $$('#tabs [data-t]').forEach(b => b.onclick = () => document.body.dataset.tab = b.dataset.t);
+        $('#ex').innerHTML = [1, 2, 3].map(c => `<optgroup label="${CH[c]}">` + EX.filter(e => e.ch == c).map(e => `<option value="${e.id}">${e.n}</option>`).join('') + '</optgroup>').join('');
+        $('#ex').onchange = e => { load(e.target.value); view = 'exp'; vt(); closeSheets() };
+        $('#ev').innerHTML = Object.entries(ENV).map(([k, e]) => `<option value="${k}">${e.n}</option>`).join(''); $('#ev').onchange = e => { envK = e.target.value; hot = null; $('#hcard').classList.remove('show'); closeSheets() };
+        $('#sp').onchange = e => spd = +e.target.value;
+        $('#run').onclick = () => { run = !run; $('#run').textContent = run ? '⏸ إيقاف' : '▶ تشغيل'; $('#run').classList.toggle('on', run) };
+        $('#rst').onclick = () => load(X.id);
+        function vt() { $$('#vt button').forEach(b => b.classList.toggle('on', b.dataset.v == view)); $('#hcard').classList.remove('show') }
+        $$('#vt button').forEach(b => b.onclick = () => { view = b.dataset.v; vt() });
+        $('#s-e').addEventListener('click', e => { const g = e.target.dataset.go; if (g) { envK = g; $('#ev').value = g; view = 'env'; vt(); closeSheets() } });
+        $('#sv').addEventListener('pointerdown', e => { const g = e.target.closest('[data-h]'); if (!g) return; const h = ENV[envK].hs[+g.dataset.h], ex = EX.find(x => x.id == h[5]); hot = h; $('#hcard').innerHTML = `<b>${h[2]} ${h[3]}</b><br>${h[4]}<br><button id="hg">🔬 جرّب: ${ex.n}</button> <button id="hx">✕</button>`; $('#hcard').classList.add('show') });
+        $('#hcard').addEventListener('click', e => { if (e.target.id == 'hx') $('#hcard').classList.remove('show'); if (e.target.id == 'hg' && hot) { load(hot[5]); view = 'exp'; vt(); closeSheets() } });
+        function modal(t, h) { $('#mdt').textContent = t; $('#mdb').innerHTML = h; $('#md').classList.add('show') } $('#mdx').onclick = () => $('#md').classList.remove('show');
+        $('#rp').onclick = () => { closeSheets(); const r = rows[X.id] || []; modal('📄 تقرير التجربة', `<div class="noprint"><button onclick="window.print()">🖨 طباعة / حفظ PDF</button> <span style="font-size:12px;color:var(--mu)">يمكنك تعديل النص داخل الورقة البيضاء قبل الطباعة.</span></div><div class="paper" contenteditable="true"><h2>${X.n}</h2><div>${CH[X.ch]} — الطالب: ............ الصف: ......... التاريخ: ${new Date().toLocaleDateString('ar-IQ')}</div><h3>الهدف</h3>${X.goal}<h3>الفائدة والغرض</h3>${X.why}<h3>الأدوات</h3>${X.tools.map(t => t[0] + ': ' + t[2]).join('<br>')}<h3>الطريقة</h3><ol>${X.steps.map(s => `<li>${s}</li>`).join('')}</ol><h3>القانون</h3><div dir="ltr">${X.law}</div><h3>القياسات والنتائج</h3>${r.length ? `<table><tr>${X.rh.map(h => `<th>${h}</th>`).join('')}</tr>${r.map(x => `<tr>${x.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</table>` : '<p>لم تُسجَّل قراءات.</p>'}<h3>القراءات الحالية</h3><table>${X.read().map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('')}</table><h3>الاستنتاج</h3>${notes[X.id] || X.concl}</div>`) };
+        /* ===== الحلقة الرئيسية ===== */
+        let last = performance.now();
+        function loop(now) {
+            const dt = Math.min(.05, (now - last) / 1000 || .016); last = now; let s;
+            if (view == 'exp') { if (run && X.tick) X.tick(dt, dt * spd); s = ENV[envK].d() + R(10, 10, 780, 460, '#f6f9fc', 'rx="18" opacity=".92"') + X.draw() }
+            else s = ENV[envK].d() + ENV[envK].hs.map((h, i) => `<g class="hs" data-h="${i}" style="cursor:pointer"><circle cx="${h[0]}" cy="${h[1]}" r="26" fill="#fff" stroke="#f59e0b" stroke-width="4" opacity=".95"/><text x="${h[0]}" y="${h[1] + 10}" font-size="28" text-anchor="middle">${h[2]}</text></g>`).join('') + `<text x="400" y="30" font-size="16" fill="#234" text-anchor="middle" font-weight="700">${ENV[envK].n} — المس الأيقونات لتعرف أين تظهر الفيزياء حولنا</text>`;
+            $('#sv').innerHTML = s; if (fr++ % 10 == 0) ui(); requestAnimationFrame(loop)
+        }
+        load('states'); requestAnimationFrame(loop);
+    </script>
+</body>
+
+</html>

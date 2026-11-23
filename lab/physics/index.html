@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>مختبر فيزياء | منصة طالب</title>
+<meta name="description" content="مختبر فيزياء: محاكاة تفاعلية لمختبر الفيزياء، جزء من منصة طالب. المبرمج الأستاذ مصطفى رحيم فندي، المشرف د. باسم عجيل.">
+
+
+ <link href="cairo.css" rel="stylesheet">
+  <script src="node_modules/chart.js/dist/chart.umd.js"></script>    
+  <!-- أيقونات Font Awesome (webfonts) -->
+<link rel="stylesheet" href="fontawesome-free-6.5.2-web/css/all.min.css">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  color-scheme:dark light;
+  --bg:#070b18;--orb1:#1d4ed8;--orb2:#7c3aed;--orb3:#0891b2;--orbop:.5;
+  --glass:rgba(28,36,68,.55);--glass-b:rgba(255,255,255,.12);
+  --txt:#f4f6ff;--mut:#9aa5c6;
+  --sheet:rgba(15,20,38,.9);--cell:rgba(255,255,255,.06);--cell-b:rgba(255,255,255,.08);--sep:rgba(255,255,255,.09);
+  --acc:#0a84ff;--ok:#30d158;--warn:#ff9f0a;--bad:#ff453a;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+@media(prefers-color-scheme:light){
+  :root{--bg:#eef1f8;--orb1:#93c5fd;--orb2:#c4b5fd;--orb3:#99f6e4;--orbop:.65;
+    --glass:rgba(255,255,255,.66);--glass-b:rgba(255,255,255,.95);
+    --txt:#0f1530;--mut:#5b6486;
+    --sheet:rgba(246,248,253,.92);--cell:rgba(255,255,255,.9);--cell-b:rgba(15,21,48,.06);--sep:rgba(15,21,48,.09);
+    --shadow:0 20px 50px rgba(30,40,90,.18)}
+}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans Arabic',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--txt);
+  min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:opacity .16s,transform .16s}
+body.lock{overflow:hidden}
+body.leaving{opacity:0;transform:scale(.985)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2.5px solid var(--acc);outline-offset:3px;border-radius:12px}
+i.fa-solid,i.fa-regular,i.fa-brands{line-height:1}
+
+/* خلفية */
+.orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:var(--orbop);pointer-events:none;z-index:0}
+.o1{width:380px;height:380px;background:var(--orb1);top:-120px;right:-100px;animation:float 18s ease-in-out infinite}
+.o2{width:340px;height:340px;background:var(--orb2);top:38%;left:-140px;animation:float 22s ease-in-out infinite reverse}
+.o3{width:300px;height:300px;background:var(--orb3);bottom:-100px;right:10%;animation:float 20s ease-in-out infinite}
+@keyframes float{50%{transform:translate(30px,40px) scale(1.08)}}
+
+.app{position:relative;z-index:1;max-width:560px;margin:0 auto;
+  padding:calc(env(safe-area-inset-top) + 18px) 20px calc(130px + env(safe-area-inset-bottom))}
+
+/* الشريط العلوي */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;animation:rise .7s var(--ease) both}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 12px;border-radius:99px;font-size:13px;font-weight:600;
+  background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)}
+.pill i{color:var(--ok)}
+.date{font-size:13px;color:var(--mut);font-weight:500}
+
+h1.large{font-size:clamp(36px,10vw,46px);font-weight:700;letter-spacing:-.5px;margin:26px 0 6px;line-height:1.15;animation:rise .7s .05s var(--ease) both}
+h1.large span{background:linear-gradient(120deg,#5ac8fa,#0a84ff 45%,#bf5af2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mut);font-size:15px;line-height:1.8;animation:rise .7s .1s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+
+/* ويدجت */
+.glass{background:var(--glass);border:1px solid var(--glass-b);border-radius:28px;backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);box-shadow:var(--shadow)}
+.hero{margin-top:24px;padding:20px;animation:rise .7s .15s var(--ease) both;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 100% 0%,rgba(10,132,255,.22),transparent 60%);pointer-events:none}
+.hero h2{font-size:17px;font-weight:700;display:flex;align-items:center;gap:10px;position:relative}
+.hero h2 i{color:var(--acc)}
+.hero p{margin:8px 0 16px;font-size:14px;line-height:1.9;color:var(--mut);position:relative}
+.credits{display:grid;gap:10px;position:relative}
+.credit{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:18px;background:var(--cell);border:1px solid var(--cell-b)}
+.credit .ci{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;font-size:16px;flex:none}
+.credit small{display:block;font-size:11.5px;color:var(--mut);margin-bottom:1px}
+.credit b{font-size:14.5px;font-weight:600}
+
+.widgets{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;animation:rise .7s .2s var(--ease) both}
+.widget{padding:16px;text-align:start;display:flex;flex-direction:column;gap:6px;min-height:150px;transition:transform .25s var(--ease)}
+.widget:active{transform:scale(.97)}
+.widget .wl{font-size:11.5px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:6px}
+.widget .wf{font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-size:24px;direction:ltr;text-align:center;margin:auto 0;color:var(--acc);font-weight:600}
+.widget .wn{font-size:13px;font-weight:600;line-height:1.5}
+.widget .big{font-size:42px;font-weight:700;line-height:1;margin-top:auto;background:linear-gradient(135deg,#30d158,#64d2ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.widget .sm{font-size:12.5px;color:var(--mut);line-height:1.6}
+
+/* أيقونات التطبيقات */
+.sec-label{margin:30px 4px 14px;font-size:13px;color:var(--mut);font-weight:600;animation:rise .7s .25s var(--ease) both}
+.icons{display:flex;gap:26px;padding:4px;animation:rise .7s .3s var(--ease) both}
+.appicon{display:flex;flex-direction:column;align-items:center;gap:9px;width:84px}
+.appicon .sq{width:80px;height:80px;border-radius:24px;display:grid;place-items:center;color:#fff;font-size:34px;position:relative;overflow:hidden;
+  box-shadow:0 14px 28px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.22);transition:transform .3s var(--ease),box-shadow .3s}
+.appicon .sq::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.32),transparent 52%)}
+.appicon .sq i{position:relative;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3))}
+.appicon:hover .sq{transform:translateY(-4px)}
+.appicon:active .sq{transform:scale(.9)}
+.appicon span{font-size:12.5px;font-weight:600;text-align:center}
+.g-talib{background:linear-gradient(145deg,#34d399,#0d9488 55%,#0f766e)}
+.g-lab{background:linear-gradient(145deg,#5ac8fa,#0a84ff 50%,#5e5ce6)}
+
+/* شريط التبويب */
+.tabbar{position:fixed;z-index:60;bottom:calc(env(safe-area-inset-bottom) + 12px);left:50%;transform:translateX(-50%);
+  width:min(calc(100% - 24px),520px);display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:7px;border-radius:30px;
+  background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);box-shadow:var(--shadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 2px 8px;border-radius:23px;color:var(--mut);font-size:10.5px;font-weight:600;
+  transition:background .35s var(--ease),color .25s,transform .25s var(--ease)}
+.tab i{font-size:19px;transition:transform .35s var(--ease)}
+.tab:active{transform:scale(.92)}
+.tab.on{color:var(--acc);background:rgba(10,132,255,.16)}
+.tab.on i{transform:translateY(-1px) scale(1.1)}
+
+/* النافذة المنبثقة */
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(2,6,16,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .4s}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:50;bottom:0;left:50%;width:min(100%,640px);height:min(90dvh,860px);
+  transform:translate(-50%,105%);visibility:hidden;transition:transform .55s var(--ease),visibility 0s .55s;
+  background:var(--sheet);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+  border:1px solid var(--glass-b);border-bottom:0;border-radius:32px 32px 0 0;box-shadow:0 -20px 60px rgba(0,0,0,.4);display:flex;flex-direction:column}
+.sheet.open{transform:translate(-50%,0);visibility:visible;transition:transform .55s var(--ease),visibility 0s}
+.sh-head{padding:8px 20px 12px;touch-action:none;cursor:grab;flex:none}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--mut);opacity:.4;margin:0 auto 12px}
+.sh-title{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sh-title h2{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.sh-title h2 i{color:var(--acc);font-size:20px}
+.x{width:34px;height:34px;border-radius:50%;background:var(--cell);border:1px solid var(--cell-b);display:grid;place-items:center;color:var(--mut);transition:transform .2s}
+.x:active{transform:scale(.85)}
+.sh-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:4px 20px calc(130px + env(safe-area-inset-bottom));scrollbar-width:none}
+.sh-body::-webkit-scrollbar{display:none}
+.view{animation:viewin .5s var(--ease) both}
+@keyframes viewin{from{opacity:0;transform:translateY(14px)}}
+.stag>*{animation:rise .55s var(--ease) both;animation-delay:calc(var(--i,0)*45ms)}
+
+/* عناصر مشتركة */
+.seg{display:flex;gap:4px;padding:4px;border-radius:15px;background:var(--cell);border:1px solid var(--cell-b);margin:4px 0 18px;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:1;white-space:nowrap;padding:9px 12px;border-radius:11px;font-size:13px;font-weight:600;color:var(--mut);transition:.3s var(--ease)}
+.seg button.on{background:var(--acc);color:#fff;box-shadow:0 6px 16px rgba(10,132,255,.4)}
+.group-label{font-size:12.5px;color:var(--mut);font-weight:600;margin:20px 6px 8px}
+.card{background:var(--cell);border:1px solid var(--cell-b);border-radius:22px;padding:16px}
+.list{display:grid;gap:10px}
+.intro{font-size:14px;line-height:1.9;color:var(--mut);margin:2px 2px 16px}
+
+/* التجارب */
+.exp{display:flex;gap:14px;align-items:flex-start}
+.exp .ico{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;font-size:19px;flex:none;background:var(--c);box-shadow:0 8px 18px color-mix(in srgb,var(--c) 45%,transparent)}
+.exp h4{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lvl{font-size:10.5px;font-weight:600;padding:2px 9px;border-radius:99px;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c)}
+.exp p{font-size:13px;line-height:1.85;color:var(--mut);margin-top:5px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.chips span{font-size:11px;padding:3px 10px;border-radius:99px;background:var(--cell-b);color:var(--mut)}
+
+/* القوانين */
+.law .formula{font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-size:26px;direction:ltr;text-align:center;padding:14px 8px;margin-bottom:12px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(10,132,255,.16),rgba(94,92,230,.14));color:var(--acc);font-weight:600;letter-spacing:.5px}
+.law h4{font-size:15px;font-weight:700}
+.law p{font-size:13px;line-height:1.85;color:var(--mut);margin-top:4px}
+
+/* الشرح */
+.concepts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.concept{padding:16px 14px;text-align:center}
+.concept .sym{width:54px;height:54px;border-radius:18px;margin:0 auto 10px;display:grid;place-items:center;font-family:Georgia,serif;font-style:italic;font-size:26px;font-weight:700;color:#fff;background:var(--c)}
+.concept h4{font-size:14.5px;font-weight:700}
+.concept em{display:block;font-style:normal;font-size:11.5px;color:var(--c);font-weight:600;margin:2px 0 6px}
+.concept p{font-size:12.5px;line-height:1.8;color:var(--mut)}
+.note{display:flex;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,159,10,.12);border:1px solid rgba(255,159,10,.25);margin-top:12px;font-size:13px;line-height:1.85}
+.note i{color:var(--warn);margin-top:4px}
+
+/* المحاكاة */
+.sim{padding:14px}
+.sim svg{width:100%;height:auto;display:block;direction:ltr;border-radius:16px;background:rgba(0,0,0,.18)}
+@media(prefers-color-scheme:light){.sim svg{background:rgba(15,21,48,.05)}}
+.wire{stroke:var(--mut);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.sv-txt{fill:var(--txt);font-size:12px;font-weight:600;font-family:inherit}
+.sv-mut{fill:var(--mut);font-size:10px;font-family:inherit}
+.readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.ro{padding:11px 6px;border-radius:16px;background:var(--cell-b);text-align:center}
+.ro small{display:block;font-size:11px;color:var(--mut);margin-bottom:3px}
+.ro b{font-size:16px;font-weight:700;direction:ltr;display:block}
+.ctl{margin-top:12px}
+.ctl label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:8px}
+.ctl label output{color:var(--acc);direction:ltr}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:9px;background:var(--cell-b);outline-offset:6px;direction:ltr}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.35);border:0}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.35);border:0}
+.badge{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:8px 14px;border-radius:99px;font-size:12.5px;font-weight:600;transition:.3s}
+.badge.ok{background:rgba(48,209,88,.15);color:var(--ok)}
+.badge.warn{background:rgba(255,69,58,.16);color:var(--bad)}
+
+/* الصفوف */
+.cells{background:var(--cell);border:1px solid var(--cell-b);border-radius:22px;overflow:hidden}
+.row{display:flex;align-items:center;gap:14px;padding:14px 16px;width:100%;text-align:start;position:relative;transition:background .2s}
+.row+.row::before{content:"";position:absolute;top:0;inset-inline:70px 0;height:1px;background:var(--sep)}
+a.row:active,button.row:active{background:var(--cell-b)}
+.row .num{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:17px;flex:none;background:var(--c)}
+.row .tx{flex:1;min-width:0}
+.row .tx b{display:block;font-size:15.5px;font-weight:600}
+.row .tx small{font-size:12px;color:var(--mut)}
+.row .chev{color:var(--mut);opacity:.6;font-size:13px}
+.row.soon{opacity:.62}
+.row.soon .num{background:var(--mut)}
+.tag{font-size:11px;font-weight:600;padding:4px 11px;border-radius:99px;background:rgba(255,159,10,.16);color:var(--warn);white-space:nowrap}
+
+/* القائمون */
+.person{text-align:center;padding:22px 18px}
+.photo{width:108px;height:108px;border-radius:50%;margin:0 auto 14px;position:relative;padding:3px;background:conic-gradient(from 200deg,#5ac8fa,#0a84ff,#bf5af2,#5ac8fa)}
+.photo img,.photo .fb{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--sheet);display:grid;place-items:center;background:#1b2347;color:#fff;font-size:34px;font-weight:700}
+.photo .fb{position:absolute;inset:3px;width:auto;height:auto;z-index:0}
+.photo img{position:relative;z-index:1}
+.person h3{font-size:18px;font-weight:700}
+.role{display:inline-block;margin:6px 0 10px;font-size:12px;font-weight:600;padding:4px 14px;border-radius:99px;background:rgba(10,132,255,.16);color:var(--acc)}
+.person p{font-size:13.5px;line-height:1.9;color:var(--mut)}
+.platform{display:flex;gap:14px;align-items:center}
+.platform .ico{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;color:#fff;font-size:22px;flex:none}
+.platform b{font-size:15px}.platform p{font-size:12.5px;color:var(--mut);line-height:1.8;margin-top:2px}
+
+/* إشعار */
+.toast{position:fixed;z-index:90;left:50%;bottom:calc(110px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;pointer-events:none;
+  padding:11px 20px;border-radius:99px;font-size:13.5px;font-weight:600;background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);box-shadow:var(--shadow);transition:.4s var(--ease);white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(min-width:700px){.app{padding-top:40px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+
+<main class="app">
+  <div class="topbar">
+    <div class="pill"><i class="fa-solid fa-circle"></i> منصة طالب</div>
+    <div class="date" id="today"></div>
+  </div>
+
+  <h1 class="large">مختبر <span>فيزياء</span></h1>
+  <p class="lead">محاكاة تفاعلية لمختبر الفيزياء، جزء من منصة طالب.</p>
+
+  <section class="glass hero" aria-label="عن المشروع">
+    <h2><i class="fa-solid fa-flask-vial"></i> عن المشروع</h2>
+    <p>مشروع يشمل محاكاة مختبر الفيزياء، وهو جزء من منصة طالب. ابنِ الدوائر، جرّب القوانين، وشاهد النتائج لحظةً بلحظة دون أي خطر.</p>
+    <div class="credits">
+      <div class="credit">
+        <div class="ci" style="background:linear-gradient(145deg,#5ac8fa,#0a84ff)"><i class="fa-solid fa-code"></i></div>
+        <div><small>المبرمج</small><b>الأستاذ مصطفى رحيم فندي</b></div>
+      </div>
+      <div class="credit">
+        <div class="ci" style="background:linear-gradient(145deg,#bf5af2,#5e5ce6)"><i class="fa-solid fa-user-graduate"></i></div>
+        <div><small>المشرف على المختبر</small><b>د. باسم عجيل</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="widgets">
+    <button class="glass widget" data-open="about:laws" aria-label="قانون اليوم">
+      <div class="wl"><i class="fa-solid fa-bolt"></i> قانون اليوم</div>
+      <div class="wf" id="wLaw">V = I × R</div>
+      <div class="wn" id="wLawName">قانون أوم</div>
+    </button>
+    <button class="glass widget" data-open="grades" aria-label="الصفوف المختبرية">
+      <div class="wl"><i class="fa-solid fa-layer-group"></i> الصفوف</div>
+      <div class="big">3</div>
+      <div class="sm">صفوف متاحة الآن<br>و3 قيد الإضافة</div>
+    </button>
+  </div>
+
+  <div class="sec-label">التطبيقات</div>
+  <div class="icons">
+    <button class="appicon" id="talibIcon" aria-label="فتح منصة طالب">
+      <div class="sq g-talib"><i class="fa-solid fa-user-graduate"></i></div>
+      <span>منصة طالب</span>
+    </button>
+    <button class="appicon" data-open="grades" aria-label="فتح مختبر الفيزياء">
+      <div class="sq g-lab"><i class="fa-solid fa-atom"></i></div>
+      <span>مختبر الفيزياء</span>
+    </button>
+  </div>
+</main>
+
+<nav class="tabbar" id="tabbar" aria-label="التنقل الرئيسي"></nav>
+
+<div class="scrim" id="scrim"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" aria-hidden="true">
+  <div class="sh-head" id="shHead">
+    <div class="grab"></div>
+    <div class="sh-title">
+      <h2 id="sheetTitle"></h2>
+      <button class="x" id="closeBtn" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+  <div class="sh-body" id="sheetBody"></div>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ============================== الإعدادات ============================== */
+const CONFIG = {
+  talibUrl: "",                 // ضع رابط منصة طالب هنا
+  pages: { g1:"test2.html", g2:"test3.html", g3:"test.html", stars:"Distinguished.html" }
+};
+
+const $ = (s, r=document) => r.querySelector(s);
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+const buzz = () => { try{ navigator.vibrate && navigator.vibrate(8); }catch(e){} };
+
+/* ============================== البيانات ============================== */
+const EXPERIMENTS = [
+  {icon:"fa-lightbulb",c:"#ff9f0a",t:"مصباح ومفتاح",lvl:"مبتدئ",d:"دائرة بسيطة من بطارية ومفتاح ومصباح. افتح وأغلق المفتاح وراقب الإضاءة وقِس الجهد والتيار والقدرة.",chips:["بطارية","مفتاح","مصباح"]},
+  {icon:"fa-gauge-high",c:"#0a84ff",t:"قانون أوم",lvl:"مبتدئ",d:"غيّر الجهد والمقاومة وتحقّق عملياً أن التيار يساوي الجهد مقسوماً على المقاومة.",chips:["V = I·R","أميتر","فولتميتر"]},
+  {icon:"fa-diagram-project",c:"#30d158",t:"التوالي والتوازي",lvl:"مبتدئ",d:"قارن بين توصيل المقاومات على التوالي وعلى التوازي، وتوزيع الجهد والتيار على كل فرع.",chips:["مقاومات","كيرخوف"]},
+  {icon:"fa-fire-flame-curved",c:"#ff453a",t:"قصر الدائرة واحتراق المقاومة",lvl:"متوسط",d:"وصّل مقاومة صغيرة مع بطارية 12V لترى ارتفاع التيار واحتراق المقاومة عند تجاوز قدرتها، بأمان تام.",chips:["P = I²R","سلامة"]},
+  {icon:"fa-lightbulb",c:"#ff375f",t:"الدايود LED ومقاومة الحماية",lvl:"متوسط",d:"وصّل LED مع مقاومة 330Ω على بطارية 9V وتأكد أن التيار لا يتجاوز الحد الأقصى للدايود.",chips:["LED","330Ω","9V"]},
+  {icon:"fa-battery-half",c:"#64d2ff",t:"شحن المكثف RC",lvl:"متقدم",d:"اشحن مكثفاً 1000µF عبر مقاومة 1000Ω وتابع منحنى الجهد والتيار لحساب ثابت الزمن τ.",chips:["τ = R·C","منحنى حي"]},
+  {icon:"fa-wave-square",c:"#bf5af2",t:"تيار متناوب RL",lvl:"متقدم",d:"دائرة 50Hz فيها مقاومة وملف. اكتشف كيف تؤثر المحاثة في التيار والجهد عند تغيير التردد.",chips:["AC 50Hz","ملف","X_L"]},
+  {icon:"fa-magnet",c:"#5e5ce6",t:"المغناطيس الكهربائي والبوصلة",lvl:"متوسط",d:"شاهد المجال المغناطيسي الناتج عن مرور التيار، وكيف تتأثر به إبرة البوصلة والمفتاح القصبي.",chips:["مغناطيس","بوصلة","قصبي"]},
+  {icon:"fa-sun",c:"#ffd60a",t:"الحساسات: LDR وNTC والخلية الشمسية",lvl:"متقدم",d:"اختبر تغيّر المقاومة مع الضوء والحرارة، وولّد جهداً من الخلية الشمسية.",chips:["LDR","NTC","شمسية"]}
+];
+
+const LAWS = [
+  {f:"V = I × R",t:"قانون أوم",d:"الجهد بين طرفي موصل يساوي التيار المار فيه مضروباً في مقاومته. عند ثبات R يتناسب التيار طردياً مع الجهد."},
+  {f:"P = V × I = I²R",t:"القدرة الكهربائية",d:"معدل استهلاك الطاقة بوحدة الواط. كلما زاد التيار ازدادت الحرارة بسرعة، فالتيار يدخل بالتربيع."},
+  {f:"R = R₁ + R₂ + …",t:"المقاومات على التوالي",d:"المقاومة المكافئة هي مجموع المقاومات، والتيار نفسه في الجميع، بينما يتوزع الجهد عليها."},
+  {f:"1/R = 1/R₁ + 1/R₂ + …",t:"المقاومات على التوازي",d:"الجهد نفسه على كل فرع، والتيار يتوزع بين الفروع، والمقاومة المكافئة أصغر من أصغر مقاومة."},
+  {f:"ΣI(in) = ΣI(out)",t:"قانون كيرخوف للتيار",d:"مجموع التيارات الداخلة إلى عقدة يساوي مجموع التيارات الخارجة منها (حفظ الشحنة)."},
+  {f:"ΣV = 0",t:"قانون كيرخوف للجهد",d:"المجموع الجبري للجهود في أي مسار مغلق يساوي صفراً (حفظ الطاقة)."},
+  {f:"τ = R × C",t:"ثابت الزمن للدائرة RC",d:"بعد زمن τ يصل جهد المكثف إلى 63.2% من جهد المصدر، وبعد 5τ يكتمل الشحن تقريباً."},
+  {f:"V = Vs(1 − e^(−t/τ))",t:"شحن المكثف",d:"يرتفع جهد المكثف أُسّياً مع الزمن بينما يتناقص تيار الشحن إلى الصفر."},
+  {f:"X_L = 2π f L",t:"المفاعلة الحثية",d:"مقاومة الملف للتيار المتناوب، تزداد بزيادة التردد f أو المحاثة L."},
+  {f:"Q = I² R t",t:"قانون جول للتسخين",d:"الحرارة الناتجة في مقاومة تتناسب مع مربع التيار ومع المقاومة والزمن."}
+];
+
+const CONCEPTS = [
+  {s:"V",c:"#0a84ff",t:"الجهد",u:"فولت (V)",d:"الدافع الذي يدفع الشحنات في الدائرة، مثل ضغط الماء في الأنبوب."},
+  {s:"I",c:"#30d158",t:"التيار",u:"أمبير (A)",d:"كمية الشحنة المارة في الثانية، مثل كمية الماء المتدفقة."},
+  {s:"R",c:"#ff9f0a",t:"المقاومة",u:"أوم (Ω)",d:"ممانعة المادة لمرور التيار، مثل ضيق الأنبوب."},
+  {s:"P",c:"#ff375f",t:"القدرة",u:"واط (W)",d:"معدل تحويل الطاقة الكهربائية إلى ضوء أو حرارة."},
+  {s:"C",c:"#64d2ff",t:"السعة",u:"فاراد (F)",d:"قدرة المكثف على تخزين الشحنة عند جهد معين."},
+  {s:"L",c:"#bf5af2",t:"المحاثة",u:"هنري (H)",d:"خاصية الملف في مقاومة تغيّر التيار بتوليد مجال مغناطيسي."}
+];
+
+const GRADES = {
+  mid:[
+    {n:"1",t:"الأول متوسط",href:CONFIG.pages.g1,c:"linear-gradient(145deg,#5ac8fa,#0a84ff)"},
+    {n:"2",t:"الثاني متوسط",href:CONFIG.pages.g2,c:"linear-gradient(145deg,#30d158,#0d9488)"},
+    {n:"3",t:"الثالث متوسط",href:CONFIG.pages.g3,c:"linear-gradient(145deg,#bf5af2,#5e5ce6)"}
+  ],
+  prep:[
+    {n:"4",t:"الرابع إعدادي"},{n:"5",t:"الخامس إعدادي"},{n:"6",t:"السادس إعدادي"}
+  ]
+};
+
+const TEAM = [
+  {name:"الأستاذ مصطفى رحيم فندي",role:"استاذ و مبرمج",photo:"images/teachers/mustafa.jpg",ini:"م",
+   info:"مطوّر البرمجيات التعليمية، صمّم وبرمج مختبر الفيزياء التفاعلي ومحرك المحاكاة الفيزيائية."},
+  {name:"د. باسم عجيل",role:"المشرف على المختبر",photo:"images/teachers/bassm.jfif",ini:"ب",
+   info:"أستاذ الفيزياء المشرف على المحتوى العلمي، راجع القوانين والتجارب وضمن دقة المحاكاة."}
+];
+
+/* ============================== الواجهة الرئيسية ============================== */
+(function home(){
+  const d = new Date();
+  $('#today').textContent = d.toLocaleDateString('ar-IQ',{weekday:'long',day:'numeric',month:'long'});
+  const day = Math.floor(d / 864e5);
+  const L = LAWS[day % LAWS.length];
+  $('#wLaw').textContent = L.f;
+  $('#wLaw').style.fontSize = L.f.length > 14 ? '17px' : '24px';
+  $('#wLawName').textContent = L.t;
+})();
+
+/* ============================== شريط التبويب ============================== */
+const TABS = [
+  {k:'home',  t:'الرئيسية',    i:'fa-house'},
+  {k:'about', t:'حول المختبر', i:'fa-atom'},
+  {k:'grades',t:'الصفوف',      i:'fa-layer-group'},
+  {k:'team',  t:'القائمون',    i:'fa-users'},
+  {k:'stars', t:'المتميزون',   i:'fa-trophy'}
+];
+const tabbar = $('#tabbar');
+tabbar.innerHTML = TABS.map(x =>
+  `<button class="tab${x.k==='home'?' on':''}" data-tab="${x.k}" aria-label="${x.t}"><i class="fa-solid ${x.i}"></i><span>${x.t}</span></button>`).join('');
+function setActive(k){
+  tabbar.querySelectorAll('.tab').forEach(b => {
+    const on = b.dataset.tab === k;
+    b.classList.toggle('on', on);
+    on ? b.setAttribute('aria-current','page') : b.removeAttribute('aria-current');
+  });
+}
+tabbar.addEventListener('click', e => {
+  const b = e.target.closest('.tab'); if(!b) return;
+  buzz();
+  const k = b.dataset.tab;
+  if(k === 'home') return closeSheet();
+  if(k === 'stars') return go(CONFIG.pages.stars);
+  openSheet(k);
+});
+
+/* ============================== النافذة المنبثقة ============================== */
+const sheet = $('#sheet'), scrim = $('#scrim'), sBody = $('#sheetBody'), sTitle = $('#sheetTitle');
+let current = null, aboutSub = 'exp', isOpen = false;
+
+const VIEWS = {
+  about:{title:'حول المختبر',icon:'fa-atom',render:renderAbout},
+  grades:{title:'الصفوف المختبرية',icon:'fa-layer-group',render:renderGrades},
+  team:{title:'القائمون على المختبر',icon:'fa-users',render:renderTeam}
+};
+
+function openSheet(key, sub){
+  const v = VIEWS[key]; if(!v) return;
+  if(key==='about' && sub) aboutSub = sub;
+  stopSims();
+  current = key;
+  sTitle.innerHTML = `<i class="fa-solid ${v.icon}"></i> ${v.title}`;
+  sBody.innerHTML = `<div class="view">${v.render()}</div>`;
+  sBody.scrollTop = 0;
+  afterRender();
+  setActive(key);
+  if(!isOpen){
+    isOpen = true;
+    try{ history.pushState({s:1},''); }catch(e){}
+    sheet.classList.add('open'); scrim.classList.add('open');
+    sheet.setAttribute('aria-hidden','false');
+    document.body.classList.add('lock');
+  }
+}
+function visualClose(){
+  if(!isOpen) return;
+  isOpen = false; current = null;
+  stopSims();
+  sheet.classList.remove('open'); scrim.classList.remove('open');
+  sheet.setAttribute('aria-hidden','true');
+  document.body.classList.remove('lock');
+  setActive('home');
+}
+function closeSheet(){
+  if(!isOpen) return;
+  if(history.state && history.state.s){ history.back(); } else visualClose();
+}
+window.addEventListener('popstate', visualClose);
+$('#closeBtn').onclick = () => { buzz(); closeSheet(); };
+scrim.onclick = closeSheet;
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeSheet(); });
+
+/* سحب النافذة للأسفل لإغلاقها */
+(function drag(){
+  const head = $('#shHead'); let d = null;
+  head.addEventListener('pointerdown', e => {
+    if(e.target.closest('.x')) return;
+    d = {y:e.clientY,t:performance.now(),dy:0};
+    head.setPointerCapture(e.pointerId); sheet.style.transition = 'none';
+  });
+  head.addEventListener('pointermove', e => {
+    if(!d) return;
+    d.dy = Math.max(0, e.clientY - d.y);
+    sheet.style.transform = `translate(-50%,${d.dy}px)`;
+  });
+  const end = () => {
+    if(!d) return;
+    const v = d.dy / Math.max(1, performance.now() - d.t);
+    sheet.style.transition = ''; sheet.style.transform = '';
+    if(d.dy > 120 || v > .6) closeSheet();
+    d = null;
+  };
+  head.addEventListener('pointerup', end);
+  head.addEventListener('pointercancel', end);
+})();
+
+/* ============================== التنقل والإشعارات ============================== */
+function go(url){
+  document.body.classList.add('leaving');
+  setTimeout(() => { location.href = url; }, 170);
+}
+let tt;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2400);
+}
+document.addEventListener('click', e => {
+  const o = e.target.closest('[data-open]');
+  if(o){ buzz(); const [k,s] = o.dataset.open.split(':'); openSheet(k, s); return; }
+  const a = e.target.closest('a.row[href]');
+  if(a){ e.preventDefault(); buzz(); go(a.getAttribute('href')); return; }
+  const soon = e.target.closest('.row.soon');
+  if(soon){ buzz(); toast('هذا الصف قيد الإضافة، قريباً بإذن الله'); }
+});
+$('#talibIcon').onclick = () => {
+  buzz();
+  go('https://m-mns.vercel.app/');
+};
+
+/* ============================== حول المختبر ============================== */
+const SUBS = [{k:'exp',t:'التجارب'},{k:'laws',t:'القوانين'},{k:'explain',t:'الشرح'},{k:'sim',t:'المحاكاة'}];
+function renderAbout(){
+  const seg = `<div class="seg" role="tablist">${SUBS.map(s =>
+    `<button role="tab" class="${s.k===aboutSub?'on':''}" data-sub="${s.k}" aria-selected="${s.k===aboutSub}">${s.t}</button>`).join('')}</div>`;
+  const p = {exp:panelExp,laws:panelLaws,explain:panelExplain,sim:panelSim}[aboutSub]();
+  return seg + `<div id="aboutPanel" class="view">${p}</div>`;
+}
+function panelExp(){
+  return `<p class="intro">تجارب تفاعلية تبدأ من أبسط دائرة وتصل إلى المكثفات والملفات والحساسات، وكلها في بيئة آمنة.</p>
+  <div class="list stag">${EXPERIMENTS.map((x,i)=>`
+    <article class="card exp" style="--c:${x.c};--i:${i}">
+      <div class="ico"><i class="fa-solid ${x.icon}"></i></div>
+      <div><h4>${x.t}<span class="lvl">${x.lvl}</span></h4><p>${x.d}</p>
+      <div class="chips">${x.chips.map(c=>`<span>${c}</span>`).join('')}</div></div>
+    </article>`).join('')}</div>`;
+}
+function panelLaws(){
+  return `<p class="intro">القوانين الأساسية التي تعتمد عليها تجارب المختبر.</p>
+  <div class="list stag">${LAWS.map((x,i)=>`
+    <article class="card law" style="--i:${i}"><div class="formula">${x.f}</div><h4>${x.t}</h4><p>${x.d}</p></article>`).join('')}</div>`;
+}
+function panelExplain(){
+  return `<p class="intro">تخيّل الدائرة الكهربائية كشبكة أنابيب مياه: المضخة هي البطارية، والماء هو الشحنات، وضيق الأنبوب هو المقاومة.</p>
+  <div class="concepts stag">${CONCEPTS.map((x,i)=>`
+    <article class="card concept" style="--c:${x.c};--i:${i}"><div class="sym">${x.s}</div><h4>${x.t}</h4><em>${x.u}</em><p>${x.d}</p></article>`).join('')}</div>
+  <div class="note"><i class="fa-solid fa-triangle-exclamation"></i><div><b>تنبيه سلامة:</b> يسمح المختبر الافتراضي بتجربة قصر الدائرة والاحتراق دون أي خطر. أما في المختبر الحقيقي فلا تُجرِ هذه التجارب إلا بإشراف المعلم.</div></div>`;
+}
+function panelSim(){
+  return `<div class="seg" style="margin-top:0"><button class="on" data-sim="ohm">قانون أوم</button><button data-sim="rc">شحن المكثف RC</button></div>
+  <div id="simBox"></div>`;
+}
+
+/* ============================== المحاكاة ============================== */
+let raf = 0;
+function stopSims(){ cancelAnimationFrame(raf); raf = 0; }
+
+function simOhm(){
+  stopSims();
+  $('#simBox').innerHTML = `
+  <div class="card sim view">
+    <svg viewBox="0 0 300 170" role="img" aria-label="دائرة كهربائية فيها بطارية ومقاومة">
+      <path class="wire" d="M40 78V40H260V70M260 100V130H40V92"/>
+      <g id="dots"></g>
+      <line x1="24" y1="78" x2="56" y2="78" stroke="var(--txt)" stroke-width="3" stroke-linecap="round"/>
+      <line x1="31" y1="92" x2="49" y2="92" stroke="var(--txt)" stroke-width="7" stroke-linecap="round"/>
+      <text class="sv-txt" x="64" y="82">+</text><text class="sv-txt" x="64" y="97">−</text>
+      <text class="sv-mut" x="100" y="108">بطارية</text>
+      <rect id="res" x="246" y="70" width="28" height="30" rx="6" stroke="var(--txt)" stroke-width="2.5" fill="rgba(255,159,10,.1)"/>
+      <text class="sv-mut" x="236" y="89" text-anchor="end">مقاومة</text>
+    </svg>
+    <div class="readouts">
+      <div class="ro"><small>التيار I</small><b id="oI">-</b></div>
+      <div class="ro"><small>الجهد V</small><b id="oV">-</b></div>
+      <div class="ro"><small>القدرة P</small><b id="oP">-</b></div>
+    </div>
+    <div class="ctl"><label>الجهد V <output id="vOut"></output></label><input type="range" id="vIn" min="1" max="24" step="0.5" value="9" aria-label="الجهد"></div>
+    <div class="ctl"><label>المقاومة R <output id="rOut"></output></label><input type="range" id="rIn" min="1" max="100" step="1" value="30" aria-label="المقاومة"></div>
+    <div id="oBadge" class="badge ok"></div>
+  </div>`;
+
+  const segs = [[40,78,40,40],[40,40,260,40],[260,40,260,70],[260,70,260,100],[260,100,260,130],[260,130,40,130],[40,130,40,92]];
+  const lens = segs.map(s => Math.hypot(s[2]-s[0], s[3]-s[1])), L = lens.reduce((a,b)=>a+b,0);
+  const at = s => { s = ((s % L) + L) % L; for(let i=0;i<segs.length;i++){ if(s <= lens[i]){ const k = s/lens[i], g = segs[i]; return [g[0]+(g[2]-g[0])*k, g[1]+(g[3]-g[1])*k]; } s -= lens[i]; } return segs[0]; };
+  const N = 18, g = $('#dots');
+  g.innerHTML = Array.from({length:N}, () => `<circle r="3.4" fill="#ffd60a"/>`).join('');
+  const dots = [...g.children];
+  const vIn = $('#vIn'), rIn = $('#rIn'), res = $('#res');
+  let I = 0, P = 0, off = 0, last = performance.now();
+  const RATED = 5;
+  const fI = x => x < 1 ? (x*1000).toFixed(0)+' mA' : x.toFixed(2)+' A';
+  const fP = x => x < 1 ? (x*1000).toFixed(0)+' mW' : x.toFixed(1)+' W';
+  function calc(){
+    const V = +vIn.value, R = +rIn.value;
+    I = V / R; P = V * I;
+    $('#vOut').textContent = V + ' V'; $('#rOut').textContent = R + ' Ω';
+    $('#oI').textContent = fI(I); $('#oV').textContent = V + ' V'; $('#oP').textContent = fP(P);
+    const h = clamp(P / RATED, 0, 1);
+    res.style.fill = `rgba(255,${Math.round(159 - 110*h)},${Math.round(10 + 30*(1-h))},${.12 + .8*h})`;
+    res.style.filter = `drop-shadow(0 0 ${Math.round(10*h)}px rgba(255,69,58,${h}))`;
+    const b = $('#oBadge'), hot = P > RATED;
+    b.className = 'badge ' + (hot ? 'warn' : 'ok');
+    b.innerHTML = hot
+      ? `<i class="fa-solid fa-fire"></i> القدرة تتجاوز ${RATED}W المقننة، ستحترق المقاومة في الواقع`
+      : `<i class="fa-solid fa-circle-check"></i> التشغيل آمن، ضمن القدرة المقننة ${RATED}W`;
+  }
+  vIn.oninput = rIn.oninput = calc; calc();
+  (function tick(now){
+    const dt = Math.min(.05, (now - last)/1000); last = now;
+    off += (22 + 38*Math.sqrt(I)) * dt;
+    dots.forEach((c,i) => { const [x,y] = at(off + i*L/N); c.setAttribute('cx',x.toFixed(1)); c.setAttribute('cy',y.toFixed(1)); });
+    raf = requestAnimationFrame(tick);
+  })(last);
+}
+
+function simRC(){
+  stopSims();
+  $('#simBox').innerHTML = `
+  <div class="card sim view">
+    <svg viewBox="0 0 320 190" role="img" aria-label="منحنى شحن المكثف">
+      <line x1="30" y1="150" x2="305" y2="150" stroke="var(--mut)" stroke-width="1.5"/>
+      <line x1="30" y1="20" x2="30" y2="150" stroke="var(--mut)" stroke-width="1.5"/>
+      <line id="tauLine" y1="20" y2="150" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <text id="tauTxt" class="sv-mut" y="165" fill="var(--warn)" style="fill:var(--warn)" text-anchor="middle">τ</text>
+      <path id="pI" fill="none" stroke="#bf5af2" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round"/>
+      <path id="pV" fill="none" stroke="#0a84ff" stroke-width="3.5" stroke-linecap="round"/>
+      <circle id="dotV" r="6" fill="#fff" stroke="#0a84ff" stroke-width="3"/>
+      <text class="sv-mut" x="305" y="178" text-anchor="end">الزمن t (حتى 5τ)</text>
+      <text class="sv-mut" x="36" y="16" style="fill:#0a84ff">جهد المكثف</text>
+      <text class="sv-mut" x="120" y="16" style="fill:#bf5af2">التيار</text>
+    </svg>
+    <div class="readouts">
+      <div class="ro"><small>ثابت الزمن τ</small><b id="cTau">-</b></div>
+      <div class="ro"><small>جهد المكثف</small><b id="cV">-</b></div>
+      <div class="ro"><small>تيار الشحن</small><b id="cI">-</b></div>
+    </div>
+    <div class="ctl"><label>جهد المصدر V <output id="cvOut"></output></label><input type="range" id="cvIn" min="1" max="24" step="1" value="9" aria-label="جهد المصدر"></div>
+    <div class="ctl"><label>المقاومة R <output id="crOut"></output></label><input type="range" id="crIn" min="0.1" max="10" step="0.1" value="1" aria-label="المقاومة"></div>
+    <div class="ctl"><label>السعة C <output id="ccOut"></output></label><input type="range" id="ccIn" min="100" max="4700" step="100" value="1000" aria-label="السعة"></div>
+  </div>`;
+  const X0 = 30, W = 270, Y0 = 150, H = 120;
+  let tau = 1, V = 9, R = 1000, C = 1e-3;
+  const pV = $('#pV'), pI = $('#pI'), dotV = $('#dotV');
+  function calc(){
+    V = +$('#cvIn').value; R = +$('#crIn').value * 1000; C = +$('#ccIn').value * 1e-6; tau = R * C;
+    $('#cvOut').textContent = V + ' V'; $('#crOut').textContent = (R/1000).toFixed(1) + ' kΩ'; $('#ccOut').textContent = (C*1e6) + ' µF';
+    $('#cTau').textContent = tau.toFixed(2) + ' s';
+    let dv = '', di = '';
+    for(let k=0;k<=60;k++){
+      const f = k/60, x = X0 + f*W, e = Math.exp(-f*5);
+      dv += (k?'L':'M') + x.toFixed(1) + ' ' + (Y0 - (1-e)*H).toFixed(1);
+      di += (k?'L':'M') + x.toFixed(1) + ' ' + (Y0 - e*H).toFixed(1);
+    }
+    pV.setAttribute('d', dv); pI.setAttribute('d', di);
+    const tx = X0 + W/5;
+    const tl = $('#tauLine'); tl.setAttribute('x1',tx); tl.setAttribute('x2',tx);
+    const tt = $('#tauTxt'); tt.setAttribute('x',tx); tt.textContent = 'τ';
+  }
+  ['cvIn','crIn','ccIn'].forEach(id => $('#'+id).oninput = calc); calc();
+  const t0 = performance.now();
+  (function tick(now){
+    const cyc = 5.5, p = ((now - t0)/1000 % cyc) / 4;   // توقف قصير في نهاية الدورة
+    const f = clamp(p, 0, 1), e = Math.exp(-f*5);
+    dotV.setAttribute('cx', (X0 + f*W).toFixed(1)); dotV.setAttribute('cy', (Y0 - (1-e)*H).toFixed(1));
+    $('#cV').textContent = (V*(1-e)).toFixed(2) + ' V';
+    const i = (V/R)*e*1000; $('#cI').textContent = i.toFixed(2) + ' mA';
+    raf = requestAnimationFrame(tick);
+  })(t0);
+}
+
+/* ============================== الصفوف ============================== */
+function renderGrades(){
+  const mid = GRADES.mid.map((g,i)=>`
+    <a class="row" href="${g.href}" style="--c:${g.c}" aria-label="${g.t}">
+      <div class="num" style="background:${g.c}">${g.n}</div>
+      <div class="tx"><b>${g.t}</b><small>ادخل إلى المختبر</small></div>
+      <i class="fa-solid fa-chevron-left chev"></i>
+    </a>`).join('');
+  const prep = GRADES.prep.map(g=>`
+    <button class="row soon" aria-label="${g.t} قيد الإضافة">
+      <div class="num">${g.n}</div>
+      <div class="tx"><b>${g.t}</b><small>المحتوى قيد التجهيز</small></div>
+      <span class="tag">قيد الإضافة</span>
+    </button>`).join('');
+  return `<p class="intro">اختر صفّك لتبدأ التجارب. تتم إضافة المراحل الإعدادية تباعاً.</p>
+  <div class="group-label">المرحلة المتوسطة</div><div class="cells stag">${mid}</div>
+  <div class="group-label">المرحلة الإعدادية</div><div class="cells">${prep}</div>`;
+}
+
+/* ============================== القائمون ============================== */
+function renderTeam(){
+  return `<p class="intro">فريق العمل خلف مختبر الفيزياء.</p>
+  <div class="list stag">
+  ${TEAM.map((p,i)=>`
+    <article class="card person" style="--i:${i}">
+      <div class="photo"><div class="fb">${p.ini}</div>
+        <img src="${p.photo}" alt="${p.name}" loading="lazy" onerror="this.remove()"></div>
+      <h3>${p.name}</h3><div class="role">${p.role}</div><p>${p.info}</p>
+    </article>`).join('')}
+    <article class="card platform" style="--i:2">
+      <div class="ico g-talib"><i class="fa-solid fa-user-graduate"></i></div>
+      <div><b>منصة طالب</b><p>مختبر الفيزياء جزء من منصة طالب التعليمية.</p></div>
+    </article>
+  </div>`;
+}
+
+/* ============================== ربط الأحداث بعد العرض ============================== */
+function afterRender(){
+  if(current !== 'about') return;
+  sBody.querySelectorAll('[data-sub]').forEach(b => b.onclick = () => {
+    buzz(); aboutSub = b.dataset.sub; stopSims();
+    sBody.querySelectorAll('[data-sub]').forEach(x => { const on = x===b; x.classList.toggle('on',on); x.setAttribute('aria-selected',on); });
+    const panel = $('#aboutPanel');
+    panel.className = ''; void panel.offsetWidth; panel.className = 'view';
+    panel.innerHTML = {exp:panelExp,laws:panelLaws,explain:panelExplain,sim:panelSim}[aboutSub]();
+    if(aboutSub === 'sim') wireSim();
+  });
+  if(aboutSub === 'sim') wireSim();
+}
+function wireSim(){
+  simOhm();
+  sBody.querySelectorAll('[data-sim]').forEach(b => b.onclick = () => {
+    buzz();
+    sBody.querySelectorAll('[data-sim]').forEach(x => x.classList.toggle('on', x===b));
+    b.dataset.sim === 'ohm' ? simOhm() : simRC();
+  });
+}
+</script>
+</body>
+</html>
