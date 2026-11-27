@@ -32,6 +32,8 @@
       --tx: #1d1d1f;
       --tx2: #636369;
       --line: rgba(11, 31, 58, 0.08);
+      --android: #3ddc84;
+      --android-dark: #1f9d57;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -57,7 +59,7 @@
     button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
     svg { display: block; }
 
-    /* ===== الشريط العلوي المبسط ===== */
+    /* ===== الشريط العلوي ===== */
     .topbar {
       position: sticky;
       top: 0;
@@ -142,32 +144,18 @@
     .top-lab-btn:active { transform: scale(0.96); }
     .top-lab-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 
-    /* ===== ترحيب موجز وبسيط ===== */
+    /* ===== الترحيب ===== */
     .welcome {
       background: linear-gradient(135deg, var(--navy), #132f55);
       color: #fff;
       padding: 16px 14px 18px;
       text-align: center;
     }
+    .welcome-in { max-width: 960px; margin: 0 auto; }
+    .welcome h1 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .welcome p { font-size: 13px; color: rgba(255, 255, 255, 0.82); }
 
-    .welcome-in {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .welcome h1 {
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .welcome p {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.82);
-    }
-
-    /* ===== المحتوى الرئيسي ===== */
+    /* ===== المحتوى ===== */
     .main-wrap {
       flex: 1;
       width: 100%;
@@ -183,13 +171,7 @@
       margin-bottom: 10px;
       padding: 0 2px;
     }
-
-    .sec-head h2 {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--navy);
-    }
-
+    .sec-head h2 { font-size: 15px; font-weight: 800; color: var(--navy); }
     .sec-head button {
       font-size: 12.5px;
       font-weight: 700;
@@ -198,7 +180,6 @@
       padding: 4px 6px;
     }
 
-    /* شبكة بسيطة من عمودين على الهاتف وثلاثة على الحاسوب */
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -219,7 +200,6 @@
       box-shadow: 0 2px 10px rgba(11, 31, 58, 0.04);
       transition: transform 0.16s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-
     .tile:hover {
       border-color: rgba(201, 162, 39, 0.5);
       box-shadow: 0 8px 20px rgba(11, 31, 58, 0.08);
@@ -234,6 +214,52 @@
       padding: 14px 15px;
       background: linear-gradient(135deg, #ffffff, #fcf8ec);
       border-color: rgba(201, 162, 39, 0.35);
+    }
+
+    /* ===== بطاقة تطبيق Android ===== */
+    .tile.app {
+      grid-column: span 2;
+      flex-direction: row;
+      align-items: center;
+      min-height: 82px;
+      padding: 14px 15px;
+      background: linear-gradient(135deg, var(--navy), #163a66);
+      border-color: rgba(61, 220, 132, 0.45);
+      color: #fff;
+    }
+    .tile.app:hover { border-color: var(--android); box-shadow: 0 8px 22px rgba(11, 31, 58, 0.25); }
+    .tile.app .tile-title { color: #fff; }
+    .tile.app .tile-desc { color: rgba(255, 255, 255, 0.78); }
+
+    .tile-ic.android { background: rgba(61, 220, 132, 0.16); color: var(--android); }
+    .tile-ic.android svg { fill: currentColor; stroke: none; width: 24px; height: 24px; }
+
+    .dl-btn {
+      flex-shrink: 0;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      background: var(--android);
+      color: var(--navy-dark);
+      font-size: 12.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .dl-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.4; }
+
+    .tile-badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--navy-dark);
+      background: var(--gold);
+      border-radius: 6px;
+      padding: 1px 7px;
+      margin-inline-start: 6px;
+      vertical-align: middle;
     }
 
     .tile-ic {
@@ -256,11 +282,7 @@
       line-height: 1.35;
       margin-bottom: 2px;
     }
-    .tile-desc {
-      font-size: 11.5px;
-      color: var(--tx2);
-      line-height: 1.4;
-    }
+    .tile-desc { font-size: 11.5px; color: var(--tx2); line-height: 1.4; }
 
     .tile-arrow {
       width: 18px;
@@ -271,7 +293,30 @@
       flex-shrink: 0;
     }
 
-    /* ===== القائمة الجانبية (باقي التبويبات) ===== */
+    /* ===== رسالة التنزيل ===== */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(84px + env(safe-area-inset-bottom));
+      transform: translateX(-50%) translateY(20px);
+      z-index: 90;
+      max-width: calc(100vw - 32px);
+      background: var(--navy);
+      color: #fff;
+      border: 1px solid var(--android);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 10px 24px rgba(11, 31, 58, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ===== القائمة الجانبية ===== */
     .drawer-back {
       position: fixed;
       inset: 0;
@@ -360,8 +405,10 @@
     }
     .drawer-item:active { transform: scale(0.98); background: #f2ece0; }
     .drawer-item svg { width: 19px; height: 19px; stroke: var(--gold-dark); fill: none; stroke-width: 2; flex-shrink: 0; }
+    .drawer-item.android-item { background: rgba(61, 220, 132, 0.1); border-color: rgba(61, 220, 132, 0.35); }
+    .drawer-item.android-item svg { fill: var(--android-dark); stroke: none; }
 
-    /* ===== الشريط السفلي الثابت (4 تبويبات رئيسية) ===== */
+    /* ===== الشريط السفلي ===== */
     .bottom-bar {
       position: fixed;
       left: 0;
@@ -409,7 +456,6 @@
     }
     .tab-item:active { transform: scale(0.94); }
 
-    /* ===== الفوتر ===== */
     .foot {
       text-align: center;
       font-size: 12px;
@@ -417,9 +463,14 @@
       padding: 12px 16px 18px;
     }
 
+    @media (max-width: 380px) {
+      .dl-btn span { display: none; }
+      .dl-btn { padding: 0 11px; }
+    }
+
     @media (min-width: 640px) {
       .grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-      .tile.featured { grid-column: span 3; }
+      .tile.featured, .tile.app { grid-column: span 3; }
       .welcome h1 { font-size: 24px; }
     }
 
@@ -430,6 +481,13 @@
 </head>
 
 <body>
+
+  <!-- أيقونة Android المشتركة -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-android" viewBox="0 0 24 24">
+      <path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/>
+    </symbol>
+  </svg>
 
   <!-- الشريط العلوي -->
   <header class="topbar">
@@ -452,7 +510,7 @@
     </div>
   </header>
 
-  <!-- ترحيب موجز -->
+  <!-- ترحيب -->
   <section class="welcome">
     <div class="welcome-in">
       <h1>أقسام منصة طالب</h1>
@@ -460,7 +518,6 @@
     </div>
   </section>
 
-  <!-- الشبكة المبسطة لجميع الأقسام -->
   <main class="main-wrap">
 
     <div class="sec-head">
@@ -469,7 +526,7 @@
     </div>
 
     <div class="grid">
-      <!-- حقل المختبر الجديد (يذهب إلى مجلد lab) -->
+      <!-- المختبر -->
       <a href="https://mns-lab.vercel.app/" class="tile featured">
         <div class="tile-ic gold">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.4a2 2 0 0 1-.4 1.2L4.6 17a2 2 0 0 0 1.6 3.2h11.6a2 2 0 0 0 1.6-3.2L14.4 9.6a2 2 0 0 1-.4-1.2V3"/><path d="M7.5 14h9"/></svg>
@@ -479,6 +536,21 @@
           <div class="tile-desc">تجارب علمية وتطبيقات تفاعلية</div>
         </div>
         <svg class="tile-arrow" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </a>
+
+      <!-- تطبيق Android للمختبر (تنزيل lab.apk) -->
+      <a href="lab.apk" download="lab.apk" type="application/vnd.android.package-archive" class="tile app js-apk">
+        <div class="tile-ic android">
+          <svg><use href="#ic-android"/></svg>
+        </div>
+        <div class="tile-txt">
+          <div class="tile-title">تطبيق المختبر <span class="tile-badge">Android</span></div>
+          <div class="tile-desc">نزّل التطبيق وجرّب المختبرات على هاتفك</div>
+        </div>
+        <span class="dl-btn">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          <span>تنزيل</span>
+        </span>
       </a>
 
       <!-- المجتمع -->
@@ -531,7 +603,6 @@
     </div>
 
     <div class="grid">
-      <!-- قسم المشاهدة -->
       <a href="you_tube/home.html" class="tile">
         <div class="tile-ic gold">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3v6Z"/></svg>
@@ -542,7 +613,6 @@
         </div>
       </a>
 
-      <!-- الكتب والملازم -->
       <a href="books/home.html" class="tile">
         <div class="tile-ic navy">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -553,7 +623,6 @@
         </div>
       </a>
 
-      <!-- نموذج تشخيص AZ (الطالب) -->
       <a href="az/index.html" class="tile">
         <div class="tile-ic gold">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8a3 3 0 0 0-3 3"/></svg>
@@ -564,7 +633,6 @@
         </div>
       </a>
 
-      <!-- نموذج تشخيص AZ (الأستاذ) -->
       <a href="az-teacher/teachers/index.html" class="tile">
         <div class="tile-ic navy">
           <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
@@ -582,7 +650,12 @@
     © <span id="year"></span> منصة طالب — تأسيس الأستاذ مصطفى رحيم فندي
   </footer>
 
-  <!-- القائمة الجانبية لباقي التبويبات -->
+  <!-- رسالة التنزيل -->
+  <div class="toast" id="apkToast" role="status" aria-live="polite">
+    جارٍ تنزيل تطبيق المختبر… بعد اكتمال التنزيل افتح الملف واسمح بالتثبيت من مصادر غير معروفة إن طُلب ذلك.
+  </div>
+
+  <!-- القائمة الجانبية -->
   <div class="drawer-back" id="drawerBack"></div>
   <aside class="drawer" id="sideDrawer" role="dialog" aria-label="القائمة الجانبية" aria-hidden="true">
     <div class="drawer-head">
@@ -599,6 +672,10 @@
           <a href="https://mns-lab.vercel.app/" class="drawer-item">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5.4a2 2 0 0 1-.4 1.2L4.6 17a2 2 0 0 0 1.6 3.2h11.6a2 2 0 0 0 1.6-3.2L14.4 9.6a2 2 0 0 1-.4-1.2V3"/><path d="M7.5 14h9"/></svg>
             <span>المختبر</span>
+          </a>
+          <a href="lab.apk" download="lab.apk" type="application/vnd.android.package-archive" class="drawer-item android-item js-apk">
+            <svg viewBox="0 0 24 24"><use href="#ic-android"/></svg>
+            <span>تنزيل تطبيق المختبر (Android)</span>
           </a>
           <a href="you_tube/home.html" class="drawer-item">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3v6Z"/></svg>
@@ -649,24 +726,21 @@
     </div>
   </aside>
 
-  <!-- الشريط السفلي الثابت للهاتف -->
+  <!-- الشريط السفلي -->
   <nav class="bottom-bar" aria-label="التنقل السريع">
     <div class="bottom-in">
       <a href="community/community.html" class="tab-item active">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <span>المجتمع</span>
       </a>
-
       <a href="course/list.html" class="tab-item">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
         <span>الكورسات</span>
       </a>
-
       <a href="brain/index.html" class="tab-item">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
         <span>ألعاب العقل</span>
       </a>
-
       <a href="challenges/index.html" class="tab-item">
         <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
         <span>اختبر نفسك</span>
@@ -706,6 +780,18 @@
     drawerBack.addEventListener('click', closeDrawer);
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+    });
+
+    // رسالة توضيحية عند تنزيل تطبيق Android
+    const toast = document.getElementById('apkToast');
+    let toastTimer;
+    document.querySelectorAll('.js-apk').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeDrawer();
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 5000);
+      });
     });
   </script>
 
